@@ -1,0 +1,76 @@
+{% extends "maestro/base.html" %}
+{% load static %}
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" >
+{% endblock %}
+
+{% block breadcrumb  %}
+    <ol class="breadcrumb pull-right">
+        <li class="breadcrumb-item"><a href="javascript:;">Maestro</a></li>
+        <li class="breadcrumb-item"><a href="/maestro/sucursal">Sucursal</a></li>
+        <li class="breadcrumb-item active">Edición</li>
+    </ol>
+{% endblock %}
+
+{% block pageheader %}
+    <h1 class="page-header">Sucursal <small>Configuración de Sucursales</small></h1>
+{% endblock %}
+
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+            </div>
+            <h4 class="panel-title">Sucursal</h4>
+        </div>
+        <div class="panel-body">
+            <form method="post">{% csrf_token %}
+               <div class="col-md-12">
+                   <div class="row buttons-content">
+                       <button type="submit" class="btn btn-success">
+                            <i class="fa fa-save fas"></i> Guardar
+                        </button>
+                   </div>
+                   <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td class="td-detail-title">EMPRESA:</td>
+                                <td class="td-detail-desc">
+                                    <select name="empresa" class="default-select2 form-control">
+                                        {% for e in empresas %}
+                                            <option value="{{ e.id }}">{{ e.descripcion }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td class="td-detail-title">DESCRIPCION:</td>
+                                <td class="td-detail-desc"><input name="descripcion" class="form-control" value="{{ object.descripcion }}"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-detail-title">DIRECCION:</td>
+                                <td class="td-detail-desc"><input name="direccion" class="form-control" value="{{ object.direccion }}"></td>
+                                <td class="td-detail-title">ENCARGADO:</td>
+                                <td class="td-detail-desc"><input name="responsable" class="form-control" value="{{ object.responsable }}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+               </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+    <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script>
+        $(".default-select2").select2();
+        $(".select2-container--default").removeAttr('style').css("width","100%");
+    </script>
+{% endblock %}

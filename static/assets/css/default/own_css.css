@@ -1,0 +1,44 @@
+.own_lbl_table {
+    margin-top: 6px;
+}
+.own_admision_td {
+    width: 25%;
+}
+.own_row_admision{
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+.hide_table{
+    display: none;
+}
+.hide_notification{
+    display: none;
+}
+.icons-table{
+    margin-right: 10px;
+}
+.icons-table:hover{
+    color: #00acac;
+}
+.td-detail-title{
+    background-color: #c2c6ce;
+    color: black;
+}
+.td-detail-desc{
+    background-color: #e3e3e5
+}
+
+.buttons-content{
+    margin-left: 3px;
+    margin-bottom: 10px;
+}
+.buttons{
+    margin-right: 5px;
+}
+.no-link{
+    color: inherit;
+    text-decoration : none;
+}
+.no-link:hover{
+    color: #00acac;
+}
