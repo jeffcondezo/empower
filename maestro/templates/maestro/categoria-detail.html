@@ -4,13 +4,13 @@
 {% block breadcrumb  %}
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="javascript:;">Maestro</a></li>
-        <li class="breadcrumb-item"><a href="/maestro/sucursal">Sucursal</a></li>
+        <li class="breadcrumb-item"><a href="/maestro/sucursal">Categoria</a></li>
         <li class="breadcrumb-item active">Detalle</li>
     </ol>
 {% endblock %}
 
 {% block pageheader %}
-    <h1 class="page-header">Sucursal <small>Configuración de Sucursales</small></h1>
+    <h1 class="page-header">Categoría <small>Configuración de Categorías</small></h1>
 {% endblock %}
 
 
@@ -23,28 +23,28 @@
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
             </div>
-            <h4 class="panel-title">Sucursal</h4>
+            <h4 class="panel-title">Categoría</h4>
         </div>
         <div class="panel-body">
            <div class="col-md-12">
                 <div class="row buttons-content">
-                    <a href="/maestro/sucursal/0/edit" class="btn btn-primary buttons"><i class="fa fa-plus"></i> Agregar</a>
-                    <a href="/maestro/sucursal/{{ object.id }}/edit" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a>
+                    <a href="/maestro/categoria/0/edit" class="btn btn-primary buttons"><i class="fa fa-plus"></i> Agregar</a>
+                    <a href="/maestro/categoria/{{ object.id }}/edit" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
                         <tbody>
                         <tr>
-                            <td class="td-detail-title">EMPRESA:</td>
-                            <td class="td-detail-desc">{{ object.empresa.descripcion }}</td>
                             <td class="td-detail-title">DESCRIPCION:</td>
                             <td class="td-detail-desc">{{ object.descripcion }}</td>
+                            <td class="td-detail-title">NIVEL:</td>
+                            <td class="td-detail-desc">{{ object.nivel }}</td>
                         </tr>
                         <tr>
-                            <td class="td-detail-title">DIRECCION:</td>
-                            <td class="td-detail-desc">{{ object.direccion }}</td>
-                            <td class="td-detail-title">ENCARGADO:</td>
-                            <td class="td-detail-desc">{{ object.responsable }}</td>
+                            <td class="td-detail-title">PADRE:</td>
+                            <td class="td-detail-desc">{{ object.padre.descripcion }}</td>
+                            <td class="td-detail-title"></td>
+                            <td class="td-detail-desc"></td>
                         </tr>
                         </tbody>
                     </table>

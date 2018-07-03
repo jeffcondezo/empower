@@ -16,7 +16,7 @@ class Sucursal(models.Model):
 class Categoria(models.Model):
     descripcion = models.CharField(max_length=250)
     nivel = models.SmallIntegerField()
-    padre = models.IntegerField(blank=True, null=True)
+    padre = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
 
 
 class Almacen(models.Model):
@@ -55,5 +55,6 @@ class Kardex(models.Model):
     total_venta = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
 
 
-
+class Presentacion(models.Model):
+    descripcion = models.CharField(max_length=250)
 
