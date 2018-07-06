@@ -191,3 +191,9 @@ class ProductoListView(ListView):
         else:
             query = Producto.objects.all()
         return query
+
+
+class ProductoDetailView(DetailView):
+
+    template_name = 'maestro/producto-detail.html'
+    model = Producto
