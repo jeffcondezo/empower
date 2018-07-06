@@ -1,8 +1,10 @@
 from django.views.generic import DetailView, ListView, TemplateView
 from django.shortcuts import redirect, HttpResponse
+from django.db.models import Sum
 
 # Model import-->
-from maestro.models import Empresa, Sucursal, Almacen, Categoria, Presentacion
+from maestro.models import Empresa, Sucursal, Almacen, Categoria,\
+    Presentacion, Producto
 # Model import<--
 
 # Forms import-->
@@ -170,3 +172,22 @@ class PresentacionEditView(TemplateView):
         else:
             return HttpResponse(form.errors)
         return redirect('/maestro/presentacion')
+
+
+class ProductoListView(ListView):
+
+    template_name = 'maestro/producto-list.html'
+    model = Producto
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = Categoria.objects.all()
+        return context
+
+    def get_queryset(self):
+        categorias = self.request.GET.getlist('categorias')
+        if len(categorias) > 0:
+            query = Producto.objects.filter(categorias__in=categorias)
+        else:
+            query = Producto.objects.all()
+        return query

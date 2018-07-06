@@ -1,0 +1,103 @@
+{% extends "maestro/base.html" %}
+{% load static %}
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" %}" rel="stylesheet" />
+	<link href="{% static "assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/css/default/own_replace.css" %}" rel="stylesheet" />
+{% endblock %}
+
+{% block breadcrumb  %}
+    <ol class="breadcrumb pull-right">
+        <li class="breadcrumb-item"><a href="javascript:;">Maestro</a></li>
+        <li class="breadcrumb-item"><a href="/maestro/sucursal">Producto</a></li>
+        <li class="breadcrumb-item active">Lista</li>
+    </ol>
+{% endblock %}
+
+{% block pageheader %}
+    <h1 class="page-header">Producto <small>Configuración de Productos</small></h1>
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+            </div>
+            <h4 class="panel-title">Producto</h4>
+        </div>
+        <div class="panel-body">
+            <div class="row buttons-content">
+                <a href="/maestro/sucursal/0/edit" class="btn btn-primary buttons"><i class="fa fa-plus"></i> Agregar</a>
+                 <a href="#modal-filtros" class="btn btn-primary buttons" data-toggle="modal"><i class="fa fa-search"></i> Filtros</a>
+            </div>
+            <table id="table" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-nowrap">Descripción</th>
+                        <th class="text-nowrap">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in object_list %}
+                        <tr>
+                            <td>{{ p.descripcion }}</td>
+                            <td><div class="fa-2x"><a class="no-link" href="/maestro/sucursal/{{ p.id }}"><i class="fas fa-eye icons-table"></i></a>
+                                <a class="no-link" href="/maestro/sucursal/{{ p.id }}/edit"><i  class="fas fa-edit icons-table"></i></a></div></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block modal %}
+    <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-filtros">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="">
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Filtros</legend>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Categorias</label>
+                                <select name="categorias" class="multiple-select2 form-control" multiple="multiple">
+                                    {% for c in categorias %}
+                                        <option value="{{ c.id }}">{{ c.descripcion }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
+                        <button type="submit" class="btn btn-success">Filtrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+    <script src="{% static "assets/plugins/DataTables/media/js/jquery.dataTables.js" %}"></script>
+	<script src="{% static "assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js" %}"></script>
+    <script src="{% static "assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js" %}"></script>
+    <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script>
+        $('#table').DataTable({
+            language: {
+                "url": "/static/assets/plugins/Datatables/language/Spanish.json"
+            },
+            responsive: true
+        });
+        $(".multiple-select2").select2();
+    </script>
+{% endblock %}

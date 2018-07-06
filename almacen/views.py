@@ -26,7 +26,6 @@ class StockView(ListView, ProcessFormView):
 
     def get_queryset(self):
         almacen = self.request.GET.getlist('almacenes')
-        print(len(almacen))
         if len(almacen) > 0:
             query = Stock.objects.filter(almacen__in=Almacen.objects.filter(pk__in=almacen))\
                 .values('producto__descripcion').annotate(Sum('cantidad'))
