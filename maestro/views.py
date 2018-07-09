@@ -51,7 +51,6 @@ class SucursalEditView(NavMixin, TemplateView):
         else:
             sucursal = Sucursal.objects.get(pk=self.kwargs['pk'])
             context['object'] = SucursalForm(instance=sucursal)
-        context['empresas'] = Empresa.objects.all()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -89,10 +88,10 @@ class AlmacenEditView(NavMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.kwargs['pk'] == 0:
-            context['object'] = Almacen.objects.none()
+            context['object'] = AlmacenForm()
         else:
-            context['object'] = Almacen.objects.get(pk=self.kwargs['pk'])
-        context['sucursales'] = Sucursal.objects.all()
+            almacen = Almacen.objects.get(pk=self.kwargs['pk'])
+            context['object'] = AlmacenForm(instance=almacen)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -133,10 +132,10 @@ class CategoriaEditView(NavMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.kwargs['pk'] == 0:
-            context['object'] = Categoria.objects.none()
+            context['object'] = CategoriaForm()
         else:
-            context['object'] = Categoria.objects.get(pk=self.kwargs['pk'])
-        context['categorias'] = Categoria.objects.all()
+            categoria = Categoria.objects.get(pk=self.kwargs['pk'])
+            context['object'] = CategoriaForm(instance=categoria)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -180,9 +179,10 @@ class PresentacionEditView(NavMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.kwargs['pk'] == 0:
-            context['object'] = Presentacion.objects.none()
+            context['object'] = PresentacionForm()
         else:
-            context['object'] = Presentacion.objects.get(pk=self.kwargs['pk'])
+            presentacion = Presentacion.objects.get(pk=self.kwargs['pk'])
+            context['object'] = PresentacionForm(instance=presentacion)
         return context
 
     def post(self, request, *args, **kwargs):

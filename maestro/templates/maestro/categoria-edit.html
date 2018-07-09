@@ -38,15 +38,9 @@
                             <tbody>
                             <tr>
                                 <td class="td-detail-title">DESCRIPCION:</td>
-                                <td class="td-detail-desc"><input name="descripcion" class="form-control" value="{{ object.descripcion }}"></td>
+                                <td class="td-detail-desc">{{ object.descripcion }}</td>
                                 <td class="td-detail-title">PADRE:</td>
-                                <td class="td-detail-desc">
-                                    <select name="padre" class="default-select2 form-control">
-                                        {% for c in categorias %}
-                                            <option value="{{ c.id }}">{{ c.descripcion }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </td>
+                                <td class="td-detail-desc">{{ object.padre }}</td>
                             </tr>
                             </tbody>
                         </table>

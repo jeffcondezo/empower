@@ -15,12 +15,18 @@ class Sucursal(models.Model):
     direccion = models.CharField(max_length=150)
     responsable = models.CharField(max_length=150)
 
+    def __str__(self):
+        return self.descripcion
+
 
 class Categoria(models.Model):
     descripcion = models.CharField(max_length=250)
     nivel = models.SmallIntegerField()
     padre = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     padre_total = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='padretotal')
+
+    def __str__(self):
+        return self.descripcion
 
 
 class Almacen(models.Model):

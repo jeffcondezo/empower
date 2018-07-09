@@ -39,14 +39,10 @@
                             <tr>
                                 <td class="td-detail-title">SUCURSAL:</td>
                                 <td class="td-detail-desc">
-                                    <select name="sucursal" class="default-select2 form-control">
-                                        {% for s in sucursales %}
-                                            <option value="{{ s.id }}">{{ s.descripcion }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    {{ object.sucursal }}
                                 </td>
                                 <td class="td-detail-title">DESCRIPCION:</td>
-                                <td class="td-detail-desc"><input name="descripcion" class="form-control" value="{{ object.descripcion }}"></td>
+                                <td class="td-detail-desc">{{ object.descripcion }}</td>
                             </tr>
                             </tbody>
                         </table>
