@@ -5,6 +5,9 @@ class Empresa(models.Model):
     descripcion = models.CharField(max_length=150)
     ruc = models.CharField(max_length=11)
 
+    def __str__(self):
+        return self.descripcion
+
 
 class Sucursal(models.Model):
     descripcion = models.CharField(max_length=200)
@@ -17,6 +20,7 @@ class Categoria(models.Model):
     descripcion = models.CharField(max_length=250)
     nivel = models.SmallIntegerField()
     padre = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
+    padre_total = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='padretotal')
 
 
 class Almacen(models.Model):
@@ -58,3 +62,8 @@ class Kardex(models.Model):
 class Presentacion(models.Model):
     descripcion = models.CharField(max_length=250)
 
+
+class PresentacionxProducto(models.Model):
+    presentacion = models.ForeignKey(Presentacion, on_delete=models.PROTECT)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.IntegerField()

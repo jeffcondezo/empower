@@ -23,9 +23,11 @@
 .td-detail-title{
     background-color: #c2c6ce;
     color: black;
+    width: 20%;
 }
 .td-detail-desc{
-    background-color: #e3e3e5
+    background-color: #e3e3e5;
+    width: 30%;
 }
 
 .buttons-content{
@@ -41,4 +43,10 @@
 }
 .no-link:hover{
     color: #00acac;
+}
+.span-right{
+    float: right;
+}
+legend{
+    padding-bottom: 8px;
 }

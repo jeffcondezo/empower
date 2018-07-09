@@ -1,6 +1,13 @@
 {% extends "maestro/base.html" %}
 {% load static %}
 
+{% load maestro_tags %}
+
+{% block head_files %}
+    <link href="{% static "assets/plugins/jstree/dist/themes/default/style.min.css" %}" rel="stylesheet" />
+
+{% endblock %}
+
 {% block breadcrumb  %}
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="javascript:;">Maestro</a></li>
@@ -27,28 +34,62 @@
         </div>
         <div class="panel-body">
            <div class="col-md-12">
-               <legend class="m-b-15">Datos Generales</legend>
-               <div class="row buttons-content">
-                    <a href="/maestro/categoria/0/edit" class="btn btn-primary buttons"><i class="fa fa-plus"></i> Agregar</a>
-                    <a href="/maestro/categoria/{{ object.id }}/edit" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a>
-                </div>
+               <legend class="m-b-15">Datos Generales
+                   <span class="span-right"><a href="/maestro/producto/0/edit" class="btn btn-primary buttons"><i class="fa fa-plus"></i> Agregar</a>
+                   <a href="/maestro/producto/{{ object.id }}/edit" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a></span>
+               </legend>
                 <div class="table-responsive">
                     <table class="table">
                         <tbody>
                             <tr>
+                                <td class="td-detail-title">EMPRESA:</td>
+                                <td class="td-detail-desc">{{ object.empresa.descripcion }}</td>
                                 <td class="td-detail-title">DESCRIPCION:</td>
                                 <td class="td-detail-desc">{{ object.descripcion }}</td>
-                                <td class="td-detail-title"></td>
-                                <td class="td-detail-desc"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-               <legend class="m-b-15">Categorias</legend>
-               <div class="row buttons-content">
-                    <a href="/maestro/categoria/{{ object.id }}/edit" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a>
+               <legend class="m-b-15">
+                   Categorias
+                   <span class="span-right"><a href="/maestro/producto/{{ object.id }}/categoria" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a></span>
+               </legend>
+               {% for cat in categorias %}
+                   <div class="row row-space-12">
+                        {% for c in cat  %}
+                            <div class="col-md-1">
+                                <div class="alert {{ forloop.counter0|categoria_colorpick }} fade show m-b-10">
+                                    {{ c }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+               {% endfor %}
+               <legend class="m-b-15">Presentaciones
+                   <span class="span-right"><a href="/maestro/categoria/{{ object.id }}/edit" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a></span>
+               </legend>
+               <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Descripcion</th>
+                                <th>Cantidad por Unidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in presentaciones %}
+                                <tr>
+                                    <td>{{ p.presentacion.descripcion }}</td>
+                                    <td>{{ p.cantidad }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-           </div>
         </div>
     </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+	<script src="{% static "assets/plugins/jstree/dist/jstree.min.js" %}"></script>
 {% endblock %}

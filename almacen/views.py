@@ -31,5 +31,4 @@ class StockView(ListView, ProcessFormView):
                 .values('producto__descripcion').annotate(Sum('cantidad'))
         else:
             query = Stock.objects.all().values('producto__descripcion').annotate(Sum('cantidad'))
-            print(query)
         return query

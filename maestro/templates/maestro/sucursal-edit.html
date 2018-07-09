@@ -43,20 +43,16 @@
                             <tr>
                                 <td class="td-detail-title">EMPRESA:</td>
                                 <td class="td-detail-desc">
-                                    <select name="empresa" class="default-select2 form-control">
-                                        {% for e in empresas %}
-                                            <option value="{{ e.id }}">{{ e.descripcion }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    {{ object.empresa }}
                                 </td>
                                 <td class="td-detail-title">DESCRIPCION:</td>
-                                <td class="td-detail-desc"><input name="descripcion" class="form-control" value="{{ object.descripcion }}"></td>
+                                <td class="td-detail-desc">{{ object.descripcion }}</td>
                             </tr>
                             <tr>
                                 <td class="td-detail-title">DIRECCION:</td>
-                                <td class="td-detail-desc"><input name="direccion" class="form-control" value="{{ object.direccion }}"></td>
+                                <td class="td-detail-desc"><input name="direccion" class="form-control" value="{{ object.direccion.value }}"></td>
                                 <td class="td-detail-title">ENCARGADO:</td>
-                                <td class="td-detail-desc"><input name="responsable" class="form-control" value="{{ object.responsable }}"></td>
+                                <td class="td-detail-desc"><input name="responsable" class="form-control" value="{{ object.responsable.value }}"></td>
                             </tr>
                             </tbody>
                         </table>
