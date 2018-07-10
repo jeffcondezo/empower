@@ -38,15 +38,36 @@
                             <i class="fa fa-save fas"></i> Guardar
                         </button>
                    </div>
-                   <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td class="td-detail-title">CATEGORIAS:</td>
-                                    <td class="td-detail-desc">{{ object.categorias }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="row">
+                        <div class="col-md-11">
+                           <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                        {% for ow in own_presentaciones %}
+                                            <tr>
+                                                <td class="td-detail-title">PRESENTACION:</td>
+                                                <td class="td-detail-desc">
+                                                    <select class="multiple-select2 form-control">
+                                                        {% for p in presentaciones %}
+                                                            {% if p.id == ow.presentacion.id %}
+                                                                <option value="{{ p.id }}" selected>{{ p.descripcion }}</option>
+                                                            {% else %}
+                                                                <option value="{{ p.id }}">{{ p.descripcion }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </td>
+                                                <td class="td-detail-title">CANTIDAD:</td>
+                                                <td class="td-detail-desc"><input class="form-control" value="{{ ow.cantidad }}"></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-1 trash-content">
+                            <a href="#" class="btn btn-default btn-icon btn-circle btn-lg"><i class="fas fa-trash"></i></a>
+                        </div>
                     </div>
                    {% for cat in categorias %}
                        <div class="row row-space-12">

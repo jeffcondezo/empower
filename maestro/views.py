@@ -9,7 +9,7 @@ from maestro.models import Empresa, Sucursal, Almacen, Categoria,\
 
 # Forms import-->
 from .forms import SucursalForm, AlmacenForm, CategoriaForm, PresentacionForm,\
-    ProductoForm
+    ProductoForm, ProductoCategoriaForm
 # Forms import<--
 
 # Utils import-->
@@ -146,9 +146,16 @@ class CategoriaEditView(NavMixin, TemplateView):
             form = CategoriaForm(request.POST, instance=categoria)
         if form.is_valid():
             categoria = form.save(commit=False)
-            padre = Categoria.objects.get(pk=form.cleaned_data['padre'].pk)
-            categoria.nivel = padre.nivel + 1
-            categoria.save()
+            if form.cleaned_data['padre'] is None:
+                categoria.nivel = 1
+                categoria.save()
+                categoria.padre_total = categoria
+                categoria.save()
+            else:
+                padre = Categoria.objects.get(pk=form.cleaned_data['padre'].pk)
+                categoria.nivel = padre.nivel + 1
+                categoria.padre_total = padre.padre_total
+                categoria.save()
         else:
             return HttpResponse(form.errors)
         return redirect('/maestro/categoria')
@@ -243,10 +250,10 @@ class ProductoEditView(NavMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.kwargs['pk'] == 0:
-            context['object'] = Producto.objects.none()
+                context['object'] = ProductoForm
         else:
-            context['object'] = Producto.objects.get(pk=self.kwargs['pk'])
-        context['empresas'] = Empresa.objects.all()
+            producto = Producto.objects.get(pk=self.kwargs['pk'])
+            context['object'] = ProductoForm(instance=producto)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -270,19 +277,43 @@ class ProductoCategoriaView(NavMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categorias'] = Categoria.objects.all()
-        context['own_categorias'] = format_categories(Categoria.objects.filter(producto=self.kwargs['pk'])
-                                                      .order_by('padre_total', 'nivel'))
+        pk = self.kwargs['pk']
+        producto = Producto.objects.get(pk=pk)
+        context['object'] = ProductoCategoriaForm(instance=producto)
+        context['categorias'] = format_categories(Categoria.objects.filter(producto=self.kwargs['pk'])
+                                                  .order_by('padre_total', 'nivel'))
         return context
 
     def post(self, request, *args, **kwargs):
-        if self.kwargs['pk'] == 0:
-            form = ProductoForm(request.POST)
-        else:
-            producto = Producto.objects.get(pk=self.kwargs['pk'])
-            form = ProductoForm(request.POST, instance=producto)
+        pk = self.kwargs['pk']
+        producto = Producto.objects.get(pk=pk)
+        form = ProductoCategoriaForm(request.POST, instance=producto)
         if form.is_valid():
             form.save()
         else:
             return HttpResponse(form.errors)
-        return redirect('/maestro/producto')
+        return redirect('/maestro/producto/'+str(pk))
+
+
+class ProductoPresentacionView(NavMixin, TemplateView):
+
+    template_name = 'maestro/producto-presentacion.html'
+    nav_name = 'nav_producto'
+    nav_main = 'nav_main_producto'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        context['presentaciones'] = Presentacion.objects.all()
+        context['own_presentaciones'] = PresentacionxProducto.objects.filter(producto=pk)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs['pk']
+        producto = Producto.objects.get(pk=pk)
+        form = ProductoCategoriaForm(request.POST, instance=producto)
+        if form.is_valid():
+            form.save()
+        else:
+            return HttpResponse(form.errors)
+        return redirect('/maestro/producto/'+str(pk))

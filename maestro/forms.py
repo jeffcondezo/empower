@@ -49,10 +49,6 @@ class CategoriaForm(forms.ModelForm):
             'padre': forms.Select(attrs={'class': 'default-select2 form-control'})
         }
 
-    def __init__(self, *args, **kwargs):
-        super(CategoriaForm, self).__init__(*args, **kwargs)
-        self.fields['padre'].empty_label = None
-
 
 class PresentacionForm(forms.ModelForm):
 
@@ -69,3 +65,21 @@ class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
         fields = ['descripcion', 'empresa']
+        widgets = {
+            'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
+            'empresa': forms.Select(attrs={'class': 'default-select2 form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ProductoForm, self).__init__(*args, **kwargs)
+        self.fields['empresa'].empty_label = None
+
+
+class ProductoCategoriaForm(forms.ModelForm):
+
+    class Meta:
+        model = Producto
+        fields = ['categorias']
+        widgets = {
+            'categorias': forms.SelectMultiple(attrs={'class': 'multiple-select2 form-control'})
+        }
