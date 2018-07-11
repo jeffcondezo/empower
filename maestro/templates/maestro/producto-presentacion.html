@@ -32,19 +32,36 @@
         </div>
         <div class="panel-body">
             <form method="post">{% csrf_token %}
+                <input type="hidden" id="presentacion_to_delete" name="presentacion_to_delete" value="">
                <div class="col-md-12">
                    <div class="row buttons-content">
                        <button type="submit" class="btn btn-success">
                             <i class="fa fa-save fas"></i> Guardar
                         </button>
+                       <button id="add_btn" class="btn btn-success">
+                            <i class="fa fa-plus fas"></i> Agregar
+                        </button>
                    </div>
                     <div class="row">
-                        <div class="col-md-11">
+                        <div class="col-md-12">
                            <div class="table-responsive">
                                 <table class="table">
-                                    <tbody>
+                                    <tbody id="table_presentacion">
+                                        <tr id="tr_presentacion_empty">
+                                            <td class="td-detail-title">PRESENTACION:</td>
+                                            <td class="td-detail-desc">
+                                                <select class="multiple-select2 form-control">
+                                                    {% for p in presentaciones %}
+                                                            <option value="{{ p.id }}">{{ p.descripcion }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                            <td class="td-detail-title">CANTIDAD:</td>
+                                            <td class="td-detail-desc"><input class="form-control" value=""></td>
+                                            <td><a data-pos="" class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
+                                        </tr>
                                         {% for ow in own_presentaciones %}
-                                            <tr>
+                                            <tr id="row_{{ forloop.counter0 }}">
                                                 <td class="td-detail-title">PRESENTACION:</td>
                                                 <td class="td-detail-desc">
                                                     <select class="multiple-select2 form-control">
@@ -59,14 +76,12 @@
                                                 </td>
                                                 <td class="td-detail-title">CANTIDAD:</td>
                                                 <td class="td-detail-desc"><input class="form-control" value="{{ ow.cantidad }}"></td>
+                                                <td><a data-id="{{ ow.id }}" data-pos="{{ forloop.counter0 }}" class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                        <div class="col-md-1 trash-content">
-                            <a href="#" class="btn btn-default btn-icon btn-circle btn-lg"><i class="fas fa-trash"></i></a>
                         </div>
                     </div>
                    {% for cat in categorias %}
@@ -88,8 +103,10 @@
 
 {% block bottom_scripts %}
     <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script src="{% static "assets/own/maestro/producto.js" %}"></script>
     <script>
         $(".multiple-select2").select2();
         $(".select2-container--default").removeAttr('style').css("width","100%");
+        init_productopresentacion();
     </script>
 {% endblock %}

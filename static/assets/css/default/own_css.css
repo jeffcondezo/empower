@@ -53,3 +53,9 @@ legend{
 .trash-content{
     margin-top: 10px;
 }
+#tr_presentacion_empty{
+    display: none;
+}
+#add_btn{
+    margin-left: 10px;
+}
