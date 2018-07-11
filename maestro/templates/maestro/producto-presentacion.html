@@ -33,12 +33,13 @@
         <div class="panel-body">
             <form method="post">{% csrf_token %}
                 <input type="hidden" id="presentacion_to_delete" name="presentacion_to_delete" value="">
+                <input type="hidden" id="current_pos" value="{{ own_presentaciones|length }}">
                <div class="col-md-12">
                    <div class="row buttons-content">
                        <button type="submit" class="btn btn-success">
                             <i class="fa fa-save fas"></i> Guardar
                         </button>
-                       <button id="add_btn" class="btn btn-success">
+                       <button id="add_btn" type="button" class="btn btn-success">
                             <i class="fa fa-plus fas"></i> Agregar
                         </button>
                    </div>
@@ -46,11 +47,11 @@
                         <div class="col-md-12">
                            <div class="table-responsive">
                                 <table class="table">
-                                    <tbody id="table_presentacion">
+                                    <tbody id="tbody_presentacion">
                                         <tr id="tr_presentacion_empty">
                                             <td class="td-detail-title">PRESENTACION:</td>
                                             <td class="td-detail-desc">
-                                                <select class="multiple-select2 form-control">
+                                                <select class="select form-control">
                                                     {% for p in presentaciones %}
                                                             <option value="{{ p.id }}">{{ p.descripcion }}</option>
                                                     {% endfor %}
@@ -61,6 +62,7 @@
                                             <td><a data-pos="" class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
                                         </tr>
                                         {% for ow in own_presentaciones %}
+                                            {
                                             <tr id="row_{{ forloop.counter0 }}">
                                                 <td class="td-detail-title">PRESENTACION:</td>
                                                 <td class="td-detail-desc">
