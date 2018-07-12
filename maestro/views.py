@@ -238,6 +238,7 @@ class ProductoDetailView(NavMixin, DetailView):
         context['categorias'] = format_categories(Categoria.objects.filter(producto=self.kwargs['pk'])
                                                   .order_by('padre_total', 'nivel'))
         context['presentaciones'] = PresentacionxProducto.objects.filter(producto=self.kwargs['pk'])
+        context['catalogo'] = Sucursal.objects.filter(producto=self.kwargs['pk'])
         return context
 
 

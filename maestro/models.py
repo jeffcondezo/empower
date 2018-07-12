@@ -38,11 +38,7 @@ class Producto(models.Model):
     descripcion = models.CharField(max_length=250)
     empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT)
     categorias = models.ManyToManyField(Categoria)
-
-
-class CatalogoProducto(models.Model):
-    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT)
-    producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
+    catalogo = models.ManyToManyField(Sucursal)
 
 
 class Stock(models.Model):
