@@ -9,7 +9,7 @@ from maestro.models import Empresa, Sucursal, Almacen, Categoria,\
 
 # Forms import-->
 from .forms import SucursalForm, AlmacenForm, CategoriaForm, PresentacionForm,\
-    ProductoForm, ProductoCategoriaForm
+    ProductoForm, ProductoCategoriaForm, ProductoPresentacionForm
 # Forms import<--
 
 # Utils import-->
@@ -311,9 +311,22 @@ class ProductoPresentacionView(NavMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         pk = self.kwargs['pk']
         producto = Producto.objects.get(pk=pk)
-        form = ProductoCategoriaForm(request.POST, instance=producto)
-        if form.is_valid():
-            form.save()
-        else:
-            return HttpResponse(form.errors)
+        if request.POST['presentacion_to_save'] != "":
+            presentacion_toadd = request.POST['presentacion_to_save'].split(',')
+            for p in presentacion_toadd:
+                if request.POST['p'+p+'-id'] != '':
+                    presentacionxproducto = PresentacionxProducto.objects.get(pk=request.POST['p'+p+'-id'])
+                    form = ProductoPresentacionForm(request.POST, instance=presentacionxproducto, prefix='p'+p)
+                else:
+                    form = ProductoPresentacionForm(request.POST, prefix='p'+p)
+                if form.is_valid():
+                    presentacionxproducto = form.save(commit=False)
+                    presentacionxproducto.producto = producto
+                    presentacionxproducto.save()
+                else:
+                    return HttpResponse(form.errors)
+        if request.POST['presentacion_to_delete'] != "":
+            presentacion_todelete = request.POST['presentacion_to_delete'].split(',')
+            for p in presentacion_todelete:
+                PresentacionxProducto.objects.get(pk=p).delete()
         return redirect('/maestro/producto/'+str(pk))

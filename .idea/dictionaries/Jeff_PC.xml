@@ -4,12 +4,18 @@
       <w>almacen</w>
       <w>atributo</w>
       <w>clasificacion</w>
+      <w>colorpick</w>
       <w>compra</w>
+      <w>contenedor</w>
+      <w>empresas</w>
       <w>entrada</w>
       <w>kardex</w>
       <w>movimiento</w>
       <w>preciocompra</w>
       <w>precioventa</w>
+      <w>presentacion</w>
+      <w>presentaciones</w>
+      <w>presentacionx</w>
       <w>productos</w>
       <w>reglaprecio</w>
       <w>responsable</w>

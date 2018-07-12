@@ -3,7 +3,7 @@ from django import forms
 # Model import-->
 from django.forms import ModelChoiceField
 
-from maestro.models import Empresa,Sucursal, Almacen, Categoria, Presentacion, Producto
+from maestro.models import Empresa,Sucursal, Almacen, Categoria, Presentacion, Producto, PresentacionxProducto
 # Model import<--
 
 
@@ -83,3 +83,10 @@ class ProductoCategoriaForm(forms.ModelForm):
         widgets = {
             'categorias': forms.SelectMultiple(attrs={'class': 'multiple-select2 form-control'})
         }
+
+
+class ProductoPresentacionForm(forms.ModelForm):
+
+    class Meta:
+        model = PresentacionxProducto
+        fields = ['presentacion', 'cantidad']

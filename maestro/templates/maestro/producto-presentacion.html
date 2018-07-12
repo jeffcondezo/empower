@@ -34,6 +34,7 @@
             <form method="post">{% csrf_token %}
                 <input type="hidden" id="presentacion_to_delete" name="presentacion_to_delete" value="">
                 <input type="hidden" id="current_pos" value="{{ own_presentaciones|length }}">
+                <input type="hidden" id="presentacion_to_save" name="presentacion_to_save" value="">
                <div class="col-md-12">
                    <div class="row buttons-content">
                        <button type="submit" class="btn btn-success">
@@ -51,6 +52,7 @@
                                         <tr id="tr_presentacion_empty">
                                             <td class="td-detail-title">PRESENTACION:</td>
                                             <td class="td-detail-desc">
+                                                <input type="hidden" class="input-id">
                                                 <select class="select form-control">
                                                     {% for p in presentaciones %}
                                                             <option value="{{ p.id }}">{{ p.descripcion }}</option>
@@ -58,15 +60,15 @@
                                                 </select>
                                             </td>
                                             <td class="td-detail-title">CANTIDAD:</td>
-                                            <td class="td-detail-desc"><input class="form-control" value=""></td>
+                                            <td class="td-detail-desc"><input class="input-cantidad form-control" value=""></td>
                                             <td><a data-pos="" class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
                                         </tr>
                                         {% for ow in own_presentaciones %}
-                                            {
                                             <tr id="row_{{ forloop.counter0 }}">
                                                 <td class="td-detail-title">PRESENTACION:</td>
                                                 <td class="td-detail-desc">
-                                                    <select class="multiple-select2 form-control">
+                                                    <input type="hidden" name="p{{ forloop.counter }}-id" value="{{ ow.id }}">
+                                                    <select name="p{{ forloop.counter }}-presentacion" class="multiple-select2 form-control">
                                                         {% for p in presentaciones %}
                                                             {% if p.id == ow.presentacion.id %}
                                                                 <option value="{{ p.id }}" selected>{{ p.descripcion }}</option>
@@ -77,7 +79,7 @@
                                                     </select>
                                                 </td>
                                                 <td class="td-detail-title">CANTIDAD:</td>
-                                                <td class="td-detail-desc"><input class="form-control" value="{{ ow.cantidad }}"></td>
+                                                <td class="td-detail-desc"><input name="p{{ forloop.counter }}-cantidad" class="form-control" value="{{ ow.cantidad }}"></td>
                                                 <td><a data-id="{{ ow.id }}" data-pos="{{ forloop.counter0 }}" class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
                                             </tr>
                                         {% endfor %}
