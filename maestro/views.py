@@ -331,3 +331,29 @@ class ProductoPresentacionView(NavMixin, TemplateView):
             for p in presentacion_todelete:
                 PresentacionxProducto.objects.get(pk=p).delete()
         return redirect('/maestro/producto/'+str(pk))
+
+
+class CatalogoListView(NavMixin, ListView):
+
+    template_name = 'maestro/catalogo-list.html'
+    model = Producto
+    nav_name = 'nav_catalogo'
+    nav_main = 'nav_main_producto'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sucursales'] = Sucursal.objects.all()
+        if 'sucursal' in self.request.GET:
+            sucursal = self.request.GET['sucursal']
+            context['sucursal'] = Sucursal.objects.get(pk=sucursal)
+        else:
+            context['sucursal'] = Sucursal.objects.none()
+        return context
+
+    def get_queryset(self):
+        if 'sucursal' in self.request.GET:
+            sucursal = self.request.GET['sucursal']
+            query = Producto.objects.filter(catalogo=sucursal)
+        else:
+            query = Producto.objects.none()
+        return query

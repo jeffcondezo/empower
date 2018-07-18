@@ -4,7 +4,8 @@ from maestro.views import SucursalListView, SucursalDetailView, SucursalEditView
     AlmacenListView, AlmacenDetailView, AlmacenEditView,\
     CategoriaListView, CategoriaDetailView, CategoriaEditView,\
     PresentacionListView, PresentacionDetailView, PresentacionEditView,\
-    ProductoListView, ProductoDetailView, ProductoEditView, ProductoCategoriaView, ProductoPresentacionView
+    ProductoListView, ProductoDetailView, ProductoEditView, ProductoCategoriaView, ProductoPresentacionView,\
+    CatalogoListView
 
 urlpatterns = [
     path('sucursal/', SucursalListView.as_view()),
@@ -24,4 +25,5 @@ urlpatterns = [
     path('producto/<int:pk>/edit', ProductoEditView.as_view()),
     path('producto/<int:pk>/categoria', ProductoCategoriaView.as_view()),
     path('producto/<int:pk>/presentacion', ProductoPresentacionView.as_view()),
+    path('catalogo/', CatalogoListView.as_view()),
 ]
