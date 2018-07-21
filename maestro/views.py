@@ -1,4 +1,4 @@
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import DetailView, ListView, TemplateView, RedirectView
 from django.shortcuts import redirect, HttpResponse
 from django.db.models import Sum
 
@@ -357,3 +357,37 @@ class CatalogoListView(NavMixin, ListView):
         else:
             query = Producto.objects.none()
         return query
+
+
+class CatalogoDeleteView(RedirectView):
+
+    url = '/maestro/catalogo/?sucursal='
+
+    def get_redirect_url(self, *args, **kwargs):
+        sucursal = Sucursal.objects.get(pk=self.request.POST['sucursal'])
+        producto = Producto.objects.get(pk=self.request.POST['producto'])
+        producto.catalogo.remove(sucursal)
+        url = self.url + self.request.POST['sucursal']
+        return url
+
+
+class CatalogoAddView(NavMixin, TemplateView):
+
+    template_name = 'maestro/catalogo-add.html'
+    nav_name = 'nav_catalogo'
+    nav_main = 'nav_main_producto'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sucursales'] = Sucursal.objects.all()
+        context['own_sucursal'] = int(self.kwargs['pk'])
+        return context
+
+    def post(self, request, *args, **kwargs):
+        sucursal = Sucursal.objects.get(pk=self.request.POST['sucursal'])
+        if request.POST['catalogo_to_save'] != "":
+            catalogo_toadd = request.POST['catalogo_to_save'].split(',')
+            for c in catalogo_toadd:
+                producto = Producto.objects.get(pk=c)
+                producto.catalogo.add(sucursal)
+        return redirect('/maestro/catalogo/?sucursal='+str(sucursal.id))

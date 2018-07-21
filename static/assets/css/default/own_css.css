@@ -14,11 +14,20 @@
 .hide_notification{
     display: none;
 }
+.hide_form{
+    display: none;
+}
 .icons-table{
     margin-right: 10px;
 }
 .icons-table:hover{
     color: #00acac;
+}
+.icon-table-delete{
+    margin-right: 10px;
+}
+.icon-table-delete:hover{
+    color: red;
 }
 .td-detail-title{
     background-color: #c2c6ce;
@@ -43,6 +52,13 @@
 }
 .no-link:hover{
     color: #00acac;
+}
+.no-link-delete{
+    color: inherit;
+    text-decoration : none;
+}
+.no-link-delete:hover{
+    color: red;
 }
 .span-right{
     float: right;

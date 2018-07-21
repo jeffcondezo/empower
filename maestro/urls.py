@@ -5,7 +5,9 @@ from maestro.views import SucursalListView, SucursalDetailView, SucursalEditView
     CategoriaListView, CategoriaDetailView, CategoriaEditView,\
     PresentacionListView, PresentacionDetailView, PresentacionEditView,\
     ProductoListView, ProductoDetailView, ProductoEditView, ProductoCategoriaView, ProductoPresentacionView,\
-    CatalogoListView
+    CatalogoListView, CatalogoDeleteView, CatalogoAddView
+
+from maestro.rviews import ProductosListView
 
 urlpatterns = [
     path('sucursal/', SucursalListView.as_view()),
@@ -26,4 +28,9 @@ urlpatterns = [
     path('producto/<int:pk>/categoria', ProductoCategoriaView.as_view()),
     path('producto/<int:pk>/presentacion', ProductoPresentacionView.as_view()),
     path('catalogo/', CatalogoListView.as_view()),
+    path('catalogo/delete', CatalogoDeleteView.as_view()),
+    path('catalogo/add/<int:pk>/', CatalogoAddView.as_view()),
+
+    # API URL'S
+    path('api/producto', ProductosListView.as_view()),
 ]
