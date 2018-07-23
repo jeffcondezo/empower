@@ -4,6 +4,7 @@
 {% block head_files %}
     <link href="{% static "assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" %}" rel="stylesheet" />
 	<link href="{% static "assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/plugins/bootstrap-eonasdan-datetimepicker/build/css/bootstrap-datetimepicker.min.css" %}" rel="stylesheet" />
     <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" />
     <link href="{% static "assets/css/default/own_replace.css" %}" rel="stylesheet" />
 {% endblock %}
@@ -105,6 +106,17 @@
                                     <option value="2">SALIDAS</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Fechas</label>
+                                <div class="row row-space-12">
+                                    <div class="col-xs-8">
+                                        <input class="form-control" name="fecha_inicio"  id="fecha_inicio" placeholder="Inicio" />
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <input class="form-control" name="fecha_fin" id="fecha_fin" placeholder="Fin" />
+                                    </div>
+                                </div>
+                            </div>
                         </fieldset>
                     </div>
                     <div class="modal-footer">
@@ -122,6 +134,8 @@
 	<script src="{% static "assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js" %}"></script>
     <script src="{% static "assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js" %}"></script>
     <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script src="{% static "assets/plugins/bootstrap-daterangepicker/moment.js" %}"></script>
+    <script src="{% static "assets/plugins/bootstrap-eonasdan-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
     <script>
         $('#table').DataTable({
             language: {
@@ -131,6 +145,14 @@
         });
         $(".multiple-select2").select2();
         $(".select2").select2();
+        $('#fecha_inicio').datetimepicker({format:'DD/MM/YYYY HH:mm'});
+        $('#fecha_fin').datetimepicker({format:'DD/MM/YYYY HH:mm'});
+        $("#fecha_inicio").on("dp.change", function (e) {
+            $('#fecha_fin').data("DateTimePicker").minDate(e.date);
+        });
+        $("#fecha_fin").on("dp.change", function (e) {
+            $('#fecha_inicio').data("DateTimePicker").maxDate(e.date);
+        });
         $(".select2-container--default").removeAttr('style').css("width","100%");
     </script>
 {% endblock %}

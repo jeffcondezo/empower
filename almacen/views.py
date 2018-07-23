@@ -74,4 +74,7 @@ class KardexView(NavMixin, ListView):
             tipo = self.request.GET['tipo']
             if tipo != '':
                 query = query.filter(tipo_movimiento=tipo)
+        if 'fecha_inicio' in self.request.GET and 'fecha_fin' in self.request.GET:
+            # query = query.filter(fechahora__gte)
+            pass
         return query
