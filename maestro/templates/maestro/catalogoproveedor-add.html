@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block pageheader %}
-    <h1 class="page-header">Catálogo <small>Agregar Productos al Catálogo</small></h1>
+    <h1 class="page-header">Catálogo Proveedor<small>Agregar Productos al Catálogo del Proveedor</small></h1>
 {% endblock %}
 
 
@@ -28,7 +28,7 @@
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
             </div>
-            <h4 class="panel-title">Catálogo</h4>
+            <h4 class="panel-title">Catálogo Proveedor</h4>
         </div>
         <div class="panel-body">
             <form method="post">{% csrf_token %}
@@ -47,11 +47,11 @@
                                 <table class="table">
                                     <tbody>
                                         <tr>
-                                            <td class="td-detail-title">SUCURSAL:</td>
+                                            <td class="td-detail-title">PROVEEDOR:</td>
                                             <td class="td-detail-desc">
-                                                <select name="sucursal" class="select2 form-control">
-                                                    {% for s in sucursales %}
-                                                        <option {% if s.id == own_sucursal %} selected {% endif %} value="{{ s.id }}">{{ s.descripcion }}</option>
+                                                <select name="proveedor" class="select2 form-control">
+                                                    {% for p in proveedores %}
+                                                        <option {% if p.id == own_proveedor %} selected {% endif %} value="{{ p.id }}">{{ p.descripcion }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </td>
@@ -95,10 +95,10 @@
 
 {% block bottom_scripts %}
     <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
-    <script src="{% static "assets/own/maestro/catalogo.js" %}"></script>
+    <script src="{% static "assets/own/maestro/catalogoproveedor.js" %}"></script>
     <script>
         $(".select2").select2();
         $(".select2-container--default").removeAttr('style').css("width","100%");
-        init_catalogoproducto_add();
+        init_catalogoproveedor_add();
     </script>
 {% endblock %}

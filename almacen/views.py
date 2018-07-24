@@ -8,6 +8,7 @@ from .models import Stock, Kardex
 
 
 # Extra python features-->
+from datetime import datetime
 # Extra python features<--
 
 # Extra python features-->
@@ -75,6 +76,7 @@ class KardexView(NavMixin, ListView):
             if tipo != '':
                 query = query.filter(tipo_movimiento=tipo)
         if 'fecha_inicio' in self.request.GET and 'fecha_fin' in self.request.GET:
-            # query = query.filter(fechahora__gte)
-            pass
+            fecha_inicio = datetime.strptime(self.request.GET['fecha_inicio'], '%d/%m/%Y %H:%M')
+            fecha_fin = datetime.strptime(self.request.GET['fecha_fin'], '%d/%m/%Y %H:%M')
+            query = query.filter(fechahora__gte=fecha_inicio, fechahora__lte=fecha_fin)
         return query

@@ -4,12 +4,13 @@ from django.db.models import Sum
 
 # Model import-->
 from maestro.models import Empresa, Sucursal, Almacen, Categoria,\
-    Presentacion, Producto, PresentacionxProducto
+    Presentacion, Producto, PresentacionxProducto, Proveedor, CatalogoxProveedor
 # Model import<--
 
 # Forms import-->
 from .forms import SucursalForm, AlmacenForm, CategoriaForm, PresentacionForm,\
-    ProductoForm, ProductoCategoriaForm, ProductoPresentacionForm
+    ProductoForm, ProductoCategoriaForm, ProductoPresentacionForm, ProveedorForm,\
+    CatalogoProveedorForm
 # Forms import<--
 
 # Utils import-->
@@ -171,7 +172,7 @@ class PresentacionListView(NavMixin, ListView):
 
 class PresentacionDetailView(NavMixin, DetailView):
 
-    template_name = 'maestro/categoria-detail.html'
+    template_name = 'maestro/presentacion-detail.html'
     model = Presentacion
     nav_name = 'nav_presentacion'
     nav_main = 'nav_main_producto'
@@ -343,17 +344,15 @@ class CatalogoListView(NavMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sucursales'] = Sucursal.objects.all()
-        if 'sucursal' in self.request.GET:
-            sucursal = self.request.GET['sucursal']
-            context['sucursal'] = Sucursal.objects.get(pk=sucursal)
+        if self.kwargs['sucursal'] > 0:
+            context['sucursal'] = Sucursal.objects.get(pk=self.kwargs['sucursal'])
         else:
             context['sucursal'] = Sucursal.objects.none()
         return context
 
     def get_queryset(self):
-        if 'sucursal' in self.request.GET:
-            sucursal = self.request.GET['sucursal']
-            query = Producto.objects.filter(catalogo=sucursal)
+        if self.kwargs['sucursal'] != 0:
+            query = Producto.objects.filter(catalogo=self.kwargs['sucursal'])
         else:
             query = Producto.objects.none()
         return query
@@ -361,7 +360,7 @@ class CatalogoListView(NavMixin, ListView):
 
 class CatalogoDeleteView(RedirectView):
 
-    url = '/maestro/catalogo/?sucursal='
+    url = '/maestro/catalogo/'
 
     def get_redirect_url(self, *args, **kwargs):
         sucursal = Sucursal.objects.get(pk=self.request.POST['sucursal'])
@@ -391,3 +390,117 @@ class CatalogoAddView(NavMixin, TemplateView):
                 producto = Producto.objects.get(pk=c)
                 producto.catalogo.add(sucursal)
         return redirect('/maestro/catalogo/?sucursal='+str(sucursal.id))
+
+
+class ProveedorListView(NavMixin, ListView):
+
+    template_name = 'maestro/proveedor-list.html'
+    model = Proveedor
+    nav_name = 'nav_proveedor'
+    nav_main = 'nav_main_proveedor'
+
+
+class ProveedorDetailView(NavMixin, DetailView):
+
+    template_name = 'maestro/proveedor-detail.html'
+    model = Proveedor
+    nav_name = 'nav_proveedor'
+    nav_main = 'nav_main_proveedor'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['catalogo'] = CatalogoxProveedor.objects.filter(proveedor=self.kwargs['pk'])
+        return context
+
+
+class ProveedorEditView(NavMixin, TemplateView):
+
+    template_name = 'maestro/proveedor-edit.html'
+    nav_name = 'nav_proveedor'
+    nav_main = 'nav_main_proveedor'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.kwargs['pk'] == 0:
+            context['object'] = ProveedorForm
+        else:
+            proveedor = Proveedor.objects.get(pk=self.kwargs['pk'])
+            context['object'] = ProveedorForm(instance=proveedor)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if self.kwargs['pk'] == 0:
+            form = ProveedorForm(request.POST)
+        else:
+            proveedor = Proveedor.objects.get(pk=self.kwargs['pk'])
+            form = ProveedorForm(request.POST, instance=proveedor)
+        if form.is_valid():
+            form.save()
+        else:
+            return HttpResponse(form.errors)
+        return redirect('/maestro/proveedor')
+
+
+class CatalogoProveedorListView(NavMixin, ListView):
+
+    template_name = 'maestro/catalogoproveedor-list.html'
+    model = Producto
+    nav_name = 'nav_catalogoproveedor'
+    nav_main = 'nav_main_proveedor'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['proveedores'] = Proveedor.objects.all()
+        if self.kwargs['proveedor'] > 0:
+            context['proveedor'] = Proveedor.objects.get(pk=self.kwargs['proveedor'])
+        else:
+            context['proveedor'] = Proveedor.objects.none()
+        return context
+
+    def get_queryset(self):
+        if self.kwargs['proveedor'] != 0:
+            query = CatalogoxProveedor.objects.filter(proveedor=self.kwargs['proveedor'])
+        else:
+            query = CatalogoxProveedor.objects.none()
+        return query
+
+
+class CatalogoProveedorDeleteView(RedirectView):
+
+    url = '/maestro/catalogoproveedor/'
+
+    def get_redirect_url(self, *args, **kwargs):
+        proveedor = self.request.POST['proveedor']
+        producto = self.request.POST['producto']
+        CatalogoxProveedor.objects.get(proveedor=proveedor, producto=producto).delete()
+        url = self.url + self.request.POST['proveedor']
+        return url
+
+
+class CatalogoProveedorAddView(NavMixin, TemplateView):
+
+    template_name = 'maestro/catalogoproveedor-add.html'
+    nav_name = 'nav_catalogoproveedor'
+    nav_main = 'nav_main_proveedor'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['proveedores'] = Proveedor.objects.all()
+        context['own_proveedor'] = int(self.kwargs['pk'])
+        return context
+
+    def post(self, request, *args, **kwargs):
+        proveedor = Proveedor.objects.get(pk=self.request.POST['proveedor'])
+        if request.POST['catalogo_to_save'] != "":
+            catalogo_toadd = request.POST['catalogo_to_save'].split(',')
+            for c in catalogo_toadd:
+                try:
+                    CatalogoxProveedor.objects.get(proveedor=self.request.POST['proveedor'],
+                                                   producto=self.request.POST['p'+c+'-producto'])
+                except CatalogoxProveedor.DoesNotExist:
+                    form = CatalogoProveedorForm(request.POST, prefix='p'+c)
+                    if form.is_valid():
+                        catalogoproveedor = form.save(commit=False)
+                        catalogoproveedor.proveedor = proveedor
+                        catalogoproveedor.save()
+        return redirect('/maestro/catalogoproveedor/'+str(proveedor.id))

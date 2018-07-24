@@ -6,7 +6,7 @@ const tbody_presentacion = document.getElementById("tbody_presentacion");
 const current_pos = document.getElementById("current_pos");
 const filtro_form = document.getElementById('filtro_form');
 
-function init_catalogoproducto_add() {
+function init_catalogoproveedor_add() {
     init_delete_buttons();
     init_add_button();
     var pos = [];
@@ -42,7 +42,7 @@ function init_add_button() {
         temp_tr.removeAttribute("id");
         var select = temp_tr.querySelector("select");
         var pos = (parseInt(current_pos.value) + 1).toString();
-        select.setAttribute("name", "p"+pos+"-presentacion");
+        select.setAttribute("name", "p"+pos+"-producto");
         $(select).select2({
           ajax: {
             url: '/maestro/api/producto',
@@ -76,14 +76,14 @@ function init_add_button() {
     });
 }
 
-function init_catalogoproducto_list() {
+function init_catalogoproveedor_list() {
     init_submit_btn();
 }
 
 function init_submit_btn() {
     filtro_form.addEventListener("submit", function (evt) {
         evt.preventDefault();
-        var id = document.getElementById('sucursal_filtro').value;
-        window.location.href = "/maestro/catalogo/"+id;
+        var id = document.getElementById('proveedor_filtro').value;
+        window.location.href = "/maestro/catalogoproveedor/"+id;
     });
 }

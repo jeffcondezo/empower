@@ -3,7 +3,8 @@ from django import forms
 # Model import-->
 from django.forms import ModelChoiceField
 
-from maestro.models import Empresa,Sucursal, Almacen, Categoria, Presentacion, Producto, PresentacionxProducto
+from maestro.models import Empresa,Sucursal, Almacen, Categoria, Presentacion, Producto,\
+    PresentacionxProducto, Proveedor, CatalogoxProveedor
 # Model import<--
 
 
@@ -90,3 +91,21 @@ class ProductoPresentacionForm(forms.ModelForm):
     class Meta:
         model = PresentacionxProducto
         fields = ['presentacion', 'cantidad']
+
+
+class ProveedorForm(forms.ModelForm):
+
+    class Meta:
+        model = Proveedor
+        fields = '__all__'
+        widgets = {
+            'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
+            'ruc': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class CatalogoProveedorForm(forms.ModelForm):
+
+    class Meta:
+        model = CatalogoxProveedor
+        fields = ['producto']

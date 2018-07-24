@@ -43,9 +43,28 @@ class Producto(models.Model):
 
 class Presentacion(models.Model):
     descripcion = models.CharField(max_length=250)
+    # Agregar abreviatura
 
 
 class PresentacionxProducto(models.Model):
     presentacion = models.ForeignKey(Presentacion, on_delete=models.PROTECT)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
+
+
+class Proveedor(models.Model):
+    descripcion = models.CharField(max_length=250)
+    ruc = models.CharField(max_length=11)
+
+
+class CatalogoxProveedor(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
+    precio_tentativo = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+
+
+class PrecioxProveedor(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
+    precio = models.DecimalField(max_digits=6, decimal_places=2)
+    fechahora = models.DateTimeField()
