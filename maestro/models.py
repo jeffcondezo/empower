@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Empresa(models.Model):
@@ -68,3 +69,28 @@ class PrecioxProveedor(models.Model):
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     precio = models.DecimalField(max_digits=6, decimal_places=2)
     fechahora = models.DateTimeField()
+
+
+class Modulo(models.Model):
+    descripcion = models.CharField(max_length=250)
+
+
+class Vista(models.Model):
+    descripcion = models.CharField(max_length=250)
+    modulo = models.ForeignKey(Modulo, on_delete=models.PROTECT)
+
+
+class Accion(models.Model):
+    descripcion = models.CharField(max_length=250)
+
+
+class AccionxVista(models.Model):
+    accion = models.ForeignKey(Accion, on_delete=models.PROTECT)
+    vista = models.ForeignKey(Vista,on_delete=models.PROTECT)
+
+
+class AsignacionAccion(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    accionxvista = models.ForeignKey(AccionxVista, on_delete=models.PROTECT)
+
+
