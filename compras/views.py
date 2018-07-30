@@ -8,6 +8,7 @@ from maestro.models import Proveedor
 # Model import<--
 
 # Forms import-->
+from compras.forms import OrdenCompraCreateForm, OrdenCompraEditForm
 # Forms import<--
 
 # Utils import-->
@@ -60,3 +61,46 @@ class OrdenDetailView(BasicEMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['detalle'] = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
         return context
+
+
+class OrdenCreateView(RedirectView):
+
+    url = '/compras/orden/'
+    view_name = 'orden_compra'
+    action_name = 'crear'
+
+    def get_redirect_url(self, *args, **kwargs):
+        form = OrdenCompraCreateForm(self.request.POST)
+        if form.is_valid():
+            orden = form.save(commit=False)
+            orden.asignado = self.request.user
+            url = self.url + str(orden.id) + '/edit'
+        else:
+            url = '/compras/orden'
+        return url
+
+
+class OrdenEditView(BasicEMixin, TemplateView):
+
+    template_name = 'compras/orden-edit.html'
+    nav_name = 'nav_compra'
+    view_name = 'orden_compra'
+    action_name = 'actualizar'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
+        context['form'] = OrdenCompraEditForm(instance=orden)
+        context['model'] = orden
+        context['detalle'] = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
+        return context
+
+    def post(self, request, *args, **kwargs):
+
+        orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
+        form = OrdenCompraEditForm(request.POST, instance=orden)
+        if form.is_valid():
+            form.save()
+        else:
+            return HttpResponse(form.errors)
+        return redirect('/compras/orden')
