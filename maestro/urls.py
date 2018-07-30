@@ -11,7 +11,13 @@ from maestro.views import SucursalListView, SucursalDetailView, SucursalEditView
 
 from maestro.rviews import ProductosListView
 
+from .lviews import AccessView, LoginView, LogoutView, DeniedView
+
 urlpatterns = [
+    path('acceso', AccessView.as_view()),
+    path('login', LoginView.as_view()),
+    path('logout', LogoutView.as_view()),
+    path('denied', DeniedView.as_view()),
     path('sucursal/', SucursalListView.as_view()),
     path('sucursal/<int:pk>/', SucursalDetailView.as_view()),
     path('sucursal/<int:pk>/edit', SucursalEditView.as_view()),

@@ -67,7 +67,7 @@ class CatalogoxProveedor(models.Model):
 class PrecioxProveedor(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
-    precio = models.DecimalField(max_digits=6, decimal_places=2)
+    precio = models.DecimalField(max_digits=8, decimal_places=2)
     fechahora = models.DateTimeField()
 
 

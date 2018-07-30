@@ -12,12 +12,12 @@ from datetime import datetime
 # Extra python features<--
 
 # Extra python features-->
-from maestro.mixin import NavMixin
+from maestro.mixin import BasicEMixin
 # Extra python features<--
 
 
 # Create your views here.
-class StockView(NavMixin, ListView):
+class StockView(BasicEMixin, ListView):
 
     template_name = 'almacen/stock.html'
     model = Stock
@@ -46,7 +46,7 @@ class StockView(NavMixin, ListView):
         return query
 
 
-class KardexView(NavMixin, ListView):
+class KardexView(BasicEMixin, ListView):
 
     template_name = 'almacen/kardex.html'
     model = Kardex

@@ -21,26 +21,28 @@ from .utils import format_categories
 # Extra python features<--
 
 # Extra python features-->
-from .mixin import NavMixin
+from .mixin import BasicEMixin
 # Extra python features<--
 
 
 # Views
-class SucursalListView(NavMixin, ListView):
+class SucursalListView(BasicEMixin, ListView):
 
     template_name = 'maestro/sucursal-list.html'
     model = Sucursal
     nav_name = 'nav_sucursal'
+    view_name = 'sucursal'
+    action_name = 'leer'
 
 
-class SucursalDetailView(NavMixin, DetailView):
+class SucursalDetailView(BasicEMixin, DetailView):
 
     template_name = 'maestro/sucursal-detail.html'
     model = Sucursal
     nav_name = 'nav_sucursal'
 
 
-class SucursalEditView(NavMixin, TemplateView):
+class SucursalEditView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/sucursal-edit.html'
     nav_name = 'nav_sucursal'
@@ -67,21 +69,21 @@ class SucursalEditView(NavMixin, TemplateView):
         return redirect('/maestro/sucursal')
 
 
-class AlmacenListView(NavMixin, ListView):
+class AlmacenListView(BasicEMixin, ListView):
 
     template_name = 'maestro/almacen-list.html'
     model = Almacen
     nav_name = 'nav_almacen'
 
 
-class AlmacenDetailView(NavMixin, DetailView):
+class AlmacenDetailView(BasicEMixin, DetailView):
 
     template_name = 'maestro/almacen-detail.html'
     model = Almacen
     nav_name = 'nav_almacen'
 
 
-class AlmacenEditView(NavMixin, TemplateView):
+class AlmacenEditView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/almacen-edit.html'
     nav_name = 'nav_almacen'
@@ -108,7 +110,7 @@ class AlmacenEditView(NavMixin, TemplateView):
         return redirect('/maestro/almacen')
 
 
-class CategoriaListView(NavMixin, ListView):
+class CategoriaListView(BasicEMixin, ListView):
 
     template_name = 'maestro/categoria-list.html'
     model = Categoria
@@ -116,7 +118,7 @@ class CategoriaListView(NavMixin, ListView):
     nav_main = 'nav_main_producto'
 
 
-class CategoriaDetailView(NavMixin, DetailView):
+class CategoriaDetailView(BasicEMixin, DetailView):
 
     template_name = 'maestro/categoria-detail.html'
     model = Categoria
@@ -124,7 +126,7 @@ class CategoriaDetailView(NavMixin, DetailView):
     nav_main = 'nav_main_producto'
 
 
-class CategoriaEditView(NavMixin, TemplateView):
+class CategoriaEditView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/categoria-edit.html'
     nav_name = 'nav_categoria'
@@ -162,7 +164,7 @@ class CategoriaEditView(NavMixin, TemplateView):
         return redirect('/maestro/categoria')
 
 
-class PresentacionListView(NavMixin, ListView):
+class PresentacionListView(BasicEMixin, ListView):
 
     template_name = 'maestro/presentacion-list.html'
     model = Presentacion
@@ -170,7 +172,7 @@ class PresentacionListView(NavMixin, ListView):
     nav_main = 'nav_main_producto'
 
 
-class PresentacionDetailView(NavMixin, DetailView):
+class PresentacionDetailView(BasicEMixin, DetailView):
 
     template_name = 'maestro/presentacion-detail.html'
     model = Presentacion
@@ -178,7 +180,7 @@ class PresentacionDetailView(NavMixin, DetailView):
     nav_main = 'nav_main_producto'
 
 
-class PresentacionEditView(NavMixin, TemplateView):
+class PresentacionEditView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/presentacion-edit.html'
     nav_name = 'nav_presentacion'
@@ -206,7 +208,7 @@ class PresentacionEditView(NavMixin, TemplateView):
         return redirect('/maestro/presentacion')
 
 
-class ProductoListView(NavMixin, ListView):
+class ProductoListView(BasicEMixin, ListView):
 
     template_name = 'maestro/producto-list.html'
     model = Producto
@@ -227,7 +229,7 @@ class ProductoListView(NavMixin, ListView):
         return query
 
 
-class ProductoDetailView(NavMixin, DetailView):
+class ProductoDetailView(BasicEMixin, DetailView):
 
     template_name = 'maestro/producto-detail.html'
     model = Producto
@@ -243,7 +245,7 @@ class ProductoDetailView(NavMixin, DetailView):
         return context
 
 
-class ProductoEditView(NavMixin, TemplateView):
+class ProductoEditView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/producto-edit.html'
     nav_name = 'nav_producto'
@@ -271,7 +273,7 @@ class ProductoEditView(NavMixin, TemplateView):
         return redirect('/maestro/producto')
 
 
-class ProductoCategoriaView(NavMixin, TemplateView):
+class ProductoCategoriaView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/producto-categoria.html'
     nav_name = 'nav_producto'
@@ -297,7 +299,7 @@ class ProductoCategoriaView(NavMixin, TemplateView):
         return redirect('/maestro/producto/'+str(pk))
 
 
-class ProductoPresentacionView(NavMixin, TemplateView):
+class ProductoPresentacionView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/producto-presentacion.html'
     nav_name = 'nav_producto'
@@ -334,7 +336,7 @@ class ProductoPresentacionView(NavMixin, TemplateView):
         return redirect('/maestro/producto/'+str(pk))
 
 
-class CatalogoListView(NavMixin, ListView):
+class CatalogoListView(BasicEMixin, ListView):
 
     template_name = 'maestro/catalogo-list.html'
     model = Producto
@@ -370,7 +372,7 @@ class CatalogoDeleteView(RedirectView):
         return url
 
 
-class CatalogoAddView(NavMixin, TemplateView):
+class CatalogoAddView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/catalogo-add.html'
     nav_name = 'nav_catalogo'
@@ -392,7 +394,7 @@ class CatalogoAddView(NavMixin, TemplateView):
         return redirect('/maestro/catalogo/?sucursal='+str(sucursal.id))
 
 
-class ProveedorListView(NavMixin, ListView):
+class ProveedorListView(BasicEMixin, ListView):
 
     template_name = 'maestro/proveedor-list.html'
     model = Proveedor
@@ -400,7 +402,7 @@ class ProveedorListView(NavMixin, ListView):
     nav_main = 'nav_main_proveedor'
 
 
-class ProveedorDetailView(NavMixin, DetailView):
+class ProveedorDetailView(BasicEMixin, DetailView):
 
     template_name = 'maestro/proveedor-detail.html'
     model = Proveedor
@@ -413,7 +415,7 @@ class ProveedorDetailView(NavMixin, DetailView):
         return context
 
 
-class ProveedorEditView(NavMixin, TemplateView):
+class ProveedorEditView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/proveedor-edit.html'
     nav_name = 'nav_proveedor'
@@ -441,7 +443,7 @@ class ProveedorEditView(NavMixin, TemplateView):
         return redirect('/maestro/proveedor')
 
 
-class CatalogoProveedorListView(NavMixin, ListView):
+class CatalogoProveedorListView(BasicEMixin, ListView):
 
     template_name = 'maestro/catalogoproveedor-list.html'
     model = Producto
@@ -477,7 +479,7 @@ class CatalogoProveedorDeleteView(RedirectView):
         return url
 
 
-class CatalogoProveedorAddView(NavMixin, TemplateView):
+class CatalogoProveedorAddView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/catalogoproveedor-add.html'
     nav_name = 'nav_catalogoproveedor'

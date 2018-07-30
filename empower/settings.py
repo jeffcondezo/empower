@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'maestro.apps.MaestroConfig',
-    'almacen.apps.AlmacenConfig'
+    'almacen.apps.AlmacenConfig',
+    'compras.apps.ComprasConfig'
 ]
 
 MIDDLEWARE = [

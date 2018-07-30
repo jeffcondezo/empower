@@ -164,7 +164,7 @@
 						<a href="javascript:;" class="dropdown-item">Calendar</a>
 						<a href="javascript:;" class="dropdown-item">Setting</a>
 						<div class="dropdown-divider"></div>
-						<a href="/maestro/logout" class="dropdown-item">Log Out</a>
+						<a href="javascript:;" class="dropdown-item">Log Out</a>
 					</div>
 				</li>
 			</ul>
@@ -203,32 +203,8 @@
 				<!-- begin sidebar nav -->
 				<ul class="nav">
 					<li class="nav-header">Actividades</li>
-					<li id="nav_sucursal"><a href="/maestro/sucursal"><i class="fa fa-calendar"></i> <span>Sucursales</span></a></li>
-					<li id="nav_almacen"><a href="/maestro/almacen"><i class="fa fa-calendar"></i> <span>Almacenes</span></a></li>
-                    <li class="has-sub" id="nav_main_producto">
-						<a href="javascript:;">
-                            <b class="caret"></b>
-						    <i class="fa fa-th-large"></i>
-							<span>Productos</span>
-						</a>
-						<ul class="sub-menu">
-						    <li id="nav_producto"><a href="/maestro/producto">Productos</a></li>
-						    <li id="nav_categoria"><a href="/maestro/categoria">Categorias</a></li>
-						    <li id="nav_presentacion"><a href="/maestro/presentacion">Presentaciones</a></li>
-						    <li id="nav_catalogo"><a href="/maestro/catalogo/0">Catálogo</a></li>
-						</ul>
-					</li>
-                    <li class="has-sub" id="nav_main_proveedor">
-						<a href="javascript:;">
-                            <b class="caret"></b>
-						    <i class="fa fa-th-large"></i>
-							<span>Proveedores</span>
-						</a>
-						<ul class="sub-menu">
-						    <li id="nav_proveedor"><a href="/maestro/proveedor">Proveedores</a></li>
-						    <li id="nav_catalogoproveedor"><a href="/maestro/catalogoproveedor">Catálogo</a></li>
-						</ul>
-					</li>
+					<li id="nav_orden"><a href="/compras/orden"><i class="fa fa-calendar"></i> <span>Ordenes</span></a></li>
+					<li id="nav_compra"><a href="/compras/compra"><i class="fa fa-calendar"></i> <span>Compras</span></a></li>
 			        <!-- begin sidebar minify button -->
 					<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
 			        <!-- end sidebar minify button -->
@@ -370,10 +346,8 @@
             document.getElementById("{{ nav_main }}").classList.add("active");
             {% endif %}
 		    document.getElementById("{{ nav_name }}").classList.add("active");
-        });
+		});
 	</script>
-
-
 
     {% block bottom_scripts %}
 

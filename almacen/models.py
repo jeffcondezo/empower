@@ -26,4 +26,4 @@ class Kardex(models.Model):
     cantidad_entrada = models.IntegerField(blank=True, null=True)
     cantidad_salida = models.IntegerField(blank=True, null=True)
     id_target = models.IntegerField()
-    fechahora = models.DateTimeField()
+    fechahora = models.DateTimeField(auto_now_add=True)
