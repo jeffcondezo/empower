@@ -37,5 +37,15 @@ class OrdenCompraEditForm(forms.ModelForm):
 class DetalleOrdenCompraForm(forms.ModelForm):
     class Meta:
         model = DetalleOrdenCompra
-        fields = ['presentacionxproducto', 'cantidad_presentacion_pedido']
+        fields = ['producto', 'presentacionxproducto', 'cantidad_presentacion_pedido']
+        widgets = {
+            'producto': forms.Select(attrs={'class': 'default-select2 form-control'}),
+            'presentacionxproducto': forms.Select(attrs={'class': 'default-select2 form-control'}),
+            'cantidad_presentacion_pedido': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(DetalleOrdenCompraForm, self).__init__(*args, **kwargs)
+        self.fields['producto'].empty_label = None
+        self.fields['presentacionxproducto'].empty_label = None
 

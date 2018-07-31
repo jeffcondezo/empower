@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from maestro.models import Proveedor, PresentacionxProducto
+from maestro.models import Proveedor, PresentacionxProducto, Producto
 
 
 # Create your models here.
@@ -20,6 +20,7 @@ class OrdenCompra(models.Model):
 
 class DetalleOrdenCompra(models.Model):
     ordencompra = models.ForeignKey(OrdenCompra, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
     presentacionxproducto = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT)
     cantidad_presentacion_pedido = models.IntegerField()
     cantidad_pedido = models.IntegerField()
@@ -48,6 +49,7 @@ class Compra(models.Model):
 
 
 class DetalleCompra(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
     presentacionxproducto = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT)
     cantidad_presentacion_entrega = models.IntegerField(blank=True, null=True)
     cantidad_entrega = models.IntegerField(blank=True, null=True)

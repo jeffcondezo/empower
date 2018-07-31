@@ -8,7 +8,7 @@ from maestro.models import Proveedor
 # Model import<--
 
 # Forms import-->
-from compras.forms import OrdenCompraCreateForm, OrdenCompraEditForm
+from compras.forms import OrdenCompraCreateForm, OrdenCompraEditForm, DetalleOrdenCompraForm
 # Forms import<--
 
 # Utils import-->
@@ -92,7 +92,11 @@ class OrdenEditView(BasicEMixin, TemplateView):
         orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
         context['form'] = OrdenCompraEditForm(instance=orden)
         context['model'] = orden
-        context['detalle'] = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
+        detalle = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
+        content_detalle = []
+        for d in detalle:
+            content_detalle.append([DetalleOrdenCompraForm(instance=d), d])
+        context['detalle'] = content_detalle
         return context
 
     def post(self, request, *args, **kwargs):

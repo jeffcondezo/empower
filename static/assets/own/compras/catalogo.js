@@ -20,7 +20,7 @@ function init_add_button() {
         select.setAttribute("name", "p"+pos+"-presentacion");
         $(select).select2({
           ajax: {
-            url: '/maestro/api/producto',
+            url: '/compras/api/productoxproveedor/'+proveedor_id,
             delay: 250,
             dataType: 'json',
             processResults: function (data) {

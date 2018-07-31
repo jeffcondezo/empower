@@ -41,6 +41,9 @@ class Producto(models.Model):
     categorias = models.ManyToManyField(Categoria)
     catalogo = models.ManyToManyField(Sucursal)
 
+    def __str__(self):
+        return self.descripcion
+
 
 class Presentacion(models.Model):
     descripcion = models.CharField(max_length=250)
@@ -51,6 +54,9 @@ class PresentacionxProducto(models.Model):
     presentacion = models.ForeignKey(Presentacion, on_delete=models.PROTECT)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
+
+    def __str__(self):
+        return self.presentacion.descripcion
 
 
 class Proveedor(models.Model):

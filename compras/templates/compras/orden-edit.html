@@ -67,8 +67,8 @@
                                 <tr>
                                     <th>Producto</th>
                                     <th>Presentación</th>
-                                    <th>Precio Tentativo</th>
                                     <th>Cantidad</th>
+                                    <th>Precio Tentativo</th>
                                     <th>Total</th>
                                     <th>Eliminar</th>
                                 </tr>
@@ -76,11 +76,11 @@
                             <tbody>
                                 {% for d in detalle %}
                                     <tr>
-                                        <td><select id="prod" class="form-control"></select></td>
-                                        <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
-                                        <td>{{ d.precio_tentativo }}</td>
-                                        <td>{{ d.cantidad_presentacion_pedido }}</td>
-                                        <td>{{ d.total }}</td>
+                                        <td>{{ d.0.producto }}</td>
+                                        <td>{{ d.0.presentacionxproducto }}</td>
+                                        <td>{{ d.0.cantidad_presentacion_pedido }}</td>
+                                        <td>{{ d.1.precio_tentativo }}</td>
+                                        <td>{{ d.1.total }}</td>
                                         <td><a class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
                                     </tr>
                                 {% endfor %}
