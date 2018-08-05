@@ -31,6 +31,9 @@
         </div>
         <div class="panel-body">
             <form method="post">{% csrf_token %}
+                <input type="hidden" id="detalleorden_to_delete" name="detalleorden_to_delete" value="">
+                <input type="hidden" id="current_pos" value="{{ detalle|length }}">
+                <input type="hidden" id="detalleorden_to_save" name="detalleorden_to_save" value="">
                <div class="col-md-12">
                    <div class="row buttons-content">
                        <button type="submit" class="btn btn-success">
@@ -75,9 +78,9 @@
                             </thead>
                             <tbody>
                                 {% for d in detalle %}
-                                    <tr>
+                                    <tr id="tr_do_{{ forloop.counter }}">
                                         <td>{{ d.0.producto }}</td>
-                                        <td>{{ d.0.presentacionxproducto }}</td>
+                                        <td>{{ d.0.presentacionxproducto }}<select></select></td>
                                         <td>{{ d.0.cantidad_presentacion_pedido }}</td>
                                         <td>{{ d.1.precio_tentativo }}</td>
                                         <td>{{ d.1.total }}</td>
@@ -95,8 +98,10 @@
 
 {% block bottom_scripts %}
     <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script src="{% static "assets/own/compras/orden.js" %}"></script>
     <script>
         $(".default-select2").select2();
         $(".select2-container--default").removeAttr('style').css("width","100%");
+        init_ordencompraedit();
     </script>
 {% endblock %}

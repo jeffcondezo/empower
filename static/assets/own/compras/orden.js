@@ -1,14 +1,34 @@
 const proveedor_id = document.getElementById('proveedor_id').value;
+const detalleorden_to_save = document.getElementById('detalleorden_to_save');
+const current_pos = document.getElementById("current_pos");
 
 
 function init_ordencompraedit() {
-    init_delete_buttons();
-    init_add_button();
-    var pos = [];
+    const pos = [];
+    const prod = [];
+    var data = [];
     for (var i = 1; i <= parseInt(current_pos.value); i++) {
-        pos.push(i)
+        const tr = document.getElementById('tr_do_'+i);
+        const prod_value = tr.querySelector('.producto').value;
+        pos.push(i);
+        prod.push(prod_value);
     }
-    presentacion_to_save.value=pos.join(',');
+    const list_pos = pos.join(',');
+    const list_prod = prod.join(',');
+    detalleorden_to_save.value=list_pos;
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+           data = JSON.parse(xhttp.responseText);
+        }
+    };
+    xhttp.open("GET", "/compras/api/presentacionxproducto/"+list_prod, false);
+    xhttp.send();
+    init_presentacion_select(data);
+}
+
+function init_presentacion_select(data) {
+
 }
 
 function init_add_button() {

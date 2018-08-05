@@ -3,6 +3,7 @@ from django.forms import ModelChoiceField
 
 # Model import-->
 from compras.models import OrdenCompra, DetalleOrdenCompra
+from maestro.models import Producto
 # Model import<--
 
 
@@ -39,13 +40,15 @@ class DetalleOrdenCompraForm(forms.ModelForm):
         model = DetalleOrdenCompra
         fields = ['producto', 'presentacionxproducto', 'cantidad_presentacion_pedido']
         widgets = {
-            'producto': forms.Select(attrs={'class': 'default-select2 form-control'}),
-            'presentacionxproducto': forms.Select(attrs={'class': 'default-select2 form-control'}),
-            'cantidad_presentacion_pedido': forms.TextInput(attrs={'class': 'form-control'})
+            'presentacionxproducto': forms.HiddenInput(attrs={'class': 'presentacionxproducto'}),
+            'cantidad_presentacion_pedido': forms.TextInput(attrs={'class': 'form-control cantidadpresentacion'})
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, proveedor, *args, **kwargs):
         super(DetalleOrdenCompraForm, self).__init__(*args, **kwargs)
+        self.fields['producto'] = forms.ModelChoiceField(
+            queryset=Producto.objects.filter(catalogoxproveedor__proveedor=proveedor),
+            widget=forms.Select(attrs={'class': 'default-select2 form-control producto'}),
+        )
         self.fields['producto'].empty_label = None
-        self.fields['presentacionxproducto'].empty_label = None
 
