@@ -9,7 +9,10 @@ function init_ordencompraedit() {
     var data = [];
     for (var i = 1; i <= parseInt(current_pos.value); i++) {
         const tr = document.getElementById('tr_do_'+i);
-        const prod_value = tr.querySelector('.producto').value;
+        const prod_select = tr.querySelector('.producto');
+        const prod_value = prod_select.value;
+        prod_select.removeAttribute('id');
+        prod_select.setAttribute('data-pos', i);
         pos.push(i);
         prod.push(prod_value);
     }
@@ -47,12 +50,33 @@ function init_presentacion_select(data) {
 
 function init_prod_change() {
     $('.producto').on("select2:selecting", function(e) {
-       prod_change(this);
+       prod_change(this, e.params.args.data.id);
     });
 }
 
-function prod_change(obj) {
-    obj.remove(1);
+function prod_change(obj, new_value) {
+    var id_prod = new_value;
+    var current_tr = document.getElementById('tr_do_'+obj.getAttribute('data-pos'));
+    var presentacion_select = current_tr.querySelector('.sel_presentacionxproducto');
+    var options_length = presentacion_select.options.length;
+    var data = [];
+    for (var i = 0; i < options_length; i++) {
+        presentacion_select.options[0].remove();
+    }
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+           data = JSON.parse(xhttp.responseText);
+        }
+    };
+    xhttp.open("GET", "/compras/api/presentacionxproducto/"+id_prod, false);
+    xhttp.send();
+    for (var i = 0; i < data.length; i++) {
+        var opt = document.createElement('option');
+        opt.value = data[i]['id'];
+        opt.innerHTML = data[i]['presentacion']['descripcion'];
+        presentacion_select.append(opt)
+    }
 }
 
 function init_add_button() {
