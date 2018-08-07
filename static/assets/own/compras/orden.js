@@ -25,10 +25,34 @@ function init_ordencompraedit() {
     xhttp.open("GET", "/compras/api/presentacionxproducto/"+list_prod, false);
     xhttp.send();
     init_presentacion_select(data);
+    init_prod_change();
 }
 
 function init_presentacion_select(data) {
+    for (var i = 0; i < data.length; i++) {
+        var opt = document.createElement('option');
+        opt.value = data[i]['id'];
+        opt.innerHTML = data[i]['presentacion']['descripcion'];
+        var select = document.getElementById('sel_pre_'+data[i]['producto']);
+        select.append(opt)
+    }
+    var selects = document.getElementsByClassName('sel_presentacionxproducto');
+    for (var i = 0; i < selects.length; i++){
+        var selected = selects[i].getAttribute("data-selected");
+        selects[i].value=selected;
+        $(selects[i]).select2();
+    }
+    $(".select2-container--default").removeAttr('style').css("width","100%");
+}
 
+function init_prod_change() {
+    $('.producto').on("select2:selecting", function(e) {
+       prod_change(this);
+    });
+}
+
+function prod_change(obj) {
+    obj.remove(1);
 }
 
 function init_add_button() {

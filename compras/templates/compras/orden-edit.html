@@ -80,7 +80,7 @@
                                 {% for d in detalle %}
                                     <tr id="tr_do_{{ forloop.counter }}">
                                         <td>{{ d.0.producto }}</td>
-                                        <td>{{ d.0.presentacionxproducto }}<select></select></td>
+                                        <td><select data-selected="{{ d.1.presentacionxproducto_id }}" class="sel_presentacionxproducto" id="sel_pre_{{ d.1.producto_id }}"></select></td>
                                         <td>{{ d.0.cantidad_presentacion_pedido }}</td>
                                         <td>{{ d.1.precio_tentativo }}</td>
                                         <td>{{ d.1.total }}</td>
