@@ -75,3 +75,7 @@ legend{
 #add_btn{
     margin-left: 10px;
 }
+/* Detalle Orden*/
+#tr_detalleorden_empty{
+    display: none;
+}

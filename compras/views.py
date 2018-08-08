@@ -95,8 +95,9 @@ class OrdenEditView(BasicEMixin, TemplateView):
         detalle = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
         content_detalle = []
         for d in detalle:
-            content_detalle.append([DetalleOrdenCompraForm(instance=d, proveedor=orden.proveedor_id), d])
+            content_detalle.append([DetalleOrdenCompraForm(instance=d, proveedor=orden.proveedor_id, has_data=True), d])
         context['detalle'] = content_detalle
+        context['clean_form'] = DetalleOrdenCompraForm(proveedor=orden.proveedor_id, has_data=False)
         return context
 
     def post(self, request, *args, **kwargs):

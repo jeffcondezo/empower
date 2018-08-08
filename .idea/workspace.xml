@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/almacen/templates/almacen/stock.html" line="49" />
-    <bookmark url="file://$PROJECT_DIR$/almacen/views.py" line="34" />
+    <bookmark url="file://$PROJECT_DIR$/almacen/views.py" line="46" />
+    <bookmark url="file://$PROJECT_DIR$/static/assets/own/compras/orden.js" line="95" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="996efadd-7c17-4876-99a7-964f6f719ed3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Jeff_PC.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Jeff_PC.xml" />
+    <list default="true" id="996efadd-7c17-4876-99a7-964f6f719ed3" name="Default" comment="Presentaciones x Producto Terminado">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maestro/forms.py" afterPath="$PROJECT_DIR$/maestro/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maestro/templates/maestro/producto-presentacion.html" afterPath="$PROJECT_DIR$/maestro/templates/maestro/producto-presentacion.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maestro/views.py" afterPath="$PROJECT_DIR$/maestro/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/assets/own/maestro/producto.js" afterPath="$PROJECT_DIR$/static/assets/own/maestro/producto.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compras/forms.py" afterPath="$PROJECT_DIR$/compras/forms.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compras/templates/compras/orden-edit.html" afterPath="$PROJECT_DIR$/compras/templates/compras/orden-edit.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compras/views.py" afterPath="$PROJECT_DIR$/compras/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/assets/css/default/own_css.css" afterPath="$PROJECT_DIR$/static/assets/css/default/own_css.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/assets/own/compras/orden.js" afterPath="$PROJECT_DIR$/static/assets/own/compras/orden.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,6 +20,17 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <expand />
+    <select />
+  </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" module-name="empower" sdk-home="C:\Users\Jeff PC\AppData\Local\Programs\Python\Python36-32\python.exe">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
     <option name="mySdkHome" value="C:\Users\Jeff PC\AppData\Local\Programs\Python\Python36-32\python.exe" />
@@ -27,11 +38,43 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="producto-detail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-detail.html">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/compras/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="68" column="70" lean-forward="false" selection-start-line="68" selection-start-column="70" selection-end-line="68" selection-end-column="70" />
+            <state relative-caret-position="396">
+              <caret line="99" column="99" lean-forward="false" selection-start-line="99" selection-start-column="99" selection-end-line="99" selection-end-column="99" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rviews.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/compras/rviews.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#51#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="catalogoproveedor.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/assets/own/maestro/catalogoproveedor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="orden-edit.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/compras/templates/compras/orden-edit.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="370">
+              <caret line="82" column="63" lean-forward="true" selection-start-line="82" selection-start-column="63" selection-end-line="82" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -40,8 +83,8 @@
       <file leaf-file-name="producto-presentacion.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-presentacion.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-33">
-              <caret line="54" column="82" lean-forward="false" selection-start-line="54" selection-start-column="82" selection-end-line="54" selection-end-column="82" />
+            <state relative-caret-position="-29">
+              <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="44" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -50,28 +93,18 @@
       <file leaf-file-name="producto.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/assets/own/maestro/producto.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="55" column="46" lean-forward="false" selection-start-line="55" selection-start-column="46" selection-end-line="55" selection-end-column="46" />
+            <state relative-caret-position="136">
+              <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="admision.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/assets/own/admision/admision.js">
+      <file leaf-file-name="own_css.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/assets/css/default/own_css.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="67" column="11" lean-forward="false" selection-start-line="67" selection-start-column="11" selection-end-line="67" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="strings.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/assets/own/strings.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="76" lean-forward="false" selection-start-line="4" selection-start-column="76" selection-end-line="4" selection-end-column="76" />
+            <state relative-caret-position="481">
+              <caret line="78" column="22" lean-forward="false" selection-start-line="78" selection-start-column="1" selection-end-line="78" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -81,52 +114,28 @@
         <entry file="file://$PROJECT_DIR$/static/assets/css/default/own_replace.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="34">
-              <caret line="2" column="21" lean-forward="false" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+              <caret line="2" column="21" lean-forward="false" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maestro/models.py">
+      <file leaf-file-name="orden.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/static/assets/own/compras/orden.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="74" column="12" lean-forward="false" selection-start-line="74" selection-start-column="4" selection-end-line="74" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mixin.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maestro/mixin.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+            <state relative-caret-position="430">
+              <caret line="107" column="32" lean-forward="false" selection-start-line="107" selection-start-column="12" selection-end-line="107" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maestro/forms.py">
+        <entry file="file://$PROJECT_DIR$/compras/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="91" column="45" lean-forward="false" selection-start-line="91" selection-start-column="45" selection-end-line="91" selection-end-column="45" />
-              <folding>
-                <element signature="e#0#24#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/maestro/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="316" column="40" lean-forward="false" selection-start-line="316" selection-start-column="40" selection-end-line="316" selection-end-column="40" />
-              <folding>
-                <element signature="e#0#67#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="481">
+              <caret line="57" column="74" lean-forward="false" selection-start-line="57" selection-start-column="74" selection-end-line="57" selection-end-column="74" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -136,20 +145,14 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
-        <option value="Python Script" />
         <option value="JavaScript File" />
+        <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>header small text goes here...</find>
-      <find>&quot;../assets</find>
-      <find>.css&quot;</find>
-      <find>.js&quot;</find>
-      <find>.png&quot;</find>
-      <find>Mega</find>
       <find>Calendar</find>
       <find>localstorage</find>
       <find>table</find>
@@ -163,15 +166,43 @@
       <find>default tre</find>
       <find>alerts col</find>
       <find>{{</find>
+      <find>danger</find>
+      <find>Try any of those!</find>
+      <find>multiple-select2</find>
+      <find>linked</find>
+      <find>datetime</find>
+      <find>datetimeº</find>
+      <find>mom</find>
+      <find>src=&quot;../</find>
+      <find>data-img=&quot;../</find>
+      <find>.jpg)&quot;&gt;</find>
+      <find>Log O</find>
+      <find>.js&quot;</find>
+      <find>src=&quot;../assets</find>
+      <find>.css&quot;</find>
+      <find>data-theme-file=&quot;../assets</find>
+      <find>NavMixin</find>
+      <find>id_producto</find>
     </findStrings>
     <replaceStrings>
       <replace />
-      <replace>.css&quot; %}&quot;</replace>
-      <replace>.js&quot; %}&quot;</replace>
       <replace>.png&quot; %}&quot;</replace>
+      <replace>href=&quot;{% static &quot;</replace>
+      <replace>.css&quot; %}</replace>
+      <replace>src=&quot;{% static &quot;</replace>
+      <replace>data-img=&quot;{% static &quot;</replace>
+      <replace>.css&quot; %})&gt;</replace>
+      <replace>&quot;{% static &quot;</replace>
+      <replace>href=&quot;{% static &quot;assets</replace>
+      <replace>.js&quot; %}&quot;</replace>
+      <replace>src=&quot;{% static &quot;assets</replace>
+      <replace>.css&quot; %}&quot;</replace>
+      <replace>data-theme-file=&quot;{% static &quot;assets</replace>
+      <replace>BasicEMixin</replace>
     </replaceStrings>
     <dirStrings>
       <dir>D:\Desarrollo py-3\empower\static\assets\plugins\DataTables</dir>
+      <dir>D:\Desarrollo py-3\empower\static\assets</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -180,40 +211,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$USER_HOME$/Downloads/color_admin_v4.0.2/admin/template/template_html/page_with_mega_menu.html" />
-        <option value="$PROJECT_DIR$/static/assets/own/maestro/vista.js" />
-        <option value="$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/table_manage_responsive.html" />
-        <option value="$PROJECT_DIR$/maestro/sucursal-edit.html" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/almacen-list.html" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/almacen-detail.html" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/sucursal-detail.html" />
-        <option value="$PROJECT_DIR$/empower/settings.py" />
-        <option value="$PROJECT_DIR$/empower/urls.py" />
-        <option value="$PROJECT_DIR$/almacen/urls.py" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/almacen-edit.html" />
-        <option value="$PROJECT_DIR$/almacen/templates/almacen/stock.html" />
-        <option value="$PROJECT_DIR$/static/assets/css/default/own_replace.css" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-list.html" />
-        <option value="$PROJECT_DIR$/almacen/views.py" />
         <option value="$PROJECT_DIR$/maestro/templatetags/maestro_extras.py" />
         <option value="$PROJECT_DIR$/maestro/templatetags/maestro_tags.py" />
         <option value="$PROJECT_DIR$/maestro/decorators.py" />
-        <option value="$PROJECT_DIR$/maestro/mixin.py" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/sucursal-list.html" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/base.html" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/sucursal-edit.html" />
-        <option value="$PROJECT_DIR$/maestro/models.py" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-edit.html" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-categoria.html" />
         <option value="$PROJECT_DIR$/maestro/utils.py" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-detail.html" />
-        <option value="$PROJECT_DIR$/maestro/urls.py" />
         <option value="$PROJECT_DIR$/static/assets/own/strings.js" />
-        <option value="$PROJECT_DIR$/static/assets/css/default/own_css.css" />
         <option value="$PROJECT_DIR$/maestro/forms.py" />
         <option value="$PROJECT_DIR$/static/assets/own/maestro/producto.js" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-presentacion.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/catalogo-list.html" />
+        <option value="$PROJECT_DIR$/maestro/rviews.py" />
+        <option value="$PROJECT_DIR$/maestro/serializers.py" />
+        <option value="$PROJECT_DIR$/static/assets/own/maestro/catalogo.js" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/catalogo-add.html" />
+        <option value="$PROJECT_DIR$/static/assets/css/default/own_replace.css" />
+        <option value="$PROJECT_DIR$/almacen/templates/almacen/base.html" />
+        <option value="$PROJECT_DIR$/almacen/migrations/0004_kardex_fechahora.py" />
+        <option value="$PROJECT_DIR$/almacen/urls.py" />
+        <option value="$PROJECT_DIR$/almacen/templates/almacen/stock.html" />
+        <option value="$PROJECT_DIR$/almacen/templates/almacen/kardex.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/access/login.html" />
+        <option value="$PROJECT_DIR$/maestro/lviews.py" />
+        <option value="$PROJECT_DIR$/maestro/urls.py" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/access/denied.html" />
         <option value="$PROJECT_DIR$/maestro/views.py" />
+        <option value="$PROJECT_DIR$/almacen/views.py" />
+        <option value="$PROJECT_DIR$/almacen/models.py" />
+        <option value="$PROJECT_DIR$/maestro/models.py" />
+        <option value="$PROJECT_DIR$/empower/settings.py" />
+        <option value="$PROJECT_DIR$/maestro/mixin.py" />
+        <option value="$PROJECT_DIR$/empower/urls.py" />
+        <option value="$PROJECT_DIR$/compras/templates/compras/orden-list.html" />
+        <option value="$PROJECT_DIR$/compras/templates/compras/base.html" />
+        <option value="$PROJECT_DIR$/compras/models.py" />
+        <option value="$PROJECT_DIR$/compras/templates/compras/orden-detail.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/base.html" />
+        <option value="$PROJECT_DIR$/compras/urls.py" />
+        <option value="$PROJECT_DIR$/compras/serializers.py" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-list.html" />
+        <option value="$PROJECT_DIR$/compras/rviews.py" />
+        <option value="$PROJECT_DIR$/static/assets/css/default/own_css.css" />
+        <option value="$PROJECT_DIR$/compras/views.py" />
+        <option value="$PROJECT_DIR$/compras/forms.py" />
+        <option value="$PROJECT_DIR$/compras/templates/compras/orden-edit.html" />
+        <option value="$PROJECT_DIR$/static/assets/own/compras/orden.js" />
       </list>
     </option>
   </component>
@@ -245,30 +293,14 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="empower" type="b2602c69:ProjectViewProjectNode" />
               <item name="empower" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="almacen" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="almacen" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="almacen" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="almacen" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="empower" type="b2602c69:ProjectViewProjectNode" />
@@ -321,20 +353,10 @@
               <item name="assets" type="462c0819:PsiDirectoryNode" />
               <item name="own" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="own" type="462c0819:PsiDirectoryNode" />
-              <item name="admision" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -357,11 +379,11 @@
       <recent name="D:\Desarrollo py-3\empower\static\assets\own\maestro\sucursal" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Desarrollo py-3\empower\maestro\templates\maestro" />
-      <recent name="D:\Desarrollo py-3\empower\maestro\templatetags" />
+      <recent name="D:\Desarrollo py-3\empower\compras\templates\compras" />
+      <recent name="D:\Desarrollo py-3\empower\compras" />
       <recent name="D:\Desarrollo py-3\empower\static\assets\plugins" />
-      <recent name="D:\Desarrollo py-3\empower\static\assets\css\default" />
-      <recent name="D:\Desarrollo py-3\empower\almacen" />
+      <recent name="D:\Desarrollo py-3\empower\almacen\templates\almacen" />
+      <recent name="D:\Desarrollo py-3\empower\static\assets\own\maestro" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -500,21 +522,70 @@
       <option name="project" value="LOCAL" />
       <updated>1531316709471</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Presentaciones x Producto Terminado">
+      <created>1531367035503</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1531367035503</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Maestro P1">
+      <created>1532181265007</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1532181265007</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Kardex">
+      <created>1532194574633</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1532194574633</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Kardex P2">
+      <created>1532349268835</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1532349268835</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Presentaciones x Producto Terminado">
+      <created>1532953917885</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1532953917886</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Orden Compra 1">
+      <created>1533506599107</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1533506599107</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Orden 1">
+      <created>1533611057087</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1533611057087</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22867803" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26439232" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.51492536" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35108694" sideWeight="0.52132195" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34021738" sideWeight="0.48507464" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35108694" sideWeight="0.47867805" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21413043" sideWeight="0.4978678" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14565217" sideWeight="0.48294243" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -538,7 +609,13 @@
     <MESSAGE value="Nav Dinamico" />
     <MESSAGE value="Presentaciones x Producto P1" />
     <MESSAGE value="Presentaciones x Producto P2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Presentaciones x Producto P2" />
+    <MESSAGE value="Maestro P1" />
+    <MESSAGE value="Kardex" />
+    <MESSAGE value="Kardex P2" />
+    <MESSAGE value="Presentaciones x Producto Terminado" />
+    <MESSAGE value="Orden Compra 1" />
+    <MESSAGE value="Orden 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Orden 1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -553,312 +630,352 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../healthcare/admision/rviews.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="81" lean-forward="false" selection-start-line="10" selection-start-column="62" selection-end-line="10" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/extra_coming_soon.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="101" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/plugins/jquery-ui/AUTHORS.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="233" column="16" lean-forward="false" selection-start-line="233" selection-start-column="16" selection-end-line="233" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Desarrollo/clinicasp/clinicasp/admision/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="48" column="44" lean-forward="false" selection-start-line="48" selection-start-column="32" selection-end-line="48" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/pycharm.jar!/resources/html5-schema/html5/web-forms.rnc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-721">
-          <caret line="359" column="16" lean-forward="false" selection-start-line="359" selection-start-column="16" selection-end-line="359" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/js/demo/form-editable.demo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="156" column="8" lean-forward="false" selection-start-line="156" selection-start-column="8" selection-end-line="156" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/plugins/select2/dist/js/select2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3871">
-          <caret line="701" column="28" lean-forward="false" selection-start-line="701" selection-start-column="28" selection-end-line="701" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/almacen-detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="38" column="67" lean-forward="false" selection-start-line="38" selection-start-column="56" selection-end-line="38" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="5848">
+          <caret line="344" column="12" lean-forward="false" selection-start-line="344" selection-start-column="12" selection-end-line="344" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/js/demo/form-plugins.demo.js">
+    <entry file="file://$PROJECT_DIR$/almacen/migrations/0004_kardex_fechahora.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="242" column="0" lean-forward="false" selection-start-line="242" selection-start-column="0" selection-end-line="242" selection-end-column="70" />
+        <state relative-caret-position="255">
+          <caret line="15" column="58" lean-forward="false" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/form_plugins.html">
+    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/stock.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
-          <caret line="1704" column="25" lean-forward="true" selection-start-line="1704" selection-start-column="25" selection-end-line="1704" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/almacen-edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="33" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/empower/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="39" column="33" lean-forward="false" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
-          <folding />
+        <state relative-caret-position="-119">
+          <caret line="32" column="41" lean-forward="false" selection-start-line="32" selection-start-column="41" selection-end-line="32" selection-end-column="41" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/almacen/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
-          <caret line="5" column="28" lean-forward="false" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
-          <folding>
-            <element signature="e#10#38#0" expanded="false" />
-          </folding>
+          <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/almacen-list.html">
+    <entry file="file://$PROJECT_DIR$/static/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.ar.js" />
+    <entry file="file://$PROJECT_DIR$/static/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" />
+    <entry file="file://$PROJECT_DIR$/static/assets/js/demo/form-plugins.demo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="218">
+          <caret line="246" column="34" lean-forward="false" selection-start-line="246" selection-start-column="34" selection-end-line="246" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/empower/urls.py">
+    <entry file="file://$PROJECT_DIR$/static/assets/plugins/bootstrap-eonasdan-datetimepicker/src/js/bootstrap-datetimepicker.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="21" column="37" lean-forward="false" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="37" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/assets/plugins/moment/moment.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/form_plugins.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="1690" column="0" lean-forward="false" selection-start-line="1690" selection-start-column="0" selection-end-line="1690" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/login_v2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1326">
+          <caret line="78" column="0" lean-forward="false" selection-start-line="78" selection-start-column="0" selection-end-line="85" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/views/generic/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="68" column="24" lean-forward="false" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/contrib/auth/mixins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="505">
+          <caret line="105" column="0" lean-forward="false" selection-start-line="105" selection-start-column="0" selection-end-line="108" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/extra_404_error.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/catalogo-add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/access/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="79" column="104" lean-forward="true" selection-start-line="79" selection-start-column="76" selection-end-line="79" selection-end-column="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/access/denied.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="45" column="53" lean-forward="false" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/contrib/auth/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/empower/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="41" column="33" lean-forward="false" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/form_elements.html">
+    <entry file="file://$PROJECT_DIR$/maestro/lviews.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="1240" column="79" lean-forward="false" selection-start-line="1240" selection-start-column="67" selection-end-line="1240" selection-end-column="79" />
+        <state relative-caret-position="357">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/ui_modal_notification.html">
+    <entry file="file://$PROJECT_DIR$/maestro/mixin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="595" column="0" lean-forward="false" selection-start-line="595" selection-start-column="0" selection-end-line="614" selection-end-column="34" />
+        <state relative-caret-position="289">
+          <caret line="28" column="61" lean-forward="false" selection-start-line="28" selection-start-column="61" selection-end-line="28" selection-end-column="61" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/js/demo/ui-tree.demo.js">
+    <entry file="file://$PROJECT_DIR$/almacen/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="34" column="7" lean-forward="false" selection-start-line="8" selection-start-column="3" selection-end-line="34" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/ui_tree.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11492">
-          <caret line="748" column="23" lean-forward="false" selection-start-line="748" selection-start-column="23" selection-end-line="748" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/ui_general.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="548" column="38" lean-forward="true" selection-start-line="536" selection-start-column="28" selection-end-line="548" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/almacen/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Desarrollo/clinicasp/clinicasp/examen/templatetags/examen_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="24" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templatetags/maestro_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templatetags/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/presentacion-list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="6" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/form_slider_switcher.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="187" column="0" lean-forward="false" selection-start-line="187" selection-start-column="0" selection-end-line="188" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/utils/decorators.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="14" column="4" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="207" column="61" lean-forward="false" selection-start-line="207" selection-start-column="44" selection-end-line="207" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/sucursal-list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-295">
-          <caret line="29" column="46" lean-forward="false" selection-start-line="29" selection-start-column="46" selection-end-line="29" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/sucursal-detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="38" selection-end-column="92" />
+        <state relative-caret-position="459">
+          <caret line="28" column="54" lean-forward="false" selection-start-line="28" selection-start-column="54" selection-end-line="28" selection-end-column="54" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/almacen/views.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="48" column="28" lean-forward="false" selection-start-line="48" selection-start-column="28" selection-end-line="48" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/almacen-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="41" column="56" lean-forward="false" selection-start-line="41" selection-start-column="48" selection-end-line="41" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/templates/compras/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3485">
+          <caret line="205" column="37" lean-forward="false" selection-start-line="205" selection-start-column="28" selection-end-line="205" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/templates/compras/orden-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="54" column="55" lean-forward="false" selection-start-line="54" selection-start-column="55" selection-end-line="54" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/empower/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
-          <caret line="27" column="55" lean-forward="false" selection-start-line="27" selection-start-column="55" selection-end-line="27" selection-end-column="55" />
+          <caret line="22" column="37" lean-forward="false" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="240" column="101" lean-forward="false" selection-start-line="240" selection-start-column="84" selection-end-line="240" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/kardex.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="58" column="46" lean-forward="false" selection-start-line="58" selection-start-column="46" selection-end-line="58" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/templates/compras/orden-detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="66" column="56" lean-forward="false" selection-start-line="66" selection-start-column="56" selection-end-line="66" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="491">
+          <caret line="228" column="96" lean-forward="false" selection-start-line="228" selection-start-column="96" selection-end-line="228" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-97">
+          <caret line="21" column="15" lean-forward="false" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
           <folding>
-            <element signature="e#0#41#0" expanded="false" />
+            <element signature="e#0#28#0" expanded="false" />
+            <marker date="1533405422567" expanded="true" signature="2334:3041" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-list.html">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/forms/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="79" column="89" lean-forward="false" selection-start-line="79" selection-start-column="89" selection-end-line="79" selection-end-column="89" />
+        <state relative-caret-position="-473">
+          <caret line="1149" column="11" lean-forward="false" selection-start-line="1149" selection-start-column="11" selection-end-line="1149" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/forms/widgets.py">
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/presentacion-edit.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="767">
-          <caret line="577" column="21" lean-forward="true" selection-start-line="577" selection-start-column="12" selection-end-line="577" selection-end-column="21" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="46" column="87" lean-forward="false" selection-start-line="46" selection-start-column="87" selection-end-line="46" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-categoria.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="47" column="36" lean-forward="true" selection-start-line="47" selection-start-column="36" selection-end-line="47" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/utils.py">
+    <entry file="file://$PROJECT_DIR$/static/assets/own/maestro/catalogo.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
-          <caret line="5" column="21" lean-forward="false" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/stock.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1394">
-          <caret line="82" column="81" lean-forward="false" selection-start-line="82" selection-start-column="8" selection-end-line="82" selection-end-column="81" />
+          <caret line="5" column="21" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/maestro/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="17" column="65" lean-forward="false" selection-start-line="17" selection-start-column="65" selection-end-line="17" selection-end-column="65" />
+        <state relative-caret-position="153">
+          <caret line="21" column="25" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding>
-            <element signature="e#10#38#0" expanded="true" />
-            <marker date="1531174415891" expanded="true" signature="1270:1351" ph="..." />
+            <element signature="e#10#38#0" expanded="false" />
+            <marker date="1533495121696" expanded="true" signature="506:619" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/sucursal-edit.html">
+    <entry file="file://$PROJECT_DIR$/maestro/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="68" column="38" lean-forward="false" selection-start-line="68" selection-start-column="38" selection-end-line="68" selection-end-column="38" />
+        <state relative-caret-position="884">
+          <caret line="53" column="16" lean-forward="false" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/rest_framework/generics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="194" column="6" lean-forward="false" selection-start-line="194" selection-start-column="6" selection-end-line="194" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="19" column="42" lean-forward="false" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#72#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/rviews.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/assets/own/maestro/catalogoproveedor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/assets/css/default/own_css.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="986">
-          <caret line="58" column="8" lean-forward="false" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="8" />
+        <state relative-caret-position="481">
+          <caret line="78" column="22" lean-forward="false" selection-start-line="78" selection-start-column="1" selection-end-line="78" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/own/admision/admision.js">
+    <entry file="file://$PROJECT_DIR$/compras/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="67" column="11" lean-forward="false" selection-start-line="67" selection-start-column="11" selection-end-line="67" selection-end-column="50" />
+        <state relative-caret-position="396">
+          <caret line="99" column="99" lean-forward="false" selection-start-line="99" selection-start-column="99" selection-end-line="99" selection-end-column="99" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/assets/own/maestro/producto.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="57" column="74" lean-forward="false" selection-start-line="57" selection-start-column="74" selection-end-line="57" selection-end-column="74" />
           <folding />
         </state>
       </provider>
@@ -866,76 +983,32 @@
     <entry file="file://$PROJECT_DIR$/static/assets/css/default/own_replace.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
-          <caret line="2" column="21" lean-forward="false" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/own/strings.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="76" lean-forward="false" selection-start-line="4" selection-start-column="76" selection-end-line="4" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/mixin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="68" column="70" lean-forward="false" selection-start-line="68" selection-start-column="70" selection-end-line="68" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="91" column="45" lean-forward="false" selection-start-line="91" selection-start-column="45" selection-end-line="91" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="74" column="12" lean-forward="false" selection-start-line="74" selection-start-column="4" selection-end-line="74" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/own/maestro/producto.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="55" column="46" lean-forward="false" selection-start-line="55" selection-start-column="46" selection-end-line="55" selection-end-column="46" />
+          <caret line="2" column="21" lean-forward="false" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-presentacion.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-33">
-          <caret line="54" column="82" lean-forward="false" selection-start-line="54" selection-start-column="82" selection-end-line="54" selection-end-column="82" />
+        <state relative-caret-position="-29">
+          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="44" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/views.py">
+    <entry file="file://$PROJECT_DIR$/compras/templates/compras/orden-edit.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="316" column="40" lean-forward="false" selection-start-line="316" selection-start-column="40" selection-end-line="316" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#67#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="370">
+          <caret line="82" column="63" lean-forward="true" selection-start-line="82" selection-start-column="63" selection-end-line="82" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/assets/own/compras/orden.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="107" column="32" lean-forward="false" selection-start-line="107" selection-start-column="12" selection-end-line="107" selection-end-column="32" />
+          <folding />
         </state>
       </provider>
     </entry>

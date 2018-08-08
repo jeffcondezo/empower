@@ -44,11 +44,16 @@ class DetalleOrdenCompraForm(forms.ModelForm):
             'cantidad_presentacion_pedido': forms.TextInput(attrs={'class': 'form-control cantidadpresentacion'})
         }
 
-    def __init__(self, proveedor, *args, **kwargs):
+    def __init__(self, proveedor, has_data, *args, **kwargs):
         super(DetalleOrdenCompraForm, self).__init__(*args, **kwargs)
-        self.fields['producto'] = forms.ModelChoiceField(
-            queryset=Producto.objects.filter(catalogoxproveedor__proveedor=proveedor),
-            widget=forms.Select(attrs={'class': 'default-select2 form-control producto'}),
-        )
-        self.fields['producto'].empty_label = None
-
+        if has_data:
+            self.fields['producto'] = forms.ModelChoiceField(
+                queryset=Producto.objects.filter(catalogoxproveedor__proveedor=proveedor),
+                widget=forms.Select(attrs={'class': 'default-select2 form-control producto'}),
+            )
+            self.fields['producto'].empty_label = None
+        else:
+            self.fields['producto'] = forms.ModelChoiceField(
+                queryset=Producto.objects.filter(catalogoxproveedor__proveedor=proveedor),
+                widget=forms.Select(attrs={'class': 'form-control producto'}),
+            )

@@ -39,6 +39,9 @@
                        <button type="submit" class="btn btn-success">
                             <i class="fa fa-save fas"></i> Guardar
                         </button>
+                       <button id="add_btn" type="button" class="btn btn-success">
+                            <i class="fa fa-plus fas"></i> Agregar
+                        </button>
                    </div>
                    <div class="table-responsive">
                         <table class="table">
@@ -76,9 +79,14 @@
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><select>{% for %}</select></td>
+                            <tbody id="tbody_detalleorden">
+                                <tr id="tr_detalleorden_empty">
+                                    <td>{{ clean_form.producto }}</td>
+                                    <td><select class="presentacionxproducto"></select></td>
+                                    <td>{{ clean_form.cantidad_presentacion_pedido }}</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td><a class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
                                 </tr>
                                 {% for d in detalle %}
                                     <tr id="tr_do_{{ forloop.counter }}">
