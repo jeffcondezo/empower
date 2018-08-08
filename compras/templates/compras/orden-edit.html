@@ -86,12 +86,12 @@
                                     <td>{{ clean_form.cantidad_presentacion_pedido }}</td>
                                     <td>0</td>
                                     <td>0</td>
-                                    <td><a class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
+                                    <td><a class="btn btn-default btn-icon btn-circle btn-lg delete_hdn"><i class="fas fa-trash"></i></a></td>
                                 </tr>
                                 {% for d in detalle %}
-                                    <tr id="tr_do_{{ forloop.counter }}">
+                                    <tr id="tr_do_{{ forloop.counter }}" data-id="{{ d.1.id }}">
                                         <td>{{ d.0.producto }}</td>
-                                        <td><select data-selected="{{ d.1.presentacionxproducto_id }}" class="sel_presentacionxproducto" id="sel_pre_{{ d.1.producto_id }}"></select></td>
+                                        <td><select data-selected="{{ d.1.presentacionxproducto_id }}" required class="sel_presentacionxproducto" id="sel_pre_{{ d.1.producto_id }}"></select></td>
                                         <td>{{ d.0.cantidad_presentacion_pedido }}</td>
                                         <td>{{ d.1.precio_tentativo }}</td>
                                         <td>{{ d.1.total }}</td>

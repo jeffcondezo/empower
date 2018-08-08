@@ -1,5 +1,6 @@
 const proveedor_id = document.getElementById('proveedor_id').value;
 const detalleorden_to_save = document.getElementById('detalleorden_to_save');
+const detalleorden_to_delete = document.getElementById('detalleorden_to_delete');
 const current_pos = document.getElementById("current_pos");
 const addbutton = document.getElementById("add_btn");
 const tr_empty = document.getElementById("tr_detalleorden_empty");
@@ -32,6 +33,7 @@ function init_ordencompraedit() {
     init_presentacion_select(data);
     init_prod_change();
     init_add_button();
+    init_delete_button();
 }
 
 function init_presentacion_select(data) {
@@ -88,19 +90,21 @@ function init_add_button() {
         temp_tr.removeAttribute("id");
         var select = temp_tr.querySelector(".producto");
         var select_presentacion = temp_tr.querySelector(".presentacionxproducto");
+        var cantidad_presentacion = temp_tr.querySelector(".cantidadpresentacion");
         var pos = (parseInt(current_pos.value) + 1).toString();
         select.setAttribute('data-pos', pos);
+        select.setAttribute('required', 'required');
+        cantidad_presentacion.setAttribute('required', 'required');
         select_presentacion.classList.add('sel_presentacionxproducto');
+        select_presentacion.setAttribute('required', 'required');
         $(select_presentacion).select2({placeholder: "Seleccione el Producto"});
-        //select.setAttribute("name", "p"+pos+"-presentacion");
         $(select).select2({placeholder: "Seleccione un Producto"});
         $(select).on("select2:selecting", function(e) {
        prod_change(this, e.params.args.data.id);
         });
-        //var delete_button = temp_tr.querySelector('.delete');
+        var delete_button = temp_tr.querySelector('.delete_hdn');
         current_pos.value = pos;
-        //delete_button.setAttribute("data-pos", pos);
-        //delete_button.addEventListener('click', action_delete);
+        delete_button.addEventListener('click', action_delete);
         temp_tr.setAttribute("id", "tr_do_"+pos);
         tbody_detalleorden.appendChild(temp_tr);
         $(".select2-container--default").removeAttr('style').css("width","100%");
@@ -112,6 +116,38 @@ function init_add_button() {
             detalleorden_to_save.value = to_save.join(',');
         }
     });
+}
+function init_delete_button() {
+    const delete_btns = document.getElementsByClassName('delete');
+    for (var i = 0; i < delete_btns.length; i++) {
+        delete_btns[i].addEventListener('click', action_delete);
+    }
+}
+
+function action_delete() {
+   const tr_content = this.parentElement.parentElement;
+   const tr_id = tr_content.getAttribute('id');
+   const pos = tr_id.split('_')[2];
+   const data_id = tr_content.getAttribute('data-id');
+   const current_delete = detalleorden_to_delete.value;
+   const current_save = detalleorden_to_save.value;
+   const array_save = current_save.split(',');
+   if(data_id != null){
+        if(current_delete === ''){
+            detalleorden_to_delete.value = data_id;
+        }else{
+            const array_delete = current_delete.split(',');
+            array_delete.push(id);
+            detalleorden_to_delete.value = array_delete.join(',');
+        }
+   }
+    for (var i = 0; i < array_save.length; i++) {
+        if(array_save[i] === pos) {
+            array_save.splice(i, 1);
+        }
+    }
+    detalleorden_to_save.value = array_save.join(',');
+    document.getElementById('tr_do_'+pos).remove();
 }
 
 function init_catalogoproducto_list() {

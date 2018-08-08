@@ -41,7 +41,6 @@ class DetalleOrdenCompraForm(forms.ModelForm):
         fields = ['producto', 'presentacionxproducto', 'cantidad_presentacion_pedido']
         widgets = {
             'presentacionxproducto': forms.HiddenInput(attrs={'class': 'presentacionxproducto'}),
-            'cantidad_presentacion_pedido': forms.TextInput(attrs={'class': 'form-control cantidadpresentacion'})
         }
 
     def __init__(self, proveedor, has_data, *args, **kwargs):
@@ -52,8 +51,16 @@ class DetalleOrdenCompraForm(forms.ModelForm):
                 widget=forms.Select(attrs={'class': 'default-select2 form-control producto'}),
             )
             self.fields['producto'].empty_label = None
+            self.fields['cantidad_presentacion_pedido'] = forms.IntegerField(
+                widget=forms.NumberInput(attrs={'class': 'form-control cantidadpresentacion'})
+            )
         else:
             self.fields['producto'] = forms.ModelChoiceField(
+                required=False,
                 queryset=Producto.objects.filter(catalogoxproveedor__proveedor=proveedor),
                 widget=forms.Select(attrs={'class': 'form-control producto'}),
+            )
+            self.fields['cantidad_presentacion_pedido'] = forms.IntegerField(
+                required=False,
+                widget=forms.NumberInput(attrs={'class': 'form-control cantidadpresentacion'})
             )
