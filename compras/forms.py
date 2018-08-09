@@ -43,7 +43,7 @@ class DetalleOrdenCompraForm(forms.ModelForm):
             'presentacionxproducto': forms.HiddenInput(attrs={'class': 'presentacionxproducto'}),
         }
 
-    def __init__(self, proveedor, has_data, *args, **kwargs):
+    def __init__(self, proveedor=False, has_data=False, *args, **kwargs):
         super(DetalleOrdenCompraForm, self).__init__(*args, **kwargs)
         if has_data:
             self.fields['producto'] = forms.ModelChoiceField(

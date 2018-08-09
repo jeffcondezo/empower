@@ -106,7 +106,7 @@ class OrdenEditView(BasicEMixin, TemplateView):
         orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
         form = OrdenCompraEditForm(request.POST, instance=orden)
         if form.is_valid():
-            form.save()
+            orden = form.save()
             for i in request.POST['detalleorden_to_save']:
                 if 'do'+i+'-id' in self.request.POST:
                     do = DetalleOrdenCompra.objects.get(pk=self.request.POST['do'+i+'-id'])
@@ -114,7 +114,11 @@ class OrdenEditView(BasicEMixin, TemplateView):
                 else:
                     do_form = DetalleOrdenCompraForm(prefix='do'+i)
                 do_obj = do_form.save(commit=False)
+                do_obj.ordencompra = orden
+                print(do_obj)
                 save_detalleorden(do_obj)
+            for j in request.POST['detalleorden_to_delete']:
+                DetalleOrdenCompra.objects.get(pk=j).delete()
         else:
             return HttpResponse(form.errors)
         return redirect('/compras/orden')

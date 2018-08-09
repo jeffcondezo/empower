@@ -95,7 +95,7 @@ function prod_change(obj, new_value,e) {
     }
 }
 function validar_duplicado_prod(id_prod) {
-    const select_prod = document.querySelector('.producto');
+    const select_prod = document.querySelectorAll('.producto');
     var resp = false;
     for (var i = 0; i < select_prod.length; i++) {
         if (id_prod == select_prod[i].value){
@@ -111,6 +111,10 @@ function action_pres_change(obj, new_value) {
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             data = JSON.parse(xhttp.responseText);
+            if(data.length === 0){
+                data[0] = {};
+                data[0]['precio_tentativo'] = 0;
+            }
         }
     };
     xhttp.open("GET", "/compras/api/preciotentativo/"+new_value, false);
@@ -133,16 +137,16 @@ function init_add_button() {
         var cantidad_presentacion = temp_tr.querySelector(".cantidadpresentacion");
         var pos = (parseInt(current_pos.value) + 1).toString();
         select.removeAttribute('name');
-        select.setAttribute('do'+pos+'-producto');
+        select.setAttribute('name', 'do'+pos+'-producto');
         select.setAttribute('data-pos', pos);
         select.setAttribute('required', 'required');
         cantidad_presentacion.setAttribute('required', 'required');
         cantidad_presentacion.removeAttribute('name');
-        cantidad_presentacion.setAttribute('do'+pos+'-cantidad_presentacion_pedido');
+        cantidad_presentacion.setAttribute('name', 'do'+pos+'-cantidad_presentacion_pedido');
         select_presentacion.classList.add('sel_presentacionxproducto');
         select_presentacion.setAttribute('required', 'required');
         select_presentacion.removeAttribute('name');
-        select_presentacion.setAttribute('do'+pos+'-presentacionxproducto');
+        select_presentacion.setAttribute('name', 'do'+pos+'-presentacionxproducto');
         $(select_presentacion).select2({placeholder: "Seleccione el Producto"});
         $(select_presentacion).on("select2:selecting", function(e) {
             action_pres_change(this, e.params.args.data.id);

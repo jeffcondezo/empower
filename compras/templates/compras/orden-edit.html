@@ -90,7 +90,7 @@
                                 </tr>
                                 {% for d in detalle %}
                                     <tr id="tr_do_{{ forloop.counter }}" data-id="{{ d.1.id }}">
-                                        <td><input type="hidden" value="{{ d.id }}" name="do{{ forloop.counter }}-id">{{ d.0.producto }}</td>
+                                        <td><input type="hidden" value="{{ d.1.id }}" name="do{{ forloop.counter }}-id">{{ d.0.producto }}</td>
                                         <td><select name="do{{ forloop.counter }}-presentacionxproducto" data-selected="{{ d.1.presentacionxproducto_id }}" required class="sel_presentacionxproducto" id="sel_pre_{{ d.1.producto_id }}"></select></td>
                                         <td>{{ d.0.cantidad_presentacion_pedido }}</td>
                                         <td class="td_precio_tentativo">{{ d.1.precio_tentativo }}</td>
