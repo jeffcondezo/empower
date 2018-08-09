@@ -1,6 +1,7 @@
 from .models import Producto, PresentacionxProducto
-from .serializers import ProductoSerializer, PresentacionxProductoSerializer
+from .serializers import ProductoSerializer, PresentacionxProductoSerializer, PrecioTentativoSerializer
 from rest_framework import generics
+from maestro.models import CatalogoxProveedor
 
 
 class ProductosListView(generics.ListAPIView):
@@ -20,4 +21,15 @@ class PresentacionxProductoListView(generics.ListAPIView):
     def get_queryset(self):
         queryset = PresentacionxProducto.objects.filter(producto__in=self.kwargs['producto'].split(','))\
             .order_by('producto')
+        return queryset
+
+
+class PrecioTentativoView(generics.ListAPIView):
+    serializer_class = PrecioTentativoSerializer
+
+    def get_queryset(self):
+        try:
+            queryset = CatalogoxProveedor.objects.filter(presentacionxproducto=self.kwargs['pk'])
+        except CatalogoxProveedor.DoesNotExist:
+            queryset = CatalogoxProveedor.objects.none()
         return queryset

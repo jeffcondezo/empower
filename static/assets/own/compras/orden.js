@@ -32,6 +32,7 @@ function init_ordencompraedit() {
     xhttp.send();
     init_presentacion_select(data);
     init_prod_change();
+    init_pres_change();
     init_add_button();
     init_delete_button();
 }
@@ -55,32 +56,71 @@ function init_presentacion_select(data) {
 
 function init_prod_change() {
     $('.producto').on("select2:selecting", function(e) {
-       prod_change(this, e.params.args.data.id);
+       prod_change(this, e.params.args.data.id,e);
+    });
+}
+function init_pres_change() {
+    $('.sel_presentacionxproducto').on("select2:selecting", function(e) {
+       action_pres_change(this, e.params.args.data.id);
     });
 }
 
-function prod_change(obj, new_value) {
+function prod_change(obj, new_value,e) {
     var id_prod = new_value;
-    var current_tr = document.getElementById('tr_do_'+obj.getAttribute('data-pos'));
-    var presentacion_select = current_tr.querySelector('.sel_presentacionxproducto');
-    var options_length = presentacion_select.options.length;
-    var data = [];
-    for (var i = 0; i < options_length; i++) {
-        presentacion_select.options[0].remove();
+    if(!validar_duplicado_prod(id_prod)) {
+        var current_tr = document.getElementById('tr_do_' + obj.getAttribute('data-pos'));
+        var presentacion_select = current_tr.querySelector('.sel_presentacionxproducto');
+        var options_length = presentacion_select.options.length;
+        var data = [];
+        for (var i = 0; i < options_length; i++) {
+            presentacion_select.options[0].remove();
+        }
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                data = JSON.parse(xhttp.responseText);
+            }
+        };
+        xhttp.open("GET", "/compras/api/presentacionxproducto/" + id_prod, false);
+        xhttp.send();
+        for (var i = 0; i < data.length; i++) {
+            var opt = document.createElement('option');
+            opt.value = data[i]['id'];
+            opt.innerHTML = data[i]['presentacion']['descripcion'];
+            presentacion_select.append(opt)
+        }
+    }else{
+        alert('No se puede duplicar productos.')
+        e.preventDefault();
     }
+}
+function validar_duplicado_prod(id_prod) {
+    const select_prod = document.querySelector('.producto');
+    var resp = false;
+    for (var i = 0; i < select_prod.length; i++) {
+        if (id_prod == select_prod[i].value){
+            resp = true;
+            break;
+        }
+    }
+    return resp
+}
+function action_pres_change(obj, new_value) {
+    var data = [];
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-           data = JSON.parse(xhttp.responseText);
+            data = JSON.parse(xhttp.responseText);
         }
     };
-    xhttp.open("GET", "/compras/api/presentacionxproducto/"+id_prod, false);
+    xhttp.open("GET", "/compras/api/preciotentativo/"+new_value, false);
     xhttp.send();
-    for (var i = 0; i < data.length; i++) {
-        var opt = document.createElement('option');
-        opt.value = data[i]['id'];
-        opt.innerHTML = data[i]['presentacion']['descripcion'];
-        presentacion_select.append(opt)
+    const tr = obj.parentElement.parentElement;
+    tr.querySelector('.td_precio_tentativo').innerHTML = data[0]['precio_tentativo'];
+    const cantidad = tr.querySelector('.cantidadpresentacion').value;
+    if(cantidad != ''){
+        const total = data[0]['precio_tentativo']*cantidad;
+        tr.querySelector('.td_total').innerHTML = total;
     }
 }
 
@@ -92,15 +132,24 @@ function init_add_button() {
         var select_presentacion = temp_tr.querySelector(".presentacionxproducto");
         var cantidad_presentacion = temp_tr.querySelector(".cantidadpresentacion");
         var pos = (parseInt(current_pos.value) + 1).toString();
+        select.removeAttribute('name');
+        select.setAttribute('do'+pos+'-producto');
         select.setAttribute('data-pos', pos);
         select.setAttribute('required', 'required');
         cantidad_presentacion.setAttribute('required', 'required');
+        cantidad_presentacion.removeAttribute('name');
+        cantidad_presentacion.setAttribute('do'+pos+'-cantidad_presentacion_pedido');
         select_presentacion.classList.add('sel_presentacionxproducto');
         select_presentacion.setAttribute('required', 'required');
+        select_presentacion.removeAttribute('name');
+        select_presentacion.setAttribute('do'+pos+'-presentacionxproducto');
         $(select_presentacion).select2({placeholder: "Seleccione el Producto"});
+        $(select_presentacion).on("select2:selecting", function(e) {
+            action_pres_change(this, e.params.args.data.id);
+        });
         $(select).select2({placeholder: "Seleccione un Producto"});
         $(select).on("select2:selecting", function(e) {
-       prod_change(this, e.params.args.data.id);
+            prod_change(this, e.params.args.data.id, e);
         });
         var delete_button = temp_tr.querySelector('.delete_hdn');
         current_pos.value = pos;
@@ -150,14 +199,6 @@ function action_delete() {
     document.getElementById('tr_do_'+pos).remove();
 }
 
-function init_catalogoproducto_list() {
-    init_submit_btn();
-}
-
-function init_submit_btn() {
-    filtro_form.addEventListener("submit", function (evt) {
-        evt.preventDefault();
-        var id = document.getElementById('sucursal_filtro').value;
-        window.location.href = "/maestro/catalogo/"+id;
-    });
+function action_calcular_total() {
+    
 }

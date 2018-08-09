@@ -1,4 +1,4 @@
-from maestro.models import Producto, PresentacionxProducto, Presentacion
+from maestro.models import Producto, PresentacionxProducto, Presentacion, CatalogoxProveedor
 from rest_framework import serializers
 
 
@@ -22,3 +22,10 @@ class PresentacionxProductoSerializer(serializers.ModelSerializer):
     class Meta:
         model = PresentacionxProducto
         fields = ['id', 'presentacion', 'producto']
+
+
+class PrecioTentativoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CatalogoxProveedor
+        fields = ['precio_tentativo']

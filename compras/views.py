@@ -12,6 +12,7 @@ from compras.forms import OrdenCompraCreateForm, OrdenCompraEditForm, DetalleOrd
 # Forms import<--
 
 # Utils import-->
+from .utils import save_detalleorden
 # Utils import<--
 
 # Extra python features-->
@@ -94,18 +95,26 @@ class OrdenEditView(BasicEMixin, TemplateView):
         context['model'] = orden
         detalle = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
         content_detalle = []
-        for d in detalle:
-            content_detalle.append([DetalleOrdenCompraForm(instance=d, proveedor=orden.proveedor_id, has_data=True), d])
+        for idx, d in enumerate(detalle):
+            content_detalle.append([DetalleOrdenCompraForm(instance=d, proveedor=orden.proveedor_id,
+                                                           has_data=True, prefix='do'+str(idx+1)), d])
         context['detalle'] = content_detalle
         context['clean_form'] = DetalleOrdenCompraForm(proveedor=orden.proveedor_id, has_data=False)
         return context
 
     def post(self, request, *args, **kwargs):
-
         orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
         form = OrdenCompraEditForm(request.POST, instance=orden)
         if form.is_valid():
             form.save()
+            for i in request.POST['detalleorden_to_save']:
+                if 'do'+i+'-id' in self.request.POST:
+                    do = DetalleOrdenCompra.objects.get(pk=self.request.POST['do'+i+'-id'])
+                    do_form = DetalleOrdenCompraForm(instance=do, prefix='do'+i)
+                else:
+                    do_form = DetalleOrdenCompraForm(prefix='do'+i)
+                do_obj = do_form.save(commit=False)
+                save_detalleorden(do_obj)
         else:
             return HttpResponse(form.errors)
         return redirect('/compras/orden')

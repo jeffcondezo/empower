@@ -68,6 +68,7 @@ class CatalogoxProveedor(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     precio_tentativo = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    presentacionxproducto = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT, null=True, blank=True)
 
 
 class PrecioxProveedor(models.Model):
