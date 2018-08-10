@@ -33,8 +33,10 @@ function init_ordencompraedit() {
     init_presentacion_select(data);
     init_prod_change();
     init_pres_change();
+    init_cant_blur();
     init_add_button();
     init_delete_button();
+    init_keypress();
 }
 
 function init_presentacion_select(data) {
@@ -65,6 +67,22 @@ function init_pres_change() {
     });
 }
 
+function init_cant_blur() {
+    var cant = document.querySelectorAll('.cantidadpresentacion')
+    for (var i = 0; i < cant.length; i++) {
+        cant[i].addEventListener("blur", action_cant_blur);
+    }
+}
+function action_cant_blur() {
+    var tr = this.parentElement.parentElement;
+    var precio_tentativo = tr.querySelector('.td_precio_tentativo').innerHTML;
+    const cantidad = tr.querySelector('.cantidadpresentacion').value;
+    if(cantidad != ''){
+        const total = precio_tentativo*cantidad;
+        tr.querySelector('.td_total').innerHTML = total;
+    }
+    action_calcular_total();
+}
 function prod_change(obj, new_value,e) {
     var id_prod = new_value;
     if(!validar_duplicado_prod(id_prod)) {
@@ -89,6 +107,7 @@ function prod_change(obj, new_value,e) {
             opt.innerHTML = data[i]['presentacion']['descripcion'];
             presentacion_select.append(opt)
         }
+        $(presentacion_select).select2('open');
     }else{
         alert('No se puede duplicar productos.')
         e.preventDefault();
@@ -125,7 +144,10 @@ function action_pres_change(obj, new_value) {
     if(cantidad != ''){
         const total = data[0]['precio_tentativo']*cantidad;
         tr.querySelector('.td_total').innerHTML = total;
+        action_calcular_total();
     }
+    var cantidad_dom = tr.querySelector('.cantidadpresentacion');
+    $(cantidad_dom).focus();
 }
 
 function init_add_button() {
@@ -141,6 +163,7 @@ function init_add_button() {
         select.setAttribute('data-pos', pos);
         select.setAttribute('required', 'required');
         cantidad_presentacion.setAttribute('required', 'required');
+        cantidad_presentacion.addEventListener("blur", action_cant_blur);
         cantidad_presentacion.removeAttribute('name');
         cantidad_presentacion.setAttribute('name', 'do'+pos+'-cantidad_presentacion_pedido');
         select_presentacion.classList.add('sel_presentacionxproducto');
@@ -168,6 +191,7 @@ function init_add_button() {
             to_save.push(pos);
             detalleorden_to_save.value = to_save.join(',');
         }
+        $(select).select2('open');
     });
 }
 function init_delete_button() {
@@ -203,6 +227,20 @@ function action_delete() {
     document.getElementById('tr_do_'+pos).remove();
 }
 
+
 function action_calcular_total() {
-    
+    var td_total = document.querySelectorAll('.td_total');
+    var total = 0;
+    for(var i = 0; i < td_total.length; i++){
+        total += parseFloat(td_total[i].innerHTML);
+    }
+    document.getElementById('orden_total').innerHTML = total;
+}
+function init_keypress() {
+    document.addEventListener('keypress', function (e) {
+        if(e.keyCode == 33){
+            var event = new Event('click');
+            addbutton.dispatchEvent(event);
+        }
+    });
 }

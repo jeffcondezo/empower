@@ -54,7 +54,7 @@
                                 </tr>
                                 <tr>
                                     <td class="td-detail-title">TOTAL:</td>
-                                    <td class="td-detail-desc">{{ model.total_tentativo }}</td>
+                                    <td class="td-detail-desc" id="orden_total">{{ model.total_tentativo }}</td>
                                     <td class="td-detail-title">FECHA-HORA:</td>
                                     <td class="td-detail-desc">{{ model.fechahora|date:'d-m-Y H:i' }}</td>
                                 </tr>
@@ -71,12 +71,12 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Producto</th>
-                                    <th>Presentación</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio Tentativo</th>
-                                    <th>Total</th>
-                                    <th>Eliminar</th>
+                                    <th width="22%">Producto</th>
+                                    <th width="13%">Presentación</th>
+                                    <th width="15%">Cantidad</th>
+                                    <th width="20%">Precio Tentativo</th>
+                                    <th width="20%">Total</th>
+                                    <th width="10%">Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody_detalleorden">
