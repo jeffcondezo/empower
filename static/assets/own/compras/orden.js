@@ -147,7 +147,7 @@ function action_pres_change(obj, new_value) {
         action_calcular_total();
     }
     var cantidad_dom = tr.querySelector('.cantidadpresentacion');
-    $(cantidad_dom).focus();
+    setTimeout(function(){$(cantidad_dom).focus();},0);
 }
 
 function init_add_button() {

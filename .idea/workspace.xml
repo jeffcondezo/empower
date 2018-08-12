@@ -2,16 +2,19 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/almacen/views.py" line="46" />
-    <bookmark url="file://$PROJECT_DIR$/static/assets/own/compras/orden.js" line="95" />
+    <bookmark url="file://$PROJECT_DIR$/static/assets/own/compras/orden.js" line="176" />
+    <bookmark url="file://$PROJECT_DIR$/compras/templates/compras/orden-tocompra.html" line="117" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="996efadd-7c17-4876-99a7-964f6f719ed3" name="Default" comment="Presentaciones x Producto Terminado">
+    <list default="true" id="996efadd-7c17-4876-99a7-964f6f719ed3" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/compras/templates/compras/orden-tocompra.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/assets/own/compras/ordentocompra.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compras/forms.py" afterPath="$PROJECT_DIR$/compras/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compras/templates/compras/orden-edit.html" afterPath="$PROJECT_DIR$/compras/templates/compras/orden-edit.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compras/urls.py" afterPath="$PROJECT_DIR$/compras/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compras/views.py" afterPath="$PROJECT_DIR$/compras/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/assets/css/default/own_css.css" afterPath="$PROJECT_DIR$/static/assets/css/default/own_css.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/assets/own/compras/orden.js" afterPath="$PROJECT_DIR$/static/assets/own/compras/orden.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/assets/own/strings.js" afterPath="$PROJECT_DIR$/static/assets/own/strings.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -41,41 +44,36 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/compras/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="99" column="99" lean-forward="false" selection-start-line="99" selection-start-column="99" selection-end-line="99" selection-end-column="99" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="rviews.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/compras/rviews.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state relative-caret-position="2091">
+              <caret line="144" column="0" lean-forward="false" selection-start-line="144" selection-start-column="0" selection-end-line="144" selection-end-column="0" />
               <folding>
-                <element signature="e#0#51#0" expanded="true" />
+                <element signature="e#0#81#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="catalogoproveedor.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/assets/own/maestro/catalogoproveedor.js">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/compras/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="425">
+              <caret line="27" column="9" lean-forward="false" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="9" />
+              <folding>
+                <marker date="1533405422567" expanded="true" signature="2334:3041" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="orden-edit.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/compras/templates/compras/orden-edit.html">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/compras/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="82" column="63" lean-forward="true" selection-start-line="82" selection-start-column="63" selection-end-line="82" selection-end-column="63" />
-              <folding />
+            <state relative-caret-position="136">
+              <caret line="10" column="53" lean-forward="false" selection-start-line="10" selection-start-column="53" selection-end-line="10" selection-end-column="53" />
+              <folding>
+                <element signature="e#10#38#0" expanded="true" />
+                <marker date="1533959073641" expanded="true" signature="612:797" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -83,58 +81,70 @@
       <file leaf-file-name="producto-presentacion.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-presentacion.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-29">
+            <state relative-caret-position="714">
               <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="44" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="producto.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/assets/own/maestro/producto.js">
+      <file leaf-file-name="orden-tocompra.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/compras/templates/compras/orden-tocompra.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
+            <state relative-caret-position="1870">
+              <caret line="110" column="75" lean-forward="false" selection-start-line="110" selection-start-column="58" selection-end-line="110" selection-end-column="75" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="own_css.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/assets/css/default/own_css.css">
+      <file leaf-file-name="ordentocompra.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/assets/own/compras/ordentocompra.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="78" column="22" lean-forward="false" selection-start-line="78" selection-start-column="1" selection-end-line="78" selection-end-column="22" />
+            <state relative-caret-position="663">
+              <caret line="39" column="64" lean-forward="false" selection-start-line="39" selection-start-column="64" selection-end-line="39" selection-end-column="64" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="own_replace.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/assets/css/default/own_replace.css">
+      <file leaf-file-name="strings.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/assets/own/strings.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="21" lean-forward="false" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="21" />
+            <state relative-caret-position="221">
+              <caret line="13" column="70" lean-forward="false" selection-start-line="13" selection-start-column="70" selection-end-line="13" selection-end-column="70" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="orden.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="admision.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/assets/own/admision/admision.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1394">
+              <caret line="82" column="37" lean-forward="false" selection-start-line="82" selection-start-column="37" selection-end-line="82" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="orden.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/assets/own/compras/orden.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="107" column="32" lean-forward="false" selection-start-line="107" selection-start-column="12" selection-end-line="107" selection-end-column="32" />
-              <folding />
+            <state relative-caret-position="2958">
+              <caret line="174" column="58" lean-forward="false" selection-start-line="174" selection-start-column="31" selection-end-line="174" selection-end-column="58" />
+              <folding>
+                <marker date="1533956460735" expanded="true" signature="6901:8011" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/compras/forms.py">
+      <file leaf-file-name="own_css.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/static/assets/css/default/own_css.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="57" column="74" lean-forward="false" selection-start-line="57" selection-start-column="74" selection-end-line="57" selection-end-column="74" />
+            <state relative-caret-position="753">
+              <caret line="86" column="13" lean-forward="false" selection-start-line="86" selection-start-column="13" selection-end-line="86" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -153,13 +163,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Calendar</find>
-      <find>localstorage</find>
-      <find>table</find>
-      <find>&quot;sProcessing&quot;:</find>
-      <find>Basic Select2</find>
-      <find>style</find>
-      <find>Multiple Selection</find>
       <find>Email address</find>
       <find>Modal Dialog</find>
       <find>almacen</find>
@@ -183,6 +186,13 @@
       <find>data-theme-file=&quot;../assets</find>
       <find>NavMixin</find>
       <find>id_producto</find>
+      <find>console.</find>
+      <find>modal</find>
+      <find>Modal Message Header</find>
+      <find>form-inline</find>
+      <find>legend</find>
+      <find>paren</find>
+      <find>node</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -211,9 +221,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/sucursal-detail.html" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/almacen-edit.html" />
-        <option value="$PROJECT_DIR$/maestro/templatetags/maestro_extras.py" />
         <option value="$PROJECT_DIR$/maestro/templatetags/maestro_tags.py" />
         <option value="$PROJECT_DIR$/maestro/decorators.py" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/sucursal-list.html" />
@@ -222,7 +229,6 @@
         <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-categoria.html" />
         <option value="$PROJECT_DIR$/maestro/utils.py" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-detail.html" />
-        <option value="$PROJECT_DIR$/static/assets/own/strings.js" />
         <option value="$PROJECT_DIR$/maestro/forms.py" />
         <option value="$PROJECT_DIR$/static/assets/own/maestro/producto.js" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-presentacion.html" />
@@ -244,7 +250,6 @@
         <option value="$PROJECT_DIR$/maestro/views.py" />
         <option value="$PROJECT_DIR$/almacen/views.py" />
         <option value="$PROJECT_DIR$/almacen/models.py" />
-        <option value="$PROJECT_DIR$/maestro/models.py" />
         <option value="$PROJECT_DIR$/empower/settings.py" />
         <option value="$PROJECT_DIR$/maestro/mixin.py" />
         <option value="$PROJECT_DIR$/empower/urls.py" />
@@ -253,15 +258,20 @@
         <option value="$PROJECT_DIR$/compras/models.py" />
         <option value="$PROJECT_DIR$/compras/templates/compras/orden-detail.html" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/base.html" />
-        <option value="$PROJECT_DIR$/compras/urls.py" />
-        <option value="$PROJECT_DIR$/compras/serializers.py" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-list.html" />
+        <option value="$PROJECT_DIR$/maestro/models.py" />
+        <option value="$PROJECT_DIR$/compras/serializers.py" />
         <option value="$PROJECT_DIR$/compras/rviews.py" />
-        <option value="$PROJECT_DIR$/static/assets/css/default/own_css.css" />
-        <option value="$PROJECT_DIR$/compras/views.py" />
+        <option value="$PROJECT_DIR$/compras/utils.py" />
         <option value="$PROJECT_DIR$/compras/forms.py" />
-        <option value="$PROJECT_DIR$/compras/templates/compras/orden-edit.html" />
         <option value="$PROJECT_DIR$/static/assets/own/compras/orden.js" />
+        <option value="$PROJECT_DIR$/compras/templates/compras/orden-edit.html" />
+        <option value="$PROJECT_DIR$/compras/views.py" />
+        <option value="$PROJECT_DIR$/compras/urls.py" />
+        <option value="$PROJECT_DIR$/static/assets/own/compras/ordentocompra.js" />
+        <option value="$PROJECT_DIR$/compras/templates/compras/orden-tocompra.html" />
+        <option value="$PROJECT_DIR$/static/assets/own/strings.js" />
+        <option value="$PROJECT_DIR$/static/assets/css/default/own_css.css" />
       </list>
     </option>
   </component>
@@ -293,8 +303,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -305,65 +313,34 @@
             <path>
               <item name="empower" type="b2602c69:ProjectViewProjectNode" />
               <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="maestro" type="462c0819:PsiDirectoryNode" />
+              <item name="compras" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="empower" type="b2602c69:ProjectViewProjectNode" />
               <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="maestro" type="462c0819:PsiDirectoryNode" />
+              <item name="compras" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="empower" type="b2602c69:ProjectViewProjectNode" />
               <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="maestro" type="462c0819:PsiDirectoryNode" />
+              <item name="compras" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="maestro" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-              <item name="default" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="own" type="462c0819:PsiDirectoryNode" />
+              <item name="compras" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -374,16 +351,16 @@
     </option>
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Desarrollo py-3\empower\maestro\templates\maestro" />
-      <recent name="D:\Desarrollo py-3\empower\static\assets\own\maestro\sucursal" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Desarrollo py-3\empower\static\assets\own\compras" />
       <recent name="D:\Desarrollo py-3\empower\compras\templates\compras" />
       <recent name="D:\Desarrollo py-3\empower\compras" />
       <recent name="D:\Desarrollo py-3\empower\static\assets\plugins" />
       <recent name="D:\Desarrollo py-3\empower\almacen\templates\almacen" />
-      <recent name="D:\Desarrollo py-3\empower\static\assets\own\maestro" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Desarrollo py-3\empower\maestro\templates\maestro" />
+      <recent name="D:\Desarrollo py-3\empower\static\assets\own\maestro\sucursal" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -571,25 +548,47 @@
       <option name="project" value="LOCAL" />
       <updated>1533611057087</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Orden 3">
+      <created>1533688980779</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1533688980779</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Orden 5">
+      <created>1533790821134</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1533790821135</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Orden 6">
+      <created>1533871386488</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1533871386488</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26439232" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18923241" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35108694" sideWeight="0.52132195" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3619565" sideWeight="0.5298507" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35108694" sideWeight="0.47867805" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3619565" sideWeight="0.47228146" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14565217" sideWeight="0.48294243" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -615,7 +614,10 @@
     <MESSAGE value="Presentaciones x Producto Terminado" />
     <MESSAGE value="Orden Compra 1" />
     <MESSAGE value="Orden 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Orden 1" />
+    <MESSAGE value="Orden 3" />
+    <MESSAGE value="Orden 5" />
+    <MESSAGE value="Orden 6" />
+    <option name="LAST_COMMIT_MESSAGE" value="Orden 6" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -625,62 +627,11 @@
           <line>15</line>
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="3" />
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5848">
-          <caret line="344" column="12" lean-forward="false" selection-start-line="344" selection-start-column="12" selection-end-line="344" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/almacen/migrations/0004_kardex_fechahora.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="58" lean-forward="false" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/stock.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-119">
-          <caret line="32" column="41" lean-forward="false" selection-start-line="32" selection-start-column="41" selection-end-line="32" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/almacen/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.ar.js" />
-    <entry file="file://$PROJECT_DIR$/static/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" />
-    <entry file="file://$PROJECT_DIR$/static/assets/js/demo/form-plugins.demo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="246" column="34" lean-forward="false" selection-start-line="246" selection-start-column="34" selection-end-line="246" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/plugins/bootstrap-eonasdan-datetimepicker/src/js/bootstrap-datetimepicker.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/plugins/moment/moment.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/form_plugins.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="173">
@@ -773,14 +724,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/almacen/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="48" column="28" lean-forward="false" selection-start-line="48" selection-start-column="28" selection-end-line="48" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/almacen-list.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="544">
@@ -792,7 +735,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3485">
           <caret line="205" column="37" lean-forward="false" selection-start-line="205" selection-start-column="28" selection-end-line="205" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -800,7 +742,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
           <caret line="54" column="55" lean-forward="false" selection-start-line="54" selection-start-column="55" selection-end-line="54" selection-end-column="55" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -823,7 +764,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="986">
           <caret line="58" column="46" lean-forward="false" selection-start-line="58" selection-start-column="46" selection-end-line="58" selection-end-column="63" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -831,7 +771,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="379">
           <caret line="66" column="56" lean-forward="false" selection-start-line="66" selection-start-column="56" selection-end-line="66" selection-end-column="56" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -839,18 +778,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="491">
           <caret line="228" column="96" lean-forward="false" selection-start-line="228" selection-start-column="96" selection-end-line="228" selection-end-column="96" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compras/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-97">
-          <caret line="21" column="15" lean-forward="false" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
-          <folding>
-            <element signature="e#0#28#0" expanded="false" />
-            <marker date="1533405422567" expanded="true" signature="2334:3041" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -858,7 +785,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-473">
           <caret line="1149" column="11" lean-forward="false" selection-start-line="1149" selection-start-column="11" selection-end-line="1149" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -866,7 +792,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -874,7 +799,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="21" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -882,26 +806,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="21" column="25" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compras/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="e#10#38#0" expanded="false" />
-            <marker date="1533495121696" expanded="true" signature="506:619" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="53" column="16" lean-forward="false" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -912,31 +816,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compras/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="19" column="42" lean-forward="false" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#72#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-list.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compras/rviews.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -944,23 +827,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/css/default/own_css.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="78" column="22" lean-forward="false" selection-start-line="78" selection-start-column="1" selection-end-line="78" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compras/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="99" column="99" lean-forward="false" selection-start-line="99" selection-start-column="99" selection-end-line="99" selection-end-column="99" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -968,15 +834,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compras/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="57" column="74" lean-forward="false" selection-start-line="57" selection-start-column="74" selection-end-line="57" selection-end-column="74" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -984,30 +841,172 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="21" lean-forward="false" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/almacen/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="48" column="28" lean-forward="false" selection-start-line="48" selection-start-column="28" selection-end-line="48" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-presentacion.html">
+    <entry file="file://$PROJECT_DIR$/compras/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-29">
-          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="44" selection-end-column="33" />
-          <folding />
+        <state relative-caret-position="0">
+          <caret line="26" column="31" lean-forward="false" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-68">
+          <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/rviews.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="10" column="35" lean-forward="false" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/forms/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="176" column="8" lean-forward="false" selection-start-line="176" selection-start-column="8" selection-end-line="176" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="24" column="25" lean-forward="false" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="65" column="31" lean-forward="false" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/compras/templates/compras/orden-edit.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="82" column="63" lean-forward="true" selection-start-line="82" selection-start-column="63" selection-end-line="82" selection-end-column="63" />
+        <state relative-caret-position="-427">
+          <caret line="43" column="33" lean-forward="false" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="10" column="53" lean-forward="false" selection-start-line="10" selection-start-column="53" selection-end-line="10" selection-end-column="53" />
+          <folding>
+            <element signature="e#10#38#0" expanded="true" />
+            <marker date="1533959073641" expanded="true" signature="612:797" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2091">
+          <caret line="144" column="0" lean-forward="false" selection-start-line="144" selection-start-column="0" selection-end-line="144" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#81#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="27" column="9" lean-forward="false" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="9" />
+          <folding>
+            <marker date="1533405422567" expanded="true" signature="2334:3041" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/ui_modal_notification.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="633" column="59" lean-forward="false" selection-start-line="633" selection-start-column="46" selection-end-line="633" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/form_elements.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="1365" column="102" lean-forward="true" selection-start-line="1354" selection-start-column="32" selection-end-line="1365" selection-end-column="102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-presentacion.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="44" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/assets/own/admision/admision.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1394">
+          <caret line="82" column="37" lean-forward="false" selection-start-line="82" selection-start-column="37" selection-end-line="82" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/assets/own/compras/orden.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="107" column="32" lean-forward="false" selection-start-line="107" selection-start-column="12" selection-end-line="107" selection-end-column="32" />
+        <state relative-caret-position="2958">
+          <caret line="174" column="58" lean-forward="false" selection-start-line="174" selection-start-column="31" selection-end-line="174" selection-end-column="58" />
+          <folding>
+            <marker date="1533956460735" expanded="true" signature="6901:8011" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/assets/own/compras/ordentocompra.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="39" column="64" lean-forward="false" selection-start-line="39" selection-start-column="64" selection-end-line="39" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/templates/compras/orden-tocompra.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1870">
+          <caret line="110" column="75" lean-forward="false" selection-start-line="110" selection-start-column="58" selection-end-line="110" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/assets/own/strings.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="70" lean-forward="false" selection-start-line="13" selection-start-column="70" selection-end-line="13" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/assets/css/default/own_css.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="753">
+          <caret line="86" column="13" lean-forward="false" selection-start-line="86" selection-start-column="13" selection-end-line="86" selection-end-column="13" />
           <folding />
         </state>
       </provider>

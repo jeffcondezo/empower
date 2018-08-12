@@ -79,3 +79,10 @@ legend{
 #tr_detalleorden_empty{
     display: none;
 }
+/* Orden to Compra*/
+#div_promocion_empty{
+    display: none;
+}
+.form_group_styles{
+    width: 17%;
+}

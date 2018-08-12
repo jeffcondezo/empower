@@ -127,3 +127,45 @@ class OrdenEditView(BasicEMixin, TemplateView):
         else:
             return HttpResponse(form.errors)
         return redirect('/compras/orden/'+str(orden.id))
+
+
+class OrdenToCompraView(BasicEMixin, TemplateView):
+
+    template_name = 'compras/orden-tocompra.html'
+    nav_name = 'nav_compra'
+    view_name = 'orden_compra'
+    action_name = 'tocompra'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
+        context['orden'] = orden
+        detalle = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
+        context['detalle'] = detalle
+        return context
+
+    def post(self, request, *args, **kwargs):
+        orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
+        form = OrdenCompraEditForm(request.POST, instance=orden)
+        if form.is_valid():
+            orden = form.save(commit=False)
+            if request.POST['detalleorden_to_save'] != '':
+                for i in request.POST['detalleorden_to_save'].split(','):
+                    if 'do'+i+'-id' in self.request.POST:
+                        do = DetalleOrdenCompra.objects.get(pk=self.request.POST['do'+i+'-id'])
+                        do_form = DetalleOrdenCompraForm(request.POST, instance=do, prefix='do'+i,
+                                                         proveedor=orden.proveedor_id, has_data=True)
+                    else:
+                        do_form = DetalleOrdenCompraForm(request.POST, prefix='do'+i,
+                                                         proveedor=orden.proveedor_id, has_data=True)
+                    if do_form.is_valid():
+                        do_obj = do_form.save(commit=False)
+                        do_obj.ordencompra = orden
+                        fill_data(do_obj)
+            if request.POST['detalleorden_to_delete'] != '':
+                for j in request.POST['detalleorden_to_delete'].split(','):
+                    DetalleOrdenCompra.objects.get(pk=j).delete()
+            recalcular_total_orden(orden)
+        else:
+            return HttpResponse(form.errors)
+        return redirect('/compras/orden/'+str(orden.id))
