@@ -86,3 +86,6 @@ legend{
 .form_group_styles{
     width: 17%;
 }
+#div_producto_empty{
+    display: none;
+}

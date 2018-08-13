@@ -142,6 +142,7 @@ class OrdenToCompraView(BasicEMixin, TemplateView):
         context['orden'] = orden
         detalle = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
         context['detalle'] = detalle
+        context['clean_form'] = DetalleOrdenCompraForm(proveedor=orden.proveedor_id, has_data=False)
         return context
 
     def post(self, request, *args, **kwargs):

@@ -77,13 +77,13 @@
                             </thead>
                             <tbody>
                                 {% for d in detalle %}
-                                    <tr>
+                                    <tr id="tr_{{ d.id }}">
                                         <td>{{ d.producto.descripcion }}</td>
                                         <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
                                         <td><input type="hidden" class="cantidad" value="{{ d.cantidad_presentacion_pedido }}">{{ d.cantidad_presentacion_pedido }}</td>
                                         <td><input type="text" class="form-control precio" value="{{ d.precio_tentativo }}"></td>
                                         <td class="td_total">{{ d.total }}</td>
-                                        <td><input type="hidden" class="promocion"><a href="#modal-promocion" data-toggle="modal" class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
+                                        <td><input type="hidden" class="promocion_inp"><a data-pos="{{ d.id }}" class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -100,13 +100,14 @@
     <div class="modal modal-message fade" id="modal-promocion">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="">
                     <div class="modal-body" id="body_promociones">
                         <fieldset>
                             <legend class="m-b-15">Promociones por Producto
                                 <span class="span-right"><button id="add_promocion" type="button" class="btn btn-success"><i class="fa fa-plus fas"></i> Agregar</button></span>
                             </legend>
                         </fieldset>
+                        <input id="current_pos_promocion" type="hidden">
+                        <div id="div_producto_empty">{{ clean_form.producto }}</div>
                         <div id="div_promocion_empty" class="form-inline">
                             <div class="form-group m-r-10 form_group_styles">
                                 <select class="form-control tipo_promocion">
@@ -119,8 +120,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
-                        <button type="submit" class="btn btn-success">Filtrar</button>
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button id="save_promocion" class="btn btn-success">Guardar Promoción</button>
                     </div>
                 </form>
             </div>
