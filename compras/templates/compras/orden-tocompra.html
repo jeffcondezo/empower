@@ -3,6 +3,7 @@
 
 {% block head_files %}
     <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" >
+    <link href="{% static "assets/plugins/bootstrap-eonasdan-datetimepicker/build/css/bootstrap-datetimepicker.min.css" %}" rel="stylesheet" />
     <link href="{% static "assets/css/default/own_css.css" %}" rel="stylesheet" >
     <link href="{% static "assets/css/default/own_replace.css" %}" rel="stylesheet" >
 {% endblock %}
@@ -44,18 +45,18 @@
                             <tbody>
                                 <tr>
                                     <td class="td-detail-title">PROVEEDOR:</td>
-                                    <td class="td-detail-desc">{{ orden.proveedor.descripcion }}</td>
+                                    <td class="td-detail-desc"><input type="hidden" name="proveedor" value="{{ orden.proveedor_id }}"><input type="hidden" name="orden" value="{{ orden.id }}">{{ orden.proveedor.descripcion }}</td>
                                     <td class="td-detail-title">ESTADO:</td>
                                     <td class="td-detail-desc">{{ orden.estado }}</td>
                                 </tr>
                                 <tr>
                                     <td class="td-detail-title">TOTAL:</td>
                                     <td class="td-detail-desc" id="total">{{ orden.total_tentativo }}</td>
-                                    <td class="td-detail-title">FECHA-HORA:</td>
-                                    <td class="td-detail-desc"></td>
+                                    <td class="td-detail-title">FECHA-HORA ENTREGA:</td>
+                                    <td class="td-detail-desc"><input class="form-control" name="fecha_idealentrega"  id="fecha_idealentrega" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="td-detail-title">CREADOR:</td>
+                                    <td class="td-detail-title">CREADOR ORDEN:</td>
                                     <td class="td-detail-desc">{{ orden.asignado.username }}</td>
                                     <td class="td-detail-title"></td>
                                     <td class="td-detail-desc"></td>
@@ -81,9 +82,9 @@
                                         <td>{{ d.producto.descripcion }}</td>
                                         <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
                                         <td><input type="hidden" class="cantidad" value="{{ d.cantidad_presentacion_pedido }}">{{ d.cantidad_presentacion_pedido }}</td>
-                                        <td><input type="text" class="form-control precio" value="{{ d.precio_tentativo }}"></td>
+                                        <td><input type="text" class="form-control precio" name="precio-{{ forloop.counter }}" value="{{ d.precio_tentativo }}"></td>
                                         <td class="td_total">{{ d.total }}</td>
-                                        <td><input type="hidden" class="promocion_inp"><a data-pos="{{ d.id }}" class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
+                                        <td><input type="hidden" class="promocion_inp" name="oferta-{{ forloop.counter }}"><a data-pos="{{ d.id }}" class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -130,8 +131,11 @@
 {% endblock %}
 {% block bottom_scripts %}
     <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script src="{% static "assets/plugins/bootstrap-daterangepicker/moment.js" %}"></script>
+    <script src="{% static "assets/plugins/bootstrap-eonasdan-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
     <script src="{% static "assets/own/compras/ordentocompra.js" %}"></script>
     <script>
         init_ordentocompra();
+        $('#fecha_idealentrega').datetimepicker({format:'YYYY-MM-DD HH:mm'});
     </script>
 {% endblock %}

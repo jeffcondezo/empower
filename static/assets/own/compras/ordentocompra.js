@@ -30,8 +30,31 @@ function init_promocion_button() {
 
 function action_btn_promocion() {
     var pos = this.getAttribute('data-pos');
-    current_pos_promocion.value = pos;
+    var current_pos = current_pos_promocion.value;
+    if(current_pos != '' && pos != current_pos){
+        var row = body_promociones.querySelectorAll('.form-inline');
+        for (var i =1; i < row.length; i++) {
+            row[i].remove();
+        }
+        var current_tr  = document.getElementById('tr_'+pos);
+        var promocion_inp = current_tr.querySelector('.promocion_inp');
+        if(promocion_inp.value != '') {
+            var promociones = JSON.parse(promocion_inp.value);
+            for (var i = 0; i < promociones.length; i++) {
+                var event_click = new Event('click');
+                btn_add_promocion.dispatchEvent(event_click);
+                var row = body_promociones.querySelectorAll('.form-inline');
+                $(row[i+1].querySelector('.tipo_promocion')).val(promociones[i][0]).trigger('change').trigger('select2:selecting');
+                row[i+1].querySelector('.cantidad').value = promociones[i][1];
+                row[i+1].querySelector('.retorno').value = promociones[i][2];
+                $(row[i+1].querySelector('.producto')).val(promociones[i][3]).trigger('change').trigger('select2:selecting');
+                $(row[i+1].querySelector('.presentacion')).val(promociones[i][4]).trigger('change').trigger('select2:selecting');
+            }
+        }
+    }
     $('#modal-promocion').modal('show');
+    current_pos_promocion.value = pos;
+
 }
 
 function init_add_button() {
@@ -43,7 +66,11 @@ function init_add_button() {
         temp_div.querySelector('.select2-container').style.width = "100%";
         temp_div.querySelector('.selection').style.width = "100%";
         $(select_tipo_promocion).on("select2:selecting", function(e) {
-            action_change_tipoprom(this, e.params.args.data.id);
+            if(e.params == undefined){
+                action_change_tipoprom(this, this.value);
+            }else{
+                action_change_tipoprom(this, e.params.args.data.id);
+            }
         });
         body_promociones.appendChild(temp_div);
     });
@@ -85,7 +112,11 @@ function action_change_tipoprom(obj, new_id) {
         div_row.querySelector('.div_content_producto').appendChild(temp_selprod);
         $(temp_selprod).select2({placeholder: 'Producto oferta'});
         $(temp_selprod).on("select2:selecting", function(e) {
-            action_change_producto(this, e.params.args.data.id);
+            if(e.params == undefined){
+                action_change_producto(this, this.value);
+            }else{
+                action_change_producto(this, e.params.args.data.id);
+            }
         });
         temp_selprod.parentElement.querySelector('.select2-container').style.width = "100%";
         temp_selprod.parentElement.querySelector('.selection').style.width = "100%";

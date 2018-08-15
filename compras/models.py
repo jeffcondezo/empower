@@ -30,25 +30,26 @@ class DetalleOrdenCompra(models.Model):
 
 class Compra(models.Model):
     ESTADO_CHOICES = (
-        (1, 'PEDIDO'),
-        (2, 'ENTREGADO'),
-        (3, 'CANCELADO'),
+        ('1', 'PEDIDO'),
+        ('2', 'ENTREGADO'),
+        ('3', 'CANCELADO'),
     )
     asignado = models.ForeignKey(User, on_delete=models.PROTECT, related_name='asignado')
     estado = models.CharField(max_length=1, choices=ESTADO_CHOICES, default=1)
     fechahora = models.DateTimeField(auto_now_add=True)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.PROTECT)
     orden = models.ForeignKey(OrdenCompra, on_delete=models.PROTECT, related_name='orden_origen')
-    fecha_idealentrega = models.DateField()
-    fechahora_entrega = models.DateTimeField()
-    is_conforme = models.BooleanField()
-    recepcionista = models.ForeignKey(User, on_delete=models.PROTECT, related_name='recepcionista')
-    precio = models.DecimalField(max_digits=8, decimal_places=2)
-    descuento = models.DecimalField(max_digits=8, decimal_places=2)
-    precio_sindescuento = models.DecimalField(max_digits=8, decimal_places=2)
+    fecha_idealentrega = models.DateTimeField()
+    fechahora_entrega = models.DateTimeField(blank=True, null=True)
+    is_conforme = models.BooleanField(default=True)
+    recepcionista = models.ForeignKey(User, on_delete=models.PROTECT, related_name='recepcionista', blank=True, null=True)
+    precio = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    descuento = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    precio_sindescuento = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
 
 
 class DetalleCompra(models.Model):
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
     presentacionxproducto = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT)
     cantidad_presentacion_entrega = models.IntegerField(blank=True, null=True)
@@ -63,9 +64,19 @@ class DetalleCompra(models.Model):
 
 
 class OfertaCompra(models.Model):
-    ESTADO_CHOICES = (
+    TIPO_CHOICES = (
         (1, 'PRODUCTO'),
-        (2, 'DESCUENTO UNICO'),
-        (3, 'DESCUENTO GRADUAL'),
+        (2, 'DESCUENTO MONETARIO'),
+        (3, 'DESCUENTO PORCENTUAL'),
     )
-    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
+    detallecompra = models.ForeignKey(DetalleCompra, on_delete=models.CASCADE)
+    tipo = models.CharField(max_length=1, choices=TIPO_CHOICES)
+    cantidad_compra = models.IntegerField()
+    presentacion_compra = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT,
+                                            related_name='presentacion_compra')
+    retorno = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    producto_oferta = models.ForeignKey(Producto, on_delete=models.PROTECT, blank=True, null=True)
+    presentacion_oferta = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT,
+                                            related_name='presentacion_oferta', blank=True, null=True)
+
+

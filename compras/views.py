@@ -3,16 +3,16 @@ from django.shortcuts import redirect, HttpResponse
 from django.db.models import Sum
 
 # Model import-->
-from compras.models import OrdenCompra, DetalleOrdenCompra
+from compras.models import OrdenCompra, DetalleOrdenCompra, Compra
 from maestro.models import Proveedor
 # Model import<--
 
 # Forms import-->
-from compras.forms import OrdenCompraCreateForm, OrdenCompraEditForm, DetalleOrdenCompraForm
+from compras.forms import OrdenCompraCreateForm, OrdenCompraEditForm, DetalleOrdenCompraForm, CompraForm
 # Forms import<--
 
 # Utils import-->
-from .utils import fill_data, recalcular_total_orden
+from .utils import fill_data, recalcular_total_orden, crear_detallecompra
 # Utils import<--
 
 # Extra python features-->
@@ -125,7 +125,7 @@ class OrdenEditView(BasicEMixin, TemplateView):
                     DetalleOrdenCompra.objects.get(pk=j).delete()
             recalcular_total_orden(orden)
         else:
-            return HttpResponse(form.errors)
+            return HttpResponse(form.errors[0])
         return redirect('/compras/orden/'+str(orden.id))
 
 
@@ -146,27 +146,13 @@ class OrdenToCompraView(BasicEMixin, TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
-        form = OrdenCompraEditForm(request.POST, instance=orden)
+        form = CompraForm(request.POST)
         if form.is_valid():
-            orden = form.save(commit=False)
-            if request.POST['detalleorden_to_save'] != '':
-                for i in request.POST['detalleorden_to_save'].split(','):
-                    if 'do'+i+'-id' in self.request.POST:
-                        do = DetalleOrdenCompra.objects.get(pk=self.request.POST['do'+i+'-id'])
-                        do_form = DetalleOrdenCompraForm(request.POST, instance=do, prefix='do'+i,
-                                                         proveedor=orden.proveedor_id, has_data=True)
-                    else:
-                        do_form = DetalleOrdenCompraForm(request.POST, prefix='do'+i,
-                                                         proveedor=orden.proveedor_id, has_data=True)
-                    if do_form.is_valid():
-                        do_obj = do_form.save(commit=False)
-                        do_obj.ordencompra = orden
-                        fill_data(do_obj)
-            if request.POST['detalleorden_to_delete'] != '':
-                for j in request.POST['detalleorden_to_delete'].split(','):
-                    DetalleOrdenCompra.objects.get(pk=j).delete()
-            recalcular_total_orden(orden)
+            compra = form.save(commit=False)
+            compra.asignado = self.request.user
+            compra.save()
+            detalle_orden = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
+            crear_detallecompra(detalle_orden, request.POST, compra)
         else:
             return HttpResponse(form.errors)
-        return redirect('/compras/orden/'+str(orden.id))
+        return redirect('/compras/orden/'+str(compra.id))
