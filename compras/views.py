@@ -3,7 +3,7 @@ from django.shortcuts import redirect, HttpResponse
 from django.db.models import Sum
 
 # Model import-->
-from compras.models import OrdenCompra, DetalleOrdenCompra, Compra
+from compras.models import OrdenCompra, DetalleOrdenCompra, Compra, DetalleCompra
 from maestro.models import Proveedor
 # Model import<--
 
@@ -153,6 +153,23 @@ class OrdenToCompraView(BasicEMixin, TemplateView):
             compra.save()
             detalle_orden = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
             crear_detallecompra(detalle_orden, request.POST, compra)
+            orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
+            orden.estado = '2'
+            orden.save()
         else:
             return HttpResponse(form.errors)
-        return redirect('/compras/orden/'+str(compra.id))
+        return redirect('/compras/compra/'+str(compra.id))
+
+
+class CompraDetailView(BasicEMixin, DetailView):
+
+    template_name = 'compras/compra-detail.html'
+    model = Compra
+    nav_name = 'nav_compra'
+    view_name = 'orden_compra'
+    action_name = 'leer'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['detalle'] = DetalleCompra.objects.filter(compra=self.kwargs['pk'])
+        return context

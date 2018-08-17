@@ -65,32 +65,19 @@ def validar_oferta(oferta):
             return [is_valid]
         is_valid = True
         retorno.extend([is_valid, producto, presentacion])
+        return retorno
     else:
         return [True]
 
 
 def aplicar_oferta(oferta, detallecompra, validar):
-    oferta_compra = OfertaCompra(detallecompra=detallecompra, tipo=oferta[0], cantidad_compra=oferta[1],
+    print(oferta)
+    oferta_compra = OfertaCompra(tipo=oferta[0], cantidad_compra=oferta[1],
                                  presentacion_compra=detallecompra.presentacionxproducto, retorno=oferta[2])
     if len(oferta) > 3:
         oferta_compra.producto_oferta = validar[1]
         oferta_compra.presentacion_oferta = validar[2]
-        if oferta[1] == '2':
-            cantidad_comprada = detallecompra.cantidad_entrega
-            cantidad_oferta = int(oferta[1])
-            retorno = float(oferta[2])
-            detallecompra.descuento = (cantidad_comprada // cantidad_oferta)*retorno
-            detallecompra.precio = detallecompra.precio_sindescuento - detallecompra.descuento
-            detallecompra.save()
-        elif oferta[1] == '3':
-            if detallecompra.cantidad_entrega > int(oferta[1]):
-                detallecompra.descuento = 100 * float(oferta[2])/detallecompra.precio_sindescuento
-            else:
-                detallecompra.descuento = 0
-            detallecompra.precio = detallecompra.precio_sindescuento - detallecompra.descuento
-            detallecompra.save()
-    else:
-        if detallecompra.cantidad_entrega > int(oferta[1]):
+        if detallecompra.cantidad_entrega >= int(oferta[1]):
             producto_oferta = Producto.objects.get(pk=oferta[3])
             presentacion_oferta = PresentacionxProducto.objects.get(pk=oferta[4])
             cantidad_comprada = detallecompra.cantidad_entrega
@@ -100,9 +87,32 @@ def aplicar_oferta(oferta, detallecompra, validar):
             detallecompra_oferta = DetalleCompra(compra=detallecompra.compra, producto=producto_oferta,
                                                  presentacionxproducto=presentacion_oferta,
                                                  cantidad_presentacion_entrega=cantidad_regalo,
-                                                 cantidad_entrega=cantidad_oferta*presentacion_oferta.cantidad,
+                                                 cantidad_entrega=cantidad_oferta * presentacion_oferta.cantidad,
                                                  precio_sindescuento=0, descuento=0, precio=0, is_oferta=True)
+            detallecompra.precio = detallecompra.precio_sindescuento
+            detallecompra.descuento = 0
             detallecompra.save()
             detallecompra_oferta.save()
-    oferta_compra.save()
+            oferta_compra.detallecompra = detallecompra
+            oferta_compra.save()
+    else:
+        if oferta[0] == '2':
+            cantidad_comprada = detallecompra.cantidad_entrega
+            cantidad_oferta = int(oferta[1])
+            retorno = float(oferta[2])
+            detallecompra.descuento = (cantidad_comprada // cantidad_oferta)*retorno
+            detallecompra.precio = detallecompra.precio_sindescuento - detallecompra.descuento
+            detallecompra.save()
+            oferta_compra.detallecompra = detallecompra
+            oferta_compra.save()
+        elif oferta[0] == '3':
+            if detallecompra.cantidad_entrega >= int(oferta[1]):
+                detallecompra.descuento = 100 * float(oferta[2])/detallecompra.precio_sindescuento
+            else:
+                detallecompra.descuento = 0
+            detallecompra.precio = detallecompra.precio_sindescuento - detallecompra.descuento
+            detallecompra.save()
+            oferta_compra.detallecompra = detallecompra
+            oferta_compra.save()
+
 
