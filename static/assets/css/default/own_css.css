@@ -83,6 +83,9 @@ legend{
 #div_promocion_empty{
     display: none;
 }
+.form-inline{
+    margin-bottom: 10px;
+}
 .form_group_styles{
     width: 17%;
 }

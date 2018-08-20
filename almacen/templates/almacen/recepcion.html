@@ -4,12 +4,13 @@
 {% load maestro_tags %}
 
 {% block head_files %}
+    <link href="{% static "assets/plugins/switchery/switchery.min.css" %}" rel="stylesheet" />
 {% endblock %}
 
 {% block breadcrumb  %}
     <ol class="breadcrumb pull-right">
-        <li class="breadcrumb-item"><a href="javascript:;">Compras</a></li>
-        <li class="breadcrumb-item"><a href="/maestro/sucursal">Orden</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Almacen</a></li>
+        <li class="breadcrumb-item"><a href="/maestro/sucursal">Recepción</a></li>
         <li class="breadcrumb-item active">Detalle</li>
     </ol>
 {% endblock %}
@@ -72,7 +73,7 @@
                                 <th width="15%">Cantidad</th>
                                 <th width="15%">Precio</th>
                                 <th width="15%">Total</th>
-                                <th width="15%">Promociones</th>
+                                <th width="15%">Conformidad</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,15 +84,32 @@
                                     <td>{{ d.cantidad_presentacion }} &#8773; {{ d.cantidad_unidad }} U.</td>
                                     <td>{{ d.precio }}</td>
                                     <td>{{ d.total }}</td>
-                                    <td>
-                                        {% for p in d.promocion %}
-                                            {% if p.tipo == '1' %}
-                                                {{ p.cantidad_presentacion }} {{ p.producto.descripcion }} en {{ p.presentacion.presentacion.descripcion }}
-                                            {% else %}
-                                                Descuento de: {{ p.descuento }} para un total de {{ p.total }}
-                                            {% endif %}
-                                        {% endfor %}
-                                    </td>
+                                    <td><p class="m-b-25"><input type="checkbox" data-render="switchery" data-theme="default" /></p></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+               <legend class="m-b-15">
+                   Productos de Oferta
+               </legend>
+               <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="22%">Producto</th>
+                                <th width="13%">Presentación</th>
+                                <th width="15%">Cantidad</th>
+                                <th width="15%">Conformidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for o in oferta %}
+                                <tr>
+                                    <td>{{ o.producto.descripcion }}</td>
+                                    <td>{{ o.presentacion.presentacion.descripcion }}</td>
+                                    <td>{{ o.cantidad_presentacion }} &#8773; {{ o.cantidad_unidad }} U.</td>
+                                    <td><p class="m-b-25"><input type="checkbox" data-render="switchery" data-theme="default" /></p></td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -104,4 +122,20 @@
 {% endblock %}
 
 {% block bottom_scripts %}
+    	<script src="{% static "assets/plugins/switchery/switchery.min.js" %}"></script>
+        <script>
+            if ($('[data-render=switchery]').length !== 0) {
+                $('[data-render=switchery]').each(function() {
+                    var themeColor = COLOR_GREEN;
+                    var option = {};
+                        option.color = themeColor;
+                        option.secondaryColor = ($(this).attr('data-secondary-color')) ? $(this).attr('data-secondary-color') : '#dfdfdf';
+                        option.className = ($(this).attr('data-classname')) ? $(this).attr('data-classname') : 'switchery';
+                        option.disabled = ($(this).attr('data-disabled')) ? true : false;
+                        option.disabledOpacity = ($(this).attr('data-disabled-opacity')) ? parseFloat($(this).attr('data-disabled-opacity')) : 0.5;
+                        option.speed = ($(this).attr('data-speed')) ? $(this).attr('data-speed') : '0.5s';
+                    var switchery = new Switchery(this, option);
+                });
+            }
+        </script>
 {% endblock %}

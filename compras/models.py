@@ -22,9 +22,9 @@ class DetalleOrdenCompra(models.Model):
     ordencompra = models.ForeignKey(OrdenCompra, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
     presentacionxproducto = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT)
-    cantidad_presentacion_pedido = models.IntegerField()
-    cantidad_pedido = models.IntegerField()
-    precio_tentativo = models.DecimalField(max_digits=8, decimal_places=2)
+    cantidad_presentacion = models.IntegerField()
+    cantidad_unidad = models.IntegerField()
+    precio = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total = models.DecimalField(max_digits=8, decimal_places=2)
 
 
@@ -63,20 +63,34 @@ class DetalleCompra(models.Model):
     is_oferta = models.BooleanField(default=False)
 
 
-class OfertaCompra(models.Model):
+class OfertaOrden(models.Model):
     TIPO_CHOICES = (
         (1, 'PRODUCTO'),
         (2, 'DESCUENTO MONETARIO'),
         (3, 'DESCUENTO PORCENTUAL'),
     )
-    detallecompra = models.ForeignKey(DetalleCompra, on_delete=models.CASCADE)
+    detalleorden = models.ForeignKey(DetalleOrdenCompra, on_delete=models.CASCADE)
     tipo = models.CharField(max_length=1, choices=TIPO_CHOICES)
     cantidad_compra = models.IntegerField()
     presentacion_compra = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT,
                                             related_name='presentacion_compra')
     retorno = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    producto_oferta = models.ForeignKey(Producto, on_delete=models.PROTECT, blank=True, null=True)
-    presentacion_oferta = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT,
-                                            related_name='presentacion_oferta', blank=True, null=True)
+    producto = models.ForeignKey(Producto, on_delete=models.PROTECT, blank=True, null=True)
+    presentacion = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT,
+                                     related_name='presentacion_oferta', blank=True, null=True)
 
 
+class ResultadoOfertaOrden(models.Model):
+    TIPO_CHOICES = (
+        (1, 'PRODUCTO'),
+        (2, 'DESCUENTO MONETARIO'),
+        (3, 'DESCUENTO PORCENTUAL'),
+    )
+    detalleorden = models.ForeignKey(DetalleOrdenCompra, on_delete=models.CASCADE)
+    tipo = models.CharField(max_length=1, choices=TIPO_CHOICES)
+    producto = models.ForeignKey(Producto, on_delete=models.PROTECT, blank=True, null=True)
+    presentacion = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT, blank=True, null=True)
+    cantidad_presentacion = models.IntegerField(blank=True, null=True)
+    cantidad_unidad = models.IntegerField(blank=True, null=True)
+    descuento = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    total = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)

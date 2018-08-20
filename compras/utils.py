@@ -1,21 +1,16 @@
-from maestro.models import CatalogoxProveedor, Producto, PresentacionxProducto
-from compras.models import DetalleOrdenCompra, DetalleCompra, OfertaCompra
+from maestro.models import Producto, PresentacionxProducto
+from compras.models import DetalleOrdenCompra, DetalleCompra, OfertaOrden, ResultadoOfertaOrden
 import json
 
 
-def fill_data(detalle_orden):
+def fill_data(detalle_orden, oferta):
     presentacionxproducto = detalle_orden.presentacionxproducto
     cantidad_conversion = presentacionxproducto.cantidad
-    cantidad_presentacion = detalle_orden.cantidad_presentacion_pedido
-    detalle_orden.cantidad_pedido = cantidad_conversion * cantidad_presentacion
-    try:
-        catalogo_proveedor = CatalogoxProveedor.objects.get(presentacionxproducto=presentacionxproducto.id)
-        detalle_orden.precio_tentativo = catalogo_proveedor.precio_tentativo
-        detalle_orden.total = catalogo_proveedor.precio_tentativo * cantidad_presentacion
-    except CatalogoxProveedor.DoesNotExist:
-        detalle_orden.precio_tentativo = 0
-        detalle_orden.total = 0
+    cantidad_presentacion = detalle_orden.cantidad_presentacion
+    detalle_orden.cantidad_unidad = cantidad_conversion * cantidad_presentacion
+    detalle_orden.total = cantidad_presentacion * detalle_orden.precio
     detalle_orden.save()
+    guardar_oferta(oferta, detalle_orden)
 
 
 def recalcular_total_orden(orden):
@@ -25,6 +20,46 @@ def recalcular_total_orden(orden):
         total += d.total
     orden.total_tentativo = total
     orden.save()
+
+
+def guardar_oferta(oferta, detalle_orden):
+    OfertaOrden.objects.filter(detalleorden=detalle_orden.id).delete()
+    ResultadoOfertaOrden.objects.filter(detalleorden=detalle_orden.id).delete()
+    if oferta != '':
+        oferta_array = json.loads(oferta)
+        for o in oferta_array:
+            validar = validar_oferta(o)
+            if validar[0]:
+                oferta_orden = OfertaOrden(detalleorden=detalle_orden, tipo=o[0], cantidad_compra=o[1],
+                                           presentacion_compra=detalle_orden.presentacionxproducto, retorno=o[2])
+                cantidad_oferta = int(o[1])
+                retorno = float(o[2])
+                resultado_orden = ResultadoOfertaOrden(detalleorden=detalle_orden)
+                if len(o) > 3:
+                    oferta_orden.producto = validar[1]
+                    oferta_orden.presentacion = validar[2]
+                    if detalle_orden.cantidad_presentacion >= cantidad_oferta:
+                        resultado_orden.tipo = oferta_orden.tipo
+                        resultado_orden.cantidad_presentacion = (detalle_orden.cantidad_presentacion // cantidad_oferta) * retorno
+                        resultado_orden.cantidad_unidad = resultado_orden.cantidad_presentacion * validar[2].cantidad
+                        resultado_orden.producto = validar[1]
+                        resultado_orden.presentacion = validar[2]
+                        resultado_orden.save()
+                else:
+                    if o[0] == '2':
+                        if detalle_orden.cantidad_presentacion >= cantidad_oferta:
+                            resultado_orden.tipo = oferta_orden.tipo
+                            resultado_orden.descuento = (detalle_orden.cantidad_presentacion // cantidad_oferta) * retorno
+                            resultado_orden.total = detalle_orden.total - resultado_orden.descuento
+                            resultado_orden.save()
+                    elif o[0] == '3':
+                        if detalle_orden.cantidad_presentacion >= cantidad_oferta:
+                            resultado_orden.tipo = oferta_orden.tipo
+                            resultado_orden.descuento = float(detalle_orden.total) * retorno / 100
+                            resultado_orden.total = float(detalle_orden.total) - resultado_orden.descuento
+                            resultado_orden.save()
+                oferta_orden.save()
+
 
 
 def crear_detallecompra(detalle_orden, request, compra):
@@ -71,8 +106,7 @@ def validar_oferta(oferta):
 
 
 def aplicar_oferta(oferta, detallecompra, validar):
-    print(oferta)
-    oferta_compra = OfertaCompra(tipo=oferta[0], cantidad_compra=oferta[1],
+    oferta_compra = OfertaOrden(tipo=oferta[0], cantidad_compra=oferta[1],
                                  presentacion_compra=detallecompra.presentacionxproducto, retorno=oferta[2])
     if len(oferta) > 3:
         oferta_compra.producto_oferta = validar[1]
@@ -116,3 +150,23 @@ def aplicar_oferta(oferta, detallecompra, validar):
             oferta_compra.save()
 
 
+def cargar_resultado_oferta(detalle_orden):
+    for do in detalle_orden:
+        resultado_oferta = ResultadoOfertaOrden.objects.filter(detalleorden=do.id)
+        array_temp = []
+        for ro in resultado_oferta:
+            array_temp.append(ro)
+        do.promocion = array_temp
+    return detalle_orden
+
+
+def cargar_oferta(detalle_orden):
+    oferta = OfertaOrden.objects.filter(detalleorden=detalle_orden.id)
+    array_temp = []
+    for o in oferta:
+        if o.tipo == '1':
+            array_temp.append([o.tipo, str(o.cantidad_compra), str(o.retorno), str(o.producto_id), str(o.presentacion_id)])
+        else:
+            array_temp.append([o.tipo, str(o.cantidad_compra), str(o.retorno)])
+    detalle_orden.oferta = json.dumps(array_temp)
+    return detalle_orden

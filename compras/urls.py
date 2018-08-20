@@ -5,8 +5,8 @@ from compras.rviews import ProductosListView, PresentacionxProductoListView, Pre
 
 urlpatterns = [
     path('orden', OrdenListView.as_view()),
+    path('orden/add', OrdenCreateView.as_view()),
     path('orden/<int:pk>/', OrdenDetailView.as_view()),
-    path('orden/<int:pk>/create', OrdenCreateView.as_view()),
     path('orden/<int:pk>/edit', OrdenEditView.as_view()),
     path('orden/<int:pk>/tocompra', OrdenToCompraView.as_view()),
     path('compra/<int:pk>/', CompraDetailView.as_view()),

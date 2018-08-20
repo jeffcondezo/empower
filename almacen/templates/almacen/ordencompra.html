@@ -11,14 +11,14 @@
 
 {% block breadcrumb  %}
     <ol class="breadcrumb pull-right">
-        <li class="breadcrumb-item"><a href="javascript:;">Compras</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Almacen</a></li>
         <li class="breadcrumb-item"><a href="/maestro/sucursal">Ordenes</a></li>
         <li class="breadcrumb-item active">Lista</li>
     </ol>
 {% endblock %}
 
 {% block pageheader %}
-    <h1 class="page-header">Ordenes de Compras <small>Lista de Ordenes de Compra</small></h1>
+    <h1 class="page-header">Ordenes de Compras <small>Lista de Ordenes de Compra por Recibir</small></h1>
 {% endblock %}
 
 {% block content %}
@@ -41,22 +41,18 @@
                 <thead>
                     <tr>
                         <th class="text-nowrap">Proveedor</th>
-                        <th class="text-nowrap">Estado</th>
                         <th class="text-nowrap">Asignado</th>
-                        <th class="text-nowrap">Compra</th>
                         <th class="text-nowrap">Total</th>
-                        <th class="text-nowrap">Acciones</th>
+                        <th class="text-nowrap">Recepcionar</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for o in object_list %}
                         <tr>
                             <td>{{ o.proveedor.descripcion }}</td>
-                            <td>{{ o.get_estado_display }}</td>
                             <td>{{ o.asignado.username }}</td>
-                            <td>{{ o.compra|default_if_none:'' }}</td>
                             <td>{{ o.total_tentativo }}</td>
-                            <td><div class="fa-2x"><a class="no-link" href="/compras/orden/{{ o.id }}"><i class="fas fa-eye icons-table"></i></a><a class="no-link" href="/compras/orden/{{ o.id }}/edit"><i  class="fas fa-edit icons-table"></i></a></div></td>
+                            <td><div class="fa-2x"><a class="no-link" href="/almacen/ordencompra/{{ o.id }}/recepcion"><i class="fas fa-list icons-table"></i></a></div></td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -74,14 +70,6 @@
                     <div class="modal-body">
                         <fieldset>
                             <legend class="m-b-15">Filtros</legend>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Estados</label>
-                                <select name="estados" class="select2 form-control" multiple="multiple">
-                                    {% for e in estados %}
-                                        <option value="{{ e.0 }}">{{ e.1}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Proveedores</label>
                                 <select name="proveedores" class="select2 form-control" multiple="multiple">
@@ -102,32 +90,7 @@
     </div>
 
 
-        <!-- #modal-dialog -->
-    <div class="modal fade" id="modal-crear">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="/compras/orden/add" method="POST">{% csrf_token %}
-                    <div class="modal-body">
-                        <fieldset>
-                            <legend class="m-b-15">Crear Orden</legend>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Proveedor</label>
-                                <select required name="proveedor" class="select2 form-control">
-                                    {% for p in proveedores %}
-                                        <option value="{{ p.id }}">{{ p.descripcion }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
-                        <button type="submit" class="btn btn-success">Crear</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+
 {% endblock %}
 
 {% block bottom_scripts %}

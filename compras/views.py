@@ -12,7 +12,7 @@ from compras.forms import OrdenCompraCreateForm, OrdenCompraEditForm, DetalleOrd
 # Forms import<--
 
 # Utils import-->
-from .utils import fill_data, recalcular_total_orden, crear_detallecompra
+from .utils import fill_data, recalcular_total_orden, crear_detallecompra, cargar_resultado_oferta, cargar_oferta
 # Utils import<--
 
 # Extra python features-->
@@ -60,7 +60,8 @@ class OrdenDetailView(BasicEMixin, DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['detalle'] = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
+        detalle_orden = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
+        context['detalle'] = cargar_resultado_oferta(detalle_orden)
         return context
 
 
@@ -75,6 +76,7 @@ class OrdenCreateView(RedirectView):
         if form.is_valid():
             orden = form.save(commit=False)
             orden.asignado = self.request.user
+            orden.save()
             url = self.url + str(orden.id) + '/edit'
         else:
             url = '/compras/orden'
@@ -96,6 +98,7 @@ class OrdenEditView(BasicEMixin, TemplateView):
         detalle = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
         content_detalle = []
         for idx, d in enumerate(detalle):
+            d = cargar_oferta(d)
             content_detalle.append([DetalleOrdenCompraForm(instance=d, prefix='do'+str(idx+1),
                                                            proveedor=orden.proveedor_id, has_data=True), d])
         context['detalle'] = content_detalle
@@ -119,7 +122,7 @@ class OrdenEditView(BasicEMixin, TemplateView):
                     if do_form.is_valid():
                         do_obj = do_form.save(commit=False)
                         do_obj.ordencompra = orden
-                        fill_data(do_obj)
+                        fill_data(do_obj, request.POST['oferta-'+i])
             if request.POST['detalleorden_to_delete'] != '':
                 for j in request.POST['detalleorden_to_delete'].split(','):
                     DetalleOrdenCompra.objects.get(pk=j).delete()

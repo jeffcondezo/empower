@@ -12,13 +12,6 @@ class OrdenCompraCreateForm(forms.ModelForm):
     class Meta:
         model = OrdenCompra
         fields = ['proveedor']
-        widgets = {
-            'proveedor': forms.Select(attrs={'class': 'default-select2 form-control'})
-        }
-
-    def __init__(self, *args, **kwargs):
-        super(OrdenCompraCreateForm, self).__init__(*args, **kwargs)
-        self.fields['proveedor'].empty_label = None
 
 
 class OrdenCompraEditForm(forms.ModelForm):
@@ -38,7 +31,7 @@ class OrdenCompraEditForm(forms.ModelForm):
 class DetalleOrdenCompraForm(forms.ModelForm):
     class Meta:
         model = DetalleOrdenCompra
-        fields = ['producto', 'presentacionxproducto', 'cantidad_presentacion_pedido']
+        fields = ['producto', 'presentacionxproducto', 'cantidad_presentacion', 'precio']
         widgets = {
             'presentacionxproducto': forms.HiddenInput(attrs={'class': 'presentacionxproducto'}),
         }
@@ -53,8 +46,11 @@ class DetalleOrdenCompraForm(forms.ModelForm):
                 widget=forms.Select(attrs={'class': 'default-select2 form-control producto'}),
             )
             self.fields['producto'].empty_label = None
-            self.fields['cantidad_presentacion_pedido'] = forms.IntegerField(
+            self.fields['cantidad_presentacion'] = forms.IntegerField(
                 widget=forms.NumberInput(attrs={'class': 'form-control cantidadpresentacion'})
+            )
+            self.fields['precio'] = forms.IntegerField(
+                widget=forms.NumberInput(attrs={'class': 'form-control precio'})
             )
         else:
             self.fields['producto'] = forms.ModelChoiceField(
@@ -62,9 +58,13 @@ class DetalleOrdenCompraForm(forms.ModelForm):
                 queryset=Producto.objects.filter(catalogoxproveedor__proveedor=proveedor),
                 widget=forms.Select(attrs={'class': 'form-control producto'}),
             )
-            self.fields['cantidad_presentacion_pedido'] = forms.IntegerField(
+            self.fields['cantidad_presentacion'] = forms.IntegerField(
                 required=False,
                 widget=forms.NumberInput(attrs={'class': 'form-control cantidadpresentacion'})
+            )
+            self.fields['precio'] = forms.IntegerField(
+                required=False,
+                widget=forms.NumberInput(attrs={'class': 'form-control precio'})
             )
 
 

@@ -1,9 +1,10 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.db.models import Sum
 
 # Model import-->
-from maestro.models import Almacen, Sucursal, Categoria
+from maestro.models import Almacen, Sucursal, Categoria, Proveedor
 from .models import Stock, Kardex
+from compras.models import OrdenCompra, DetalleOrdenCompra, ResultadoOfertaOrden
 # Model import<--
 
 
@@ -80,3 +81,40 @@ class KardexView(BasicEMixin, ListView):
             fecha_fin = datetime.strptime(self.request.GET['fecha_fin'], '%d/%m/%Y %H:%M')
             query = query.filter(fechahora__gte=fecha_inicio, fechahora__lte=fecha_fin)
         return query
+
+
+class OrdenListView(BasicEMixin, ListView):
+
+    template_name = 'almacen/ordencompra.html'
+    model = OrdenCompra
+    nav_name = 'nav_orden'
+    view_name = 'orden_compra'
+    action_name = 'leer'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['proveedores'] = Proveedor.objects.all()
+        context['estados'] = OrdenCompra.ESTADO_CHOICES
+        return context
+
+    def get_queryset(self):
+        proveedores = self.request.GET.getlist('proveedores')
+        query = OrdenCompra.objects.filter(estado='2')
+        if len(proveedores) > 0:
+            query = query.filter(proveedor__in=proveedores)
+        return query
+
+
+class OrdenDetailView(BasicEMixin, DetailView):
+
+    template_name = 'almacen/recepcion.html'
+    model = OrdenCompra
+    nav_name = 'nav_compra'
+    view_name = 'orden_compra'
+    action_name = 'leer'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['detalle'] = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
+        context['oferta'] = ResultadoOfertaOrden.objects.filter(detalleorden__ordencompra=self.kwargs['pk'], tipo='1')
+        return context
