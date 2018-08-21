@@ -132,38 +132,6 @@ class OrdenEditView(BasicEMixin, TemplateView):
         return redirect('/compras/orden/'+str(orden.id))
 
 
-class OrdenToCompraView(BasicEMixin, TemplateView):
-
-    template_name = 'compras/orden-tocompra.html'
-    nav_name = 'nav_compra'
-    view_name = 'orden_compra'
-    action_name = 'tocompra'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
-        context['orden'] = orden
-        detalle = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
-        context['detalle'] = detalle
-        context['clean_form'] = DetalleOrdenCompraForm(proveedor=orden.proveedor_id, has_data=False)
-        return context
-
-    def post(self, request, *args, **kwargs):
-        form = CompraForm(request.POST)
-        if form.is_valid():
-            compra = form.save(commit=False)
-            compra.asignado = self.request.user
-            compra.save()
-            detalle_orden = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
-            crear_detallecompra(detalle_orden, request.POST, compra)
-            orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
-            orden.estado = '2'
-            orden.save()
-        else:
-            return HttpResponse(form.errors)
-        return redirect('/compras/compra/'+str(compra.id))
-
-
 class CompraDetailView(BasicEMixin, DetailView):
 
     template_name = 'compras/compra-detail.html'

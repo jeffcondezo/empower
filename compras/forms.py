@@ -72,4 +72,18 @@ class CompraForm(forms.ModelForm):
 
     class Meta:
         model = Compra
-        fields = ['proveedor', 'orden', 'fecha_idealentrega']
+        fields = ['orden']
+
+
+class DetalleCompraForm(forms.ModelForm):
+
+    class Meta:
+        model = DetalleCompra
+        fields = ['cantidad_presentacion', 'total']
+
+
+class DetalleCompraOfertaForm(forms.ModelForm):
+
+    class Meta:
+        model = DetalleCompra
+        fields = ['cantidad_presentacion']

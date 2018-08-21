@@ -1,5 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.db.models import Sum
+from django.shortcuts import redirect, HttpResponse
+
 
 # Model import-->
 from maestro.models import Almacen, Sucursal, Categoria, Proveedor
@@ -7,6 +9,13 @@ from .models import Stock, Kardex
 from compras.models import OrdenCompra, DetalleOrdenCompra, ResultadoOfertaOrden
 # Model import<--
 
+# Form import-->
+from compras.forms import CompraForm, DetalleCompraForm, DetalleCompraOfertaForm
+# Form import<--
+
+# Utils import-->
+from compras.utils import fill_data_compra, recalcular_total_compra
+# Utils import<--
 
 # Extra python features-->
 from datetime import datetime
@@ -88,8 +97,6 @@ class OrdenListView(BasicEMixin, ListView):
     template_name = 'almacen/ordencompra.html'
     model = OrdenCompra
     nav_name = 'nav_orden'
-    view_name = 'orden_compra'
-    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -109,12 +116,36 @@ class OrdenDetailView(BasicEMixin, DetailView):
 
     template_name = 'almacen/recepcion.html'
     model = OrdenCompra
-    nav_name = 'nav_compra'
+    nav_name = 'nav_kardex'
     view_name = 'orden_compra'
-    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['detalle'] = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
         context['oferta'] = ResultadoOfertaOrden.objects.filter(detalleorden__ordencompra=self.kwargs['pk'], tipo='1')
         return context
+
+    def post(self, request, *args, **kwargs):
+        orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
+        form = CompraForm(request.POST, instance=orden)
+        if form.is_valid():
+            compra = form.save(commit=False)
+            compra.proveedor = orden.proveedor
+            compra.asignado = self.request.user
+            compra = compra.save()
+            for i in range(1, int(request.POST['detalle_size'])+1):
+                dc_form = DetalleCompraForm(request.POST, prefix='dc'+str(i))
+                if dc_form.is_valid():
+                    dc_form = dc_form.save(commit=False)
+                    dc_form.compra = compra
+                    fill_data_compra(dc_form, request.POST['dc'+str(i)+'-id_detalleorden'])
+            for i in range(1, int(request.POST['oferta_size'])+1):
+                dc_form = DetalleCompraOfertaForm(request.POST, prefix='ro'+str(i))
+                if dc_form.is_valid():
+                    dc_form = dc_form.save(commit=False)
+                    dc_form.compra = compra
+                    fill_data_compra(dc_form, request.POST['ro'+str(i)+'-id_resultadooferta'])
+            recalcular_total_compra(compra)
+            return redirect('/compras/compra/' + str(compra.id))
+        else:
+            return HttpResponse(form.errors)

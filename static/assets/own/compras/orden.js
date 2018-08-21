@@ -79,7 +79,7 @@ function init_pres_change() {
 }
 
 function init_cant_blur() {
-    var cant = document.querySelectorAll('.cantidadpresentacion')
+    var cant = document.querySelectorAll('.cantidadpresentacion');
     for (var i = 0; i < cant.length; i++) {
         cant[i].addEventListener("blur", action_cant_blur);
     }

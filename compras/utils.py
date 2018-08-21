@@ -9,6 +9,7 @@ def fill_data(detalle_orden, oferta):
     cantidad_presentacion = detalle_orden.cantidad_presentacion
     detalle_orden.cantidad_unidad = cantidad_conversion * cantidad_presentacion
     detalle_orden.total = cantidad_presentacion * detalle_orden.precio
+    detalle_orden.total_final = detalle_orden.total
     detalle_orden.save()
     guardar_oferta(oferta, detalle_orden)
 
@@ -51,15 +52,20 @@ def guardar_oferta(oferta, detalle_orden):
                             resultado_orden.tipo = oferta_orden.tipo
                             resultado_orden.descuento = (detalle_orden.cantidad_presentacion // cantidad_oferta) * retorno
                             resultado_orden.total = detalle_orden.total - resultado_orden.descuento
+                            detalle_orden.descuento = resultado_orden.descuento
+                            detalle_orden.total_final = resultado_orden.total
+                            detalle_orden.save()
                             resultado_orden.save()
                     elif o[0] == '3':
                         if detalle_orden.cantidad_presentacion >= cantidad_oferta:
                             resultado_orden.tipo = oferta_orden.tipo
                             resultado_orden.descuento = float(detalle_orden.total) * retorno / 100
                             resultado_orden.total = float(detalle_orden.total) - resultado_orden.descuento
+                            detalle_orden.descuento = resultado_orden.descuento
+                            detalle_orden.total_final = resultado_orden.total
+                            detalle_orden.save()
                             resultado_orden.save()
                 oferta_orden.save()
-
 
 
 def crear_detallecompra(detalle_orden, request, compra):
@@ -170,3 +176,31 @@ def cargar_oferta(detalle_orden):
             array_temp.append([o.tipo, str(o.cantidad_compra), str(o.retorno)])
     detalle_orden.oferta = json.dumps(array_temp)
     return detalle_orden
+
+
+def fill_data_compra(detalle_compra, id_detalleorden):
+    detalle_orden = DetalleOrdenCompra.objects.get(pk=id_detalleorden)
+    detalle_compra.producto = detalle_orden.producto
+    detalle_compra.presentacionxproducto = detalle_orden.presentacionxproducto
+    detalle_compra.cantidad_unidad = detalle_compra.cantidad_presentacion * detalle_compra.presentacionxproducto.cantidad
+    detalle_compra.precio = detalle_compra.total / detalle_compra.cantidad_presentacion
+    detalle_compra.save()
+
+
+def recalcular_total_compra(compra):
+    detallecompra = DetalleCompra.objects.filter(compra=compra.id)
+    total = 0
+    for d in detallecompra:
+        total += d.total
+    compra.total = total
+    compra.save()
+
+
+def fill_data_compraoferta(detalle_compra, id_resultado_oferta):
+    resultado_oferta = ResultadoOfertaOrden.objects.get(pk=id_resultado_oferta)
+    detalle_compra.producto = resultado_oferta.producto
+    detalle_compra.presentacionxproducto = resultado_oferta.presentacionxproducto
+    detalle_compra.cantidad_unidad = detalle_compra.cantidad_presentacion * resultado_oferta.presentacionxproducto.cantidad
+    detalle_compra.precio = 0
+    detalle_compra.total = 0
+    detalle_compra.save()

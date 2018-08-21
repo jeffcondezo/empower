@@ -9,17 +9,21 @@
       <w>contenedor</w>
       <w>empresas</w>
       <w>entrada</w>
+      <w>guardar</w>
       <w>kardex</w>
       <w>movimiento</w>
+      <w>orden</w>
       <w>preciocompra</w>
       <w>precioventa</w>
       <w>presentacion</w>
       <w>presentaciones</w>
       <w>presentacionx</w>
       <w>productos</w>
+      <w>recalcular</w>
       <w>reglaprecio</w>
       <w>responsable</w>
       <w>salida</w>
+      <w>tentativo</w>
       <w>tipomovimiento</w>
       <w>totalcompra</w>
       <w>totalventa</w>

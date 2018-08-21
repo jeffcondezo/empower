@@ -26,40 +26,31 @@ class DetalleOrdenCompra(models.Model):
     cantidad_unidad = models.IntegerField()
     precio = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total = models.DecimalField(max_digits=8, decimal_places=2)
+    descuento = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    total_final = models.DecimalField(max_digits=8, decimal_places=2)
 
 
 class Compra(models.Model):
     ESTADO_CHOICES = (
-        ('1', 'PEDIDO'),
-        ('2', 'ENTREGADO'),
-        ('3', 'CANCELADO'),
+        ('1', 'RECIBIDO'),
+        ('2', 'PAGADO'),
     )
     asignado = models.ForeignKey(User, on_delete=models.PROTECT, related_name='asignado')
     estado = models.CharField(max_length=1, choices=ESTADO_CHOICES, default=1)
     fechahora = models.DateTimeField(auto_now_add=True)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.PROTECT)
     orden = models.ForeignKey(OrdenCompra, on_delete=models.PROTECT, related_name='orden_origen')
-    fecha_idealentrega = models.DateTimeField()
-    fechahora_entrega = models.DateTimeField(blank=True, null=True)
-    is_conforme = models.BooleanField(default=True)
-    recepcionista = models.ForeignKey(User, on_delete=models.PROTECT, related_name='recepcionista', blank=True, null=True)
-    precio = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    descuento = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    precio_sindescuento = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    total = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
 
 
 class DetalleCompra(models.Model):
     compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
     presentacionxproducto = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT)
-    cantidad_presentacion_entrega = models.IntegerField(blank=True, null=True)
-    cantidad_entrega = models.IntegerField(blank=True, null=True)
+    cantidad_presentacion = models.IntegerField(blank=True, null=True)
+    cantidad_unidad = models.IntegerField(blank=True, null=True)
     precio = models.DecimalField(max_digits=8, decimal_places=2)
-    cantidad_presentacion_diferencia = models.IntegerField(blank=True, null=True)
-    cantidad_diferencia = models.IntegerField(blank=True, null=True)
-    descuento = models.DecimalField(max_digits=8, decimal_places=2)
-    precio_sindescuento = models.DecimalField(max_digits=8, decimal_places=2)
-    is_genoferta = models.BooleanField(default=False)
+    total = models.DecimalField(max_digits=8, decimal_places=2)
     is_oferta = models.BooleanField(default=False)
 
 
