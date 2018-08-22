@@ -3,12 +3,17 @@ var total = document.querySelectorAll('.totalfinal');
 
 function init_recepcion() {
     init_check_cantidad();
+    init_check_cantidad_oferta();
     init_cantidad_blur();
     init_totalfinal_blur();
 }
 
 function init_check_cantidad() {
     $(document).on('change', '[data-change="check-conforme"]', action_check_cantidad);
+}
+
+function init_check_cantidad_oferta() {
+    $(document).on('change', '[data-change="check-oferta-conforme"]', action_check_cantidad_oferta);
 }
 function init_cantidad_blur() {
     for (var i = 0; i < cantidad.length; i++) {
@@ -24,6 +29,14 @@ function action_check_cantidad() {
     }else{
         tr_content.querySelector('.cantidad').removeAttribute("readonly");
         tr_content.querySelector('.totalfinal').removeAttribute("readonly");
+    }
+}
+function action_check_cantidad_oferta() {
+    var tr_content = this.parentElement.parentElement.parentElement;
+    if(this.checked) {
+        tr_content.querySelector('.cantidad_promocion').setAttribute("readonly", "readonly");
+    }else{
+        tr_content.querySelector('.cantidad_promocion').removeAttribute("readonly");
     }
 }
 

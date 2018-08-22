@@ -14,7 +14,7 @@ from compras.forms import CompraForm, DetalleCompraForm, DetalleCompraOfertaForm
 # Form import<--
 
 # Utils import-->
-from compras.utils import fill_data_compra, recalcular_total_compra
+from compras.utils import fill_data_compra, recalcular_total_compra, fill_data_compraoferta
 # Utils import<--
 
 # Extra python features-->
@@ -144,7 +144,7 @@ class OrdenDetailView(BasicEMixin, DetailView):
                 if dc_form.is_valid():
                     dc_form = dc_form.save(commit=False)
                     dc_form.compra = compra
-                    fill_data_compra(dc_form, request.POST['ro'+str(i)+'-id_resultadooferta'])
+                    fill_data_compraoferta(dc_form, request.POST['ro'+str(i)+'-id_resultadooferta'])
             recalcular_total_compra(compra)
             return redirect('/compras/compra/' + str(compra.id))
         else:

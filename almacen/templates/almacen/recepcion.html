@@ -115,7 +115,7 @@
                                     <td><input type="hidden" name="re{{ forloop.counter }}-id_resultadooferta" value="{{ o.id }}">{{ o.producto.descripcion }}</td>
                                     <td>{{ o.presentacion.presentacion.descripcion }}</td>
                                     <td><input class="form-control cantidad_promocion" name="ro{{ forloop.counter }}-cantidad_presentacion"  value="{{ o.cantidad_presentacion }}"></td>
-                                    <td><p class="m-b-25"><input type="checkbox" data-change="check-conforme" data-render="switchery" data-theme="default" /></p></td>
+                                    <td><p class="m-b-25"><input type="checkbox" data-change="check-oferta-conforme" data-render="switchery" data-theme="default" /></p></td>
                                 </tr>
                             {% endfor %}
                         </tbody>
