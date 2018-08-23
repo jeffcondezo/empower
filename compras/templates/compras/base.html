@@ -62,10 +62,41 @@
 			<!-- begin navbar-collapse -->
 			<div class="collapse navbar-collapse pull-left" id="top-navbar">
 				<ul class="nav navbar-nav">
-					<li>
-						<a href="javascript:;">
-							<i class="fa fa-cog fa-fw"></i> Maestro
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-toolbox fa-fw"></i> Maestro <b class="caret"></b>
 						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/maestro/sucursal">Sucursales</a></li>
+							<li><a href="/maestro/almacen">Almacenes</a></li>
+							<li class="divider"></li>
+							<li><a href="/maestro/producto"><b>Productos</b></a></li>
+                            <li><a href="/maestro/categoria">Categorias</a></li>
+                            <li><a href="/maestro/presentacion">Presentaciones</a></li>
+                            <li><a href="/maestro/catalogo/0">Catálogo</a></li>
+							<li class="divider"></li>
+                            <li><a href="/maestro/proveedor"><b>Proveedores</b></a></li>
+                            <li><a href="/maestro/catalogoproveedor/0">Catálogo</a></li>
+						</ul>
+					</li>
+                    <li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-th fa-fw"></i> Almacen <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/almacen/stock">Stock</a></li>
+							<li><a href="/almacen/kardex">Kardex</a></li>
+							<li><a href="/almacen/ordencompra">Ordenes de Compra</a></li>
+						</ul>
+					</li>
+                    <li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-shopping-bag fa-fw"></i> Compras <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/compras/orden">Ordenes de Compra</a></li>
+							<li><a href="/compras/compra">Compras</a></li>
+						</ul>
 					</li>
 				</ul>
 			</div>
@@ -197,12 +228,14 @@
                             <li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
                             <li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li>
                         </ul>
+
+
 					</li>
 				</ul>
 				<!-- end sidebar user -->
 				<!-- begin sidebar nav -->
 				<ul class="nav">
-					<li class="nav-header">Actividades</li>
+					<li class="nav-header">Compras</li>
 					<li id="nav_orden"><a href="/compras/orden"><i class="fa fa-calendar"></i> <span>Ordenes</span></a></li>
 					<li id="nav_compra"><a href="/compras/compra"><i class="fa fa-calendar"></i> <span>Compras</span></a></li>
 			        <!-- begin sidebar minify button -->
