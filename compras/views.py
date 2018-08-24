@@ -4,7 +4,7 @@ from django.db.models import Sum
 
 # Model import-->
 from compras.models import OrdenCompra, DetalleOrdenCompra, Compra, DetalleCompra
-from maestro.models import Proveedor
+from maestro.models import Proveedor, Almacen
 # Model import<--
 
 # Forms import-->
@@ -35,6 +35,7 @@ class OrdenListView(BasicEMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['proveedores'] = Proveedor.objects.all()
+        context['almacenes'] = Almacen.objects.all()
         context['estados'] = OrdenCompra.ESTADO_CHOICES
         return context
 
@@ -89,6 +90,13 @@ class OrdenEditView(BasicEMixin, TemplateView):
     nav_name = 'nav_compra'
     view_name = 'orden_compra'
     action_name = 'actualizar'
+
+    def dispatch(self, request, *args, **kwargs):
+        orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
+        if orden.estado == '2':
+            return redirect('/compras/orden/' + str(orden.id))
+        else:
+            return super().dispatch(request)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

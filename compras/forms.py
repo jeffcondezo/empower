@@ -11,7 +11,7 @@ class OrdenCompraCreateForm(forms.ModelForm):
 
     class Meta:
         model = OrdenCompra
-        fields = ['proveedor']
+        fields = ['proveedor', 'almacen']
 
 
 class OrdenCompraEditForm(forms.ModelForm):
@@ -26,6 +26,7 @@ class OrdenCompraEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(OrdenCompraEditForm, self).__init__(*args, **kwargs)
         self.fields['estado'].empty_label = None
+        self.fields['estado'].choices = [i for i in self.fields['estado'].choices if i[0] != '2']
 
 
 class DetalleOrdenCompraForm(forms.ModelForm):

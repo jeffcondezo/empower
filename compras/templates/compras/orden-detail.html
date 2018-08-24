@@ -57,6 +57,12 @@
                                 <td class="td-detail-title">COMPRA:</td>
                                 <td class="td-detail-desc">{{ object.compra|default_if_none:'' }}</td>
                             </tr>
+                            <tr>
+                                <td class="td-detail-title">ALMACEN:</td>
+                                <td class="td-detail-desc">{{ object.almacen.descripcion }}</td>
+                                <td class="td-detail-title"></td>
+                                <td class="td-detail-desc"></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

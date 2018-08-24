@@ -123,16 +123,20 @@ class OrdenDetailView(BasicEMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['detalle'] = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
         context['oferta'] = ResultadoOfertaOrden.objects.filter(detalleorden__ordencompra=self.kwargs['pk'], tipo='1')
+        context['orden_id'] = self.kwargs['pk']
         return context
 
     def post(self, request, *args, **kwargs):
         orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
-        form = CompraForm(request.POST, instance=orden)
+        form = CompraForm(request.POST)
         if form.is_valid():
             compra = form.save(commit=False)
             compra.proveedor = orden.proveedor
+            compra.almacen = orden.almacen
             compra.asignado = self.request.user
-            compra = compra.save()
+            compra.orden = orden
+            compra.save()
+            print(compra)
             for i in range(1, int(request.POST['detalle_size'])+1):
                 dc_form = DetalleCompraForm(request.POST, prefix='dc'+str(i))
                 if dc_form.is_valid():

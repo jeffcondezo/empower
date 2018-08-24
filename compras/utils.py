@@ -185,7 +185,7 @@ def fill_data_compra(detalle_compra, id_detalleorden):
     detalle_compra.presentacionxproducto = detalle_orden.presentacionxproducto
     detalle_compra.cantidad_unidad = detalle_compra.cantidad_presentacion * detalle_compra.presentacionxproducto.cantidad
     detalle_compra.precio = detalle_compra.total / detalle_compra.cantidad_presentacion
-    detalle_compra = detalle_compra.save()
+    detalle_compra.save()
     # '1' y '1' significa entrada y compra para el kardex
     update_kardex_stock(detalle_compra, '1', '1')
 

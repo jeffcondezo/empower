@@ -16,5 +16,5 @@ def update_kardex_stock(detalle, tipo_movimiento, tipo_detalle):
         stock = Stock.objects.get(producto=detalle.producto_id, almacen=almacen.id)
     except Stock.DoesNotExist:
         stock = Stock(producto=detalle.producto, almacen=almacen)
-    stock.cantidad = detalle.cantidad_unidad
+    stock.cantidad = stock.cantidad + detalle.cantidad_unidad
     stock.save()

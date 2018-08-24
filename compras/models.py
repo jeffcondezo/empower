@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from maestro.models import Proveedor, PresentacionxProducto, Producto
+from maestro.models import Proveedor, PresentacionxProducto, Producto, Almacen
 
 
 # Create your models here.
@@ -14,6 +14,7 @@ class OrdenCompra(models.Model):
     estado = models.CharField(max_length=1, choices=ESTADO_CHOICES, default=1)
     fechahora = models.DateTimeField(auto_now_add=True)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.PROTECT)
+    almacen = models.ForeignKey(Almacen, on_delete=models.PROTECT)
     compra = models.IntegerField(blank=True, null=True)
     total_tentativo = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
@@ -39,6 +40,7 @@ class Compra(models.Model):
     estado = models.CharField(max_length=1, choices=ESTADO_CHOICES, default=1)
     fechahora = models.DateTimeField(auto_now_add=True)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.PROTECT)
+    almacen = models.ForeignKey(Almacen, on_delete=models.PROTECT)
     orden = models.ForeignKey(OrdenCompra, on_delete=models.PROTECT, related_name='orden_origen')
     total = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
 
