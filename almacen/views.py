@@ -82,13 +82,15 @@ class KardexView(BasicEMixin, ListView):
         if len(categoria) > 0:
             query = query.filter(producto__categorias__in=categoria)
         if 'tipo' in self.request.GET:
-            tipo = self.request.GET['tipo']
-            if tipo != '':
-                query = query.filter(tipo_movimiento=tipo)
+            if self.request.GET['tipo'] != '':
+                tipo = self.request.GET['tipo']
+                if tipo != '':
+                    query = query.filter(tipo_movimiento=tipo)
         if 'fecha_inicio' in self.request.GET and 'fecha_fin' in self.request.GET:
-            fecha_inicio = datetime.strptime(self.request.GET['fecha_inicio'], '%d/%m/%Y %H:%M')
-            fecha_fin = datetime.strptime(self.request.GET['fecha_fin'], '%d/%m/%Y %H:%M')
-            query = query.filter(fechahora__gte=fecha_inicio, fechahora__lte=fecha_fin)
+            if self.request.GET['fecha_inicio'] != '' and self.request.GET['fecha_fin'] != '':
+                fecha_inicio = datetime.strptime(self.request.GET['fecha_inicio'], '%d/%m/%Y %H:%M')
+                fecha_fin = datetime.strptime(self.request.GET['fecha_fin'], '%d/%m/%Y %H:%M')
+                query = query.filter(fechahora__gte=fecha_inicio, fechahora__lte=fecha_fin)
         return query
 
 
