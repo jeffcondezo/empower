@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'maestro.apps.MaestroConfig',
     'almacen.apps.AlmacenConfig',
-    'compras.apps.ComprasConfig'
+    'compras.apps.ComprasConfig',
+    'clientes.apps.ClientesConfig'
 ]
 
 MIDDLEWARE = [

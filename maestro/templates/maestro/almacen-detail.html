@@ -4,8 +4,8 @@
 {% block breadcrumb  %}
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="javascript:;">Maestro</a></li>
-        <li class="breadcrumb-item"><a href="/maestro/sucursal">Sucursal</a></li>
-        <li class="breadcrumb-item active">Detalle</li>
+        <li class="breadcrumb-item"><a href="/maestro/almacen">Almacen</a></li>
+        <li class="breadcrumb-item active">Lista</li>
     </ol>
 {% endblock %}
 
@@ -27,8 +27,8 @@
         <div class="panel-body">
            <div class="col-md-12">
                 <div class="row buttons-content">
-                    <a href="/maestro/sucursal/0/edit" class="btn btn-primary buttons"><i class="fa fa-plus"></i> Agregar</a>
-                    <a href="/maestro/sucursal/{{ object.id }}/edit" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a>
+                    <a href="/maestro/almacen/0/edit" class="btn btn-primary buttons"><i class="fa fa-plus"></i> Agregar</a>
+                    <a href="/maestro/almacen/{{ object.id }}/edit" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table">

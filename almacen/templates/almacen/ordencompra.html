@@ -72,16 +72,12 @@
                             <legend class="m-b-15">Filtros</legend>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Proveedores</label>
-                                <select name="proveedores" class="select2 form-control" multiple="multiple">
-                                    {% for p in proveedores %}
-                                        <option value="{{ p.id }}">{{ p.descripcion }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ recepcion_filtro.proveedor }}
                             </div>
                         </fieldset>
                     </div>
                     <div class="modal-footer">
-                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
                         <button type="submit" class="btn btn-success">Filtrar</button>
                     </div>
                 </form>
@@ -105,7 +101,7 @@
             },
             responsive: true
         });
-        $(".select2").select2();
+        $(".multiple-select2").select2();
         $(".select2-container--default").removeAttr('style').css("width","100%");
     </script>
 {% endblock %}

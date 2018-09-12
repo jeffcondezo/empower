@@ -75,15 +75,3 @@ function init_add_button() {
         }
     });
 }
-
-function init_catalogoproveedor_list() {
-    init_submit_btn();
-}
-
-function init_submit_btn() {
-    filtro_form.addEventListener("submit", function (evt) {
-        evt.preventDefault();
-        var id = document.getElementById('proveedor_filtro').value;
-        window.location.href = "/maestro/catalogoproveedor/"+id;
-    });
-}

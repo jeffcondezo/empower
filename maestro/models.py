@@ -34,6 +34,9 @@ class Almacen(models.Model):
     descripcion = models.CharField(max_length=200)
     sucursal = models.ForeignKey(Sucursal, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return self.descripcion
+
 
 class Producto(models.Model):
     descripcion = models.CharField(max_length=250)
@@ -62,6 +65,9 @@ class PresentacionxProducto(models.Model):
 class Proveedor(models.Model):
     descripcion = models.CharField(max_length=250)
     ruc = models.CharField(max_length=11)
+
+    def __str__(self):
+        return self.descripcion
 
 
 class CatalogoxProveedor(models.Model):

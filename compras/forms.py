@@ -3,7 +3,7 @@ from django.forms import ModelChoiceField
 
 # Model import-->
 from compras.models import OrdenCompra, DetalleOrdenCompra, Compra, DetalleCompra
-from maestro.models import Producto
+from maestro.models import Producto, Proveedor
 # Model import<--
 
 
@@ -12,6 +12,15 @@ class OrdenCompraCreateForm(forms.ModelForm):
     class Meta:
         model = OrdenCompra
         fields = ['proveedor', 'almacen']
+        widgets = {
+            'proveedor': forms.Select(attrs={'class': 'default-select2 form-control'}),
+            'almacen': forms.Select(attrs={'class': 'default-select2 form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(OrdenCompraCreateForm, self).__init__(*args, **kwargs)
+        self.fields['almacen'].empty_label = None
+        self.fields['proveedor'].empty_label = None
 
 
 class OrdenCompraEditForm(forms.ModelForm):
@@ -88,3 +97,16 @@ class DetalleCompraOfertaForm(forms.ModelForm):
     class Meta:
         model = DetalleCompra
         fields = ['cantidad_presentacion']
+
+
+class OrdenCompraFiltroForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super(OrdenCompraFiltroForm, self).__init__(*args, **kwargs)
+        self.fields['proveedor'] = forms.ModelChoiceField(queryset=Proveedor.objects.all(), required=False,
+                                                          widget=forms.SelectMultiple(
+                                                              attrs={'class': 'multiple-select2 form-control'}))
+        self.fields['proveedor'].empty_label = None
+        self.fields['estado'] = forms.ChoiceField(choices=OrdenCompra.ESTADO_CHOICES, required=False,
+                                                widget=forms.SelectMultiple(
+                                                    attrs={'class': 'multiple-select2 form-control'}))

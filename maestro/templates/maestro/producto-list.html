@@ -11,7 +11,7 @@
 {% block breadcrumb  %}
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="javascript:;">Maestro</a></li>
-        <li class="breadcrumb-item"><a href="/maestro/sucursal">Producto</a></li>
+        <li class="breadcrumb-item"><a href="/maestro/producto">Producto</a></li>
         <li class="breadcrumb-item active">Lista</li>
     </ol>
 {% endblock %}
@@ -68,16 +68,12 @@
                             <legend class="m-b-15">Filtros</legend>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Categorias</label>
-                                <select name="categorias" class="multiple-select2 form-control" multiple="multiple">
-                                    {% for c in categorias %}
-                                        <option value="{{ c.id }}">{{ c.descripcion }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ producto_filtro.categoria }}
                             </div>
                         </fieldset>
                     </div>
                     <div class="modal-footer">
-                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
                         <button type="submit" class="btn btn-success">Filtrar</button>
                     </div>
                 </form>

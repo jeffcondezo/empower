@@ -75,15 +75,3 @@ function init_add_button() {
         }
     });
 }
-
-function init_catalogoproducto_list() {
-    init_submit_btn();
-}
-
-function init_submit_btn() {
-    filtro_form.addEventListener("submit", function (evt) {
-        evt.preventDefault();
-        var id = document.getElementById('sucursal_filtro').value;
-        window.location.href = "/maestro/catalogo/"+id;
-    });
-}

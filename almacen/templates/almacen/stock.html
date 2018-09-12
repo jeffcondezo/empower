@@ -69,32 +69,20 @@
                             <legend class="m-b-15">Filtros</legend>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Sucursal</label>
-                                <select name="sucursales" class="multiple-select2 form-control" multiple="multiple">
-                                    {% for s in sucursales %}
-                                        <option value="{{ s.id }}">{{ s.descripcion }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ stock_filtro.sucursal }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Almacen</label>
-                                <select name="almacenes" class="multiple-select2 form-control" multiple="multiple">
-                                    {% for a in almacenes %}
-                                        <option value="{{ a.id }}">{{ a.descripcion }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ stock_filtro.almacen }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Categorias</label>
-                                <select name="categorias" class="multiple-select2 form-control" multiple="multiple">
-                                    {% for c in categorias %}
-                                        <option value="{{ c.id }}">{{ c.descripcion }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ stock_filtro.categoria }}
                             </div>
                         </fieldset>
                     </div>
                     <div class="modal-footer">
-                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
                         <button type="submit" class="btn btn-success">Filtrar</button>
                     </div>
                 </form>

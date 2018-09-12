@@ -10,7 +10,7 @@ from maestro.models import Empresa, Sucursal, Almacen, Categoria,\
 # Forms import-->
 from .forms import SucursalForm, AlmacenForm, CategoriaForm, PresentacionForm,\
     ProductoForm, ProductoCategoriaForm, ProductoPresentacionForm, ProveedorForm,\
-    CatalogoProveedorForm
+    CatalogoProveedorForm, ProductoFiltroForm, CatalogoFiltroForm, CatalogoProveedorFiltroForm
 # Forms import<--
 
 # Utils import-->
@@ -217,11 +217,11 @@ class ProductoListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categorias'] = Categoria.objects.all()
+        context['producto_filtro'] = ProductoFiltroForm(self.request.GET)
         return context
 
     def get_queryset(self):
-        categorias = self.request.GET.getlist('categorias')
+        categorias = self.request.GET.getlist('categoria')
         if len(categorias) > 0:
             query = Producto.objects.filter(categorias__in=categorias)
         else:
@@ -345,16 +345,13 @@ class CatalogoListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sucursales'] = Sucursal.objects.all()
-        if self.kwargs['sucursal'] > 0:
-            context['sucursal'] = Sucursal.objects.get(pk=self.kwargs['sucursal'])
-        else:
-            context['sucursal'] = Sucursal.objects.none()
+        context['catalogo_filtro'] = CatalogoFiltroForm(self.request.GET)
         return context
 
     def get_queryset(self):
-        if self.kwargs['sucursal'] != 0:
-            query = Producto.objects.filter(catalogo=self.kwargs['sucursal'])
+        sucursales = self.request.GET.getlist('sucursal')
+        if len(sucursales) > 0:
+            query = Producto.objects.filter(catalogo__in=sucursales)
         else:
             query = Producto.objects.none()
         return query
@@ -452,16 +449,13 @@ class CatalogoProveedorListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['proveedores'] = Proveedor.objects.all()
-        if self.kwargs['proveedor'] > 0:
-            context['proveedor'] = Proveedor.objects.get(pk=self.kwargs['proveedor'])
-        else:
-            context['proveedor'] = Proveedor.objects.none()
+        context['catalogo_filtro'] = CatalogoProveedorFiltroForm(self.request.GET)
         return context
 
     def get_queryset(self):
-        if self.kwargs['proveedor'] != 0:
-            query = CatalogoxProveedor.objects.filter(proveedor=self.kwargs['proveedor'])
+        proveedor = self.request.GET.getlist('proveedor')
+        if len(proveedor) > 0:
+            query = CatalogoxProveedor.objects.filter(proveedor__in=proveedor)
         else:
             query = CatalogoxProveedor.objects.none()
         return query

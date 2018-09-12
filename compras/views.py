@@ -8,7 +8,7 @@ from maestro.models import Proveedor, Almacen
 # Model import<--
 
 # Forms import-->
-from compras.forms import OrdenCompraCreateForm, OrdenCompraEditForm, DetalleOrdenCompraForm, CompraForm
+from compras.forms import OrdenCompraCreateForm, OrdenCompraEditForm, DetalleOrdenCompraForm, CompraForm, OrdenCompraFiltroForm
 # Forms import<--
 
 # Utils import-->
@@ -34,14 +34,13 @@ class OrdenListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['proveedores'] = Proveedor.objects.all()
-        context['almacenes'] = Almacen.objects.all()
-        context['estados'] = OrdenCompra.ESTADO_CHOICES
+        context['orden_filtro'] = OrdenCompraFiltroForm(self.request.GET)
+        context['orden_create'] = OrdenCompraCreateForm
         return context
 
     def get_queryset(self):
-        proveedores = self.request.GET.getlist('proveedores')
-        estados = self.request.GET.getlist('estados')
+        proveedores = self.request.GET.getlist('proveedor')
+        estados = self.request.GET.getlist('estado')
         if len(proveedores) > 0:
             query = OrdenCompra.objects.filter(proveedor__in=proveedores)
         else:

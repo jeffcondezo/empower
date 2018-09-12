@@ -109,3 +109,33 @@ class CatalogoProveedorForm(forms.ModelForm):
     class Meta:
         model = CatalogoxProveedor
         fields = ['producto']
+
+
+class ProductoFiltroForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super(ProductoFiltroForm, self).__init__(*args, **kwargs)
+        self.fields['categoria'] = forms.ModelChoiceField(queryset=Categoria.objects.all(), required=False,
+                                                          widget=forms.SelectMultiple(
+                                                              attrs={'class': 'multiple-select2 form-control'}))
+        self.fields['categoria'].empty_label = None
+
+
+class CatalogoFiltroForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super(CatalogoFiltroForm, self).__init__(*args, **kwargs)
+        self.fields['sucursal'] = forms.ModelChoiceField(queryset=Sucursal.objects.all(), required=False,
+                                                         widget=forms.SelectMultiple(
+                                                             attrs={'class': 'multiple-select2 form-control'}))
+        self.fields['sucursal'].empty_label = None
+
+
+class CatalogoProveedorFiltroForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super(CatalogoProveedorFiltroForm, self).__init__(*args, **kwargs)
+        self.fields['proveedor'] = forms.ModelChoiceField(queryset=Proveedor.objects.all(), required=False,
+                                                          widget=forms.SelectMultiple(
+                                                              attrs={'class': 'multiple-select2 form-control'}))
+        self.fields['proveedor'].empty_label = None

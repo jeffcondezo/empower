@@ -29,7 +29,7 @@
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
             </div>
-            <h4 class="panel-title">Catálogo - {{ sucursal.descripcion }}</h4>
+            <h4 class="panel-title">Catálogo</h4>
         </div>
         <div class="panel-body">
             <div class="row buttons-content">
@@ -73,16 +73,12 @@
                             <legend class="m-b-15">Filtros</legend>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Sucursal</label>
-                                <select id="sucursal_filtro" name="sucursal" class="default-select2 form-control" >
-                                    {% for s in sucursales %}
-                                        <option value="{{ s.id }}" {% if s.id == sucursal.id %} selected {% endif %}>{{ s.descripcion }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ catalogo_filtro.sucursal }}
                             </div>
                         </fieldset>
                     </div>
                     <div class="modal-footer">
-                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
                         <button type="submit" class="btn btn-success">Filtrar</button>
                     </div>
                 </form>
@@ -105,7 +101,7 @@
             },
             responsive: true
         });
-        $("#sucursal_filtro").select2();
+        $(".multiple-select2").select2();
         $(".select2-container--default").removeAttr('style').css("width","100%");
         $('[data-click="swal-danger"]').click(function(e) {
             e.preventDefault();
@@ -137,6 +133,5 @@
                 document.getElementById('form').submit();
             });
 	});
-        init_catalogoproducto_list();
     </script>
 {% endblock %}

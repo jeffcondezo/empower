@@ -78,24 +78,16 @@
                             <legend class="m-b-15">Filtros</legend>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Estados</label>
-                                <select name="estados" class="select2 form-control" multiple="multiple">
-                                    {% for e in estados %}
-                                        <option value="{{ e.0 }}">{{ e.1}}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ orden_filtro.estado }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Proveedores</label>
-                                <select name="proveedores" class="select2 form-control" multiple="multiple">
-                                    {% for p in proveedores %}
-                                        <option value="{{ p.id }}">{{ p.descripcion }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ orden_filtro.proveedor }}
                             </div>
                         </fieldset>
                     </div>
                     <div class="modal-footer">
-                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
                         <button type="submit" class="btn btn-success">Filtrar</button>
                     </div>
                 </form>
@@ -114,19 +106,11 @@
                             <legend class="m-b-15">Crear Orden</legend>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Proveedor</label>
-                                <select required name="proveedor" class="select2 form-control">
-                                    {% for p in proveedores %}
-                                        <option value="{{ p.id }}">{{ p.descripcion }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ orden_create.proveedor }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Almacen</label>
-                                <select required name="almacen" class="select2 form-control">
-                                    {% for a in almacenes %}
-                                        <option value="{{ a.id }}">{{ a.descripcion }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ orden_create.almacen }}
                             </div>
                         </fieldset>
                     </div>
@@ -152,7 +136,8 @@
             },
             responsive: true
         });
-        $(".select2").select2();
+        $(".default-select2").select2();
+        $(".multiple-select2").select2();
         $(".select2-container--default").removeAttr('style').css("width","100%");
     </script>
 {% endblock %}

@@ -11,6 +11,7 @@ from compras.models import OrdenCompra, DetalleOrdenCompra, ResultadoOfertaOrden
 
 # Form import-->
 from compras.forms import CompraForm, DetalleCompraForm, DetalleCompraOfertaForm
+from almacen.forms import StockFiltroForm, KardexFiltroForm, RecepcionFiltroForm
 # Form import<--
 
 # Utils import-->
@@ -35,15 +36,13 @@ class StockView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['almacenes'] = Almacen.objects.all()
-        context['sucursales'] = Sucursal.objects.all()
-        context['categorias'] = Categoria.objects.all()
+        context['stock_filtro'] = StockFiltroForm(self.request.GET)
         return context
 
     def get_queryset(self):
-        sucursal = self.request.GET.getlist('sucursales')
-        almacen = self.request.GET.getlist('almacenes')
-        categoria = self.request.GET.getlist('categorias')
+        sucursal = self.request.GET.getlist('sucursal')
+        almacen = self.request.GET.getlist('almacen')
+        categoria = self.request.GET.getlist('categoria')
         if len(sucursal) > 0:
             query = Stock.objects.filter(almacen__sucursal__in=Sucursal.objects.filter(pk__in=sucursal))
         elif len(almacen) > 0:
@@ -64,15 +63,14 @@ class KardexView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['almacenes'] = Almacen.objects.all()
-        context['sucursales'] = Sucursal.objects.all()
-        context['categorias'] = Categoria.objects.all()
+        context['kardex_filtro'] = KardexFiltroForm(self.request.GET)
         return context
 
     def get_queryset(self):
         sucursal = self.request.GET.getlist('sucursales')
         almacen = self.request.GET.getlist('almacenes')
         categoria = self.request.GET.getlist('categorias')
+        tipo = self.request.GET.getlist('tipo')
         if len(sucursal) > 0:
             query = Kardex.objects.filter(almacen__sucursal__in=Sucursal.objects.filter(pk__in=sucursal))
         elif len(almacen) > 0:
@@ -81,11 +79,8 @@ class KardexView(BasicEMixin, ListView):
             query = Kardex.objects.all()
         if len(categoria) > 0:
             query = query.filter(producto__categorias__in=categoria)
-        if 'tipo' in self.request.GET:
-            if self.request.GET['tipo'] != '':
-                tipo = self.request.GET['tipo']
-                if tipo != '':
-                    query = query.filter(tipo_movimiento=tipo)
+        if len(tipo) > 0:
+            query = query.filter(tipo_movimiento__in=tipo)
         if 'fecha_inicio' in self.request.GET and 'fecha_fin' in self.request.GET:
             if self.request.GET['fecha_inicio'] != '' and self.request.GET['fecha_fin'] != '':
                 fecha_inicio = datetime.strptime(self.request.GET['fecha_inicio'], '%d/%m/%Y %H:%M')
@@ -102,12 +97,11 @@ class OrdenListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['proveedores'] = Proveedor.objects.all()
-        context['estados'] = OrdenCompra.ESTADO_CHOICES
+        context['recepcion_filtro'] = RecepcionFiltroForm(self.request.GET)
         return context
 
     def get_queryset(self):
-        proveedores = self.request.GET.getlist('proveedores')
+        proveedores = self.request.GET.getlist('proveedor')
         query = OrdenCompra.objects.filter(estado='2')
         if len(proveedores) > 0:
             query = query.filter(proveedor__in=proveedores)
