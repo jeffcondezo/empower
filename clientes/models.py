@@ -4,8 +4,8 @@ from django.db import models
 # Create your models here.
 class Cliente(models.Model):
     TIPO_CHOICES = (
-        ('1', 'EMPRESARIAL'),
-        ('2', 'PERSONA'),
+        ('1', 'PERSONA'),
+        ('2', 'EMPRESARIAL'),
     )
     tipo = models.CharField(max_length=1, choices=TIPO_CHOICES, default=1)
     documento = models.CharField(max_length=15)
@@ -23,6 +23,7 @@ class Cliente(models.Model):
 
 
 class ContactosCliente(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     nombres = models.CharField(max_length=250)
     apellidos = models.CharField(max_length=250)
     descripcion = models.CharField(max_length=250)

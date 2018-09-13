@@ -8,13 +8,13 @@
 {% block breadcrumb  %}
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="javascript:;">Clientes</a></li>
-        <li class="breadcrumb-item"><a href="/clientes/cliente">Cliente</a></li>
+        <li class="breadcrumb-item"><a href="/clientes/cliente">Contacto</a></li>
         <li class="breadcrumb-item active">Edición</li>
     </ol>
 {% endblock %}
 
 {% block pageheader %}
-    <h1 class="page-header">Cliente <small>Edición del Cliente</small></h1>
+    <h1 class="page-header">Contacto <small>Edición del Contacto</small></h1>
 {% endblock %}
 
 
@@ -27,7 +27,7 @@
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
             </div>
-            <h4 class="panel-title">Cliente</h4>
+            <h4 class="panel-title">Contacto</h4>
         </div>
         <div class="panel-body">
             <form method="post">{% csrf_token %}
@@ -41,16 +41,10 @@
                         <table class="table">
                             <tbody>
                                 <tr>
-                                    <td class="td-detail-title">TIPO:</td>
-                                    <td class="td-detail-desc">{{ object.tipo }}</td>
-                                    <td class="td-detail-title">RUC:</td>
-                                    <td class="td-detail-desc">{{ object.ruc }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="td-detail-title">DNI:</td>
-                                    <td class="td-detail-desc">{{ object.dni }}</td>
-                                    <td class="td-detail-title">RAZON SOCIAL:</td>
-                                    <td class="td-detail-desc">{{ object.razon_social }}</td>
+                                    <td class="td-detail-title">CLIENTE:</td>
+                                    <td class="td-detail-desc">{{ object.cliente }}</td>
+                                    <td class="td-detail-title">CARGO:</td>
+                                    <td class="td-detail-desc">{{ object.cargo }}</td>
                                 </tr>
                                 <tr>
                                     <td class="td-detail-title">NOMBRES:</td>
@@ -59,10 +53,16 @@
                                     <td class="td-detail-desc">{{ object.apellidos }}</td>
                                 </tr>
                                 <tr>
+                                    <td class="td-detail-title">DNI:</td>
+                                    <td class="td-detail-desc">{{ object.dni }}</td>
                                     <td class="td-detail-title">TELEFONO:</td>
                                     <td class="td-detail-desc">{{ object.telefono }}</td>
+                                </tr>
+                                <tr>
                                     <td class="td-detail-title">CORREO:</td>
                                     <td class="td-detail-desc">{{ object.correo }}</td>
+                                    <td class="td-detail-title"></td>
+                                    <td class="td-detail-desc"></td>
                                 </tr>
                             </tbody>
                         </table>
