@@ -1,5 +1,5 @@
 from maestro.models import Producto, PresentacionxProducto
-from compras.models import DetalleOrdenCompra, DetalleCompra, OfertaOrden, ResultadoOfertaOrden
+from compras.models import DetalleOrdenCompra, DetalleCompra, OfertaOrden, ResultadoOfertaOrden, Compra
 from almacen.utils import update_kardex_stock
 import json
 
@@ -19,8 +19,8 @@ def recalcular_total_orden(orden):
     detalleorden = DetalleOrdenCompra.objects.filter(ordencompra=orden.id)
     total = 0
     for d in detalleorden:
-        total += d.total
-    orden.total_tentativo = total
+        total += d.total_final
+    orden.total_final = total
     orden.save()
 
 
@@ -52,7 +52,7 @@ def guardar_oferta(oferta, detalle_orden):
                         if detalle_orden.cantidad_presentacion >= cantidad_oferta:
                             resultado_orden.tipo = oferta_orden.tipo
                             resultado_orden.descuento = (detalle_orden.cantidad_presentacion // cantidad_oferta) * retorno
-                            resultado_orden.total = detalle_orden.total - resultado_orden.descuento
+                            resultado_orden.total = float(detalle_orden.total) - resultado_orden.descuento
                             detalle_orden.descuento = resultado_orden.descuento
                             detalle_orden.total_final = resultado_orden.total
                             detalle_orden.save()
@@ -114,7 +114,7 @@ def validar_oferta(oferta):
 
 def aplicar_oferta(oferta, detallecompra, validar):
     oferta_compra = OfertaOrden(tipo=oferta[0], cantidad_compra=oferta[1],
-                                 presentacion_compra=detallecompra.presentacionxproducto, retorno=oferta[2])
+                                presentacion_compra=detallecompra.presentacionxproducto, retorno=oferta[2])
     if len(oferta) > 3:
         oferta_compra.producto_oferta = validar[1]
         oferta_compra.presentacion_oferta = validar[2]
@@ -207,7 +207,49 @@ def fill_data_compraoferta(detalle_compra, id_resultado_oferta):
     detalle_compra.precio = 0
     detalle_compra.total = 0
     detalle_compra = detalle_compra.save()
-    # '1' y '1' significa entrada y compra para el kardex
+    # '1' y '1' significan entrada y compra para el kardex respectivamente
     update_kardex_stock(detalle_compra, '1', '1')
 
 
+def ordentocompra(form, user, orden):
+    detalles_orden = DetalleOrdenCompra.objects.filter(ordencompra=orden.id)
+    resultado_oferta = ResultadoOfertaOrden.objects.filter(detalleorden__ordencompra=orden.id, tipo='1')
+    estado_envio = form.cleaned_data['estado_envio']
+    tipo_comprobante = form.cleaned_data['tipo_comprobante']
+    serie_comprobante = form.cleaned_data['serie_comprobante']
+    numero_comprobante = form.cleaned_data['numero_comprobante']
+    compra = Compra(asignado=user, proveedor=orden.proveedor, almacen=orden.almacen,
+                    orden=orden, tipo_comprobante=tipo_comprobante, serie_comprobante=serie_comprobante,
+                    numero_comprobante=numero_comprobante, total=orden.total, descuento=orden.descuento,
+                    total_final=orden.total_final)
+    if estado_envio == '1':
+        orden.estado = '2'
+    elif estado_envio == '2':
+        orden.estado = '3'
+    orden.save()
+    compra.save()
+    for do in detalles_orden:
+        detalle_compra = DetalleCompra(compra=compra, producto=do.producto,
+                                       presentacionxproducto=do.presentacionxproducto,
+                                       cantidad_presentacion=do.cantidad_presentacion,
+                                       cantidad_unidad=do.cantidad_unidad, precio=do.precio, total=do.total,
+                                       descuento=do.descuento, total_final=do.total_final)
+        detalle_compra.save()
+        if estado_envio == '2':
+            # '1' y '1' significan entrada y compra para el kardex respectivamente
+            detalle_compra.is_conforme = True
+            detalle_compra.save()
+            update_kardex_stock(detalle_compra, '1', '1')
+    for ro in resultado_oferta:
+        detalle_compra = DetalleCompra(compra=compra, producto=ro.presentacion.producto,
+                                       presentacionxproducto=ro.presentacion,
+                                       cantidad_presentacion=ro.cantidad_presentacion,
+                                       cantidad_unidad=ro.cantidad_unidad, precio=0, total=0, descuento=0,
+                                       total_final=0, is_oferta=True)
+        detalle_compra.save()
+        if estado_envio == '2':
+            # '1' y '1' significan entrada y compra para el kardex respectivamente
+            detalle_compra.is_conforme = True
+            detalle_compra.save()
+            update_kardex_stock(detalle_compra, '1', '1')
+    return compra.id

@@ -55,7 +55,7 @@
                                 </tr>
                                 <tr>
                                     <td class="td-detail-title">TOTAL:</td>
-                                    <td class="td-detail-desc" id="orden_total">{{ model.total_tentativo }}</td>
+                                    <td class="td-detail-desc" id="orden_total">{{ model.total_final }}</td>
                                     <td class="td-detail-title">FECHA-HORA:</td>
                                     <td class="td-detail-desc">{{ model.fechahora|date:'d-m-Y H:i' }}</td>
                                 </tr>
@@ -98,7 +98,7 @@
                                         <td>{{ d.0.cantidad_presentacion }}</td>
                                         <td class="td_precio">{{ d.0.precio }}</td>
                                         <td class="td_total">{{ d.1.total }}</td>
-                                        <td><input type="hidden" class="promocion_inp" name="oferta-{{ forloop.counter }}" value="{{ d.1.oferta }}"><a data-pos="{{ forloop.counter }}" class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
+                                        <td><input type="hidden" class="promocion_inp" name="oferta-{{ forloop.counter }}" value="{{ d.1.oferta }}"><a data-pos="{{ forloop.counter }}" class="btn {% if d.1.oferta  == '[]' %} btn-default {% else %} btn-info {% endif %} btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
                                         <td><a class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
                                     </tr>
                                 {% endfor %}

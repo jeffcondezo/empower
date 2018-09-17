@@ -53,7 +53,7 @@
                             </tr>
                             <tr>
                                 <td class="td-detail-title">TOTAL:</td>
-                                <td class="td-detail-desc">{{ object.total_tentativo }}</td>
+                                <td class="td-detail-desc">{{ object.total_final }}</td>
                                 <td class="td-detail-title">FECHA-HORA:</td>
                                 <td class="td-detail-desc">{{ object.fechahora|date:'d-m-Y H:i' }}</td>
                             </tr>
@@ -90,33 +90,8 @@
                                     <td><input class="form-control cantidad" name="dc{{ forloop.counter }}-cantidad_presentacion"  value="{{ d.cantidad_presentacion }}"></td>
                                     <td class="td_precio">{{ d.precio }}</td>
                                     <td class="td_descuento">{{ d.descuento }}</td>
-                                    <td><input class="form-control totalfinal" name="dc{{ forloop.counter }}-total"  value="{{ d.total_final }}"></td>
+                                    <td>{% if d.is_oferta %} {{ d.total_final }} {% else %}<input class="form-control totalfinal" name="dc{{ forloop.counter }}-total"  value="{{ d.total_final }}">{% endif %}</td>
                                     <td><p class="m-b-25"><input type="checkbox" data-change="check-conforme" data-render="switchery" data-theme="default" /></p></td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-               <legend class="m-b-15">
-                   Productos de Oferta
-               </legend>
-               <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th width="22%">Producto</th>
-                                <th width="13%">Presentación</th>
-                                <th width="15%">Cantidad</th>
-                                <th width="15%">Conforme</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for o in oferta %}
-                                <tr>
-                                    <td><input type="hidden" name="re{{ forloop.counter }}-id_resultadooferta" value="{{ o.id }}">{{ o.producto.descripcion }}</td>
-                                    <td>{{ o.presentacion.presentacion.descripcion }}</td>
-                                    <td><input class="form-control cantidad_promocion" name="ro{{ forloop.counter }}-cantidad_presentacion"  value="{{ o.cantidad_presentacion }}"></td>
-                                    <td><p class="m-b-25"><input type="checkbox" data-change="check-oferta-conforme" data-render="switchery" data-theme="default" /></p></td>
                                 </tr>
                             {% endfor %}
                         </tbody>

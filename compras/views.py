@@ -8,11 +8,13 @@ from maestro.models import Proveedor, Almacen
 # Model import<--
 
 # Forms import-->
-from compras.forms import OrdenCompraCreateForm, OrdenCompraEditForm, DetalleOrdenCompraForm, CompraForm, OrdenCompraFiltroForm
+from compras.forms import OrdenCompraCreateForm, OrdenCompraEditForm, DetalleOrdenCompraForm, CompraForm,\
+    OrdenCompraFiltroForm, OrdenCompraConvertirForm
 # Forms import<--
 
 # Utils import-->
-from .utils import fill_data, recalcular_total_orden, crear_detallecompra, cargar_resultado_oferta, cargar_oferta
+from .utils import fill_data, recalcular_total_orden, crear_detallecompra, cargar_resultado_oferta, cargar_oferta,\
+    ordentocompra
 # Utils import<--
 
 # Extra python features-->
@@ -62,6 +64,7 @@ class OrdenDetailView(BasicEMixin, DetailView):
         context = super().get_context_data(**kwargs)
         detalle_orden = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
         context['detalle'] = cargar_resultado_oferta(detalle_orden)
+        context['orden_convertir'] = OrdenCompraConvertirForm()
         return context
 
 
@@ -74,12 +77,33 @@ class OrdenCreateView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         form = OrdenCompraCreateForm(self.request.POST)
         if form.is_valid():
-            orden = form.save(commit=False)
-            orden.asignado = self.request.user
-            orden.save()
+            try:
+                orden = OrdenCompra.objects.get(proveedor=form.cleaned_data['proveedor'], estado=1)
+            except OrdenCompra.DoesNotExist:
+                orden = form.save(commit=False)
+                orden.asignado = self.request.user
+                orden.save()
             url = self.url + str(orden.id) + '/edit'
         else:
             url = '/compras/orden'
+        return url
+
+
+class OrdenToCompraView(RedirectView):
+
+    url = '/compras/compra/'
+    view_name = 'orden_compra'
+    action_name = 'tocompra'
+
+    def get_redirect_url(self, *args, **kwargs):
+        form = OrdenCompraConvertirForm(self.request.POST)
+        if form.is_valid():
+            orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
+            user = self.request.user
+            compra_id = ordentocompra(form, user, orden)
+            url = self.url + str(compra_id)
+        else:
+            return HttpResponse(form.errors)
         return url
 
 

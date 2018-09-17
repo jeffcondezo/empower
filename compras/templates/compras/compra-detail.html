@@ -1,4 +1,4 @@
-{% extends "maestro/base.html" %}
+{% extends "compras/base.html" %}
 {% load static %}
 
 {% load maestro_tags %}
@@ -79,8 +79,10 @@
                                 <th>Producto</th>
                                 <th>Presentación</th>
                                 <th>Cantidad</th>
-                                <th>Descuento</th>
                                 <th>Precio</th>
+                                <th>SubTotal</th>
+                                <th>Descuento</th>
+                                <th>Total</th>
                                 <th>Oferta</th>
                             </tr>
                         </thead>
@@ -89,9 +91,11 @@
                                 <tr>
                                     <td>{{ d.presentacionxproducto.producto.descripcion }}</td>
                                     <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
-                                    <td>{{ d.cantidad_presentacion_entrega }}</td>
-                                    <td>{{ d.descuento }}</td>
+                                    <td>{{ d.cantidad_presentacion }} &#8773; {{ d.cantidad_unidad }} U.</td>
                                     <td>{{ d.precio }}</td>
+                                    <td>{{ d.total }}</td>
+                                    <td>{{ d.descuento }}</td>
+                                    <td>{{ d.total_final }}</td>
                                     <td>{{ d.is_oferta }}</td>
                                 </tr>
                             {% endfor %}

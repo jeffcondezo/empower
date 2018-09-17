@@ -107,3 +107,9 @@ class AsignacionAccion(models.Model):
     accionxvista = models.ForeignKey(AccionxVista, on_delete=models.PROTECT)
 
 
+class TipoComprobante(models.Model):
+    descripcion = models.CharField(max_length=150)
+    codigo_sunat = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.descripcion

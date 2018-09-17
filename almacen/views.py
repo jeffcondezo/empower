@@ -6,7 +6,7 @@ from django.shortcuts import redirect, HttpResponse
 # Model import-->
 from maestro.models import Almacen, Sucursal, Categoria, Proveedor
 from .models import Stock, Kardex
-from compras.models import OrdenCompra, DetalleOrdenCompra, ResultadoOfertaOrden
+from compras.models import OrdenCompra, DetalleOrdenCompra, ResultadoOfertaOrden, Compra, DetalleCompra
 # Model import<--
 
 # Form import-->
@@ -102,7 +102,7 @@ class OrdenListView(BasicEMixin, ListView):
 
     def get_queryset(self):
         proveedores = self.request.GET.getlist('proveedor')
-        query = OrdenCompra.objects.filter(estado='2')
+        query = Compra.objects.filter(estado='1')
         if len(proveedores) > 0:
             query = query.filter(proveedor__in=proveedores)
         return query
@@ -111,15 +111,14 @@ class OrdenListView(BasicEMixin, ListView):
 class OrdenDetailView(BasicEMixin, DetailView):
 
     template_name = 'almacen/recepcion.html'
-    model = OrdenCompra
+    model = Compra
     nav_name = 'nav_kardex'
     view_name = 'orden_compra'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['detalle'] = DetalleOrdenCompra.objects.filter(ordencompra=self.kwargs['pk'])
-        context['oferta'] = ResultadoOfertaOrden.objects.filter(detalleorden__ordencompra=self.kwargs['pk'], tipo='1')
-        context['orden_id'] = self.kwargs['pk']
+        context['detalle'] = DetalleCompra.objects.filter(compra=self.kwargs['pk'])
+        context['compra_id'] = self.kwargs['pk']
         return context
 
     def post(self, request, *args, **kwargs):
@@ -132,7 +131,6 @@ class OrdenDetailView(BasicEMixin, DetailView):
             compra.asignado = self.request.user
             compra.orden = orden
             compra.save()
-            print(compra)
             for i in range(1, int(request.POST['detalle_size'])+1):
                 dc_form = DetalleCompraForm(request.POST, prefix='dc'+str(i))
                 if dc_form.is_valid():

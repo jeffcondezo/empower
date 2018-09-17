@@ -18,6 +18,12 @@ class Kardex(models.Model):
         (1, 'COMPRA'),
         (2, 'VENTA')
     )
+
+    TIPO_COMPROBANTE_CHOICES = (
+        (1, 'BOLETA'),
+        (2, 'FACTURA')
+    )
+
     almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
     tipo_movimiento = models.CharField(max_length=1, choices=TIPO_MOVIMIENTO_CHOICES)
@@ -25,5 +31,15 @@ class Kardex(models.Model):
     cantidad = models.IntegerField()
     cantidad_entrada = models.IntegerField(blank=True, null=True)
     cantidad_salida = models.IntegerField(blank=True, null=True)
+    precio_unitario_entrada = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    precio_unitario_salida = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    total_entrada = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    total_salida = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    cantidad_saldo = models.DecimalField(max_digits=8, decimal_places=2)
+    precio_unitario_saldo = models.DecimalField(max_digits=8, decimal_places=2)
+    total_saldo = models.DecimalField(max_digits=8, decimal_places=2)
     id_target = models.IntegerField()
     fechahora = models.DateTimeField(auto_now_add=True)
+    tipo_comprobante = models.CharField(max_length=1, choices=TIPO_COMPROBANTE_CHOICES)
+    serie_comprobante = models.CharField(max_length=20)
+    numero_comprobante = models.CharField(max_length=50)

@@ -3,7 +3,7 @@ from django.forms import ModelChoiceField
 
 # Model import-->
 from compras.models import OrdenCompra, DetalleOrdenCompra, Compra, DetalleCompra
-from maestro.models import Producto, Proveedor
+from maestro.models import Producto, Proveedor, TipoComprobante
 # Model import<--
 
 
@@ -35,7 +35,7 @@ class OrdenCompraEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(OrdenCompraEditForm, self).__init__(*args, **kwargs)
         self.fields['estado'].empty_label = None
-        self.fields['estado'].choices = [i for i in self.fields['estado'].choices if i[0] != '2']
+        self.fields['estado'].choices = [i for i in self.fields['estado'].choices if i[0] in ['1', '4']]
 
 
 class DetalleOrdenCompraForm(forms.ModelForm):
@@ -99,6 +99,27 @@ class DetalleCompraOfertaForm(forms.ModelForm):
         fields = ['cantidad_presentacion']
 
 
+class OrdenCompraConvertirForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super(OrdenCompraConvertirForm, self).__init__(*args, **kwargs)
+        self.fields['estado_envio'] = forms.ChoiceField(choices=Compra.ESTADO_ENVIO_CHOICES, widget=forms.Select(
+            attrs={'class': 'default-select2 form-control', 'required': 'required'}))
+        self.fields['tipo_pago'] = forms.ChoiceField(choices=Compra.TIPO_PAGO_CHOICES, widget=forms.Select(
+            attrs={'class': 'default-select2 form-control', 'required': 'required'}))
+        self.fields['pago'] = forms.FloatField(required=False,
+                                               widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                               'value': 0}))
+        self.fields['tipo_comprobante'] = forms.ModelChoiceField(queryset=TipoComprobante.objects.all(), required=False,
+                                                                 widget=forms.Select(
+                                                                     attrs={'class': 'default-select2 form-control'}))
+        self.fields['tipo_comprobante'].empty_label = None
+        self.fields['serie_comprobante'] = forms.IntegerField(required=False, widget=forms.NumberInput(
+            attrs={'class': 'form-control'}))
+        self.fields['numero_comprobante'] = forms.IntegerField(required=False, widget=forms.NumberInput(
+            attrs={'class': 'form-control'}))
+
+
 class OrdenCompraFiltroForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
@@ -108,5 +129,5 @@ class OrdenCompraFiltroForm(forms.Form):
                                                               attrs={'class': 'multiple-select2 form-control'}))
         self.fields['proveedor'].empty_label = None
         self.fields['estado'] = forms.ChoiceField(choices=OrdenCompra.ESTADO_CHOICES, required=False,
-                                                widget=forms.SelectMultiple(
-                                                    attrs={'class': 'multiple-select2 form-control'}))
+                                                  widget=forms.SelectMultiple(
+                                                      attrs={'class': 'multiple-select2 form-control'}))
