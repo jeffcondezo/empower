@@ -118,7 +118,6 @@ class OrdenDetailView(BasicEMixin, DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['detalle'] = DetalleCompra.objects.filter(compra=self.kwargs['pk'])
-        context['compra_id'] = self.kwargs['pk']
         context['compra_form'] = CompraForm(instance=context['object'])
         context['clean_form'] = DetalleCompraForm(proveedor=context['object'].proveedor_id)
         return context
