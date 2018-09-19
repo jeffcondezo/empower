@@ -231,25 +231,25 @@ def ordentocompra(form, user, orden):
     for do in detalles_orden:
         detalle_compra = DetalleCompra(compra=compra, producto=do.producto,
                                        presentacionxproducto=do.presentacionxproducto,
-                                       cantidad_presentacion=do.cantidad_presentacion,
+                                       cantidad_presentacion_pedido=do.cantidad_presentacion,
+                                       cantidad_presentacion_entrega=do.cantidad_presentacion,
                                        cantidad_unidad=do.cantidad_unidad, precio=do.precio, total=do.total,
                                        descuento=do.descuento, total_final=do.total_final)
         detalle_compra.save()
         if estado_envio == '2':
             # '1' y '1' significan entrada y compra para el kardex respectivamente
-            detalle_compra.is_conforme = True
             detalle_compra.save()
             update_kardex_stock(detalle_compra, '1', '1')
     for ro in resultado_oferta:
         detalle_compra = DetalleCompra(compra=compra, producto=ro.presentacion.producto,
                                        presentacionxproducto=ro.presentacion,
-                                       cantidad_presentacion=ro.cantidad_presentacion,
+                                       cantidad_presentacion_pedido=ro.cantidad_presentacion,
+                                       cantidad_presentacion_entrega=ro.cantidad_presentacion,
                                        cantidad_unidad=ro.cantidad_unidad, precio=0, total=0, descuento=0,
                                        total_final=0, is_oferta=True)
         detalle_compra.save()
         if estado_envio == '2':
             # '1' y '1' significan entrada y compra para el kardex respectivamente
-            detalle_compra.is_conforme = True
             detalle_compra.save()
             update_kardex_stock(detalle_compra, '1', '1')
     return compra.id

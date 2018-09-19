@@ -119,31 +119,16 @@ class OrdenDetailView(BasicEMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['detalle'] = DetalleCompra.objects.filter(compra=self.kwargs['pk'])
         context['compra_id'] = self.kwargs['pk']
+        context['compra_form'] = CompraForm(instance=context['object'])
+        context['clean_form'] = DetalleCompraForm(proveedor=context['object'].proveedor_id)
         return context
 
     def post(self, request, *args, **kwargs):
-        orden = OrdenCompra.objects.get(pk=self.kwargs['pk'])
+        compra = Compra.objects.get(pk=self.kwargs['pk'])
         form = CompraForm(request.POST)
         if form.is_valid():
-            compra = form.save(commit=False)
-            compra.proveedor = orden.proveedor
-            compra.almacen = orden.almacen
-            compra.asignado = self.request.user
-            compra.orden = orden
-            compra.save()
-            for i in range(1, int(request.POST['detalle_size'])+1):
-                dc_form = DetalleCompraForm(request.POST, prefix='dc'+str(i))
-                if dc_form.is_valid():
-                    dc_form = dc_form.save(commit=False)
-                    dc_form.compra = compra
-                    fill_data_compra(dc_form, request.POST['dc'+str(i)+'-id_detalleorden'])
-            for i in range(1, int(request.POST['oferta_size'])+1):
-                dc_form = DetalleCompraOfertaForm(request.POST, prefix='ro'+str(i))
-                if dc_form.is_valid():
-                    dc_form = dc_form.save(commit=False)
-                    dc_form.compra = compra
-                    fill_data_compraoferta(dc_form, request.POST['ro'+str(i)+'-id_resultadooferta'])
-            recalcular_total_compra(compra)
+            compra = form.save()
+
             return redirect('/compras/compra/' + str(compra.id))
         else:
             return HttpResponse(form.errors)

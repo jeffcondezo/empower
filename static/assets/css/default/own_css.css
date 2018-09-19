@@ -92,3 +92,6 @@ legend{
 #div_producto_empty{
     display: none;
 }
+#tr_nopedido_empty{
+    display: none;
+}

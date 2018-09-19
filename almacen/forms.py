@@ -12,14 +12,14 @@ class DetalleCompraForm(forms.ModelForm):
 
     class Meta:
         model = DetalleCompra
-        fields = ['cantidad_presentacion', 'total']
+        fields = ['cantidad_presentacion_pedido', 'total']
 
 
 class DetalleCompraOfertaForm(forms.ModelForm):
 
     class Meta:
         model = DetalleCompra
-        fields = ['cantidad_presentacion']
+        fields = ['cantidad_presentacion_pedido']
 
 
 class StockFiltroForm(forms.Form):

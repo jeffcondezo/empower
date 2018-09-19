@@ -82,21 +82,49 @@ class CompraForm(forms.ModelForm):
 
     class Meta:
         model = Compra
-        fields = ['orden']
+        fields = ['estado', 'tipo_comprobante', 'serie_comprobante', 'numero_comprobante', 'tipo_pago']
+        widgets = {
+            'estado': forms.Select(attrs={'class': 'select2 form-control'}),
+            'tipo_comprobante': forms.Select(attrs={'class': 'select2 form-control'}),
+            'tipo_pago': forms.Select(attrs={'class': 'select2 form-control'}),
+            'serie_comprobante': forms.TextInput(attrs={'class': 'form-control'}),
+            'numero_comprobante': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
 
 class DetalleCompraForm(forms.ModelForm):
 
     class Meta:
         model = DetalleCompra
-        fields = ['cantidad_presentacion', 'total']
+        fields = ['producto', 'presentacionxproducto', 'cantidad_presentacion_entrega', 'total_final']
+        widgets = {
+            'presentacionxproducto': forms.HiddenInput(attrs={'class': 'presentacionxproducto'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        proveedor = kwargs.pop('proveedor')
+        super(DetalleCompraForm, self).__init__(*args, **kwargs)
+        self.fields['producto'] = forms.ModelChoiceField(
+            required=False,
+            queryset=Producto.objects.filter(catalogoxproveedor__proveedor=proveedor),
+            widget=forms.Select(attrs={'class': 'default-select2 form-control producto_nopedido'}),
+        )
+        self.fields['producto'].empty_label = None
+        self.fields['cantidad_presentacion_entrega'] = forms.IntegerField(
+            required=False,
+            widget=forms.NumberInput(attrs={'class': 'form-control cantidad_presentacion_entrega_nopedido'})
+        )
+        self.fields['total_final'] = forms.IntegerField(
+            required=False,
+            widget=forms.NumberInput(attrs={'class': 'form-control total_final_nopedido'})
+        )
 
 
 class DetalleCompraOfertaForm(forms.ModelForm):
 
     class Meta:
         model = DetalleCompra
-        fields = ['cantidad_presentacion']
+        fields = ['cantidad_presentacion_pedido']
 
 
 class OrdenCompraConvertirForm(forms.Form):

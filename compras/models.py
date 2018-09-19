@@ -50,6 +50,8 @@ class Compra(models.Model):
     )
     asignado = models.ForeignKey(User, on_delete=models.PROTECT, related_name='asignado')
     estado = models.CharField(max_length=1, choices=ESTADO_ENVIO_CHOICES, default=1)
+    tipo_pago = models.CharField(max_length=1, choices=TIPO_PAGO_CHOICES, default=1)
+    estado_pago = models.CharField(max_length=1, choices=ESTADO_PAGO_CHOICES, default=1)
     fechahora = models.DateTimeField(auto_now_add=True)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.PROTECT)
     almacen = models.ForeignKey(Almacen, on_delete=models.PROTECT)
@@ -66,14 +68,15 @@ class DetalleCompra(models.Model):
     compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
     presentacionxproducto = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT)
-    cantidad_presentacion = models.IntegerField(blank=True, null=True)
+    cantidad_presentacion_pedido = models.IntegerField(blank=True, null=True)
+    cantidad_presentacion_entrega = models.IntegerField(blank=True, null=True)
     cantidad_unidad = models.IntegerField(blank=True, null=True)
     precio = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
     descuento = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total_final = models.DecimalField(max_digits=8, decimal_places=2)
     is_oferta = models.BooleanField(default=False)
-    is_conforme = models.BooleanField(default=False)
+    is_nodeseado = models.BooleanField(default=False)
 
 
 class OfertaOrden(models.Model):
