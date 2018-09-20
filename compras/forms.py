@@ -92,7 +92,8 @@ class CompraForm(forms.ModelForm):
         }
 
 
-class DetalleCompraForm(forms.ModelForm):
+# Sirve para el modal de agregar un no deseado a la compra.
+class DetalleCompraNoDeseadoForm(forms.ModelForm):
 
     class Meta:
         model = DetalleCompra
@@ -103,7 +104,7 @@ class DetalleCompraForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         proveedor = kwargs.pop('proveedor')
-        super(DetalleCompraForm, self).__init__(*args, **kwargs)
+        super(DetalleCompraNoDeseadoForm, self).__init__(*args, **kwargs)
         self.fields['producto'] = forms.ModelChoiceField(
             required=False,
             queryset=Producto.objects.filter(catalogoxproveedor__proveedor=proveedor),
@@ -120,11 +121,21 @@ class DetalleCompraForm(forms.ModelForm):
         )
 
 
-class DetalleCompraOfertaForm(forms.ModelForm):
+# Sirve para guardar el detallecompra (tanto deseados y no deseados)
+class DetalleCompraForm(forms.ModelForm):
 
     class Meta:
         model = DetalleCompra
-        fields = ['cantidad_presentacion_pedido']
+        fields = ['cantidad_presentacion_entrega', 'total_final']
+
+    def __init__(self, *args, **kwargs):
+        super(DetalleCompraForm, self).__init__(*args, **kwargs)
+        self.fields['cantidad_presentacion_entrega'] = forms.IntegerField(
+            widget=forms.NumberInput(attrs={'class': 'form-control cantidad_presentacion_entrega_nopedido'})
+        )
+        self.fields['total_final'] = forms.IntegerField(
+            widget=forms.NumberInput(attrs={'class': 'form-control total_final_nopedido'})
+        )
 
 
 class OrdenCompraConvertirForm(forms.Form):

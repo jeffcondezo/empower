@@ -251,7 +251,7 @@ function action_delete() {
             detalleorden_to_delete.value = data_id;
         }else{
             var array_delete = current_delete.split(',');
-            array_delete.push(id);
+            array_delete.push(data_id);
             detalleorden_to_delete.value = array_delete.join(',');
         }
    }

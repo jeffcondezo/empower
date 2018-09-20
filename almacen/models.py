@@ -35,7 +35,7 @@ class Kardex(models.Model):
     precio_unitario_salida = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     total_entrada = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     total_salida = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    cantidad_saldo = models.DecimalField(max_digits=8, decimal_places=2)
+    cantidad_saldo = models.IntegerField()
     precio_unitario_saldo = models.DecimalField(max_digits=8, decimal_places=2)
     total_saldo = models.DecimalField(max_digits=8, decimal_places=2)
     id_target = models.IntegerField()

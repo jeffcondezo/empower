@@ -76,7 +76,7 @@ class DetalleCompra(models.Model):
     descuento = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total_final = models.DecimalField(max_digits=8, decimal_places=2)
     is_oferta = models.BooleanField(default=False)
-    is_nodeseado = models.BooleanField(default=False)
+    is_nodeseado = models.BooleanField(default=True)
 
 
 class OfertaOrden(models.Model):

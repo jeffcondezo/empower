@@ -234,7 +234,7 @@ def ordentocompra(form, user, orden):
                                        cantidad_presentacion_pedido=do.cantidad_presentacion,
                                        cantidad_presentacion_entrega=do.cantidad_presentacion,
                                        cantidad_unidad=do.cantidad_unidad, precio=do.precio, total=do.total,
-                                       descuento=do.descuento, total_final=do.total_final)
+                                       descuento=do.descuento, total_final=do.total_final, is_nodeseado=False)
         detalle_compra.save()
         if estado_envio == '2':
             # '1' y '1' significan entrada y compra para el kardex respectivamente
@@ -246,10 +246,22 @@ def ordentocompra(form, user, orden):
                                        cantidad_presentacion_pedido=ro.cantidad_presentacion,
                                        cantidad_presentacion_entrega=ro.cantidad_presentacion,
                                        cantidad_unidad=ro.cantidad_unidad, precio=0, total=0, descuento=0,
-                                       total_final=0, is_oferta=True)
+                                       total_final=0, is_oferta=True, is_nodeseado=False)
         detalle_compra.save()
         if estado_envio == '2':
             # '1' y '1' significan entrada y compra para el kardex respectivamente
             detalle_compra.save()
             update_kardex_stock(detalle_compra, '1', '1')
     return compra.id
+
+
+def fill_data_detallecompra(detalle_compra, flag_estado):
+    detalle_compra.cantidad_presentacion_pedido = detalle_compra.cantidad_presentacion_entrega
+    detalle_compra.cantidad_unidad = detalle_compra.cantidad_presentacion_entrega * \
+                                     detalle_compra.presentacionxproducto.cantidad
+    detalle_compra.precio = detalle_compra.total_final / detalle_compra.cantidad_presentacion_entrega
+    detalle_compra.total = detalle_compra.total_final
+    detalle_compra.save()
+    # '1' y '1' significa entrada y compra para el kardex
+    if flag_estado == '2':
+        update_kardex_stock(detalle_compra, '1', '1')
