@@ -255,7 +255,7 @@ def ordentocompra(form, user, orden):
     return compra.id
 
 
-def fill_data_detallecompra(detalle_compra, flag_estado):
+def fill_data_detallecompra(detalle_compra, flag_estado, compra):
     detalle_compra.cantidad_presentacion_pedido = detalle_compra.cantidad_presentacion_entrega
     detalle_compra.cantidad_unidad = detalle_compra.cantidad_presentacion_entrega * \
                                      detalle_compra.presentacionxproducto.cantidad
@@ -264,4 +264,4 @@ def fill_data_detallecompra(detalle_compra, flag_estado):
     detalle_compra.save()
     # '1' y '1' significa entrada y compra para el kardex
     if flag_estado == '2':
-        update_kardex_stock(detalle_compra, '1', '1')
+        update_kardex_stock(detalle_compra, '1', '1', compra)

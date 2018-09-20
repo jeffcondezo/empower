@@ -1,5 +1,5 @@
 from django.db import models
-from maestro.models import Producto, Almacen
+from maestro.models import Producto, Almacen, TipoComprobante
 
 
 # Create your models here.
@@ -19,11 +19,6 @@ class Kardex(models.Model):
         (2, 'VENTA')
     )
 
-    TIPO_COMPROBANTE_CHOICES = (
-        (1, 'BOLETA'),
-        (2, 'FACTURA')
-    )
-
     almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
     tipo_movimiento = models.CharField(max_length=1, choices=TIPO_MOVIMIENTO_CHOICES)
@@ -40,6 +35,7 @@ class Kardex(models.Model):
     total_saldo = models.DecimalField(max_digits=8, decimal_places=2)
     id_target = models.IntegerField()
     fechahora = models.DateTimeField(auto_now_add=True)
-    tipo_comprobante = models.CharField(max_length=1, choices=TIPO_COMPROBANTE_CHOICES)
-    serie_comprobante = models.CharField(max_length=20)
-    numero_comprobante = models.CharField(max_length=50)
+    tipo_comprobante = models.ForeignKey(TipoComprobante, on_delete=models.PROTECT, null=True, blank=True)
+    serie_comprobante = models.CharField(max_length=10, null=True, blank=True)
+    numero_comprobante = models.CharField(max_length=10, null=True, blank=True)
+

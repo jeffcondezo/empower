@@ -139,7 +139,7 @@ class OrdenDetailView(BasicEMixin, DetailView):
                     if dc_form.is_valid():
                         dc_obj = dc_form.save(commit=False)
                         dc_obj.compra = compra
-                        fill_data_detallecompra(dc_obj, compra.estado)
+                        fill_data_detallecompra(dc_obj, compra.estado, compra)
             if request.POST['detallecompra_to_delete'] != '':
                 for j in request.POST['detallecompra_to_delete'].split(','):
                     detalle_compra = DetalleCompra.objects.get(pk=j)
