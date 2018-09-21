@@ -218,7 +218,7 @@ def ordentocompra(form, user, orden):
     tipo_comprobante = form.cleaned_data['tipo_comprobante']
     serie_comprobante = form.cleaned_data['serie_comprobante']
     numero_comprobante = form.cleaned_data['numero_comprobante']
-    compra = Compra(asignado=user, proveedor=orden.proveedor, almacen=orden.almacen,
+    compra = Compra(asignado=user, proveedor=orden.proveedor, almacen=orden.almacen, estado=estado_envio,
                     orden=orden, tipo_comprobante=tipo_comprobante, serie_comprobante=serie_comprobante,
                     numero_comprobante=numero_comprobante, total=orden.total, descuento=orden.descuento,
                     total_final=orden.total_final)
@@ -239,7 +239,7 @@ def ordentocompra(form, user, orden):
         if estado_envio == '2':
             # '1' y '1' significan entrada y compra para el kardex respectivamente
             detalle_compra.save()
-            update_kardex_stock(detalle_compra, '1', '1')
+            update_kardex_stock(detalle_compra, '1', '1', compra)
     for ro in resultado_oferta:
         detalle_compra = DetalleCompra(compra=compra, producto=ro.presentacion.producto,
                                        presentacionxproducto=ro.presentacion,
@@ -251,7 +251,7 @@ def ordentocompra(form, user, orden):
         if estado_envio == '2':
             # '1' y '1' significan entrada y compra para el kardex respectivamente
             detalle_compra.save()
-            update_kardex_stock(detalle_compra, '1', '1')
+            update_kardex_stock(detalle_compra, '1', '1', compra)
     return compra.id
 
 
