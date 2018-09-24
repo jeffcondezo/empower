@@ -6,68 +6,75 @@
     <link href="{% static "assets/css/default/own_css.css" %}" rel="stylesheet" >
 {% endblock %}
 
-{% block breadcrumb  %}
-    <ol class="breadcrumb pull-right">
-        <li class="breadcrumb-item"><a href="javascript:;">Compras</a></li>
-        <li class="breadcrumb-item"><a href="/maestro/sucursal">Orden</a></li>
-        <li class="breadcrumb-item active">Edición</li>
-    </ol>
-{% endblock %}
-
-{% block pageheader %}
-    <h1 class="page-header">Orden de Compra <small>Editar la Orden</small></h1>
-{% endblock %}
-
 
 {% block content %}
     <div class="panel panel-inverse">
         <div class="panel-heading">
-            <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+            <div class="btn-group pull-right">
+               <button id="add_btn" type="button" class="btn btn-xs btn-success"><i class="fa fa-plus fas"></i></button>
             </div>
             <h4 class="panel-title">Orden de Compra </h4>
         </div>
+        <div class="panel-body">
+             <div class="form-group row m-b-3">
+                    <div class="col-md-2">
+                        <label class="control-label">PROVEEDOR:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ model.proveedor.descripcion }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">ESTADO:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ form.estado }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">FECHA:</label>
+                    </div>
+
+                    <div class="col-md-2">
+                        {{ model.fechahora|date:'d-m-Y H:i' }}
+
+                    </div>
+
+                </div>
+                <div class="form-group row m-b-3">
+                    <div class="col-md-2">
+                        <label class="control-label">TOTAL:</label>
+                    </div>
+                    <div class="col-md-2" id="orden_total">
+                        {{ model.total_final }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">ASIGNADO:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ model.asignado.username }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">ALMACEN:</label>
+
+                    </div>
+
+                    <div class="col-md-2">
+                        {{ model.almacen.descripcion }}
+                    </div>
+                    
+                </div>
+            
+        </div>
+    </div>
+    <div class="panel panel-inverse">
         <div class="panel-body">
             <form method="post">{% csrf_token %}
                 <input type="hidden" id="detalleorden_to_delete" name="detalleorden_to_delete" value="">
                 <input type="hidden" id="current_pos" value="{{ detalle|length }}">
                 <input type="hidden" id="detalleorden_to_save" name="detalleorden_to_save" value="">
-               <div class="col-md-12">
-                   <div class="row buttons-content">
-                       <button type="submit" class="btn btn-success">
-                            <i class="fa fa-save fas"></i> Guardar
-                        </button>
-                       <button id="add_btn" type="button" class="btn btn-success">
-                            <i class="fa fa-plus fas"></i> Agregar
-                        </button>
-                   </div>
-                   <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td class="td-detail-title">PROVEEDOR:</td>
-                                    <td class="td-detail-desc">{{ model.proveedor.descripcion }}<input type="hidden" id="proveedor_id" value="{{ model.proveedor_id }}"></td>
-                                    <td class="td-detail-title">ESTADO:</td>
-                                    <td class="td-detail-desc">{{ form.estado }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="td-detail-title">TOTAL:</td>
-                                    <td class="td-detail-desc" id="orden_total">{{ model.total_final }}</td>
-                                    <td class="td-detail-title">FECHA-HORA:</td>
-                                    <td class="td-detail-desc">{{ model.fechahora|date:'d-m-Y H:i' }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="td-detail-title">ASIGNADO:</td>
-                                    <td class="td-detail-desc">{{ model.asignado.username }}</td>
-                                    <td class="td-detail-title">ALMACEN</td>
-                                    <td class="td-detail-desc">{{ model.almacen.descripcion }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                   </div>
+                <input type="hidden" id="proveedor_id" value="{{ model.proveedor_id }}">
                    <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
@@ -98,17 +105,23 @@
                                         <td>{{ d.0.cantidad_presentacion }}</td>
                                         <td class="td_precio">{{ d.0.precio }}</td>
                                         <td class="td_total">{{ d.1.total }}</td>
-                                        <td><input type="hidden" class="promocion_inp" name="oferta-{{ forloop.counter }}" value="{{ d.1.oferta }}"><a data-pos="{{ forloop.counter }}" class="btn {% if d.1.oferta  == '[]' %} btn-default {% else %} btn-info {% endif %} btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
+                                        <td><input type="hidden" class="promocion_inp" name="oferta-{{ forloop.counter }}" value="{{ d.1.oferta }}"><a data-pos="{{ forloop.counter }}" class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
                                         <td><a class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
-               </div>
+           
+            <div  class="modal-footer pull-right" id="btn_save">
+                <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i> Guardar
+                </button>
+            </div>
             </form>
         </div>
     </div>
+
+
 {% endblock %}
 
 

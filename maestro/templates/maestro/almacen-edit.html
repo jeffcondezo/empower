@@ -5,52 +5,39 @@
     <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" >
 {% endblock %}
 
-{% block breadcrumb  %}
-    <ol class="breadcrumb pull-right">
-        <li class="breadcrumb-item"><a href="javascript:;">Maestro</a></li>
-        <li class="breadcrumb-item"><a href="/maestro/almacen">Almacen</a></li>
-        <li class="breadcrumb-item active">Lista</li>
-    </ol>
-{% endblock %}
 
-{% block pageheader %}
-    <h1 class="page-header">Almacen <small>Configuración de Almacenes</small></h1>
-{% endblock %}
+
 
 {% block content %}
     <div class="panel panel-inverse">
         <div class="panel-heading">
-            <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
-            </div>
+           
             <h4 class="panel-title">Almacen</h4>
         </div>
         <div class="panel-body">
             <form method="post">{% csrf_token %}
-               <div class="col-md-12">
-                   <div class="row buttons-content">
-                       <button type="submit" class="btn btn-success">
-                            <i class="fa fa-save fas"></i> Guardar
-                        </button>
-                   </div>
-                   <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                            <tr>
-                                <td class="td-detail-title">SUCURSAL:</td>
-                                <td class="td-detail-desc">
-                                    {{ object.sucursal }}
-                                </td>
-                                <td class="td-detail-title">DESCRIPCION:</td>
-                                <td class="td-detail-desc">{{ object.descripcion }}</td>
-                            </tr>
-                            </tbody>
-                        </table>
+
+                <div class="form-group row m-b-4">
+                    <div class="col-md-1">
+                        <label class="control-label">SUCURSAL:</label>
                     </div>
-               </div>
+                    <div class="col-md-4">
+                        {{ object.sucursal }}
+                    </div>
+
+                    <div class="col-md-1">
+                        <label class="control-label">DESCRIPCION:</label>
+
+                    </div>
+                    <div class="col-md-4">
+                        {{ object.descripcion }}
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i> Guardar
+                    </button>
+                </div>
             </form>
         </div>
     </div>

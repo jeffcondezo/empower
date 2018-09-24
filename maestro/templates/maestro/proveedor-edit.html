@@ -4,51 +4,42 @@
 {% block head_files %}
 {% endblock %}
 
-{% block breadcrumb  %}
-    <ol class="breadcrumb pull-right">
-        <li class="breadcrumb-item"><a href="javascript:;">Maestro</a></li>
-        <li class="breadcrumb-item"><a href="/maestro/sucursal">Proveedor</a></li>
-        <li class="breadcrumb-item active">Edición</li>
-    </ol>
-{% endblock %}
-
-{% block pageheader %}
-    <h1 class="page-header">Proveedor <small>Configuración de Proveedores</small></h1>
-{% endblock %}
-
-
 {% block content %}
     <div class="panel panel-inverse">
         <div class="panel-heading">
-            <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+            <div class="btn-group pull-right">
+                
             </div>
             <h4 class="panel-title">Proveedor</h4>
         </div>
         <div class="panel-body">
             <form method="post">{% csrf_token %}
-               <div class="col-md-12">
-                   <div class="row buttons-content">
-                       <button type="submit" class="btn btn-success">
-                            <i class="fa fa-save fas"></i> Guardar
-                        </button>
-                   </div>
-                   <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td class="td-detail-title">DESCRIPCION:</td>
-                                    <td class="td-detail-desc">{{ object.descripcion }}</td>
-                                    <td class="td-detail-title">RUC:</td>
-                                    <td class="td-detail-desc">{{ object.ruc }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+                <div class="form-group row m-b-4">
+                    <div class="col-md-2">
+
+                        <label class="control-label">DESCRIPCION:</label>
+
                     </div>
-               </div>
+                    <div class="col-md-3">
+                        {{ object.descripcion }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">RUC:</label>
+                    </div>
+                    <div class="col-md-3">
+                        {{ object.ruc }}
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i> Guardar
+                    </button>
+
+                </div>
+
+
             </form>
         </div>
     </div>

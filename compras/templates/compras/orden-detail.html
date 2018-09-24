@@ -1,75 +1,70 @@
-{% extends "compras/base.html" %}
+{% extends "maestro/base.html" %}
 {% load static %}
 
 {% load maestro_tags %}
 
 {% block head_files %}
-        <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" />
-        <link href="{% static "assets/css/default/own_replace.css" %}" rel="stylesheet" />
 {% endblock %}
-
-{% block breadcrumb  %}
-    <ol class="breadcrumb pull-right">
-        <li class="breadcrumb-item"><a href="javascript:;">Compras</a></li>
-        <li class="breadcrumb-item"><a href="/maestro/sucursal">Orden</a></li>
-        <li class="breadcrumb-item active">Detalle</li>
-    </ol>
-{% endblock %}
-
-{% block pageheader %}
-    <h1 class="page-header">Orden de Compra <small>Detalle de la Orden de Compra</small></h1>
-{% endblock %}
-
 
 {% block content %}
     <div class="panel panel-inverse">
         <div class="panel-heading">
-            <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+            <div class="btn-group pull-right">
+                <a href="/compras/orden/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i> </a>
+                <a href="/compras/orden/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
+                
             </div>
             <h4 class="panel-title">Orden de Compra</h4>
         </div>
         <div class="panel-body">
-           <div class="col-md-12">
-               <legend class="m-b-15">Datos Generales
-                   <span class="span-right"><a href="/compras/orden/0/edit" class="btn btn-primary buttons"><i class="fa fa-plus"></i> Agregar</a>
-                   <a href="/compras/orden/{{ object.id }}/edit" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a>
-                   {% if object.estado == '1' %}<a href="#modal-convertir" data-toggle="modal" class="btn btn-primary buttons"><i class="fa fa-dollar-sign"></i> Convertir a Compra</a> {% endif %}
-                   </span>
-               </legend>
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td class="td-detail-title">PROVEEDOR:</td>
-                                <td class="td-detail-desc">{{ object.proveedor.descripcion }}</td>
-                                <td class="td-detail-title">ESTADO:</td>
-                                <td class="td-detail-desc">{{ object.get_estado_display }}</td>
-                            </tr>
-                            <tr>
-                                <td class="td-detail-title">TOTAL:</td>
-                                <td class="td-detail-desc">{{ object.total_final }}</td>
-                                <td class="td-detail-title">FECHA-HORA:</td>
-                                <td class="td-detail-desc">{{ object.fechahora|date:'d-m-Y H:i' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="td-detail-title">ASIGNADO:</td>
-                                <td class="td-detail-desc">{{ object.asignado.username }}</td>
-                                <td class="td-detail-title">COMPRA:</td>
-                                <td class="td-detail-desc">{{ object.compra|default_if_none:'' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="td-detail-title">ALMACEN:</td>
-                                <td class="td-detail-desc">{{ object.almacen.descripcion }}</td>
-                                <td class="td-detail-title"></td>
-                                <td class="td-detail-desc"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+            <div class="form-group row m-b-2">
+                <div class="col-md-2">
+                    <label class="control-label">PROVEEDOR :</label>
                 </div>
+                <div class="col-md-2">
+                    {{ object.proveedor.descripcion }}
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label">ESTADO:</label>
+                </div>
+                <div class="col-md-2">
+                    {{ object.get_estado_display }}
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label">FECHA-HORA:</label>
+                </div>
+                <div class="col-md-2">
+                    {{ object.fechahora|date:'d-m-Y H:i' }}
+                </div>
+
+            </div>
+            <div class="form-group row m-b-2">
+                <div class="col-md-2">
+                    <label class="control-label">TOTAL:</label>
+                </div>
+
+                <div class="col-md-2">
+                    {{ object.total_tentativo }}
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label">ASIGNADO:</label>
+
+                </div>
+                <div class="col-md-2">
+                    {{ object.asignado.username }}
+                </div>
+
+                <div class="col-md-2">
+                    <label class="control-label">ALMACEN:</label>
+                </div>
+
+                <div class="col-md-2">
+                    {{ object.almacen.descripcion }}
+                </div>
+            </div>
+           <div class="col-md-12">
+           
                <legend class="m-b-15">
                    Detalle
                </legend>
@@ -79,11 +74,9 @@
                             <tr>
                                 <th width="22%">Producto</th>
                                 <th width="13%">Presentación</th>
-                                <th width="10%">Cantidad</th>
-                                <th width="10%">Precio</th>
-                                <th width="10%">SubTotal</th>
-                                <th width="10%">Descuento</th>
-                                <th width="10%">Total</th>
+                                <th width="15%">Cantidad</th>
+                                <th width="15%">Precio</th>
+                                <th width="15%">Total</th>
                                 <th width="15%">Promociones</th>
                             </tr>
                         </thead>
@@ -95,8 +88,6 @@
                                     <td>{{ d.cantidad_presentacion }} &#8773; {{ d.cantidad_unidad }} U.</td>
                                     <td>{{ d.precio }}</td>
                                     <td>{{ d.total }}</td>
-                                    <td>{{ d.descuento }}</td>
-                                    <td>{{ d.total_final }}</td>
                                     <td>
                                         {% for p in d.promocion %}
                                             {% if p.tipo == '1' %}
@@ -117,59 +108,5 @@
 
 {% endblock %}
 
-
-{% block modal %}
-    <!-- #modal-dialog -->
-    <div class="modal fade" id="modal-convertir">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="/compras/orden/{{ object.id }}/tocompra" method="POST">{% csrf_token %}
-                    <div class="modal-body">
-                        <fieldset>
-                            <legend class="m-b-15">Parametros de Conversión:</legend>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Convertir a:</label>
-                                {{ orden_convertir.estado_envio }}
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Tipo Pago:</label>
-                                {{ orden_convertir.tipo_pago }}
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Pago:</label>
-                                {{ orden_convertir.pago }}
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Tipo Comprobante:</label>
-                                {{ orden_convertir.tipo_comprobante }}
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Serie:</label>
-                                {{ orden_convertir.serie_comprobante }}
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Número:</label>
-                                {{ orden_convertir.numero_comprobante }}
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
-                        <button type="submit" class="btn btn-success">Crear</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-{% endblock %}
-
 {% block bottom_scripts %}
-        <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
-        <script src="{% static "assets/own/compras/ordendetail.js" %}"></script>
-    <script>
-        $(".default-select2").val('');
-        $(".default-select2").select2({placeholder: "Seleccione"});
-        $(".select2-container--default").removeAttr('style').css("width","100%");
-        init_ordencompradetail();
-    </script>
 {% endblock %}

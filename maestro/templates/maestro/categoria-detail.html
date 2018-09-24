@@ -1,55 +1,46 @@
 {% extends "maestro/base.html" %}
 {% load static %}
 
-{% block breadcrumb  %}
-    <ol class="breadcrumb pull-right">
-        <li class="breadcrumb-item"><a href="javascript:;">Maestro</a></li>
-        <li class="breadcrumb-item"><a href="/maestro/sucursal">Categoria</a></li>
-        <li class="breadcrumb-item active">Detalle</li>
-    </ol>
-{% endblock %}
-
-{% block pageheader %}
-    <h1 class="page-header">Categoría <small>Configuración de Categorías</small></h1>
-{% endblock %}
 
 
 {% block content %}
     <div class="panel panel-inverse">
         <div class="panel-heading">
-            <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+            <div class="btn-group pull-right">
+                <a href="/maestro/categoria/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus">
+                </i></a>
+                <a href="/maestro/categoria/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
+                
             </div>
             <h4 class="panel-title">Categoría</h4>
         </div>
         <div class="panel-body">
-           <div class="col-md-12">
-                <div class="row buttons-content">
-                    <a href="/maestro/categoria/0/edit" class="btn btn-primary buttons"><i class="fa fa-plus"></i> Agregar</a>
-                    <a href="/maestro/categoria/{{ object.id }}/edit" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a>
+            <div class="form-group row m-b-2">
+                <div class="col-md-2">
+                    <label class="control-label">DESCRIPCION:</label>
+
                 </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td class="td-detail-title">DESCRIPCION:</td>
-                            <td class="td-detail-desc">{{ object.descripcion }}</td>
-                            <td class="td-detail-title">NIVEL:</td>
-                            <td class="td-detail-desc">{{ object.nivel }}</td>
-                        </tr>
-                        <tr>
-                            <td class="td-detail-title">PADRE:</td>
-                            <td class="td-detail-desc">{{ object.padre.descripcion }}</td>
-                            <td class="td-detail-title"></td>
-                            <td class="td-detail-desc"></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="col-md-2">
+                    {{ object.descripcion }}
                 </div>
-           </div>
+
+                <div class="col-md-2">
+                    <label class="control-label">NIVEL:</label>
+                </div>
+
+                <div class="col-md-2">
+                    {{ object.nivel }}
+                </div>
+
+                <div class="col-md-2">
+                    <label class="control-label">PADRE</label>
+                </div>
+
+                <div class="col-md-2">
+                    {{ object.padre.descripcion }}
+                </div>
+
+            </div>
         </div>
     </div>
 {% endblock %}

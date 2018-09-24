@@ -1,21 +1,9 @@
-{% extends "compras/base.html" %}
+{% extends "maestro/base.html" %}
 {% load static %}
 
 {% load maestro_tags %}
 
 {% block head_files %}
-{% endblock %}
-
-{% block breadcrumb  %}
-    <ol class="breadcrumb pull-right">
-        <li class="breadcrumb-item"><a href="javascript:;">Compras</a></li>
-        <li class="breadcrumb-item"><a href="/maestro/sucursal">Compra</a></li>
-        <li class="breadcrumb-item active">Detalle</li>
-    </ol>
-{% endblock %}
-
-{% block pageheader %}
-    <h1 class="page-header">Compra <small>Detalle de la Compra</small></h1>
 {% endblock %}
 
 
@@ -79,10 +67,8 @@
                                 <th>Producto</th>
                                 <th>Presentación</th>
                                 <th>Cantidad</th>
-                                <th>Precio</th>
-                                <th>SubTotal</th>
                                 <th>Descuento</th>
-                                <th>Total</th>
+                                <th>Precio</th>
                                 <th>Oferta</th>
                             </tr>
                         </thead>
@@ -91,11 +77,9 @@
                                 <tr>
                                     <td>{{ d.presentacionxproducto.producto.descripcion }}</td>
                                     <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
-                                    <td>{{ d.cantidad_presentacion }} &#8773; {{ d.cantidad_unidad }} U.</td>
-                                    <td>{{ d.precio }}</td>
-                                    <td>{{ d.total }}</td>
+                                    <td>{{ d.cantidad_presentacion_entrega }}</td>
                                     <td>{{ d.descuento }}</td>
-                                    <td>{{ d.total_final }}</td>
+                                    <td>{{ d.precio }}</td>
                                     <td>{{ d.is_oferta }}</td>
                                 </tr>
                             {% endfor %}

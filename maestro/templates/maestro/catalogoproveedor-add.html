@@ -6,80 +6,66 @@
     <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" >
 {% endblock %}
 
-{% block breadcrumb  %}
-    <ol class="breadcrumb pull-right">
-        <li class="breadcrumb-item"><a href="javascript:;">Maestro</a></li>
-        <li class="breadcrumb-item"><a href="/maestro/sucursal">Catálogo</a></li>
-        <li class="breadcrumb-item active">Agregar</li>
-    </ol>
-{% endblock %}
-
-{% block pageheader %}
-    <h1 class="page-header">Catálogo Proveedor<small>Agregar Productos al Catálogo del Proveedor</small></h1>
-{% endblock %}
-
 
 {% block content %}
+<form method="post">{% csrf_token %}
+    <input type="hidden" id="current_pos" value="{{ own_presentaciones|length }}">
+    <input type="hidden" id="presentacion_to_save" name="catalogo_to_save" value="">
     <div class="panel panel-inverse">
         <div class="panel-heading">
-            <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+            <div class="btn-group pull-right">
+               
             </div>
             <h4 class="panel-title">Catálogo Proveedor</h4>
         </div>
         <div class="panel-body">
-            <form method="post">{% csrf_token %}
-                <input type="hidden" id="current_pos" value="{{ own_presentaciones|length }}">
-                <input type="hidden" id="presentacion_to_save" name="catalogo_to_save" value="">
-               <div class="col-md-12">
-                   <div class="row buttons-content">
-                       <button type="submit" class="btn btn-success">
-                            <i class="fa fa-save fas"></i> Guardar
-                        </button>
 
-                   </div>
-                    <div class="row">
+            <div class="form-group row m-b-2">
+                <div class="col-md-2">
+                    <label class="control-label">PROVEEDOR:</label>
+                </div>
+
+                <div class="col-md-4">
+                    <select name="proveedor" class="select2 form-control">
+                        {% for p in proveedores %}
+                        <option {% if p.id == own_proveedor %} selected {% endif %} value="{{ p.id }}">{{ p.descripcion }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-inverse">
+        <div class="modal-header">
+            <h4 class="panel-title">Producto</h4>
+            <div class="btn-group pull-right">
+                <button id="add_btn" type="button" class="btn btn-xs btn-success"><i class="fa fa-plus fas"></i> </button>
+            </div>
+            
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
                         <div class="col-md-12">
                            <div class="table-responsive">
                                 <table class="table">
-                                    <tbody>
+
+                                    <thead>
                                         <tr>
-                                            <td class="td-detail-title">PROVEEDOR:</td>
-                                            <td class="td-detail-desc">
-                                                <select name="proveedor" class="select2 form-control">
-                                                    {% for p in proveedores %}
-                                                        <option {% if p.id == own_proveedor %} selected {% endif %} value="{{ p.id }}">{{ p.descripcion }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </td>
-                                            <td class="td-detail-title"></td>
-                                            <td class="td-detail-desc">
+                                            <th>Producto</th>
+                                            <th>Accion</th>
+
                                         </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                   <legend class="m-b-15">
-                    Productos
-                    <span class="span-right"><button id="add_btn" type="button" class="btn btn-success"><i class="fa fa-plus fas"></i> Agregar</button></span>
-                   </legend>
-                    <div class="row">
-                        <div class="col-md-12">
-                           <div class="table-responsive">
-                                <table class="table">
+                                    </thead>
+
                                     <tbody id="tbody_presentacion">
                                         <tr id="tr_presentacion_empty">
-                                            <td class="td-detail-title">PRODUCTO:</td>
-                                            <td class="td-detail-desc">
+                                            
+                                            <td>
                                                 <select class="select form-control">
                                                 </select>
                                             </td>
-                                            <td class="td-detail-title"></td>
-                                            <td class="td-detail-desc"></td>
                                             <td><a data-pos="" class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
                                         </tr>
                                     </tbody>
@@ -87,10 +73,17 @@
                             </div>
                         </div>
                     </div>
-               </div>
-            </form>
+
         </div>
-    </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i> Guardar
+            </button>
+
+        </div>
+    </div>     
+</form>
+           
+
 {% endblock %}
 
 {% block bottom_scripts %}
