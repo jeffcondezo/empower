@@ -8,7 +8,9 @@
 
 
 {% block content %}
+            <form method="post">{% csrf_token %}
     <div class="panel panel-inverse">
+
         <div class="panel-heading">
             <div class="btn-group pull-right">
                <button id="add_btn" type="button" class="btn btn-xs btn-success"><i class="fa fa-plus fas"></i></button>
@@ -70,7 +72,6 @@
     </div>
     <div class="panel panel-inverse">
         <div class="panel-body">
-            <form method="post">{% csrf_token %}
                 <input type="hidden" id="detalleorden_to_delete" name="detalleorden_to_delete" value="">
                 <input type="hidden" id="current_pos" value="{{ detalle|length }}">
                 <input type="hidden" id="detalleorden_to_save" name="detalleorden_to_save" value="">
@@ -117,11 +118,10 @@
                 <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i> Guardar
                 </button>
             </div>
-            </form>
+
         </div>
     </div>
-
-
+            </form>
 {% endblock %}
 
 
