@@ -12,7 +12,8 @@
             <div class="btn-group pull-right">
                 <a href="/compras/orden/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i> </a>
                 <a href="/compras/orden/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
-                
+                <a href="#modal-convertir" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-dollar"></i></a>
+
             </div>
             <h4 class="panel-title">Orden de Compra</h4>
         </div>
@@ -74,9 +75,11 @@
                             <tr>
                                 <th width="22%">Producto</th>
                                 <th width="13%">Presentación</th>
-                                <th width="15%">Cantidad</th>
-                                <th width="15%">Precio</th>
-                                <th width="15%">Total</th>
+                                <th width="10%">Cantidad</th>
+                                <th width="10%">Precio</th>
+                                <th width="10%">SubTotal</th>
+                                <th width="10%">Descuento</th>
+                                <th width="10%">Total</th>
                                 <th width="15%">Promociones</th>
                             </tr>
                         </thead>
@@ -88,6 +91,8 @@
                                     <td>{{ d.cantidad_presentacion }} &#8773; {{ d.cantidad_unidad }} U.</td>
                                     <td>{{ d.precio }}</td>
                                     <td>{{ d.total }}</td>
+                                    <td>{{ d.descuento }}</td>
+                                    <td>{{ d.total_final }}</td>
                                     <td>
                                         {% for p in d.promocion %}
                                             {% if p.tipo == '1' %}
@@ -108,5 +113,57 @@
 
 {% endblock %}
 
+
+{% block modal %}
+    <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-convertir">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/compras/orden/{{ object.id }}/tocompra" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Parametros de Conversión:</legend>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Convertir a:</label>
+                                {{ orden_convertir.estado_envio }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tipo Pago:</label>
+                                {{ orden_convertir.tipo_pago }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Pago:</label>
+                                {{ orden_convertir.pago }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tipo Comprobante:</label>
+                                {{ orden_convertir.tipo_comprobante }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Serie:</label>
+                                {{ orden_convertir.serie_comprobante }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Número:</label>
+                                {{ orden_convertir.numero_comprobante }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="submit" class="btn btn-success">Crear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block bottom_scripts %}
+        <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script>
+        $(".default-select2").val('');
+        $(".default-select2").select2({placeholder: "Seleccione"});
+        $(".select2-container--default").removeAttr('style').css("width","100%");
+    </script>
 {% endblock %}

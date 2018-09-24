@@ -159,7 +159,7 @@ class OrdenEditView(BasicEMixin, TemplateView):
                     DetalleOrdenCompra.objects.get(pk=j).delete()
             recalcular_total_orden(orden)
         else:
-            return HttpResponse(form.errors[0])
+            return HttpResponse(form.errors)
         return redirect('/compras/orden/'+str(orden.id))
 
 
