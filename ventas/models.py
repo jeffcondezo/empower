@@ -48,13 +48,13 @@ class DetalleVenta(models.Model):
 
 class OfertaVenta(models.Model):
     TIPO_DURACION_CHOICES = (
-        (1, 'TEMPORAL'),
-        (2, 'PERMANENTE'),
+        ('1', 'TEMPORAL'),
+        ('2', 'PERMANENTE'),
     )
     TIPO_CHOICES = (
-        (1, 'PRODUCTO'),
-        (2, 'DESCUENTO MONETARIO'),
-        (3, 'DESCUENTO PORCENTUAL'),
+        ('1', 'PRODUCTO'),
+        ('2', 'DESCUENTO MONETARIO'),
+        ('3', 'DESCUENTO PORCENTUAL'),
     )
     sucursal = models.ForeignKey(Sucursal, on_delete=models.PROTECT)
     tipo = models.CharField(max_length=1, choices=TIPO_CHOICES)
@@ -68,6 +68,6 @@ class OfertaVenta(models.Model):
     presentacion_retorno = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT,
                                              related_name='presentacion_retorno_venta', blank=True, null=True)
     retorno = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    fechahora_inicio = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    fechahora_fin = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    stock_limite = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    fechahora_inicio = models.DateTimeField(blank=True, null=True)
+    fechahora_fin = models.DateTimeField(blank=True, null=True)
+    stock_limite = models.IntegerField(blank=True, null=True)

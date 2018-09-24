@@ -31,8 +31,8 @@ class OfertaVentaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(OfertaVentaForm, self).__init__(*args, **kwargs)
         self.fields['sucursal'].empty_label = None
-        self.fields['tipo'].empty_label = None
-        self.fields['tipo_duracion'].empty_label = None
+        self.fields['tipo'].choices = [i for i in self.fields['tipo'].choices if i[0] in ['1', '2', '3']]
+        self.fields['tipo_duracion'].choices = [i for i in self.fields['tipo_duracion'].choices if i[0] in ['1', '2']]
         self.fields['producto_oferta'].empty_label = None
         self.fields['presentacion_oferta'].empty_label = None
         self.fields['producto_retorno'].empty_label = None
