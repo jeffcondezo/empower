@@ -23,8 +23,8 @@ class OfertaVentaForm(forms.ModelForm):
             'producto_retorno': forms.Select(attrs={'class': 'default-select2 form-control'}),
             'presentacion_retorno': forms.Select(attrs={'class': 'default-select2 form-control'}),
             'retorno': forms.NumberInput(attrs={'class': 'form-control'}),
-            'fechahora_inicio': forms.TextInput(attrs={'class': 'form-control'}),
-            'fechahora_fin': forms.TextInput(attrs={'class': 'form-control'}),
+            'fechahora_inicio': forms.TextInput(attrs={'class': 'fdatepicker-default'}),
+            'fechahora_fin': forms.TextInput(attrs={'class': 'datepicker-default'}),
             'stock_limite': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 

@@ -340,7 +340,7 @@ function init_addpromocion_button() {
         var temp_div = div_promocion_empty.cloneNode(true);
         temp_div.removeAttribute("id");
         var select_tipo_promocion = temp_div.querySelector('.tipo_promocion');
-        $(select_tipo_promocion).select2({placeholder: "Tipo de Promocion",dropdownParent: $('#modal-promocion')});
+        $(select_tipo_promocion).select2({placeholder: "Tipo de Promocion", dropdownParent: $('#modal-promocion')});
         temp_div.querySelector('.select2-container').style.width = "100%";
         temp_div.querySelector('.selection').style.width = "100%";
         $(select_tipo_promocion).on("select2:selecting", function(e) {
