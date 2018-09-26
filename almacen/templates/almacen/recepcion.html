@@ -34,6 +34,9 @@
         </div>
         <div class="panel-body">
             <form method="post">{% csrf_token %}
+                <input type="hidden" id="detallecompra_to_delete" name="detallecompra_to_delete" value="">
+                <input type="hidden" id="current_pos" value="{{ detalle|length }}">
+                <input type="hidden" id="detallecompra_to_save" name="detallecompra_to_save" value="">
            <div class="col-md-12">
                <div class="row buttons-content">
                    <button type="submit" class="btn btn-success">
@@ -94,15 +97,17 @@
                         </thead>
                         <tbody>
                             {% for d in detalle %}
-                                <tr>
-                                    <td><input type="hidden" class="is_oferta" value="{{ d.is_oferta }}"><input type="hidden" name="dc{{ forloop.counter }}-id_detalleorden" value="{{ d.id }}">{{ d.presentacionxproducto.producto.descripcion }}</td>
-                                    <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
-                                    <td><input type="hidden" class="form-control cantidad_pedido" name="dc{{ forloop.counter }}-cantidad_presentacion_pedido"  value="{{ d.cantidad_presentacion_pedido }}">
-                                        <input class="form-control cantidad_entrega" name="dc{{ forloop.counter }}-cantidad_presentacion_entrega"  value="{{ d.cantidad_presentacion_entrega }}"></td>
-                                    <td class="td_precio">{{ d.precio }}</td>
-                                    <td class="td_descuento">{{ d.descuento }}</td>
-                                    <td>{% if d.is_oferta %} {{ d.total_final }} {% else %}<input class="form-control totalfinal" name="dc{{ forloop.counter }}-total"  value="{{ d.total_final }}">{% endif %}</td>
-                                </tr>
+                                {% if not d.is_nodeseado %}
+                                    <tr>
+                                        <td><input type="hidden" class="is_nodeseado" value="{{ d.is_nodeseado }}"><input type="hidden" class="is_oferta" value="{{ d.is_oferta }}"><input type="hidden" name="dc{{ forloop.counter }}-id" value="{{ d.id }}">{{ d.presentacionxproducto.producto.descripcion }}</td>
+                                        <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
+                                        <td><input type="hidden" class="form-control cantidad_pedido" value="{{ d.cantidad_presentacion_pedido }}">
+                                            <input class="form-control cantidad_entrega" name="dc{{ forloop.counter }}-cantidad_presentacion_entrega"  value="{{ d.cantidad_presentacion_entrega }}"></td>
+                                        <td class="td_precio">{{ d.precio }}</td>
+                                        <td class="td_descuento">{{ d.descuento }}</td>
+                                        <td>{% if d.is_oferta %} {{ d.total_final }}<input type="hidden" class="form-control totalfinal" name="dc{{ forloop.counter }}-total_final"  value="{{ d.total_final }}"> {% else %}<input class="form-control totalfinal" name="dc{{ forloop.counter }}-total_final"  value="{{ d.total_final }}">{% endif %}</td>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>
@@ -127,11 +132,23 @@
                             <tr id="tr_nopedido_empty">
                                     <td class="td_producto"></td>
                                     <td class="td_presentacion"></td>
-                                    <td>{{ clean_form.cantidad_presentacion_entrega }}</td>
+                                    <td><input class="form-control cantidad_entrega"></td>
                                     <td class="td_precio"></td>
-                                    <td>{{ clean_form.total_final }}</td>
+                                    <td><input class="form-control totalfinal"></td>
                                     <td><a class="btn btn-default btn-icon btn-circle btn-lg delete_hdn"><i class="fas fa-trash"></i></a></td>
                             </tr>
+                            {% for d in detalle %}
+                                {% if d.is_nodeseado %}
+                                        <tr id="tr_dc_{{ forloop.counter }}" data-id="{{ d.id }}">
+                                            <td><input type="hidden" class="is_nodeseado" value="{{ d.is_nodeseado }}"><input type="hidden" class="is_oferta" value="{{ d.is_oferta }}"><input type="hidden" name="dc{{ forloop.counter }}-id" value="{{ d.id }}">{{ d.presentacionxproducto.producto.descripcion }}</td>
+                                            <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
+                                            <td><input class="form-control cantidad_entrega" name="dc{{ forloop.counter }}-cantidad_presentacion_entrega"  value="{{ d.cantidad_presentacion_entrega }}"></td>
+                                            <td class="td_precio">{{ d.precio }}</td>
+                                            <td><input class="form-control totalfinal" name="dc{{ forloop.counter }}-total_final"  value="{{ d.total_final }}"></td>
+                                            <td><a class="btn btn-default btn-icon btn-circle btn-lg delete_hdn delete"><i class="fas fa-trash"></i></a></td>
+                                        </tr>
+                                    {% endif %}
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
