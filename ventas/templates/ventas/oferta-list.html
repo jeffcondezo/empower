@@ -36,9 +36,17 @@
                             <td>{{ c.producto_oferta.descripcion }}</td>
                             <td>{{ c.presentacion_oferta.presentacion.descripcion }}</td>
                             <td>{{ c.cantidad_oferta }}</td>
-                            <td>Malul</td>
-                            <td><div class="fa-2x"><a class="no-link" href="/maestro/presentacion/{{ c.id }}"><i class="fas fa-xs fa-eye icons-table"></i></a>
-                                <a class="no-link" href="/maestro/presentacion/{{ c.id }}/edit"><i  class="fas fa-xs fa-edit icons-table"></i></a></div></td>
+                            <td>
+                                {% if c.tipo == '1' %}
+                                    {{ c.retorno|floatformat:"0" }} {{ c.producto_oferta.descripcion }} en {{ c.presentacion_oferta.presentacion.descripcion }}
+                                {% elif c.tipo == '2' %}
+                                    Descuento de: S/. {{ c.retorno }}
+                                {% elif c.tipo == '3' %}
+                                    Descuento de: {{ c.retorno }} %
+                                {% endif %}
+                            </td>
+                            <td><div class="fa-2x"><a class="no-link" href="/ventas/oferta/{{ c.id }}"><i class="fas fa-xs fa-eye icons-table"></i></a>
+                                <a class="no-link" href="/ventas/oferta/{{ c.id }}/edit"><i  class="fas fa-xs fa-edit icons-table"></i></a></div></td>
                         </tr>
                     {% endfor %}
                 </tbody>

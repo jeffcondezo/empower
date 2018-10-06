@@ -75,6 +75,7 @@ class CatalogoxProveedor(models.Model):
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     precio_tentativo = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     presentacionxproducto = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT, null=True, blank=True)
+    precio_base = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
 
 class PrecioxProveedor(models.Model):
@@ -113,3 +114,12 @@ class TipoComprobante(models.Model):
 
     def __str__(self):
         return self.descripcion
+
+
+class Impuesto(models.Model):
+    descripcion = models.CharField(max_length=150)
+    abreviatura = models.CharField(max_length=10)
+    porcentaje = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
+    def __str__(self):
+        return self.abreviatura + ' - ' + str(self.porcentaje) + '%'

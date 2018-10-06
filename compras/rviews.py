@@ -1,7 +1,6 @@
-from .models import Producto, PresentacionxProducto
 from .serializers import ProductoSerializer, PresentacionxProductoSerializer, PrecioTentativoSerializer
 from rest_framework import generics
-from maestro.models import CatalogoxProveedor
+from maestro.models import CatalogoxProveedor, Producto, PresentacionxProducto
 
 
 class ProductosListView(generics.ListAPIView):

@@ -95,3 +95,7 @@ legend{
 #tr_nopedido_empty{
     display: none;
 }
+/* Detalle Venta*/
+#tr_detalleventa_empty{
+    display: none;
+}
