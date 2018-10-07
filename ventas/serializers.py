@@ -37,9 +37,10 @@ class OfertaVentaSerializer(serializers.ModelSerializer):
     presentacion_oferta = PresentacionxProductoSerializer()
     presentacion_retorno = PresentacionxProductoSerializer()
     producto_retorno = ProductoSerializer()
+    producto_oferta = ProductoSerializer()
 
     class Meta:
         model = OfertaVenta
-        fields = ['id', 'tipo', 'presentacion_oferta', 'cantidad_oferta',
+        fields = ['id', 'tipo', 'producto_oferta', 'presentacion_oferta', 'cantidad_oferta',
                   'producto_retorno', 'presentacion_retorno', 'retorno',
                   'fechahora_fin', 'stock_limite', 'stock_faltante']

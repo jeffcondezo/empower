@@ -12,7 +12,8 @@
         <div class="panel-heading">
             <div class="btn-group pull-right">
                 <a href="/maestro/sucursal/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i></a>
-                
+                <a onclick="ajax_demo()"  class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
+
             </div>
             <h4 class="panel-title">Sucursales</h4>
         </div>
@@ -55,5 +56,16 @@
             },
             responsive: true
         });
+        function BtPrint(prn){
+   var S = "#Intent;scheme=rawbt;";
+   var P = "package=ru.a402d.rawbtprinter;end;";
+   var textEncoded = encodeURI(prn);
+   window.location.href="intent:"+textEncoded+S+P;
+}
+        function ajax_demo(){
+   $.get('/static/assets/own/Prueba.txt',function(data){
+      BtPrint(data);
+   })
+}
     </script>
 {% endblock %}

@@ -22,17 +22,17 @@ def fill_data_venta(venta, dv_form, impuestos):
     dv_form.total = dv_form.sub_total - descuento
     impuesto_array = []
     impuesto_monto = 0
-    for i in json.loads(impuestos):
-        temp_i = Impuesto.objects.get(pk=i)
-        impuesto_array.append(temp_i)
-        impuesto_monto += (dv_form.total * temp_i.porcentaje)/100
+    if impuestos != '':
+        for i in json.loads(impuestos):
+            temp_i = Impuesto.objects.get(pk=i)
+            impuesto_array.append(temp_i)
+            impuesto_monto += (dv_form.total * temp_i.porcentaje)/100
     dv_form.impuesto_monto = impuesto_monto
     dv_form.total_final = dv_form.total + impuesto_monto
     dv_form.save()
     for im in impuesto_array:
         dv_form.impuesto.add(im)
     ofertas_type_product = OfertaVenta.objects.filter(producto_oferta=dv_form.producto.id, tipo=1)
-    DetalleVenta.objects.filter(venta=venta.id, is_oferta=True).delete()
     for ofp in ofertas_type_product:
         if dv_form.cantidad_unidad_pedido >= ofp.cantidad_unidad_oferta:
             dv_oferta = DetalleVenta(venta=venta, producto=ofp.producto_retorno,
@@ -42,3 +42,13 @@ def fill_data_venta(venta, dv_form, impuestos):
                                      ofp.retorno*(dv_form.cantidad_unidad_pedido//ofp.cantidad_unidad_oferta), precio=0,
                                      sub_total=0, descuento=0, impuesto_monto=0, total=0, total_final=0, is_oferta=True)
             dv_oferta.save()
+            print(dv_oferta)
+
+
+def load_tax(d):
+    impuestos_model = d.impuesto.all()
+    impuestos = []
+    for i in impuestos_model:
+        impuestos.append(str(i.id))
+    d.impuesto_value = json.dumps(impuestos)
+    return d

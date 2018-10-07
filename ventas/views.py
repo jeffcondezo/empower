@@ -9,7 +9,7 @@ from maestro.mixin import BasicEMixin
 from datetime import datetime
 # Extra python features<--
 
-from .utils import fill_data_venta
+from .utils import fill_data_venta, load_tax
 
 # Model import-->
 from ventas.models import OfertaVenta, Venta, DetalleVenta
@@ -164,7 +164,13 @@ class VentaEditView(BasicEMixin, TemplateView):
         context['form'] = VentaEditForm(instance=venta)
         context['impuesto_form'] = ImpuestoForm()
         context['model'] = venta
-        context['detalle'] = DetalleVenta.objects.filter(venta=self.kwargs['pk'])
+        detalle = DetalleVenta.objects.filter(venta=self.kwargs['pk'], is_oferta=False)
+        content_detalle = []
+        for idx, d in enumerate(detalle):
+            d = load_tax(d)
+            content_detalle.append([DetalleVentaForm(instance=d, prefix='dv'+str(idx+1),
+                                                     sucursal=venta.sucursal_id, has_data=True), d])
+        context['detalle'] = content_detalle
         context['clean_form'] = DetalleVentaForm(sucursal=venta.sucursal_id, has_data=False)
         return context
 
@@ -173,6 +179,7 @@ class VentaEditView(BasicEMixin, TemplateView):
         form = VentaEditForm(request.POST, instance=venta)
         if form.is_valid():
             venta = form.save(commit=False)
+            DetalleVenta.objects.filter(venta=venta.id, is_oferta=True).delete()
             if request.POST['detalleventa_to_save'] != '':
                 for i in request.POST['detalleventa_to_save'].split(','):
                     if 'dv'+i+'-id' in self.request.POST:
@@ -193,4 +200,48 @@ class VentaEditView(BasicEMixin, TemplateView):
                     DetalleVenta.objects.get(pk=j).delete()
         else:
             return HttpResponse(form.errors)
-        return redirect('/compras/orden/'+str(venta.id))
+        return redirect('/ventas/venta/'+str(venta.id))
+
+
+class VentaDetailView(BasicEMixin, DetailView):
+
+    template_name = 'ventas/venta-detail.html'
+    model = Venta
+    nav_name = 'nav_venta'
+    view_name = 'venta'
+    action_name = 'leer'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        detalle_orden = DetalleVenta.objects.filter(venta=self.kwargs['pk'])
+        context['detalle'] = detalle_orden
+        return context
+
+
+import pdfkit
+from jinja2 import Environment, FileSystemLoader
+
+
+def pruebati(request):
+    pdfkit.from_url("http://google.com", "out.pdf")
+    env = Environment(loader=FileSystemLoader("ventas/templates"))
+    template = env.get_template("ticket.html")
+    # usuario={
+    # 	'name':'PEIL',
+    # 	'course':'Python',
+    # 	'score':9.5,
+    # 	'date':'FECHA ACTUAL'
+
+    # }
+    options = {
+        'page-size': 'a7'
+    }
+
+    html = template.render()
+    pdf = pdfkit.from_file('ventas/templates/ticket.html', '', options=options)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="ticket.pdf"'
+    # pdfkit.save(response)
+    return response
+    # print(html)
+    # return render(request,'reportes/ticket.html')

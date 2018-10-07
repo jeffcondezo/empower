@@ -1,0 +1,38 @@
+#cuerpo{
+
+	margin: 0px;
+	font-family: "Tahoma";
+	font-size: 12px;
+	
+	
+
+}
+body{
+	
+	width: 400px;
+	margin: auto;
+}
+.texto{
+
+	text-align: center;
+	padding-top: -12px;
+	margin-top:0; 
+	margin-bottom:0;
+}
+.datos{
+
+	padding-top: -12px;
+	margin-top:0; 
+	margin-bottom:0;
+}
+table{
+    table-layout: fixed;
+    width: 250px;
+}
+
+th, td {
+   
+    width: 100px;
+    word-wrap: break-word;
+    text-align:center; 
+}

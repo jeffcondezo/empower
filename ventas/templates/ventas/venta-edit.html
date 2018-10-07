@@ -103,15 +103,18 @@
                                     <td><a class="btn btn-default btn-icon btn-circle btn-lg delete_hdn"><i class="fas fa-trash"></i></a></td>
                                 </tr>
                                 {% for d in detalle %}
-                                    <tr id="tr_do_{{ forloop.counter }}" data-id="{{ d.1.id }}">
-                                        <td><input type="hidden" value="{{ d.1.id }}" name="do{{ forloop.counter }}-id">{{ d.0.producto }}</td>
-                                        <td><select name="do{{ forloop.counter }}-presentacionxproducto" data-selected="{{ d.1.presentacionxproducto_id }}" required class="sel_presentacionxproducto" id="sel_pre_{{ d.1.producto_id }}"></select></td>
-                                        <td>{{ d.0.cantidad_presentacion }}</td>
-                                        <td class="td_precio">{{ d.0.precio }}</td>
-                                        <td class="td_total">{{ d.1.total }}</td>
-                                        <td><input type="hidden" class="impuesto_inp"><input type="hidden" class="precio_inp"><input type="hidden" class="promocion_inp" name="oferta-{{ forloop.counter }}" value="{{ d.1.oferta }}"><a data-pos="{{ forloop.counter }}" class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
-                                        <td><a class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
-                                    </tr>
+                                        <tr id="tr_dv_{{ forloop.counter }}" data-id="{{ d.1.id }}" data-prod="{{ d.1.producto.id }}">
+                                            <td><input type="hidden" value="{{ d.1.id }}" name="dv{{ forloop.counter }}-id">{{ d.0.producto }}</td>
+                                            <td><select name="dv{{ forloop.counter }}-presentacionxproducto" data-selected="{{ d.1.presentacionxproducto_id }}" required class="presentacionxproducto" id="sel_pre_{{ d.1.producto_id }}"></select></td>
+                                            <td class="td_precio">{{ d.0.precio }}</td>
+                                            <td>{{ d.0.cantidad_presentacion_pedido }}</td>
+                                            <td class="td_subtotal">0</td>
+                                            <td class="td_descuento">0</td>
+                                            <td class="td_impuesto"><button type="button" class="btn btn-xs btn-success tax" data-pos="{{ forloop.counter }}"><i class="fa fa-plus fas"></i></button></td>
+                                            <td class="td_total">{{ d.1.total }}</td>
+                                            <td><input type="hidden" class="impuesto_inp" value="{{ d.1.impuesto_value }}" name="dv{{ forloop.counter }}-impuesto_inp"><input type="hidden" class="precio_inp"><input type="hidden" class="promocion_inp"><a data-pos="{{ forloop.counter }}" class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
+                                            <td><a class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
+                                        </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
