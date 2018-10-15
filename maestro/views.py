@@ -4,13 +4,13 @@ from django.db.models import Sum
 
 # Model import-->
 from maestro.models import Empresa, Sucursal, Almacen, Categoria,\
-    Presentacion, Producto, PresentacionxProducto, Proveedor, CatalogoxProveedor
+    Presentacion, Producto, PresentacionxProducto, Proveedor, CatalogoxProveedor, Caja
 # Model import<--
 
 # Forms import-->
 from .forms import SucursalForm, AlmacenForm, CategoriaForm, PresentacionForm,\
     ProductoForm, ProductoCategoriaForm, ProductoPresentacionForm, ProveedorForm,\
-    CatalogoProveedorForm, ProductoFiltroForm, CatalogoFiltroForm, CatalogoProveedorFiltroForm
+    CatalogoProveedorForm, ProductoFiltroForm, CatalogoFiltroForm, CatalogoProveedorFiltroForm, CajaForm
 # Forms import<--
 
 # Utils import-->
@@ -108,6 +108,47 @@ class AlmacenEditView(BasicEMixin, TemplateView):
         else:
             return HttpResponse(form.errors)
         return redirect('/maestro/almacen')
+
+
+class CajaListView(BasicEMixin, ListView):
+
+    template_name = 'maestro/caja-list.html'
+    model = Caja
+    nav_name = 'nav_caja'
+
+
+class CajaDetailView(BasicEMixin, DetailView):
+
+    template_name = 'maestro/caja-detail.html'
+    model = Caja
+    nav_name = 'nav_caja'
+
+
+class CajaEditView(BasicEMixin, TemplateView):
+
+    template_name = 'maestro/caja-edit.html'
+    nav_name = 'nav_caja'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.kwargs['pk'] == 0:
+            context['object'] = CajaForm()
+        else:
+            caja = Caja.objects.get(pk=self.kwargs['pk'])
+            context['object'] = CajaForm(instance=caja)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if self.kwargs['pk'] == 0:
+            form = CajaForm(request.POST)
+        else:
+            caja = Caja.objects.get(pk=self.kwargs['pk'])
+            form = CajaForm(request.POST, instance=caja)
+        if form.is_valid():
+            form.save()
+        else:
+            return HttpResponse(form.errors)
+        return redirect('/maestro/caja')
 
 
 class CategoriaListView(BasicEMixin, ListView):

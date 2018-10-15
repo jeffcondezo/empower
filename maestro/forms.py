@@ -4,7 +4,7 @@ from django import forms
 from django.forms import ModelChoiceField
 
 from maestro.models import Empresa,Sucursal, Almacen, Categoria, Presentacion, Producto,\
-    PresentacionxProducto, Proveedor, CatalogoxProveedor
+    PresentacionxProducto, Proveedor, CatalogoxProveedor, Caja
 # Model import<--
 
 
@@ -37,6 +37,21 @@ class AlmacenForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AlmacenForm, self).__init__(*args, **kwargs)
+        self.fields['sucursal'].empty_label = None
+
+
+class CajaForm(forms.ModelForm):
+
+    class Meta:
+        model = Caja
+        fields = '__all__'
+        widgets = {
+            'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
+            'sucursal': forms.Select(attrs={'class': 'default-select2 form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(CajaForm, self).__init__(*args, **kwargs)
         self.fields['sucursal'].empty_label = None
 
 

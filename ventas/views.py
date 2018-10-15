@@ -9,7 +9,7 @@ from maestro.mixin import BasicEMixin
 from datetime import datetime
 # Extra python features<--
 
-from .utils import fill_data_venta, load_tax
+from .utils import fill_data_venta, load_tax, create_venta_txt
 
 # Model import-->
 from ventas.models import OfertaVenta, Venta, DetalleVenta
@@ -213,35 +213,8 @@ class VentaDetailView(BasicEMixin, DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        create_venta_txt(self.kwargs['pk'])
         detalle_orden = DetalleVenta.objects.filter(venta=self.kwargs['pk'])
+
         context['detalle'] = detalle_orden
         return context
-
-
-import pdfkit
-from jinja2 import Environment, FileSystemLoader
-
-
-def pruebati(request):
-    pdfkit.from_url("http://google.com", "out.pdf")
-    env = Environment(loader=FileSystemLoader("ventas/templates"))
-    template = env.get_template("ticket.html")
-    # usuario={
-    # 	'name':'PEIL',
-    # 	'course':'Python',
-    # 	'score':9.5,
-    # 	'date':'FECHA ACTUAL'
-
-    # }
-    options = {
-        'page-size': 'a7'
-    }
-
-    html = template.render()
-    pdf = pdfkit.from_file('ventas/templates/ticket.html', '', options=options)
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="ticket.pdf"'
-    # pdfkit.save(response)
-    return response
-    # print(html)
-    # return render(request,'reportes/ticket.html')

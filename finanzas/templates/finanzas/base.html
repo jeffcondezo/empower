@@ -118,14 +118,22 @@
 							<li><a href="/ventas/oferta">Ofertas</a></li>
 						</ul>
 					</li>
+                    <li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-dollar-sign fa-fw"></i> Finanzas <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/finanzas/jornada">Jornada</a></li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 			<!-- end navbar-collapse -->
 
 			<!-- begin header-nav -->
 			<ul class="navbar-nav navbar-right">
-				
-				
+
+
 				<li class="dropdown navbar-user">
 					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
 						<img src="{% static "assets/img/user/user-13.jpg" %}" alt="" />
@@ -175,34 +183,10 @@
 				<!-- end sidebar user -->
 				<!-- begin sidebar nav -->
 				<ul class="nav">
-					<li class="nav-header">Maestro</li>
-					<li id="nav_sucursal"><a href="/maestro/sucursal"><i class="fa fa-calendar"></i> <span>Sucursales</span></a></li>
-					<li id="nav_almacen"><a href="/maestro/almacen"><i class="fa fa-calendar"></i> <span>Almacenes</span></a></li>
-					<li id="nav_caja"><a href="/maestro/caja"><i class="fa fa-calendar"></i> <span>Caja</span></a></li>
-                    <li class="has-sub" id="nav_main_producto">
-						<a href="javascript:;">
-                            <b class="caret"></b>
-						    <i class="fa fa-th-large"></i>
-							<span>Productos</span>
-						</a>
-						<ul class="sub-menu">
-						    <li id="nav_producto"><a href="/maestro/producto">Productos</a></li>
-						    <li id="nav_categoria"><a href="/maestro/categoria">Categorias</a></li>
-						    <li id="nav_presentacion"><a href="/maestro/presentacion">Presentaciones</a></li>
-						    <li id="nav_catalogo"><a href="/maestro/catalogo">Catálogo</a></li>
-						</ul>
-					</li>
-                    <li class="has-sub" id="nav_main_proveedor">
-						<a href="javascript:;">
-                            <b class="caret"></b>
-						    <i class="fa fa-th-large"></i>
-							<span>Proveedores</span>
-						</a>
-						<ul class="sub-menu">
-						    <li id="nav_proveedor"><a href="/maestro/proveedor">Proveedores</a></li>
-						    <li id="nav_catalogoproveedor"><a href="/maestro/catalogoproveedor">Catálogo</a></li>
-						</ul>
-					</li>
+					<li class="nav-header">Finanzas</li>
+					<li id="nav_jornada"><a href="/finanzas/jornada"><i class="fa fa-calendar"></i> <span>Jornada</span></a></li>
+					<li id="nav_cuentacliente"><a href="/finanzas/cuentacliente"><i class="fa fa-calendar"></i> <span>Cuentas Cliente</span></a></li>
+					<li id="nav_cuentaproveedor"><a href="/finanzas/cuentaproveedor"><i class="fa fa-calendar"></i> <span>Cuentas Proveedor</span></a></li>
 			        <!-- begin sidebar minify button -->
 					<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
 			        <!-- end sidebar minify button -->

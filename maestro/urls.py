@@ -7,7 +7,8 @@ from maestro.views import SucursalListView, SucursalDetailView, SucursalEditView
     ProductoListView, ProductoDetailView, ProductoEditView, ProductoCategoriaView, ProductoPresentacionView,\
     CatalogoListView, CatalogoDeleteView, CatalogoAddView,\
     ProveedorListView, ProveedorDetailView, ProveedorEditView,\
-    CatalogoProveedorListView, CatalogoProveedorDeleteView, CatalogoProveedorAddView
+    CatalogoProveedorListView, CatalogoProveedorDeleteView, CatalogoProveedorAddView,\
+    CajaListView, CajaDetailView, CajaEditView
 
 from maestro.rviews import ProductosListView
 
@@ -24,6 +25,9 @@ urlpatterns = [
     path('almacen/', AlmacenListView.as_view()),
     path('almacen/<int:pk>/', AlmacenDetailView.as_view()),
     path('almacen/<int:pk>/edit', AlmacenEditView.as_view()),
+    path('caja/', CajaListView.as_view()),
+    path('caja/<int:pk>/', CajaDetailView.as_view()),
+    path('caja/<int:pk>/edit', CajaEditView.as_view()),
     path('categoria/', CategoriaListView.as_view()),
     path('categoria/<int:pk>/', CategoriaDetailView.as_view()),
     path('categoria/<int:pk>/edit', CategoriaEditView.as_view()),

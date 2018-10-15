@@ -123,3 +123,11 @@ class Impuesto(models.Model):
 
     def __str__(self):
         return self.abreviatura + ' - ' + str(self.porcentaje) + '%'
+
+
+class Caja(models.Model):
+    descripcion = models.CharField(max_length=150)
+    sucursal = models.ForeignKey(Sucursal, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.descripcion
