@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelChoiceField
 
 # Model import-->
-from compras.models import OrdenCompra, DetalleOrdenCompra, Compra, DetalleCompra
+from compras.models import Compra, DetalleCompra
 from maestro.models import Producto, Categoria, Sucursal, Almacen, Proveedor
 from .models import Stock, Kardex
 # Model import<--

@@ -24,7 +24,7 @@ SECRET_KEY = '#jvqwrb9=&^+7%8-wpwyb%b^pcst(v6d%h1@b%0o9s7oq5es28'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.2']
 
 
 # Application definition
@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'almacen.apps.AlmacenConfig',
     'compras.apps.ComprasConfig',
     'clientes.apps.ClientesConfig',
-    'ventas.apps.VentasConfig'
+    'ventas.apps.VentasConfig',
+    'finanzas.apps.FinanzasConfig'
 ]
 
 MIDDLEWARE = [

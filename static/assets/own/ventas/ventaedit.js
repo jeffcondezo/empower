@@ -50,52 +50,6 @@ function init_ventaedit() {
     init_keypress();
     init_promocion_button();
 }
-
-function init_setdata_select(data) {
-    if(typeof data['presentacion'] !== 'undefined') {
-        for (var i = 0; i < data['presentacion'].length; i++) {
-            var opt = document.createElement('option');
-            opt.value = data['presentacion'][i]['id'];
-            opt.innerHTML = data['presentacion'][i]['presentacion']['descripcion'];
-            opt.setAttribute("data-cantidad", data['presentacion'][i]['cantidad']);
-            var select = document.getElementById('sel_pre_' + data['presentacion'][i]['producto']);
-            select.append(opt)
-        }
-        var selects = document.querySelectorAll('.presentacionxproducto');
-        for (var i = 0; i < selects.length; i++) {
-            var current_tr = selects[i].parentElement.parentElement;
-            if(selects[i].options.length>0) {
-                var selected = selects[i].getAttribute("data-selected");
-                selects[i].value = selected;
-                $(selects[i]).select2();
-                var dataprecio = data['precio'];
-                current_tr.querySelector('.precio_inp').value = dataprecio[0]['precio_base'];
-                current_tr.querySelector('.td_precio').innerHTML = dataprecio[0]['precio_base'] * selects[i].options[selects[i].selectedIndex].getAttribute("data-cantidad");
-            }
-            var dataoferta = data['oferta'];
-            for (var i = 0; i < dataoferta.length; i++) {
-                var prod_value = current_tr.querySelector('.producto').value;
-                if (dataoferta[i].length > 0) {
-                    current_tr.querySelector('.promocion_inp').value = convertOfertatoString(dataoferta);
-                    current_tr.querySelector('.promocion').classList.remove("btn-default");
-                    current_tr.querySelector('.promocion').classList.add("btn-info");
-                }
-            }
-            var impuestos = current_tr.querySelector('.impuesto_inp').value;
-            if (impuestos !== '' && impuestos !== '[]') {
-                current_pos_impuesto.value = current_tr.querySelector('.tax').getAttribute("data-pos");
-                impuestos = JSON.parse(impuestos);
-                $(impuesto_select).val(impuestos).change();
-                var event = new Event('click');
-                btn_save_impuesto.dispatchEvent(event);
-            }
-        }
-
-        $(".select2-container--default").removeAttr('style').css("width", "100%");
-    }
-
-
-}
 function init_load_basicdata(data) {
     if(typeof data['presentacion'] !== 'undefined') {
         for (var i = 0; i < data['presentacion'].length; i++) {

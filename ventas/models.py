@@ -30,9 +30,9 @@ class Venta(models.Model):
     numero_comprobante = models.CharField(max_length=10, null=True, blank=True)
     sub_total = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     descuento = models.DecimalField(max_digits=8, decimal_places=2, default=0, blank=True, null=True)
-    impuesto_monto = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    total = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    total_final = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    impuesto_monto = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    total = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    total_final = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
 
 class DetalleVenta(models.Model):

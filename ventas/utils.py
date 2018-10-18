@@ -42,7 +42,6 @@ def fill_data_venta(venta, dv_form, impuestos):
                                      ofp.retorno*(dv_form.cantidad_unidad_pedido//ofp.cantidad_unidad_oferta), precio=0,
                                      sub_total=0, descuento=0, impuesto_monto=0, total=0, total_final=0, is_oferta=True)
             dv_oferta.save()
-            print(dv_oferta)
 
 
 def load_tax(d):
@@ -55,30 +54,43 @@ def load_tax(d):
 
 
 def create_venta_txt(venta_id):
+    venta = Venta.objects.get(id=venta_id)
     detalleventa = DetalleVenta.objects.filter(venta=venta_id)
-    f = open("static/dinamicallygenerated/txt/venta-"+str(venta_id)+".txt", "w+")
+    f = open("static/dinamicallygenerated/txt/venta-" + str(venta_id) + ".txt", "w+")
     f.write("       ABADS E.I.R.L." + "\n")
     f.write("\n")
     f.write("JR. SAN MARTIN 871" + "\n")
     f.write("HUANUCO - HUANUCO - HUANUCO" + "\n")
     f.write("RUC: 20528995676" + "\n")
+    f.write("*******************************" + "\n")
+    f.write("       TICKET NRO: " + str(venta_id) + "\n")
+    f.write("*******************************" + "\n")
     f.write("VENTA: " + str(venta_id) + "\n")
-    f.write("FECHA: 09/10/2018 05:45 PM" + "\n")
-    f.write("*************************" + "\n")
-    f.write("Producto/Pres Cant Precio Total" + "\n")
-    f.write("*************************" + "\n")
-    f.write("*************************" + "\n")
+    if venta.cliente is None:
+        f.write("CLIENTE: REGULAR \n")
+    else:
+        f.write("CLIENTE: " + str(venta.cliente) + "\n")
+    f.write("FORM.PAGO: " + venta.get_tipo_pago_display() + "\n")
+    fecha = str(venta.fechahora_creacion)
+    new_fecha = fecha[:19]
+    f.write("FECHA:" + new_fecha + "\n")
+    f.write("*******************************" + "\n")
+    f.write("Prod/Pres Cant  Precio  Total" + "\n")
+    f.write("*******************************" + "\n")
+    sub_total = 0
+
     for dv in detalleventa:
-        f.write(dv.presentacionxproducto.producto.descripcion + "//" + dv.presentacionxproducto.presentacion.descripcion + "\n")
-        f.write("         "+str(dv.cantidad_unidad_pedido)+" S/." + str(dv.precio) + " S/." + str(dv.total_final) + "\n")
+        f.write(
+            dv.presentacionxproducto.producto.descripcion + "//" + dv.presentacionxproducto.presentacion.descripcion + "\n")
+        f.write("        " + str(dv.cantidad_unidad_pedido) + "  S/." + str(dv.precio) + " S/. " + str(
+            dv.total_final) + "\n")
         f.write("\n")
-    f.write("*************************" + "\n")
-    f.write("T.DESCUENTO S/ : 0.00" + "\n")
-    f.write("OP GRATUTIO S/ : 0.00" + "\n")
-    f.write("OP. INAFECTOS/ : 0.00" + "\n")
-    f.write("OP. EXONERADA/ : 0.00" + "\n")
-    f.write("*************************" + "\n")
-    f.write("GRACIAS POR SU COMPRA." + "\n")
-    f.write("*************************" + "\n")
-    f.write("*************************" + "\n")
+        sub_total = sub_total + dv.total_final
+
+    f.write("*******************************" + "\n")
+    f.write("TOTAL S/ :" + str(sub_total) + "\n")
+    f.write("*******************************" + "\n")
+    f.write("     GRACIAS POR SU COMPRA." + "\n")
+    f.write("*******************************" + "\n")
+    f.write("*******************************" + "\n")
     f.close()

@@ -1,16 +1,12 @@
 # urls.py
 from django.urls import path
-from compras.views import OrdenListView, OrdenDetailView, OrdenCreateView, OrdenEditView, CompraDetailView,\
-    OrdenToCompraView
+from compras.views import CompraListView, CompraCreateView, CompraEditView
 from compras.rviews import ProductosListView, PresentacionxProductoListView, PrecioTentativoView
 
 urlpatterns = [
-    path('orden', OrdenListView.as_view()),
-    path('orden/add', OrdenCreateView.as_view()),
-    path('orden/<int:pk>/', OrdenDetailView.as_view()),
-    path('orden/<int:pk>/edit', OrdenEditView.as_view()),
-    path('orden/<int:pk>/tocompra', OrdenToCompraView.as_view()),
-    path('compra/<int:pk>/', CompraDetailView.as_view()),
+    path('compra', CompraListView.as_view()),
+    path('compra/add', CompraCreateView.as_view()),
+    path('compra/<int:pk>/edit', CompraEditView.as_view()),
 
     path('api/productoxproveedor/<int:proveedor>', ProductosListView.as_view()),
     path('api/presentacionxproducto/<str:producto>', PresentacionxProductoListView.as_view()),

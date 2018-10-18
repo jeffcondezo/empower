@@ -76,7 +76,7 @@ legend{
     margin-left: 10px;
 }
 /* Detalle Orden*/
-#tr_detalleorden_empty{
+#tr_detallecompra_empty{
     display: none;
 }
 /* Orden to Compra*/

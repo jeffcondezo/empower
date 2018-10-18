@@ -153,7 +153,7 @@ class VentaEditView(BasicEMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         venta = Venta.objects.get(pk=self.kwargs['pk'])
-        if venta.estado == '2':
+        if venta.estado != '1':
             return redirect('/ventas/venta/' + str(venta.id))
         else:
             return super().dispatch(request)
@@ -215,6 +215,5 @@ class VentaDetailView(BasicEMixin, DetailView):
         context = super().get_context_data(**kwargs)
         create_venta_txt(self.kwargs['pk'])
         detalle_orden = DetalleVenta.objects.filter(venta=self.kwargs['pk'])
-
         context['detalle'] = detalle_orden
         return context

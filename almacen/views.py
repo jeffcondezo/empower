@@ -6,16 +6,16 @@ from django.shortcuts import redirect, HttpResponse
 # Model import-->
 from maestro.models import Almacen, Sucursal, Categoria, Proveedor
 from .models import Stock, Kardex
-from compras.models import OrdenCompra, DetalleOrdenCompra, ResultadoOfertaOrden, Compra, DetalleCompra
+from compras.models import Compra, DetalleCompra
 # Model import<--
 
 # Form import-->
-from compras.forms import CompraForm, DetalleCompraForm, DetalleCompraNoDeseadoForm
+from compras.forms import DetalleCompraForm, DetalleCompraNoDeseadoForm
 from almacen.forms import StockFiltroForm, KardexFiltroForm, RecepcionFiltroForm
 # Form import<--
 
 # Utils import-->
-from compras.utils import fill_data_compra, recalcular_total_compra, fill_data_compraoferta, fill_data_detallecompra
+from compras.utils import fill_data_compra, recalcular_total_compra, fill_data_detallecompra
 # Utils import<--
 
 # Extra python features-->
@@ -89,62 +89,62 @@ class KardexView(BasicEMixin, ListView):
         return query
 
 
-class OrdenListView(BasicEMixin, ListView):
+# class OrdenListView(BasicEMixin, ListView):
+#
+#     template_name = 'almacen/ordencompra.html'
+#     model = OrdenCompra
+#     nav_name = 'nav_orden'
+#
+#     def get_context_data(self, *, object_list=None, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['recepcion_filtro'] = RecepcionFiltroForm(self.request.GET)
+#         return context
+#
+#     def get_queryset(self):
+#         proveedores = self.request.GET.getlist('proveedor')
+#         query = Compra.objects.filter(estado='1')
+#         if len(proveedores) > 0:
+#             query = query.filter(proveedor__in=proveedores)
+#         return query
 
-    template_name = 'almacen/ordencompra.html'
-    model = OrdenCompra
-    nav_name = 'nav_orden'
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['recepcion_filtro'] = RecepcionFiltroForm(self.request.GET)
-        return context
-
-    def get_queryset(self):
-        proveedores = self.request.GET.getlist('proveedor')
-        query = Compra.objects.filter(estado='1')
-        if len(proveedores) > 0:
-            query = query.filter(proveedor__in=proveedores)
-        return query
-
-
-class OrdenDetailView(BasicEMixin, DetailView):
-
-    template_name = 'almacen/recepcion.html'
-    model = Compra
-    nav_name = 'nav_kardex'
-    view_name = 'orden_compra'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['detalle'] = DetalleCompra.objects.filter(compra=self.kwargs['pk'])
-        context['compra_form'] = CompraForm(instance=context['object'])
-        context['clean_form'] = DetalleCompraNoDeseadoForm(proveedor=context['object'].proveedor_id)
-        return context
-
-    def post(self, request, *args, **kwargs):
-        compra = Compra.objects.get(pk=self.kwargs['pk'])
-        form = CompraForm(request.POST, instance=compra)
-        if form.is_valid():
-            compra = form.save()
-            if request.POST['detallecompra_to_save'] != '':
-                for i in request.POST['detallecompra_to_save'].split(','):
-                    if 'dc'+i+'-id' in self.request.POST:
-                        if self.request.POST['dc'+i+'-id'] != '':
-                            dc = DetalleCompra.objects.get(pk=self.request.POST['dc'+i+'-id'])
-                            dc_form = DetalleCompraForm(request.POST, instance=dc, prefix='dc'+i)
-                        else:
-                            dc_form = DetalleCompraNoDeseadoForm(request.POST, prefix='dc'+i,
-                                                                 proveedor=compra.proveedor_id)
-                    if dc_form.is_valid():
-                        dc_obj = dc_form.save(commit=False)
-                        dc_obj.compra = compra
-                        fill_data_detallecompra(dc_obj, compra.estado, compra)
-            if request.POST['detallecompra_to_delete'] != '':
-                for j in request.POST['detallecompra_to_delete'].split(','):
-                    detalle_compra = DetalleCompra.objects.get(pk=j)
-                    if detalle_compra.is_nodeseado:
-                        detalle_compra.delete()
-            return redirect('/compras/compra/' + str(compra.id))
-        else:
-            return HttpResponse(form.errors)
+# class OrdenDetailView(BasicEMixin, DetailView):
+#
+#     template_name = 'almacen/recepcion.html'
+#     model = Compra
+#     nav_name = 'nav_kardex'
+#     view_name = 'orden_compra'
+#
+#     def get_context_data(self, *, object_list=None, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['detalle'] = DetalleCompra.objects.filter(compra=self.kwargs['pk'])
+#         context['compra_form'] = CompraForm(instance=context['object'])
+#         context['clean_form'] = DetalleCompraNoDeseadoForm(proveedor=context['object'].proveedor_id)
+#         return context
+#
+#     def post(self, request, *args, **kwargs):
+#         compra = Compra.objects.get(pk=self.kwargs['pk'])
+#         form = CompraForm(request.POST, instance=compra)
+#         if form.is_valid():
+#             compra = form.save()
+#             if request.POST['detallecompra_to_save'] != '':
+#                 for i in request.POST['detallecompra_to_save'].split(','):
+#                     if 'dc'+i+'-id' in self.request.POST:
+#                         if self.request.POST['dc'+i+'-id'] != '':
+#                             dc = DetalleCompra.objects.get(pk=self.request.POST['dc'+i+'-id'])
+#                             dc_form = DetalleCompraForm(request.POST, instance=dc, prefix='dc'+i)
+#                         else:
+#                             dc_form = DetalleCompraNoDeseadoForm(request.POST, prefix='dc'+i,
+#                                                                  proveedor=compra.proveedor_id)
+#                     if dc_form.is_valid():
+#                         dc_obj = dc_form.save(commit=False)
+#                         dc_obj.compra = compra
+#                         fill_data_detallecompra(dc_obj, compra.estado, compra)
+#             if request.POST['detallecompra_to_delete'] != '':
+#                 for j in request.POST['detallecompra_to_delete'].split(','):
+#                     detalle_compra = DetalleCompra.objects.get(pk=j)
+#                     if detalle_compra.is_nodeseado:
+#                         detalle_compra.delete()
+#             return redirect('/compras/compra/' + str(compra.id))
+#         else:
+#             return HttpResponse(form.errors)

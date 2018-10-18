@@ -157,8 +157,8 @@ class CuentaProveedorFiltroForm(forms.Form):
         self.fields['monto_amortizado2'] = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                                             'placeholder': 'Máximo'}),
                                                             required=False)
-        self.fields['monto_total2'] = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                                       'placeholder': 'Máximo'}),
+        self.fields['monto_total1'] = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                                       'placeholder': 'Mínimo'}),
                                                        required=False)
         self.fields['monto_total2'] = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                                        'placeholder': 'Máximo'}),
