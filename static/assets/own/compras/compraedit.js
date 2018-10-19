@@ -14,6 +14,8 @@ var div_producto_empty = document.getElementById('div_producto_empty');
 var btn_promocion = document.querySelectorAll('.promocion');
 var current_pos_promocion = document.getElementById('current_pos_promocion');
 var impuesto_select = document.getElementById('id_impuesto');
+var current_pos_impuesto = document.getElementById('current_pos_impuesto');
+
 
 function init_compraedit() {
     var pos = [];
@@ -55,7 +57,6 @@ function init_compraedit() {
     init_save_promocion_button();
     init_tax_button();
 }
-
 
 function init_save_impuesto_button() {
     btn_save_impuesto.addEventListener('click', function () {
@@ -248,7 +249,7 @@ function init_add_button() {
         cantidad_presentacion.setAttribute('required', 'required');
         cantidad_presentacion.addEventListener("blur", action_cant_blur);
         cantidad_presentacion.removeAttribute('name');
-        cantidad_presentacion.setAttribute('name', 'dc'+pos+'-cantidad_presentacion');
+        cantidad_presentacion.setAttribute('name', 'dc'+pos+'-cantidad_presentacion_pedido');
         precio.setAttribute('required', 'required');
         precio.addEventListener("blur", action_cant_blur);
         precio.removeAttribute('name');
@@ -353,7 +354,7 @@ function action_calcular_line_total(tr, value) {
     var descuento = 0;
     var td_descuento = tr.querySelector('.td_descuento');
     var current_cantidad_presentacion;
-    var presentacionxproducto = tr.querySelector('.presentacionxproducto');
+    var presentacionxproducto = tr.querySelector('.sel_presentacionxproducto');
     var opt = '';
     if(value === ''){
         opt = presentacionxproducto.options[presentacionxproducto.selectedIndex];

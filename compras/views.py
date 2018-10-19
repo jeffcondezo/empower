@@ -125,7 +125,7 @@ class CompraEditView(BasicEMixin, TemplateView):
         context['form'] = CompraEditForm(instance=compra)
         context['model'] = compra
         context['impuesto_form'] = ImpuestoForm()
-        detalle = DetalleCompra.objects.filter(compra=self.kwargs['pk'])
+        detalle = DetalleCompra.objects.filter(compra=self.kwargs['pk'], is_oferta=0)
         content_detalle = []
         for idx, d in enumerate(detalle):
             d = cargar_oferta(d)
@@ -139,7 +139,7 @@ class CompraEditView(BasicEMixin, TemplateView):
         compra = Compra.objects.get(pk=self.kwargs['pk'])
         form = CompraEditForm(request.POST, instance=compra)
         if form.is_valid():
-            compra = form.save(commit=False)
+            compra = form.save()
             if request.POST['detallecompra_to_save'] != '':
                 for i in request.POST['detallecompra_to_save'].split(','):
                     if 'dc'+i+'-id' in self.request.POST:
@@ -154,7 +154,9 @@ class CompraEditView(BasicEMixin, TemplateView):
                         dc_form.compra = compra
                         dc_form.save()
                         create_ofertas(request.POST['dc'+i+'-oferta'], dc_form)
-                        fill_data_compra(compra, dc_form, request.POST['dc'+i+'-impuesto_inp'])
+                        fill_data_compra(compra, dc_form, request.POST['dc'+i+'-impuesto'])
+                    else:
+                        return HttpResponse(dc_form.errors)
             if request.POST['detallecompra_to_delete'] != '':
                 for j in request.POST['detallecompra_to_delete'].split(','):
                     DetalleCompra.objects.get(pk=j).delete()

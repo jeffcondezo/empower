@@ -37,7 +37,7 @@ def fill_data_compra(compra, dc_form, impuestos):
                                     cantidad_presentacion_pedido=ofp.retorno,
                                     cantidad_unidad_pedido=
                                     ofp.retorno*(dc_form.cantidad_presentacion_pedido//ofp.cantidad_compra),
-                                    precio=0, sub_total=0, descuento=0, impuesto_monto=0,total=0, total_final=0,
+                                    precio=0, sub_total=0, descuento=0, impuesto_monto=0, total=0, total_final=0,
                                     is_oferta=True)
             dc_form.save()
 
