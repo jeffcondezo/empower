@@ -61,6 +61,7 @@ function action_cantidad_entrega_blur() {
     var tr_content = this.parentElement.parentElement;
     var is_oferta = tr_content.querySelector('.is_oferta');
     var is_nodeseado = tr_content.querySelector('.is_nodeseado');
+    var totalfinal = tr_content.querySelector('.totalfinal');
     // El empty que se usa para clonar no pasará la condición, las filas sí.
     if(is_oferta !== null && is_nodeseado !== null){
         if(is_nodeseado.value === 'False') {
@@ -69,7 +70,6 @@ function action_cantidad_entrega_blur() {
             this.style.backgroundColor = color;
         }
         if(is_oferta.value === 'False' || is_nodeseado.value === 'True'){
-            var totalfinal = tr_content.querySelector('.totalfinal');
             var td_descuento = tr_content.querySelector('.td_descuento');
             if (td_descuento === null ){
                 var descuento = 0;
@@ -80,6 +80,8 @@ function action_cantidad_entrega_blur() {
             //td_precio.innerHTML = cortarNumero((parseFloat(totalfinal.value)+parseFloat(descuento))/parseFloat(this.value), 2);
         }
     }
+    var event = new Event('blur');
+    totalfinal.dispatchEvent(event);
 }
 
 function cortarNumero(num, fixed) {
@@ -103,15 +105,18 @@ function get_color_cantidad(pedido, entrega) {
 
 function action_totalfinal_blur() {
     var tr_content = this.parentElement.parentElement;
-    var current_cantidad_pedido = tr_content.querySelector('.cantidad_pedido');
+    var current_cantidad_pedido = tr_content.querySelector('.cantidad_entrega');
     var td_descuento = tr_content.querySelector('.td_descuento');
+    var impuesto_inp = tr_content.querySelector('.impuesto_inp');
+    var total_final_inp = tr_content.querySelector('.totalfinal');
     if (td_descuento === null ){
         var descuento = 0;
     }else{
-        var descuento = td_descuento.value;
+        var descuento = td_descuento.innerHTML;
     }
+    var total = ((parseFloat(total_final_inp.value)*100)/(100+parseFloat(impuesto_inp.value)));
     var td_precio = tr_content.querySelector('.td_precio');
-    td_precio.innerHTML = cortarNumero((parseFloat(this.value)+parseFloat(descuento))/parseFloat(current_cantidad_pedido.value), 2);
+    td_precio.innerHTML = cortarNumero((total+parseFloat(descuento))/parseFloat(current_cantidad_pedido.value), 2);
 }
 
 function prod_change(obj, new_value,e) {
@@ -168,9 +173,11 @@ function action_btn_nopedido() {
     temp_tr.querySelector(".td_presentacion").appendChild(input_pres);
     temp_tr.querySelector(".cantidad_entrega").value = cantidad_presentacion_entrega_val;
     temp_tr.querySelector(".cantidad_entrega").setAttribute("name", "dc"+pos+"-cantidad_presentacion_entrega");
+    temp_tr.querySelector(".cantidad_entrega").addEventListener('blur', action_cantidad_entrega_blur);
     temp_tr.querySelector(".td_precio").innerHTML = precio_val;
     temp_tr.querySelector(".totalfinal").value = total_final_val;
     temp_tr.querySelector(".totalfinal").setAttribute("name", "dc"+pos+"-total_final");
+    temp_tr.querySelector(".totalfinal").addEventListener('blur', action_totalfinal_blur);
     var delete_button = temp_tr.querySelector('.delete_hdn');
     current_pos.value = pos;
     delete_button.addEventListener('click', action_delete);

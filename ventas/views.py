@@ -178,12 +178,13 @@ class VentaEditView(BasicEMixin, TemplateView):
         venta = Venta.objects.get(pk=self.kwargs['pk'])
         form = VentaEditForm(request.POST, instance=venta)
         if form.is_valid():
-            venta = form.save(commit=False)
+            venta = form.save()
             DetalleVenta.objects.filter(venta=venta.id, is_oferta=True).delete()
             if request.POST['detalleventa_to_save'] != '':
                 for i in request.POST['detalleventa_to_save'].split(','):
                     if 'dv'+i+'-id' in self.request.POST:
                         dv = DetalleVenta.objects.get(pk=self.request.POST['dv'+i+'-id'])
+                        dv.impuesto.clear()
                         dv_form = DetalleVentaForm(request.POST, instance=dv, prefix='dv'+i,
                                                    sucursal=venta.sucursal_id, has_data=True)
                     else:
@@ -214,6 +215,5 @@ class VentaDetailView(BasicEMixin, DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         create_venta_txt(self.kwargs['pk'])
-        detalle_orden = DetalleVenta.objects.filter(venta=self.kwargs['pk'])
-        context['detalle'] = detalle_orden
+        context['detalle'] = DetalleVenta.objects.filter(venta=self.kwargs['pk'])
         return context

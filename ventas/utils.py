@@ -9,7 +9,7 @@ def fill_data_venta(venta, dv_form, impuestos):
     precio_base = CatalogoxProveedor.objects.filter(producto=dv_form.producto).aggregate(Max('precio_base'))
     dv_form.precio = precio_base['precio_base__max']
     dv_form.cantidad_unidad_pedido = dv_form.cantidad_presentacion_pedido * dv_form.presentacionxproducto.cantidad
-    dv_form.sub_total = dv_form.cantidad_unidad_pedido * dv_form.precio
+    dv_form.sub_total = dv_form.cantidad_presentacion_pedido * dv_form.precio
     ofertas_type_discount = OfertaVenta.objects.filter(producto_oferta=dv_form.producto.id, tipo__in=['2', '3'])
     descuento = 0
     for otd in ofertas_type_discount:
@@ -22,7 +22,7 @@ def fill_data_venta(venta, dv_form, impuestos):
     dv_form.total = dv_form.sub_total - descuento
     impuesto_array = []
     impuesto_monto = 0
-    if impuestos != '':
+    if impuestos != '' and impuestos != '[]':
         for i in json.loads(impuestos):
             temp_i = Impuesto.objects.get(pk=i)
             impuesto_array.append(temp_i)

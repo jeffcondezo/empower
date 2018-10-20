@@ -15,6 +15,7 @@ var btn_promocion = document.querySelectorAll('.promocion');
 var current_pos_promocion = document.getElementById('current_pos_promocion');
 var impuesto_select = document.getElementById('id_impuesto');
 var current_pos_impuesto = document.getElementById('current_pos_impuesto');
+var compra_total = document.getElementById('compra_total');
 
 
 function init_compraedit() {
@@ -45,9 +46,10 @@ function init_compraedit() {
     }
     init_save_impuesto_button();
     init_presentacion_select(data);
+    init_cant_blur();
+    init_controllers();
     init_prod_change();
     init_pres_change();
-    init_cant_blur();
     init_precio_blur();
     init_add_button();
     init_delete_button();
@@ -119,7 +121,27 @@ function init_presentacion_select(data) {
     }
     $(".select2-container--default").removeAttr('style').css("width","100%");
 }
-
+function init_controllers() {
+    for (var i = 1; i <= parseInt(current_pos.value); i++) {
+        var tr = document.getElementById('tr_dc_'+i);
+        var cantidad_inp = tr.querySelector('.cantidadpresentacion');
+        var event = new Event('blur');
+        cantidad_inp.dispatchEvent(event);
+        var impuestos = tr.querySelector('.impuesto_inp').value;
+        if (impuestos !== '' && impuestos !== '[]') {
+            current_pos_impuesto.value = tr.querySelector('.tax').getAttribute("data-pos");
+            impuestos = JSON.parse(impuestos);
+            $(impuesto_select).val(impuestos).change();
+            var event = new Event('click');
+            btn_save_impuesto.dispatchEvent(event);
+        }
+        var ofertas = tr.querySelector('.promocion_inp').value;
+        if (ofertas !== '' && ofertas !== '[]') {
+            tr.querySelector('.promocion').classList.remove("btn-default");
+            tr.querySelector('.promocion').classList.add("btn-info");
+        }
+    }
+}
 function init_prod_change() {
     $('.producto').on("select2:selecting", function(e) {
        prod_change(this, e.params.args.data.id,e);
@@ -138,14 +160,21 @@ function init_cant_blur() {
     }
 }
 function init_precio_blur() {
-    var cant = document.querySelectorAll('.precio')
+    var cant = document.querySelectorAll('.precio');
     for (var i = 0; i < cant.length; i++) {
         cant[i].addEventListener("blur", action_cant_blur);
     }
 }
 function action_cant_blur() {
     var tr = this.parentElement.parentElement;
-    action_calcular_line_total(tr, '')
+    action_calcular_line_total(tr, '');
+    var total = 0;
+    for (var i = 1; i <= parseInt(current_pos.value); i++) {
+        var tr_for = document.getElementById('tr_dc_'+i);
+        var td_total = tr_for.querySelector('.td_total');
+        total += parseFloat(td_total.innerHTML);
+    }
+    compra_total.innerHTML = total;
 }
 function prod_change(obj, new_value,e) {
     var id_prod = new_value;
@@ -510,6 +539,9 @@ function init_save_promocion_button() {
             current_tr.querySelector('.promocion').classList.remove("btn-default");
             current_tr.querySelector('.promocion').classList.add("btn-info");
         }
+        var cantidad_inp = current_tr.querySelector('.cantidadpresentacion');
+        var event = new Event('blur');
+        cantidad_inp.dispatchEvent(event);
         $('#modal-promocion').modal('hide');
     });
 }

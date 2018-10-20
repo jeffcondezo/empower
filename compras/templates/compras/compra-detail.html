@@ -1,4 +1,4 @@
-{% extends "maestro/base.html" %}
+{% extends "compras/base.html" %}
 {% load static %}
 
 {% load maestro_tags %}
@@ -6,57 +6,63 @@
 {% block head_files %}
 {% endblock %}
 
-
 {% block content %}
     <div class="panel panel-inverse">
         <div class="panel-heading">
-            <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+            <div class="btn-group pull-right">
+                <a href="/compras/compra/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
             </div>
             <h4 class="panel-title">Compra</h4>
         </div>
         <div class="panel-body">
-           <div class="col-md-12">
-               <legend class="m-b-15">Datos Generales</legend>
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td class="td-detail-title">PROVEEDOR:</td>
-                                <td class="td-detail-desc">{{ object.proveedor.descripcion }}</td>
-                                <td class="td-detail-title">ESTADO:</td>
-                                <td class="td-detail-desc">{{ object.get_estado_display }}</td>
-                            </tr>
-                            <tr>
-                                <td class="td-detail-title">ASIGNADO:</td>
-                                <td class="td-detail-desc">{{ object.asignado.username }}</td>
-                                <td class="td-detail-title">ORDEN:</td>
-                                <td class="td-detail-desc">{{ object.orden.id }}</td>
-                            </tr>
-                            <tr>
-                                <td class="td-detail-title">FECHA COMPRA:</td>
-                                <td class="td-detail-desc">{{ object.fechahora|date:'d-m-Y H:i' }}</td>
-                                <td class="td-detail-title">FECHA PROGRAMADA ENTREGA:</td>
-                                <td class="td-detail-desc">{{ object.fecha_idealentrega|date:'d-m-Y H:i' }}</td>
-                            </tr>
-                                                    <tr>
-                                <td class="td-detail-title">PRECIO SIN DESCUENTO:</td>
-                                <td class="td-detail-desc">{{ object.precio_sindescuento }}</td>
-                                <td class="td-detail-title">DESCUENTO</td>
-                                <td class="td-detail-desc">{{ object.descuento }}</td>
-                            </tr>
-                                                    <tr>
-                                <td class="td-detail-title">PRECIO:</td>
-                                <td class="td-detail-desc">{{ object.precio }}</td>
-                                <td class="td-detail-title"></td>
-                                <td class="td-detail-desc"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+             <div class="form-group row m-b-3">
+                    <div class="col-md-2">
+                        <label class="control-label">PROVEEDOR:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.proveedor.descripcion }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">ESTADO:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.get_estado_display }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">FECHA:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.fechahora_creacion|date:'d-m-Y H:i' }}
+                    </div>
+
                 </div>
+                <div class="form-group row m-b-3">
+                    <div class="col-md-2">
+                        <label class="control-label">TOTAL:</label>
+                    </div>
+                    <div class="col-md-2" id="orden_total">
+                        {{ object.total_final|default_if_none:0 }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">ASIGNADO:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.asignado.username }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">ALMACEN:</label>
+                    </div>
+
+                    <div class="col-md-2">
+                        {{ object.almacen.descripcion }}
+                    </div>
+
+                </div>
+           <div class="col-md-12">
+           
                <legend class="m-b-15">
                    Detalle
                </legend>
@@ -64,31 +70,96 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Producto</th>
-                                <th>Presentación</th>
-                                <th>Cantidad</th>
-                                <th>Descuento</th>
-                                <th>Precio</th>
-                                <th>Oferta</th>
+                                <th width="15%">Producto</th>
+                                <th width="10%">Presentación</th>
+                                <th width="10%">Cantidad</th>
+                                <th width="10%">Precio</th>
+                                <th width="10%">SubTotal</th>
+                                <th width="10%">Descuento</th>
+                                <th width="10%">Impuesto</th>
+                                <th width="10%">Total</th>
+                                <th width="15%">Promociones</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for d in detalle %}
-                                <tr>
-                                    <td>{{ d.presentacionxproducto.producto.descripcion }}</td>
-                                    <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
-                                    <td>{{ d.cantidad_presentacion_entrega }}</td>
-                                    <td>{{ d.descuento }}</td>
-                                    <td>{{ d.precio }}</td>
-                                    <td>{{ d.is_oferta }}</td>
-                                </tr>
+                                {% if d.is_oferta is False %}
+                                    <tr>
+                                        <td>{{ d.presentacionxproducto.producto.descripcion }}</td>
+                                        <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
+                                        <td>{{ d.cantidad_presentacion_pedido }} &#8773; {{ d.cantidad_unidad_pedido }} U.</td>
+                                        <td>{{ d.precio }}</td>
+                                        <td>{{ d.sub_total }}</td>
+                                        <td>{{ d.descuento }}</td>
+                                        <td>{{ d.impuesto_monto }}</td>
+                                        <td>{{ d.total_final }}</td>
+                                        <td>
+                                            {% for p in d.promocion %}
+                                                {% if p.tipo == '1' %}
+                                                    - {{ p.retorno|floatformat:"0" }} {{ p.producto.descripcion }} en {{ p.presentacion.presentacion.descripcion }} por cada {{ p.cantidad_compra }}<br>
+                                                {% else %}
+                                                    - Descuento de: S/. {{ p.retorno }} por cada {{ p.cantidad_compra }} <br>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+               <legend class="m-b-15">
+                   Productos Regalo
+               </legend>
+               <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="22%">Producto</th>
+                                <th width="13%">Presentación</th>
+                                <th width="10%">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in detalle %}
+                                {% if d.is_oferta %}
+                                    <tr>
+                                        <td>{{ d.presentacionxproducto.producto.descripcion }}</td>
+                                        <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
+                                        <td>{{ d.cantidad_presentacion_pedido }} &#8773; {{ d.cantidad_unidad_pedido }} U.</td>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
         </div>
     </div>
+    </div>
+
+{% endblock %}
+
+
+{% block modal %}
+
 {% endblock %}
 
 {% block bottom_scripts %}
+        <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+    <script>
+        $(".default-select2").val('');
+        $(".default-select2").select2({placeholder: "Seleccione"});
+        $(".select2-container--default").removeAttr('style').css("width","100%");
+                function BtPrint(prn){
+   var S = "#Intent;scheme=rawbt;";
+   var P = "package=ru.a402d.rawbtprinter;end;";
+   var textEncoded = encodeURI(prn);
+   window.location.href="intent:"+textEncoded+S+P;
+}
+        function ajax_demo(){
+   $.get('/static/dinamicallygenerated/txt/venta-{{ object.id }}.txt',function(data){
+      BtPrint(data);
+   })
+}
+    </script>
 {% endblock %}

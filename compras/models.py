@@ -52,6 +52,7 @@ class DetalleCompra(models.Model):
     total_final = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     is_oferta = models.BooleanField(default=False)
     is_nodeseado = models.BooleanField(default=True)
+    is_checked = models.BooleanField(default=False)
 
 
 class OfertaCompra(models.Model):

@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 # Model import-->
-from compras.models import Compra, DetalleCompra
+from compras.models import Compra, DetalleCompra, OfertaCompra
 from maestro.models import Proveedor, Almacen
 # Model import<--
 
@@ -14,8 +14,8 @@ from compras.forms import CompraCreateForm, CompraEditForm, DetalleCompraForm, C
 # Forms import<--
 
 # Utils import-->
-from .utils import fill_data_compra, recalcular_total_compra,\
-    cargar_oferta, create_ofertas
+from .utils import fill_data_compra, recalcular_total_compra, \
+    cargar_ofertas, create_ofertas, loadtax, cargar_oferta
 # Utils import<--
 
 # Extra python features-->
@@ -123,12 +123,13 @@ class CompraEditView(BasicEMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         compra = Compra.objects.get(pk=self.kwargs['pk'])
         context['form'] = CompraEditForm(instance=compra)
-        context['model'] = compra
         context['impuesto_form'] = ImpuestoForm()
+        context['model'] = compra
         detalle = DetalleCompra.objects.filter(compra=self.kwargs['pk'], is_oferta=0)
         content_detalle = []
         for idx, d in enumerate(detalle):
             d = cargar_oferta(d)
+            d = loadtax(d)
             content_detalle.append([DetalleCompraForm(instance=d, prefix='dc'+str(idx+1),
                                                       proveedor=compra.proveedor_id, has_data=True), d])
         context['detalle'] = content_detalle
@@ -140,10 +141,14 @@ class CompraEditView(BasicEMixin, TemplateView):
         form = CompraEditForm(request.POST, instance=compra)
         if form.is_valid():
             compra = form.save()
+            DetalleCompra.objects.filter(compra=compra.id, is_oferta=True).delete()
             if request.POST['detallecompra_to_save'] != '':
+                total = 0
                 for i in request.POST['detallecompra_to_save'].split(','):
                     if 'dc'+i+'-id' in self.request.POST:
                         dc = DetalleCompra.objects.get(pk=self.request.POST['dc'+i+'-id'])
+                        dc.impuesto.clear()
+                        OfertaCompra.objects.filter(detallecompra=dc.id).delete()
                         dc_form = DetalleCompraForm(request.POST, instance=dc, prefix='dc'+i,
                                                     proveedor=compra.proveedor_id, has_data=True)
                     else:
@@ -155,11 +160,30 @@ class CompraEditView(BasicEMixin, TemplateView):
                         dc_form.save()
                         create_ofertas(request.POST['dc'+i+'-oferta'], dc_form)
                         fill_data_compra(compra, dc_form, request.POST['dc'+i+'-impuesto'])
+                        total += dc_form.total_final
                     else:
                         return HttpResponse(dc_form.errors)
+                compra.total_final = total
+                if compra.tipo == '1':
+                    compra.estado = '3'
+                compra.save()
             if request.POST['detallecompra_to_delete'] != '':
                 for j in request.POST['detallecompra_to_delete'].split(','):
                     DetalleCompra.objects.get(pk=j).delete()
         else:
             return HttpResponse(form.errors)
         return redirect('/compras/compra/'+str(compra.id))
+
+
+class CompraDetailView(BasicEMixin, DetailView):
+
+    template_name = 'compras/compra-detail.html'
+    model = Compra
+    nav_name = 'nav_compra'
+    view_name = 'compra'
+    action_name = 'leer'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['detalle'] = cargar_ofertas(DetalleCompra.objects.filter(compra=self.kwargs['pk']))
+        return context

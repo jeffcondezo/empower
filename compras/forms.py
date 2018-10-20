@@ -78,6 +78,12 @@ class DetalleCompraForm(forms.ModelForm):
             )
 
 
+class DetalleCompraRecepcionForm(forms.ModelForm):
+    class Meta:
+        model = DetalleCompra
+        fields = ['cantidad_presentacion_entrega', 'total_final', 'is_checked']
+
+
 # Sirve para el modal de agregar un no deseado a la compra.
 class DetalleCompraNoDeseadoForm(forms.ModelForm):
 
@@ -161,3 +167,17 @@ class ImpuestoForm(forms.Form):
                                                          widget=forms.SelectMultiple(
                                                              attrs={'class': 'multiple-select2 form-control'}))
         self.fields['impuesto'].empty_label = None
+
+
+class CompraRecepcionForm(forms.ModelForm):
+
+    class Meta:
+        model = Compra
+        fields = ['estado']
+        widgets = {
+            'estado': forms.Select(attrs={'class': 'estado_select form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(CompraRecepcionForm, self).__init__(*args, **kwargs)
+        self.fields['estado'].choices = [i for i in self.fields['estado'].choices if i[0] in ['2', '3']]

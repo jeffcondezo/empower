@@ -6,7 +6,7 @@ import json
 
 def fill_data_compra(compra, dc_form, impuestos):
     dc_form.cantidad_unidad_pedido = dc_form.cantidad_presentacion_pedido * dc_form.presentacionxproducto.cantidad
-    dc_form.sub_total = dc_form.cantidad_unidad_pedido * dc_form.precio
+    dc_form.sub_total = dc_form.cantidad_presentacion_pedido * dc_form.precio
     ofertas_type_discount = OfertaCompra.objects.filter(detallecompra=dc_form.id, tipo__in=['2', '3'])
     descuento = 0
     for otd in ofertas_type_discount:
@@ -26,20 +26,42 @@ def fill_data_compra(compra, dc_form, impuestos):
             impuesto_monto += (dc_form.total * temp_i.porcentaje)/100
     dc_form.impuesto_monto = impuesto_monto
     dc_form.total_final = dc_form.total + impuesto_monto
+    dc_form.is_nodeseado = False
     dc_form.save()
+    if compra.tipo == '1' and compra.estado != '3':
+        dc_form.cantidad_presentacion_entrega = dc_form.cantidad_presentacion_pedido
+        dc_form.cantidad_unidad_entrega = dc_form.cantidad_unidad_pedido
+        dc_form.is_checked = True
+        dc_form.save()
+        update_kardex_stock(dc_form, '1', '1', compra)
     for im in impuesto_array:
         dc_form.impuesto.add(im)
     ofertas_type_product = OfertaCompra.objects.filter(detallecompra=dc_form.id, tipo=1)
     for ofp in ofertas_type_product:
         if dc_form.cantidad_presentacion_pedido >= ofp.cantidad_compra:
-            dc_form = DetalleCompra(compra=compra, producto=ofp.producto_retorno,
-                                    presentacionxproducto=ofp.presentacion_retorno,
-                                    cantidad_presentacion_pedido=ofp.retorno,
-                                    cantidad_unidad_pedido=
-                                    ofp.retorno*(dc_form.cantidad_presentacion_pedido//ofp.cantidad_compra),
+            cantidad_presentacion_pedido = ofp.retorno*(dc_form.cantidad_presentacion_pedido // ofp.cantidad_compra)
+            dc_ofer = DetalleCompra(compra=compra, producto=ofp.presentacion.producto,
+                                    presentacionxproducto=ofp.presentacion,
+                                    cantidad_presentacion_pedido=cantidad_presentacion_pedido,
+                                    cantidad_unidad_pedido=ofp.presentacion.cantidad*cantidad_presentacion_pedido,
                                     precio=0, sub_total=0, descuento=0, impuesto_monto=0, total=0, total_final=0,
-                                    is_oferta=True)
-            dc_form.save()
+                                    is_oferta=True, is_nodeseado=False)
+            dc_ofer.save()
+            if compra.tipo == '1' and compra.estado != '3':
+                dc_ofer.cantidad_presentacion_entrega = dc_ofer.cantidad_presentacion_pedido
+                dc_ofer.cantidad_unidad_entrega = dc_ofer.cantidad_unidad_pedido
+                dc_ofer.is_checked = True
+                dc_ofer.save()
+                update_kardex_stock(dc_ofer, '1', '1', compra)
+
+
+def loadtax(d):
+    impuestos_model = d.impuesto.all()
+    impuestos = []
+    for i in impuestos_model:
+        impuestos.append(str(i.id))
+    d.impuesto_value = json.dumps(impuestos)
+    return d
 
 
 def create_ofertas(ofertas, detallecompra):
@@ -198,14 +220,14 @@ def validar_oferta(oferta):
 #             oferta_compra.save()
 
 
-# def cargar_resultado_oferta(detalle_orden):
-#     for do in detalle_orden:
-#         resultado_oferta = ResultadoOfertaOrden.objects.filter(detalleorden=do.id)
-#         array_temp = []
-#         for ro in resultado_oferta:
-#             array_temp.append(ro)
-#         do.promocion = array_temp
-#     return detalle_orden
+def cargar_ofertas(detalle_compra):
+    for dc in detalle_compra:
+        oferta = OfertaCompra.objects.filter(detallecompra=dc.id)
+        array_temp = []
+        for o in oferta:
+            array_temp.append(o)
+        dc.promocion = array_temp
+    return detalle_compra
 
 
 def cargar_oferta(detalle_orden):
@@ -297,12 +319,24 @@ def recalcular_total_compra(compra):
 
 
 def fill_data_detallecompra(detalle_compra, flag_estado, compra):
-    detalle_compra.cantidad_presentacion_pedido = detalle_compra.cantidad_presentacion_entrega
-    detalle_compra.cantidad_unidad = detalle_compra.cantidad_presentacion_entrega * \
-                                     detalle_compra.presentacionxproducto.cantidad
-    detalle_compra.precio = detalle_compra.total_final / detalle_compra.cantidad_presentacion_entrega
-    detalle_compra.total = detalle_compra.total_final
+    detalle_compra.cantidad_unidad_entrega = detalle_compra.cantidad_presentacion_entrega * \
+                                                detalle_compra.presentacionxproducto.cantidad
+    porcentaje = 0
+    if detalle_compra.is_nodeseado:
+        detalle_compra.cantidad_presentacion_pedido = detalle_compra.cantidad_presentacion_entrega
+        detalle_compra.cantidad_unidad_pedido = detalle_compra.cantidad_presentacion_pedido \
+                                                * detalle_compra.presentacionxproducto.cantidad
+        detalle_compra.is_checked = True
+    else:
+        impuesto = detalle_compra.impuesto.all()
+        for i in impuesto:
+            porcentaje += i.porcentaje
+    detalle_compra.total = (detalle_compra.total_final*100)/(100+porcentaje)
+    print(detalle_compra.total)
+    detalle_compra.impuesto_monto = detalle_compra.total_final - detalle_compra.total
+    detalle_compra.sub_total = (detalle_compra.total+detalle_compra.descuento)
+    detalle_compra.precio = detalle_compra.sub_total/detalle_compra.cantidad_presentacion_entrega
     detalle_compra.save()
     # '1' y '1' significa entrada y compra para el kardex
-    if flag_estado == '2':
+    if flag_estado == '3':
         update_kardex_stock(detalle_compra, '1', '1', compra)

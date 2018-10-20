@@ -1,4 +1,4 @@
-{% extends "compras/base.html" %}
+{% extends "almacen/base.html" %}
 {% load static %}
 
 {% block head_files %}
@@ -12,14 +12,13 @@
     <div class="panel panel-inverse">
         <div class="panel-heading">
             <div class="btn-group pull-right">
-                <a href="#modal-crear" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i></a>
                 <a href="#modal-filtros" class="btn btn-xs btn-primary buttons" data-toggle="modal"><i class="fa fa-search"></i></a>
                
             </div>
-            <h4 class="panel-title">Ordenes de Compras</h4>
+            <h4 class="panel-title">Recepción de Compras</h4>
         </div>
         <div class="panel-body">
-            <table id="table" class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th class="text-nowrap">Proveedor</th>
@@ -33,8 +32,8 @@
                         <tr>
                             <td>{{ o.proveedor.descripcion }}</td>
                             <td>{{ o.asignado.username }}</td>
-                            <td>{{ o.total_tentativo }}</td>
-                            <td><div class="fa-2x"><a class="no-link" href="/almacen/ordencompra/{{ o.id }}/recepcion"><i class="fas fa-xs fa-list icons-table"></i></a></div></td>
+                            <td>{{ o.total_final }}</td>
+                            <td><div class="fa-2x"><a class="no-link" href="/almacen/recepcion_compra/{{ o.id }}"><i class="fas fa-xs fa-list icons-table"></i></a></div></td>
                         </tr>
                     {% endfor %}
                 </tbody>
