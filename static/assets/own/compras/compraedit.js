@@ -197,7 +197,7 @@ function prod_change(obj, new_value,e) {
         for (var i = 0; i < data.length; i++) {
             var opt = document.createElement('option');
             opt.value = data[i]['id'];
-            opt.innerHTML = data[i]['presentacion']['descripcion'];
+            opt.innerHTML = data[i]['presentacion']['descripcion'] + ' x ' + data[i]['cantidad'] + 'U.';
             presentacion_select.append(opt);
         }
         presentacion_select.value = '';

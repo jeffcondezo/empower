@@ -2,7 +2,7 @@
 from django.urls import path
 from ventas.views import OfertaListView, OfertaEditView, OfertaDetailView, VentaListView, VentaCreateView,\
     VentaEditView, VentaDetailView
-from ventas.rviews import ProductoDetailsView
+from ventas.rviews import ProductoDetailsView, ValidarStockView
 
 
 urlpatterns = [
@@ -15,5 +15,6 @@ urlpatterns = [
     path('venta/<int:pk>/', VentaDetailView.as_view()),
 
     path('api/productodetails/<str:producto>/<int:sucursal>', ProductoDetailsView.as_view()),
+    path('api/validatestock/<int:presentacion>/<int:sucursal>/<int:cantidad>', ValidarStockView.as_view()),
 
 ]

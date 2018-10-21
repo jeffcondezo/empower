@@ -19,51 +19,31 @@
         </div>
         <div class="panel-body">
              <div class="form-group row m-b-3">
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <label class="control-label">SUCURSAL:</label>
                     </div>
                     <div class="col-md-2">
                         {{ model.sucursal.descripcion }}
                     </div>
-                    <div class="col-md-2">
-                        <label class="control-label">ESTADO:</label>
+                    <div class="col-md-1">
+                        <label class="control-label">CLIENTE:</label>
                     </div>
                     <div class="col-md-2">
-                        {{ form.estado }}
+                        {{ form.cliente }}
+                    </div>
+                    <div class="col-md-1">
+                        <label class="control-label">TIPO:</label>
                     </div>
                     <div class="col-md-2">
-                        <label class="control-label">FECHA:</label>
+                        {{ form.tipo }}
                     </div>
-                    <div class="col-md-2">
-                        {{ model.fechahora_creacion|date:'d-m-Y H:i' }}
-                    </div>
-
-                </div>
-                <div class="form-group row m-b-3">
-                    <div class="col-md-2">
+                 <div class="col-md-1">
                         <label class="control-label">TOTAL:</label>
                     </div>
                     <div class="col-md-2" id="orden_total">
                         {{ model.total|default_if_none:0 }}
                     </div>
-
-                    <div class="col-md-2">
-                        <label class="control-label">ASIGNADO:</label>
-                    </div>
-                    <div class="col-md-2">
-                        {{ model.asignado.username }}
-                    </div>
-
-                    <div class="col-md-2">
-                        <label class="control-label">CLIENTE:</label>
-                    </div>
-
-                    <div class="col-md-2">
-                        {{ form.cliente }}
-                    </div>
-                    
                 </div>
-            
         </div>
     </div>
     <div class="panel panel-inverse">

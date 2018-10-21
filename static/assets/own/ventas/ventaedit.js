@@ -165,9 +165,26 @@ function action_tax_button() {
 
 function action_cant_blur() {
     var tr = this.parentElement.parentElement;
-    action_calcular_line_total(tr, '');
-    action_calcular_total();
+    var xhttp = new XMLHttpRequest();
+    var cantidad_dom = this;
+    var data = [];
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            data = JSON.parse(xhttp.responseText);
+            if(data['status']===0){
+                cantidad_dom.value = data['maximo'];
+                alert('Stock insuficiente la cantidad máxima disponible es:'+data['maximo']);
+            }
+            action_calcular_line_total(tr, '');
+            action_calcular_total();
+        }
+    };
+    var presentacion_id = tr.querySelector('.presentacionxproducto').value;
+    var cantidad = this.value;
+    xhttp.open("GET", "/ventas/api/validatestock/" + presentacion_id + "/" + sucursal_id + "/" + cantidad, false);
+    xhttp.send();
 }
+
 
 function action_calcular_line_total(tr, value) {
     var cantidad = tr.querySelector('.cantidadpresentacion').value;

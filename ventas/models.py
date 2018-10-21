@@ -7,8 +7,11 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Venta(models.Model):
     ESTADO_ENVIO_CHOICES = (
-        ('1', 'PEDIDO'),
-        ('2', 'ENTREGADO'),
+        ('1', 'GENERADO'),
+        ('2', 'CONVERTIDO A PEDIDO'),
+        ('3', 'VENTA'),
+        ('4', 'CANCELADO'),
+        ('5', 'OCUPADO'),
     )
     ESTADO_PAGO_CHOICES = (
         ('1', 'EN DEUDA'),
@@ -18,10 +21,15 @@ class Venta(models.Model):
         ('1', 'CONTADO'),
         ('2', 'CREDITO'),
     )
+    TIPO_CHOICES = (
+        ('1', 'VENTA DIRECTA'),
+        ('2', 'PEDIDO'),
+    )
     asignado = models.ForeignKey(User, on_delete=models.PROTECT)
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, null=True, blank=True)
     sucursal = models.ForeignKey(Sucursal, on_delete=models.PROTECT)
     estado = models.CharField(max_length=1, choices=ESTADO_ENVIO_CHOICES, default=1)
+    tipo = models.CharField(max_length=1, choices=TIPO_CHOICES, default=1)
     tipo_pago = models.CharField(max_length=1, choices=TIPO_PAGO_CHOICES, default=1)
     estado_pago = models.CharField(max_length=1, choices=ESTADO_PAGO_CHOICES, default=1)
     fechahora_creacion = models.DateTimeField(auto_now_add=True)
@@ -52,6 +60,7 @@ class DetalleVenta(models.Model):
     total_final = models.DecimalField(max_digits=8, decimal_places=2)
     is_oferta = models.BooleanField(default=False)
     is_nodeseado = models.BooleanField(default=True)
+    is_checked = models.BooleanField(default=False)
 
 
 class OfertaVenta(models.Model):

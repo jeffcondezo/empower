@@ -181,6 +181,7 @@ class VentaEditView(BasicEMixin, TemplateView):
             venta = form.save()
             DetalleVenta.objects.filter(venta=venta.id, is_oferta=True).delete()
             if request.POST['detalleventa_to_save'] != '':
+                total = 0
                 for i in request.POST['detalleventa_to_save'].split(','):
                     if 'dv'+i+'-id' in self.request.POST:
                         dv = DetalleVenta.objects.get(pk=self.request.POST['dv'+i+'-id'])
@@ -194,8 +195,15 @@ class VentaEditView(BasicEMixin, TemplateView):
                         dv_form = dv_form.save(commit=False)
                         dv_form.venta = venta
                         fill_data_venta(venta, dv_form, request.POST['dv'+i+'-impuesto_inp'])
+                        total += dv_form.total_final
                     else:
                         return HttpResponse(dv_form.errors)
+            venta.total_final = total
+            if venta.tipo == '1':
+                venta.estado = '3'
+            else:
+                venta.estado = '2'
+            venta.save()
             if request.POST['detalleventa_to_delete'] != '':
                 for j in request.POST['detalleventa_to_delete'].split(','):
                     DetalleVenta.objects.get(pk=j).delete()

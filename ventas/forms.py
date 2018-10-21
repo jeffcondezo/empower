@@ -105,16 +105,16 @@ class VentaEditForm(forms.ModelForm):
 
     class Meta:
         model = Venta
-        fields = ['estado', 'cliente']
+        fields = ['tipo', 'cliente']
         widgets = {
-            'estado': forms.Select(attrs={'class': 'default-select2 form-control'}),
+            'tipo': forms.Select(attrs={'class': 'default-select2 form-control'}),
             'cliente': forms.Select(attrs={'class': 'default-select2 form-control'})
         }
 
     def __init__(self, *args, **kwargs):
         super(VentaEditForm, self).__init__(*args, **kwargs)
-        self.fields['estado'].empty_label = None
-        self.fields['estado'].choices = [i for i in self.fields['estado'].choices if i[0] in ['1', '2']]
+        self.fields['tipo'].empty_label = None
+        self.fields['tipo'].choices = [i for i in self.fields['tipo'].choices if i[0] in ['1', '2']]
 
 
 class DetalleVentaForm(forms.ModelForm):
@@ -158,3 +158,23 @@ class ImpuestoForm(forms.Form):
                                                          widget=forms.SelectMultiple(
                                                              attrs={'class': 'multiple-select2 form-control'}))
         self.fields['impuesto'].empty_label = None
+
+
+class VentaEntregaForm(forms.ModelForm):
+
+    class Meta:
+        model = Venta
+        fields = ['estado']
+        widgets = {
+            'estado': forms.Select(attrs={'class': 'estado_select form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(VentaEntregaForm, self).__init__(*args, **kwargs)
+        self.fields['estado'].choices = [i for i in self.fields['estado'].choices if i[0] in ['2', '3']]
+
+
+class DetalleVentaEntregaForm(forms.ModelForm):
+    class Meta:
+        model = DetalleVenta
+        fields = ['cantidad_presentacion_entrega', 'is_checked']

@@ -5,6 +5,7 @@ from django.forms import ModelChoiceField
 from compras.models import Compra, DetalleCompra
 from maestro.models import Producto, Categoria, Sucursal, Almacen, Proveedor
 from .models import Stock, Kardex
+from clientes.models import Cliente
 # Model import<--
 
 
@@ -52,7 +53,7 @@ class KardexFiltroForm(forms.Form):
                                                          widget=forms.SelectMultiple(
                                                              attrs={'class': 'multiple-select2 form-control'}))
         self.fields['sucursal'].empty_label = None
-        self.fields['almacen'] = forms.ModelChoiceField(queryset=Sucursal.objects.all(), required=False,
+        self.fields['almacen'] = forms.ModelChoiceField(queryset=Almacen.objects.all(), required=False,
                                                         widget=forms.SelectMultiple(
                                                             attrs={'class': 'multiple-select2 form-control'}))
         self.fields['almacen'].empty_label = None
@@ -77,3 +78,13 @@ class RecepcionFiltroForm(forms.Form):
                                                           widget=forms.SelectMultiple(
                                                               attrs={'class': 'multiple-select2 form-control'}))
         self.fields['proveedor'].empty_label = None
+
+
+class EntregaFiltroForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super(EntregaFiltroForm, self).__init__(*args, **kwargs)
+        self.fields['cliente'] = forms.ModelChoiceField(queryset=Cliente.objects.all(), required=False,
+                                                        widget=forms.SelectMultiple(
+                                                            attrs={'class': 'multiple-select2 form-control'}))
+        self.fields['cliente'].empty_label = None

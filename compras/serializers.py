@@ -21,7 +21,7 @@ class PresentacionxProductoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PresentacionxProducto
-        fields = ['id', 'presentacion', 'producto']
+        fields = ['id', 'presentacion', 'producto', 'cantidad']
 
 
 class PrecioTentativoSerializer(serializers.ModelSerializer):

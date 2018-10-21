@@ -8,6 +8,7 @@ from django.db.models import Max
 def fill_data_venta(venta, dv_form, impuestos):
     precio_base = CatalogoxProveedor.objects.filter(producto=dv_form.producto).aggregate(Max('precio_base'))
     dv_form.precio = precio_base['precio_base__max']
+
     dv_form.cantidad_unidad_pedido = dv_form.cantidad_presentacion_pedido * dv_form.presentacionxproducto.cantidad
     dv_form.sub_total = dv_form.cantidad_presentacion_pedido * dv_form.precio
     ofertas_type_discount = OfertaVenta.objects.filter(producto_oferta=dv_form.producto.id, tipo__in=['2', '3'])
@@ -94,3 +95,20 @@ def create_venta_txt(venta_id):
     f.write("*******************************" + "\n")
     f.write("*******************************" + "\n")
     f.close()
+
+
+def fill_data_detalleventa(detalle_venta, flag_estado, venta):
+    detalle_venta.cantidad_unidad_entrega = detalle_venta.cantidad_presentacion_entrega * \
+                                            detalle_venta.presentacionxproducto.cantidad
+    porcentaje = 0
+    impuesto = detalle_venta.impuesto.all()
+    for i in impuesto:
+        porcentaje += i.porcentaje
+    detalle_venta.sub_total = (detalle_venta.cantidad_presentacion_entrega*detalle_venta.precio)
+    detalle_venta.total = (detalle_venta.total_final*100)/(100+porcentaje)
+    detalle_venta.impuesto_monto = detalle_venta.total_final - detalle_venta.total
+    detalle_venta.precio = detalle_venta.sub_total/detalle_venta.cantidad_presentacion_entrega
+    detalle_venta.save()
+    # '2' y '2' significa salida y venta para el kardex
+    if flag_estado == '3':
+        update_kardex_stock(detalle_venta, '2', '2', venta)

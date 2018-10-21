@@ -9,7 +9,12 @@ def update_kardex_stock(detalle, tipo_movimiento, tipo_detalle, obj):
         stock = Stock.objects.get(producto=detalle.producto_id, almacen=almacen.id)
     except Stock.DoesNotExist:
         stock = Stock(producto=detalle.producto, almacen=almacen, cantidad=0)
-    cantidad_stock = stock.cantidad + detalle.cantidad_unidad_entrega
+    if tipo_movimiento == '1':
+        cantidad_stock = stock.cantidad + detalle.cantidad_unidad_entrega
+    elif tipo_movimiento == '2':
+        cantidad_stock = stock.cantidad - detalle.cantidad_unidad_entrega
+        if cantidad_stock < 0:
+            cantidad_stock = 0
     stock.cantidad = cantidad_stock
     stock.save()
     kardex = Kardex(almacen=almacen, producto=detalle.producto, tipo_movimiento=tipo_movimiento,
@@ -20,6 +25,18 @@ def update_kardex_stock(detalle, tipo_movimiento, tipo_detalle, obj):
         kardex.cantidad_entrada = kardex.cantidad
         kardex.precio_unitario_entrada = detalle.total_final / detalle.cantidad_unidad_entrega
         kardex.total_entrada = detalle.total_final
+        kardex.cantidad_saldo = cantidad_stock
+        kardex.precio_unitario_saldo = kardex.precio_unitario_entrada
+        kardex.total_saldo = cantidad_stock * kardex.precio_unitario_saldo
+        kardex.tipo_comprobante = obj.tipo_comprobante
+        kardex.serie_comprobante = obj.serie_comprobante
+        kardex.numero_comprobante = obj.numero_comprobante
+    elif tipo_movimiento == '2':
+        if tipo_detalle == '2':
+            kardex.detallecompra = detalle
+        kardex.cantidad_entrada = kardex.cantidad
+        kardex.precio_unitario_salida = detalle.total_final / detalle.cantidad_unidad_entrega
+        kardex.total_salida = detalle.total_final
         kardex.cantidad_saldo = cantidad_stock
         kardex.precio_unitario_saldo = kardex.precio_unitario_entrada
         kardex.total_saldo = cantidad_stock * kardex.precio_unitario_saldo

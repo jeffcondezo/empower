@@ -7,16 +7,19 @@ from django.shortcuts import redirect, HttpResponse
 from maestro.models import Almacen, Sucursal, Categoria, Proveedor
 from .models import Stock, Kardex
 from compras.models import Compra, DetalleCompra
+from ventas.models import Venta, DetalleVenta
 # Model import<--
 
 # Form import-->
 from compras.forms import DetalleCompraRecepcionForm, DetalleCompraNoDeseadoForm, CompraRecepcionForm
 from almacen.forms import StockFiltroForm, KardexFiltroForm, RecepcionFiltroForm
+from ventas.forms import VentaEntregaForm, DetalleVentaEntregaForm
 # Form import<--
 
 # Utils import-->
-from compras.utils import fill_data_compra, recalcular_total_compra, fill_data_detallecompra
+from compras.utils import fill_data_detallecompra
 from almacen.utils import loadtax
+from ventas.utils import fill_data_detalleventa
 # Utils import<--
 
 # Extra python features-->
@@ -151,5 +154,60 @@ class RecepcionCompraEditView(BasicEMixin, DetailView):
                     if detalle_compra.is_nodeseado:
                         detalle_compra.delete()
             return redirect('/compras/compra/' + str(compra.id))
+        else:
+            return HttpResponse(form.errors)
+
+
+class EntregaVentaListView(BasicEMixin, ListView):
+
+    template_name = 'almacen/entrega_venta-list.html'
+    model = Compra
+    nav_name = 'nav_entrega_venta'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['entrega_filtro'] = RecepcionFiltroForm(self.request.GET)
+        return context
+
+    def get_queryset(self):
+        clientes = self.request.GET.getlist('cliente')
+        query = Venta.objects.filter(tipo='2', estado='2')
+        if len(clientes) > 0:
+            query = query.filter(cliente__in=clientes)
+        return query
+
+
+class EntregaVentaEditView(BasicEMixin, DetailView):
+
+    template_name = 'almacen/entrega_venta-edit.html'
+    model = Venta
+    nav_name = 'nav_entrega_venta'
+    view_name = 'entrega_venta'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        detalle_venta = DetalleVenta.objects.filter(venta=self.kwargs['pk'])
+        for d in detalle_venta:
+            d = loadtax(d)
+        context['detalle'] = detalle_venta
+        context['venta_form'] = VentaEntregaForm(instance=context['object'])
+        return context
+
+    def post(self, request, *args, **kwargs):
+        venta = Venta.objects.get(pk=self.kwargs['pk'])
+        form = VentaEntregaForm(request.POST, instance=venta)
+        if form.is_valid():
+            venta = form.save()
+            if request.POST['detalleventa_to_save'] != '':
+                for i in request.POST['detalleventa_to_save'].split(','):
+                    if 'dv'+i+'-id' in self.request.POST:
+                        if self.request.POST['dv'+i+'-id'] != '':
+                            dv = DetalleVenta.objects.get(pk=self.request.POST['dv'+i+'-id'])
+                            dv_form = DetalleVentaEntregaForm(request.POST, instance=dv, prefix='dv'+i)
+                    if dv_form.is_valid():
+                        dv_obj = dv_form.save(commit=False)
+                        dv_obj.venta = venta
+                        fill_data_detalleventa(dv_obj, venta.estado, venta)
+            return redirect('/ventas/venta/' + str(venta.id))
         else:
             return HttpResponse(form.errors)

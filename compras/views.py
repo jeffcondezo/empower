@@ -166,6 +166,8 @@ class CompraEditView(BasicEMixin, TemplateView):
                 compra.total_final = total
                 if compra.tipo == '1':
                     compra.estado = '3'
+                else:
+                    compra.estado = '2'
                 compra.save()
             if request.POST['detallecompra_to_delete'] != '':
                 for j in request.POST['detallecompra_to_delete'].split(','):

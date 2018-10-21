@@ -332,7 +332,6 @@ def fill_data_detallecompra(detalle_compra, flag_estado, compra):
         for i in impuesto:
             porcentaje += i.porcentaje
     detalle_compra.total = (detalle_compra.total_final*100)/(100+porcentaje)
-    print(detalle_compra.total)
     detalle_compra.impuesto_monto = detalle_compra.total_final - detalle_compra.total
     detalle_compra.sub_total = (detalle_compra.total+detalle_compra.descuento)
     detalle_compra.precio = detalle_compra.sub_total/detalle_compra.cantidad_presentacion_entrega
