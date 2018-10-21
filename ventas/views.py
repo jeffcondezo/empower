@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, ListView, TemplateView, RedirectView
 from django.shortcuts import redirect, HttpResponse
-
+import json
 # Mixin Import-->
 from maestro.mixin import BasicEMixin
 # Mixin Import<--
@@ -177,6 +177,7 @@ class VentaEditView(BasicEMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         venta = Venta.objects.get(pk=self.kwargs['pk'])
         form = VentaEditForm(request.POST, instance=venta)
+        incidencias = []
         if form.is_valid():
             venta = form.save()
             DetalleVenta.objects.filter(venta=venta.id, is_oferta=True).delete()
@@ -194,11 +195,13 @@ class VentaEditView(BasicEMixin, TemplateView):
                     if dv_form.is_valid():
                         dv_form = dv_form.save(commit=False)
                         dv_form.venta = venta
-                        fill_data_venta(venta, dv_form, request.POST['dv'+i+'-impuesto_inp'])
+                        incidencia = fill_data_venta(venta, dv_form, request.POST['dv'+i+'-impuesto_inp'])
+                        if len(incidencia) > 0:
+                            incidencias.append(incidencia)
                         total += dv_form.total_final
                     else:
                         return HttpResponse(dv_form.errors)
-            venta.total_final = total
+                venta.total_final = total
             if venta.tipo == '1':
                 venta.estado = '3'
             else:
@@ -209,7 +212,7 @@ class VentaEditView(BasicEMixin, TemplateView):
                     DetalleVenta.objects.get(pk=j).delete()
         else:
             return HttpResponse(form.errors)
-        return redirect('/ventas/venta/'+str(venta.id))
+        return redirect('/ventas/venta/'+str(venta.id)+'/?incidencias='+json.dumps(incidencias))
 
 
 class VentaDetailView(BasicEMixin, DetailView):
@@ -224,4 +227,6 @@ class VentaDetailView(BasicEMixin, DetailView):
         context = super().get_context_data(**kwargs)
         create_venta_txt(self.kwargs['pk'])
         context['detalle'] = DetalleVenta.objects.filter(venta=self.kwargs['pk'])
+        if 'incidencias' in self.request.GET:
+            context['incidencias'] = json.loads(self.request.GET['incidencias'])
         return context

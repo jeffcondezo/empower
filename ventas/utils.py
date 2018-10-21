@@ -1,14 +1,28 @@
-from maestro.models import CatalogoxProveedor, Impuesto
+from maestro.models import CatalogoxProveedor, Impuesto, Sucursal
 from ventas.models import OfertaVenta, DetalleVenta, Venta
+from almacen.models import Stock
 from almacen.utils import update_kardex_stock
 import json
 from django.db.models import Max
+from django.db.models import Sum
 
 
 def fill_data_venta(venta, dv_form, impuestos):
+    incidencia=[]
     precio_base = CatalogoxProveedor.objects.filter(producto=dv_form.producto).aggregate(Max('precio_base'))
     dv_form.precio = precio_base['precio_base__max']
-
+    stock = Stock.objects.filter(almacen__sucursal=Sucursal.objects.get(pk=venta.sucursal_id))
+    stock = stock.filter(producto=dv_form.presentacionxproducto.producto_id)
+    stock = stock.annotate(Sum('cantidad'))
+    cantidad_stock = 0
+    for s in stock:
+        cantidad_stock = s.cantidad__sum
+        break
+    cantidad_pedido = dv_form.cantidad_presentacion_pedido
+    cantidad_stock_presentacion = cantidad_stock // dv_form.presentacionxproducto.cantidad
+    if cantidad_pedido > cantidad_stock_presentacion:
+        incidencia = [dv_form.producto.descripcion, dv_form.cantidad_presentacion_pedido, cantidad_stock_presentacion]
+        dv_form.cantidad_presentacion_pedido = cantidad_stock_presentacion
     dv_form.cantidad_unidad_pedido = dv_form.cantidad_presentacion_pedido * dv_form.presentacionxproducto.cantidad
     dv_form.sub_total = dv_form.cantidad_presentacion_pedido * dv_form.precio
     ofertas_type_discount = OfertaVenta.objects.filter(producto_oferta=dv_form.producto.id, tipo__in=['2', '3'])
@@ -43,6 +57,7 @@ def fill_data_venta(venta, dv_form, impuestos):
                                      ofp.retorno*(dv_form.cantidad_unidad_pedido//ofp.cantidad_unidad_oferta), precio=0,
                                      sub_total=0, descuento=0, impuesto_monto=0, total=0, total_final=0, is_oferta=True)
             dv_oferta.save()
+    return incidencia
 
 
 def load_tax(d):

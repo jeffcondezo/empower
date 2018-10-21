@@ -81,7 +81,7 @@ class OfertaVenta(models.Model):
     presentacion_oferta = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT,
                                             related_name='presentacion_oferta_venta')
     cantidad_oferta = models.IntegerField()
-    cantidad_unidad_oferta = models.IntegerField()
+    cantidad_unidad_oferta = models.IntegerField(blank=True, null=True)
     producto_retorno = models.ForeignKey(Producto, on_delete=models.PROTECT, blank=True, null=True,
                                          related_name='producto_retorno_venta')
     presentacion_retorno = models.ForeignKey(PresentacionxProducto, on_delete=models.PROTECT,
