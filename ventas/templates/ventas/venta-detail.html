@@ -4,6 +4,8 @@
 {% load maestro_tags %}
 
 {% block head_files %}
+    <link href="{% static "assets/plugins/select2/dist/css/select2.min.css" %}" rel="stylesheet" >
+    <link href="{% static "assets/css/default/own_css.css" %}" rel="stylesheet" >
 {% endblock %}
 
 {% block content %}
@@ -12,8 +14,8 @@
             <div class="btn-group pull-right">
                 <a href="/ventas/venta/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
                 <a onclick="ajax_demo()"  class="btn btn-xs btn-success buttons"><i class="fa fa-print"></i></a>
-
-
+                <a href="/ventas/reporteventas/{{ object.id }}" class="btn btn-xs btn-success buttons"><i class="far fa-file-excel"></i></a>
+                <a href="#modal-convertir" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-dollar-sign"></i></a>
             </div>
             <h4 class="panel-title">Venta</h4>
         </div>
@@ -45,7 +47,7 @@
                         <label class="control-label">TOTAL:</label>
                     </div>
                     <div class="col-md-2" id="orden_total">
-                        {{ object.total|default_if_none:0 }}
+                        {{ object.total_final|default_if_none:0 }}<input type="hidden" id="total_inp" value="{{ object.total_final|default_if_none:0 }}">
                     </div>
 
                     <div class="col-md-2">
@@ -60,20 +62,24 @@
                     </div>
 
                     <div class="col-md-2">
-                        {{ object.cliente.descripcion|default_if_none:'Regular' }}
+                       {% if object.cliente is None %} REGULAR {% else %} {{ object.cliente.descripcion }} {% endif %}<input type="hidden" id="cliente_inp" value="{% if object.cliente is None %}{% else %} {{ object.cliente.descripcion }} {% endif %}">
                     </div>
 
                 </div>
            <div class="col-md-12">
-                <div class="alert alert-danger fade show">
-                    {% if incidencias %}
+               {% if incidencias %}
+                   <div class="alert alert-danger fade show">
                         <ul>
                             {% for i in incidencias %}
-                                <li> El producto {{ i.0 }} no cuenta con la cantidad solicitada: {{ i.1 }}, se le asigno el máximo {{ i.2 }}</li>
+                                {% if i.0 == '1' %}
+                                    <li> El producto {{ i.1 }} no cuenta con la cantidad solicitada: {{ i.2 }}, se le asigno el máximo {{ i.3 }}.</li>
+                                {% else %}
+                                    <li> La promoción del producto {{ i.1 }}: solo afectó a {{ i.3 }} de los {{ i.2 }} comprados.</li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
-                    {% endif %}
-                </div>
+                    </div>
+               {% endif %}
                <legend class="m-b-15">
                    Detalle
                </legend>
@@ -154,39 +160,39 @@
     <div class="modal fade" id="modal-convertir">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="/compras/orden/{{ object.id }}/tocompra" method="POST">{% csrf_token %}
+                <form id="form_pago_venta" action="/finanzas/pagoventa/{{ object.id }}/" method="POST">{% csrf_token %}
                     <div class="modal-body">
                         <fieldset>
-                            <legend class="m-b-15">Parametros de Conversión:</legend>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Convertir a:</label>
-                                {{ orden_convertir.estado_envio }}
-                            </div>
+                            <legend class="m-b-15">Pago de la Venta:</legend>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tipo Pago:</label>
-                                {{ orden_convertir.tipo_pago }}
+                                {{ pago_form.tipo_pago }}
+                            </div>
+                            <div class="form-group periodo_credito_hdn" id="periodo_credito">
+                                <label for="exampleInputEmail1">Periodo Crédito:</label>
+                                {{ pago_form.duracion }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Pago:</label>
-                                {{ orden_convertir.pago }}
+                                {{ pago_form.pago }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tipo Comprobante:</label>
-                                {{ orden_convertir.tipo_comprobante }}
+                                {{ pago_form.tipo_comprobante }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Serie:</label>
-                                {{ orden_convertir.serie_comprobante }}
+                                {{ pago_form.serie_comprobante }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Número:</label>
-                                {{ orden_convertir.numero_comprobante }}
+                                {{ pago_form.numero_comprobante }}
                             </div>
                         </fieldset>
                     </div>
                     <div class="modal-footer">
                         <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
-                        <button type="submit" class="btn btn-success">Crear</button>
+                        <button type="submit" class="btn btn-success">Pagar</button>
                     </div>
                 </form>
             </div>
@@ -196,9 +202,9 @@
 
 {% block bottom_scripts %}
         <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
+        <script src="{% static "assets/own/ventas/ventadetail.js" %}"></script>
     <script>
-        $(".default-select2").val('');
-        $(".default-select2").select2({placeholder: "Seleccione"});
+        $(".default-select2").select2({placeholder: "Seleccione", dropdownParent: $('#modal-convertir')});
         $(".select2-container--default").removeAttr('style').css("width","100%");
                 function BtPrint(prn){
    var S = "#Intent;scheme=rawbt;";
@@ -211,5 +217,6 @@
       BtPrint(data);
    })
 }
+    init_detail();
     </script>
 {% endblock %}

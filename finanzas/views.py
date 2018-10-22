@@ -8,16 +8,17 @@ from maestro.mixin import BasicEMixin
 # Extra python features-->
 from datetime import datetime
 # Extra python features<--
-
+import datetime as dt
 
 # Model import-->
 from finanzas.models import Jornada, DetalleJornada, CuentaCliente, CuentaProveedor, PagoCliente, PagoProveedor
-from finanzas.forms import JornadaFiltroForm, DetalleJornadaCreateForm,\
-    JornadaCreateForm, CuentaClienteFiltroForm, PagoClienteCreateForm, CuentaProveedorFiltroForm,\
-    PagoProveedorCreateForm
+from ventas.models import Venta
 # Model import<--
 
 # Forms import-->
+from finanzas.forms import JornadaFiltroForm, DetalleJornadaCreateForm,\
+    JornadaCreateForm, CuentaClienteFiltroForm, PagoClienteCreateForm, CuentaProveedorFiltroForm,\
+    PagoProveedorCreateForm, PagoVentaForm
 # Forms import<--
 
 
@@ -302,4 +303,58 @@ class PagoProveedorCreateView(RedirectView):
             cuentaproveedor.monto_amortizado += pago.monto
             cuentaproveedor.save()
         url = self.url + str(self.kwargs['cuentaproveedor'])
+        return url
+
+
+class VentaPagoView(RedirectView):
+
+    url = '/ventas/venta/'
+    view_name = 'finanzas'
+    action_name = 'venta_pago'
+
+    def get_redirect_url(self, *args, **kwargs):
+        venta = Venta.objects.get(pk=self.kwargs['venta'])
+        form = PagoVentaForm(self.request.POST, instance=venta)
+        if form.is_valid():
+            venta = form.save(commit=False)
+            venta.is_entregado = True
+            fecha_actual = datetime.now()
+            if form.cleaned_data['duracion'] == '1':
+                fecha_final = fecha_actual + dt.timedelta(days=7)
+            elif form.cleaned_data['duracion'] == '2':
+                fecha_final = fecha_actual + dt.timedelta(days=14)
+            elif form.cleaned_data['duracion'] == '3':
+                fecha_final = fecha_actual + dt.timedelta(days=21)
+            elif form.cleaned_data['duracion'] == '4':
+                fecha_final = fecha_actual + dt.timedelta(days=30)
+            tipo = form.cleaned_data['tipo_pago']
+            pago = form.cleaned_data['pago']
+            if venta.cliente is not None:
+                if tipo == '2':
+                    if venta.total_final == pago:
+                        venta.tipo_pago = '1'
+                        venta.estado_pago = '2'
+                        estado = '2'
+                    elif venta.total_final > pago:
+                        venta.estado_pago = '1'
+                        estado = '1'
+                else:
+                    venta.estado_pago = '2'
+                    estado = '2'
+                cuentacliente = CuentaCliente(duracion=form.cleaned_data['duracion'], tipo=tipo,
+                                              estado=estado, fechahora_caducidad=fecha_final,
+                                              monto_total=venta.total_final, monto_amortizado=pago,
+                                              cliente=venta.cliente)
+                cuentacliente.save()
+                PagoCliente(tipo='1', monto=pago, cuentacliente=cuentacliente, asignado=self.request.user).save()
+            else:
+                venta.tipo_pago = '1'
+                venta.estado_pago = '2'
+            jornada = Jornada.objects.get(pk=4)
+            DetalleJornada(jornada=jornada, tipo='1', target=venta.id, monto=pago, descripcion='Venta',
+                           asignado=self.request.user).save()
+            venta.save()
+            url = self.url + str(venta.id) + '/edit'
+        else:
+            url = '/ventas/venta'
         return url

@@ -13,7 +13,8 @@
         <div class="panel-heading">
             <div class="btn-group pull-right">
                 <a href="/almacen/kardex/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i> </a>
-                <a href="#modal-filtros" data-toggle="modal" class="btn btn-xs btn-primary"><i class="fa fa-search fas"></i></a>
+                <a href="#modal-filtros" data-toggle="modal" class="btn btn-xs btn-primary"><i class="fa fa-search fas"></i></a>&nbsp;&nbsp;
+                <a href="#modal-producto" data-toggle="modal" class="btn btn-xs btn-success"><i class="far fa-lg  fa-file-excel"></i></a>
             </div>
             <h4 class="panel-title">Kardex</h4>
         </div>
@@ -95,6 +96,58 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modal-producto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>REPORTE KARDEX</h4>
+                </div>
+                <form method="POST" action="{% url 'reportes:kardexreport'%}" >{% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group row m-b-5">
+                            <div class="col-md-2">
+                                <label class="control-label">Producto</label>
+                            </div>
+                            <div class="col-md-4">
+                               {{ kardex_report.productos }}
+                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label">Sucursal</label>
+                            </div>
+                            <div class="col-md-4">
+                               {{ kardex_report.sucursal }}
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row m-b-2">
+                            <div class="col-md-2">
+                                <label>Fechas</label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="input-group">
+                                    {{ kardex_report.date_inicio }}
+                                    <span class="input-group-addon"></span>
+                                    {{ kardex_report.date_fin }}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+
+                            <button type="submit" class="btn btn-xs btn-success" >Reporte</button>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+
+    </div>
 {% endblock %}
 
 {% block bottom_scripts %}
@@ -112,6 +165,7 @@
             responsive: true
         });
         $(".multiple-select2").select2();
+         $(".default-select2").select2();
         $(".sel2").select2();
         $('#fecha_inicio').datetimepicker({format:'DD/MM/YYYY HH:mm'});
         $('#fecha_fin').datetimepicker({format:'DD/MM/YYYY HH:mm'});
@@ -120,6 +174,14 @@
         });
         $("#fecha_fin").on("dp.change", function (e) {
             $('#fecha_inicio').data("DateTimePicker").maxDate(e.date);
+        });
+         $('#date_inicio').datetimepicker({format:'DD/MM/YYYY HH:mm'});
+        $('#date_fin').datetimepicker({format:'DD/MM/YYYY HH:mm'});
+        $("#date_inicio").on("dp.change", function (i) {
+        $('#date_fin').data("DateTimePicker").minDate(i.date);
+        });
+        $("#date_fin").on("dp.change", function (i) {
+            $('#date_inicio').data("DateTimePicker").maxDate(i.date);
         });
         $(".select2-container--default").removeAttr('style').css("width","100%");
     </script>

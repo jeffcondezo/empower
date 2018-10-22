@@ -43,7 +43,6 @@ class CuentaCliente(models.Model):
     ESTADO_CHOICES = (
         ('1', 'PENDIENTE'),
         ('2', 'PAGADO'),
-        ('3', 'CANCELADO'),
     )
     TIPO_CHOICES = (
         ('1', 'CREDITO'),
@@ -73,8 +72,8 @@ class PagoCliente(models.Model):
     tipo = models.CharField(max_length=1, choices=TIPO_CHOICES)
     monto = models.DecimalField(max_digits=8, decimal_places=2)
     cuentacliente = models.ForeignKey(CuentaCliente, on_delete=models.PROTECT)
-    banco = models.CharField(max_length=1, choices=BANCO_CHOICES)
-    codigo = models.CharField(max_length=150)
+    banco = models.CharField(max_length=1, choices=BANCO_CHOICES, blank=True, null=True)
+    codigo = models.CharField(max_length=150, blank=True, null=True)
     asignado = models.ForeignKey(User, on_delete=models.PROTECT)
 
 

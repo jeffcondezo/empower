@@ -21,18 +21,37 @@ def fill_data_venta(venta, dv_form, impuestos):
     cantidad_pedido = dv_form.cantidad_presentacion_pedido
     cantidad_stock_presentacion = cantidad_stock // dv_form.presentacionxproducto.cantidad
     if cantidad_pedido > cantidad_stock_presentacion:
-        incidencia = [dv_form.producto.descripcion, dv_form.cantidad_presentacion_pedido, cantidad_stock_presentacion]
+        incidencia = ['1', dv_form.producto.descripcion,
+                      dv_form.cantidad_presentacion_pedido, cantidad_stock_presentacion]
         dv_form.cantidad_presentacion_pedido = cantidad_stock_presentacion
     dv_form.cantidad_unidad_pedido = dv_form.cantidad_presentacion_pedido * dv_form.presentacionxproducto.cantidad
     dv_form.sub_total = dv_form.cantidad_presentacion_pedido * dv_form.precio
-    ofertas_type_discount = OfertaVenta.objects.filter(producto_oferta=dv_form.producto.id, tipo__in=['2', '3'])
+    ofertas_type_discount = OfertaVenta.objects.filter(is_active=True, producto_oferta=dv_form.producto.id,
+                                                       tipo__in=['2', '3'])
     descuento = 0
     for otd in ofertas_type_discount:
-        if otd.tipo == '2':
-            descuento += otd.retorno * (dv_form.cantidad_unidad_pedido//otd.cantidad_unidad_oferta)
-        elif otd.tipo == '3':
-            if dv_form.cantidad_unidad_pedido >= otd.cantidad_unidad_oferta:
-                descuento += (dv_form.sub_total * otd.retorno)/100
+        if otd.is_active:
+            if otd.tipo_duracion == '1':
+                if otd.stock_faltante >= dv_form.cantidad_unidad_pedido:
+                    if otd.tipo == '2':
+                        descuento += otd.retorno * (dv_form.cantidad_unidad_pedido//otd.cantidad_unidad_oferta)
+                    elif otd.tipo == '3':
+                        if dv_form.cantidad_unidad_pedido >= otd.cantidad_unidad_oferta:
+                            descuento += (dv_form.sub_total * otd.retorno)/100
+                else:
+                    if otd.tipo == '2':
+                        descuento += otd.retorno * (otd.stock_faltante//otd.cantidad_unidad_oferta)
+                    elif otd.tipo == '3':
+                        if dv_form.stock_faltante >= otd.cantidad_unidad_oferta:
+                            descuento += (dv_form.sub_total * otd.retorno)/100
+                    incidencia = ['2', dv_form.producto.descripcion,
+                                  dv_form.cantidad_unidad_pedido, otd.stock_faltante]
+            else:
+                if otd.tipo == '2':
+                    descuento += otd.retorno * (dv_form.cantidad_unidad_pedido // otd.cantidad_unidad_oferta)
+                elif otd.tipo == '3':
+                    if dv_form.cantidad_unidad_pedido >= otd.cantidad_unidad_oferta:
+                        descuento += (dv_form.sub_total * otd.retorno) / 100
     dv_form.descuento = descuento
     dv_form.total = dv_form.sub_total - descuento
     impuesto_array = []
@@ -49,14 +68,39 @@ def fill_data_venta(venta, dv_form, impuestos):
         dv_form.impuesto.add(im)
     ofertas_type_product = OfertaVenta.objects.filter(producto_oferta=dv_form.producto.id, tipo=1)
     for ofp in ofertas_type_product:
-        if dv_form.cantidad_unidad_pedido >= ofp.cantidad_unidad_oferta:
-            dv_oferta = DetalleVenta(venta=venta, producto=ofp.producto_retorno,
-                                     presentacionxproducto=ofp.presentacion_retorno,
-                                     cantidad_presentacion_pedido=ofp.retorno,
-                                     cantidad_unidad_pedido=
-                                     ofp.retorno*(dv_form.cantidad_unidad_pedido//ofp.cantidad_unidad_oferta), precio=0,
-                                     sub_total=0, descuento=0, impuesto_monto=0, total=0, total_final=0, is_oferta=True)
-            dv_oferta.save()
+        if ofp.is_active:
+            if ofp.tipo_duracion == '1':
+                if ofp.stock_faltante >= dv_form.cantidad_unidad_pedido:
+                    if dv_form.cantidad_unidad_pedido >= ofp.cantidad_unidad_oferta:
+                        dv_oferta = DetalleVenta(venta=venta, producto=ofp.producto_retorno,
+                                                 presentacionxproducto=ofp.presentacion_retorno,
+                                                 cantidad_presentacion_pedido=ofp.retorno,
+                                                 cantidad_unidad_pedido=
+                                                 ofp.retorno*(dv_form.cantidad_unidad_pedido//ofp.cantidad_unidad_oferta),
+                                                 precio=0, sub_total=0, descuento=0, impuesto_monto=0, total=0,
+                                                 total_final=0, is_oferta=True)
+                        dv_oferta.save()
+                else:
+                    dv_oferta = DetalleVenta(venta=venta, producto=ofp.producto_retorno,
+                                             presentacionxproducto=ofp.presentacion_retorno,
+                                             cantidad_presentacion_pedido=ofp.retorno,
+                                             cantidad_unidad_pedido=
+                                             ofp.retorno*(ofp.stock_faltante//ofp.cantidad_unidad_oferta),
+                                             precio=0,
+                                             sub_total=0, descuento=0, impuesto_monto=0, total=0, total_final=0,
+                                             is_oferta=True)
+                    dv_oferta.save()
+                    incidencia = ['2', dv_form.producto.descripcion,
+                                  dv_form.cantidad_unidad_pedido, ofp.stock_faltante]
+            else:
+                dv_oferta = DetalleVenta(venta=venta, producto=ofp.producto_retorno,
+                                         presentacionxproducto=ofp.presentacion_retorno,
+                                         cantidad_presentacion_pedido=ofp.retorno,
+                                         cantidad_unidad_pedido=
+                                         ofp.retorno * (dv_form.cantidad_unidad_pedido // ofp.cantidad_unidad_oferta),
+                                         precio=0, sub_total=0, descuento=0, impuesto_monto=0, total=0,
+                                         total_final=0, is_oferta=True)
+                dv_oferta.save()
     return incidencia
 
 

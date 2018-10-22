@@ -9,81 +9,139 @@
     <link href="{% static "assets/plugins/switchery/switchery.min.css" %}" rel="stylesheet" />
 {% endblock %}
 
-{% block breadcrumb  %}
-    <ol class="breadcrumb pull-right">
-        <li class="breadcrumb-item"><a href="javascript:;">Almacen</a></li>
-        <li class="breadcrumb-item"><a href="/maestro/sucursal">Recepción</a></li>
-        <li class="breadcrumb-item active">Detalle</li>
-    </ol>
-{% endblock %}
-
-{% block pageheader %}
-    <h1 class="page-header">Recepcion de Compra <small>Detalle de la Recepcion</small></h1>
-{% endblock %}
-
-
 {% block content %}
-    <div class="panel panel-inverse">
-        <div class="panel-heading">
-            <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
-            </div>
-            <h4 class="panel-title">Recepcion de Compra </h4>
-        </div>
-        <div class="panel-body">
-            <form method="post">{% csrf_token %}
-                <input type="hidden" id="detallecompra_to_delete" name="detallecompra_to_delete" value="">
-                <input type="hidden" id="current_pos" value="{{ detalle|length }}">
-                <input type="hidden" id="detallecompra_to_save" name="detallecompra_to_save" value="">
-           <div class="col-md-12">
-               <div class="row buttons-content">
-                   <button type="submit" class="btn btn-success">
-                        <i class="fa fa-save fas"></i> Guardar
-                    </button>
 
-               </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td class="td-detail-title">PROVEEDOR:</td>
-                                <td class="td-detail-desc">{{ object.proveedor.descripcion }}</td>
-                                <td class="td-detail-title">ESTADO:</td>
-                                <td class="td-detail-desc">{{ compra_form.estado }}</td>
-                            </tr>
-                            <tr>
-                                <td class="td-detail-title">TOTAL:</td>
-                                <td class="td-detail-desc">{{ object.total_final }}</td>
-                                <td class="td-detail-title">FECHA-HORA:</td>
-                                <td class="td-detail-desc">{{ object.fechahora|date:'d-m-Y H:i' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="td-detail-title">ASIGNADO:</td>
-                                <td class="td-detail-desc">{{ object.asignado.username }}</td>
-                                <td class="td-detail-title">COMPRA:</td>
-                                <td class="td-detail-desc">{{ object.compra|default_if_none:'' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="td-detail-title">TIPO PAGO:</td>
-                                <td class="td-detail-desc">{{ compra_form.tipo_pago }}</td>
-                                <td class="td-detail-title">TIPO COMPROBANTE:</td>
-                                <td class="td-detail-desc">{{ compra_form.tipo_comprobante }}</td>
-                            </tr>
-                            <tr>
-                                <td class="td-detail-title">SERIE COMPROBANTE:</td>
-                                <td class="td-detail-desc">{{ compra_form.serie_comprobante }}</td>
-                                <td class="td-detail-title">NUMERO COMPROBANTE:</td>
-                                <td class="td-detail-desc">{{ compra_form.numero_comprobante }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <div class="pull-right">
+            <button type="submit" form="compra" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i> Guardar
+            </button>
+        </div>
+        <h4 class="panel-title">Recepcion de Compra </h4>
+    </div>
+
+    <form method="post" id="compra">{% csrf_token %}
+
+        <div class="panel-body">
+            <input type="hidden" id="detallecompra_to_delete" name="detallecompra_to_delete" value="">
+            <input type="hidden" id="current_pos" value="{{ detalle|length }}">
+            <input type="hidden" id="detallecompra_to_save" name="detallecompra_to_save" value="">
+
+            <div class="form-group row m-b-6">
+                <div class="col-md-2">
+                    <label class="control-label">PROVEEDOR:</label>
                 </div>
-               <legend class="m-b-15">
-                   Detalle
-               </legend>
+                <div class="col-md-3">
+                    {{ object.proveedor.descripcion }}
+
+                </div>
+                <div class="col-md-1">
+                    <label class="control-label">ESTADO</label>
+
+                </div>
+                <div class="col-md-3">
+                    {{ compra_form.estado }}
+                </div>
+                <div class="col-md-1">
+                    <label class="control-label">FECHA:</label>
+                </div>
+                <div class="col-md-2">
+                    {{ object.fechahora|date:'d-m-Y H:i' }}
+                </div>
+
+            </div>
+
+            <div class="form-group row m-b-6">
+                <div class="col-md-2">
+                    <label class="control-label">TOTAL</label>
+                </div>
+
+                <div class="col-md-3">
+                    {{ object.total_final }}
+
+                </div>
+
+                <div class="col-md-1">
+                    <label class="control-label">ASIGNADO:</label>
+
+                </div>
+
+                <div class="col-md-3">
+                    {{ object.asignado.username }}
+                </div>
+
+                <div class="col-md-1">
+                    <label class="control-label">COMPRA:</label>
+
+                </div>
+
+                <div class="col-md-2">
+                   {{ object.compra|default_if_none:'' }}
+                </div>
+
+            </div>
+
+            <div class="form-group row m-b-6">
+                <div class="col-md-2">
+                    <label class="control-label">TIPO PAGO:</label>
+                </div>
+
+                <div class="col-md-3">
+                    {{ compra_form.tipo_pago }}
+
+                </div>
+
+                <div class="col-md-1">
+                    <label class="control-label">T.COMPROB.:</label>
+                </div>
+
+                <div class="col-md-3">
+                    {{ compra_form.tipo_comprobante }}
+                </div>
+
+                <div class="col-md-1">
+                    <label class="control-label">S.COMPROB.:</label>
+
+                </div>
+                <div class="col-md-2">
+                    {{ compra_form.serie_comprobante }}
+                </div>
+
+            </div>
+
+            <div class="form-group row m-b-6">
+                <div class="col-md-2">
+                    <label class="control-label">Nº COMPROBA.:</label>
+                </div>
+
+                <div class="col-md-3">
+                    {{ compra_form.numero_comprobante }}
+
+                </div>
+
+            </div>
+
+        </div>
+</div>
+
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <div class="pull-right">
+            <label class="control-label"><h6 style="color:white">MENOS</h6></label>
+            <button type="button" class="btn btn-danger btn-circle btn-xs" style="background-color: rgb(255, 205, 204);"><i class="glyphicon glyphicon-ok"></i></button>&nbsp;&nbsp;
+            <label class="control-label"><h6 style="color:white">EXACTO</h6></label>
+            <button type="button" class="btn btn-green btn-circle btn-xs"
+            style="background-color: rgb(179, 230, 230)"><i class="glyphicon glyphicon-ok"></i></button>&nbsp;&nbsp;
+            <label class="control-label"><h6 style="color:white">MAS</h6></label>
+            <button type="button" class="btn btn-yellow btn-circle btn-xs" style="background-color: rgb(250, 206, 141);"><i class="glyphicon glyphicon-ok"></i></button>
+
+        </div>
+
+         <h4 class="panel-title">Detalle</h4>
+
+    </div>
+
+    <div class="panel-body">
                <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -159,10 +217,13 @@
                         </tbody>
                     </table>
                 </div>
-        </div>
-        </form>
+
+
     </div>
-    </div>
+</div>
+
+</form>
+
 
 {% endblock %}
 

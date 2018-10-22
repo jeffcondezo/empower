@@ -99,3 +99,17 @@ legend{
 #tr_detalleventa_empty{
     display: none;
 }
+
+
+.btn-circle {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.periodo_credito_hdn{
+    display: none;
+}

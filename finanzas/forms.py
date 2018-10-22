@@ -5,6 +5,7 @@ from django.forms import ModelChoiceField
 from maestro.models import Caja, Proveedor
 from clientes.models import Cliente
 from finanzas.models import DetalleJornada, Jornada, CuentaCliente, CuentaProveedor, PagoCliente, PagoProveedor
+from ventas.models import Venta
 # Model import<--
 
 
@@ -181,3 +182,23 @@ class PagoProveedorCreateForm(forms.ModelForm):
         super(PagoProveedorCreateForm, self).__init__(*args, **kwargs)
         self.fields['tipo'].choices = [i for i in self.fields['tipo'].choices if i[0] in ['1', '2', '3']]
         self.fields['banco'].choices = [i for i in self.fields['banco'].choices if i[0] in ['1', '2', '3']]
+
+
+class PagoVentaForm(forms.ModelForm):
+
+    duracion = forms.ChoiceField(choices=CuentaCliente.DURACION_CHOICES, required=False,
+                                 widget=forms.Select(
+                                     attrs={'class': 'default-select2 form-control'}))
+    pago = forms.FloatField(required=False,
+                            widget=forms.NumberInput(attrs={'class': 'form-control', 'id': 'pago_inp',
+                                                            'readonly': 'readonly'}))
+
+    class Meta:
+        model = Venta
+        fields = ['tipo_pago', 'tipo_comprobante', 'serie_comprobante', 'numero_comprobante']
+        widgets = {
+            'tipo_pago': forms.Select(attrs={'class': 'default-select2 form-control tipo_pago'}),
+            'tipo_comprobante': forms.Select(attrs={'class': 'default-select2 form-control'}),
+            'serie_comprobante': forms.TextInput(attrs={'class': 'form-control'}),
+            'numero_comprobante': forms.TextInput(attrs={'class': 'form-control'})
+        }

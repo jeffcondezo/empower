@@ -88,3 +88,25 @@ class EntregaFiltroForm(forms.Form):
                                                         widget=forms.SelectMultiple(
                                                             attrs={'class': 'multiple-select2 form-control'}))
         self.fields['cliente'].empty_label = None
+
+
+class KardexReportFiltroForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(KardexReportFiltroForm, self).__init__(*args, **kwargs)
+        self.fields['productos'] = forms.ModelChoiceField(queryset=Producto.objects.all(), required=False,
+                                                          widget=forms.Select(
+                                                              attrs={'class': 'default-select2 form-control'}))
+        self.fields['productos'].empty_label = None
+        self.fields['sucursal'] = forms.ModelChoiceField(queryset=Sucursal.objects.all(), required=False,
+                                                         widget=forms.Select(
+                                                             attrs={'class': 'default-select2 form-control'}))
+        self.fields['sucursal'].empty_label = None
+
+        self.fields['date_inicio'] = forms.CharField(required=True,
+                                                     widget=forms.TextInput(
+                                                         attrs={'id': 'date_inicio', 'placeholder': 'Inicio',
+                                                                'class': 'form-control'}))
+        self.fields['date_fin'] = forms.CharField(required=True,
+                                                  widget=forms.TextInput(
+                                                      attrs={'id': 'date_fin', 'placeholder': 'Fin',
+                                                             'class': 'form-control'}))

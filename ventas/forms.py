@@ -5,6 +5,7 @@ from django.forms import ModelChoiceField
 from maestro.models import Sucursal, Producto, PresentacionxProducto, Impuesto
 from ventas.models import OfertaVenta, Venta, DetalleVenta
 from clientes.models import Cliente
+from finanzas.models import CuentaCliente
 # Model import<--
 
 
@@ -178,3 +179,4 @@ class DetalleVentaEntregaForm(forms.ModelForm):
     class Meta:
         model = DetalleVenta
         fields = ['cantidad_presentacion_entrega', 'is_checked']
+

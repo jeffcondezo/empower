@@ -17,7 +17,9 @@ from compras.forms import CompraCreateForm, CompraEditForm, DetalleCompraForm, C
 from .utils import fill_data_compra, recalcular_total_compra, \
     cargar_ofertas, create_ofertas, loadtax, cargar_oferta
 # Utils import<--
-
+from openpyxl.writer.excel import save_virtual_workbook
+from openpyxl.styles import Border, Side
+from openpyxl import Workbook,load_workbook
 # Extra python features-->
 # Extra python features<--
 
@@ -189,3 +191,84 @@ class CompraDetailView(BasicEMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['detalle'] = cargar_ofertas(DetalleCompra.objects.filter(compra=self.kwargs['pk']))
         return context
+
+
+def reporte_orden(request):
+    libro = Workbook()
+    libro = load_workbook("./reporteorden.xlsx")
+    h = libro.get_sheet_by_name("Hoja1")
+
+    query = Compra.objects.all()
+    proveedores = request.POST.getlist('proveedor')
+    estados = request.POST.getlist('estado')
+    tipo = request.POST.getlist('tipo')
+    if len(proveedores) > 0:
+        query = query.filter(proveedor__in=proveedores)
+    if len(estados) > 0:
+        query = query.filter(estado__in=estados)
+    if len(tipo) > 0:
+        query = query.filter(tipo__in=tipo)
+    if 'fechahora_creacion1' in request.POST and 'fechahora_creacion2' in request.POST:
+        if request.POST['fechahora_creacion1'] != '' and request.POST['fechahora_creacion2'] != '':
+            fecha_inicio = datetime.strptime(request.POST['fechahora_creacion1'], '%d/%m/%Y %H:%M')
+            fecha_fin = datetime.strptime(request.POST['fechahora_creacion2'], '%d/%m/%Y %H:%M')
+            query = query.filter(fechahora_creacion__gte=fecha_inicio, fechahora_creacion__lte=fecha_fin)
+    if 'total_final1' in request.POST or 'total_final2' in request.POST:
+        monto1 = request.POST['total_final1']
+        monto2 = request.POST['total_final2']
+        if monto1 == '':
+            query = query.filter(total_final__lte=monto2)
+        elif monto2 == '':
+            query = query.filter(total_final__gte=monto1)
+        else:
+            query = query.filter(total_final__gte=monto1, total_final__lte=monto2)
+
+    print(request.POST['fechahora_creacion1'])
+
+    i = 6
+    total = 0
+    for o in query:
+        i = i + 1
+        h.cell(row=i, column=2).value = o.proveedor.descripcion
+        h.cell(row=i, column=3).value = o.almacen.descripcion
+        h.cell(row=i, column=4).value = o.get_estado_display()
+        h.cell(row=i, column=5).value = o.asignado.username
+        h.cell(row=i, column=6).value = o.get_tipo_display()
+        h.cell(row=i, column=7).value = o.total_final
+        total = total + o.total_final
+
+        ### BORDER CADA FILA ###
+
+        h.cell(row=i, column=2).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                right=Side(border_style='thin', color='FF000000'),
+                                                bottom=Side(border_style='thin', color='FF000000'),
+                                                left=Side(border_style='thin', color='FF000000'))
+        h.cell(row=i, column=3).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                right=Side(border_style='thin', color='FF000000'),
+                                                bottom=Side(border_style='thin', color='FF000000'),
+                                                left=Side(border_style='thin', color='FF000000'))
+        h.cell(row=i, column=4).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                right=Side(border_style='thin', color='FF000000'),
+                                                bottom=Side(border_style='thin', color='FF000000'),
+                                                left=Side(border_style='thin', color='FF000000'))
+        h.cell(row=i, column=5).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                right=Side(border_style='thin', color='FF000000'),
+                                                bottom=Side(border_style='thin', color='FF000000'),
+                                                left=Side(border_style='thin', color='FF000000'))
+        h.cell(row=i, column=6).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                right=Side(border_style='thin', color='FF000000'),
+                                                bottom=Side(border_style='thin', color='FF000000'),
+                                                left=Side(border_style='thin', color='FF000000'))
+        h.cell(row=i, column=7).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                right=Side(border_style='thin', color='FF000000'),
+                                                bottom=Side(border_style='thin', color='FF000000'),
+                                                left=Side(border_style='thin', color='FF000000'))
+
+    i = i + 2
+    h.cell(row=i, column=6).value = "TOTAL"
+    h.cell(row=i, column=7).value = total
+
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=compra' + str(o.id) + '.xls'
+    libro.save(response)
+    return response

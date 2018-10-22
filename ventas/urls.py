@@ -1,7 +1,7 @@
 # urls.py
 from django.urls import path
 from ventas.views import OfertaListView, OfertaEditView, OfertaDetailView, VentaListView, VentaCreateView,\
-    VentaEditView, VentaDetailView
+    VentaEditView, VentaDetailView, ReporteVentas
 from ventas.rviews import ProductoDetailsView, ValidarStockView
 
 
@@ -13,6 +13,7 @@ urlpatterns = [
     path('venta/add', VentaCreateView.as_view()),
     path('venta/<int:pk>/edit', VentaEditView.as_view()),
     path('venta/<int:pk>/', VentaDetailView.as_view()),
+    path('reporteventas/<int:id>',ReporteVentas, name='reporteventas'),
 
     path('api/productodetails/<str:producto>/<int:sucursal>', ProductoDetailsView.as_view()),
     path('api/validatestock/<int:presentacion>/<int:sucursal>/<int:cantidad>', ValidarStockView.as_view()),

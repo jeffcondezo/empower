@@ -41,6 +41,8 @@ class Venta(models.Model):
     impuesto_monto = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total_final = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    is_pagado = models.BooleanField(default=False)
+    is_entregado = models.BooleanField(default=False)
 
 
 class DetalleVenta(models.Model):
@@ -73,6 +75,7 @@ class OfertaVenta(models.Model):
         ('2', 'DESCUENTO MONETARIO'),
         ('3', 'DESCUENTO PORCENTUAL'),
     )
+    is_active = models.BooleanField(default=True)
     estado = models.BooleanField(default=True)
     sucursal = models.ForeignKey(Sucursal, on_delete=models.PROTECT)
     tipo = models.CharField(max_length=1, choices=TIPO_CHOICES)
