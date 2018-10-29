@@ -18,19 +18,38 @@
                  Datos Generales
                </legend>
               <div class="form-group row m-b-2">
-                <div class="col-md-2">
+                <div class="col-md-1">
                   <label class="control-label">EMPRESA:</label>
                 </div>
                 <div class="col-md-3">
                   {{ object.empresa.descripcion }}
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                   <label  class="control-label">DESCRIPCION:</label>
                 </div>
                 <div class="col-md-3">
                   {{ object.descripcion }}
                 </div>
-
+                <div class="col-md-1">
+                  <label  class="control-label">UTILIDAD:</label>
+                </div>
+                <div class="col-md-3">
+                  {{ object.utilidad_monetaria }}
+                </div>
+              </div>
+                         <div class="form-group row m-b-2">
+                <div class="col-md-1">
+                  <label class="control-label">PRECIO VENTA:</label>
+                </div>
+                <div class="col-md-3">
+                  {{ object.precio_venta }}
+                </div>
+                <div class="col-md-1">
+                  <label  class="control-label">PRECIO COMPRA:</label>
+                </div>
+                <div class="col-md-3">
+                  {{ object.precio_compra }}
+                </div>
               </div>
                <legend class="m-b-15">
                    Categorias
@@ -68,9 +87,7 @@
                         </tbody>
                     </table>
                 </div>
-               <legend class="m-b-15">Catalogo en:
-                   <span class="span-right"><a href="/maestro/producto/{{ object.id }}/presentacion" class="btn btn-primary buttons"><i class="fa fa-edit"></i> Editar</a></span>
-               </legend>
+               <legend class="m-b-15">Catalogo en:</legend>
                <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>

@@ -43,6 +43,9 @@ class Producto(models.Model):
     empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT)
     categorias = models.ManyToManyField(Categoria)
     catalogo = models.ManyToManyField(Sucursal)
+    precio_compra = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    precio_venta = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    utilidad_monetaria = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     def __str__(self):
         return self.descripcion

@@ -1,4 +1,4 @@
-from maestro.models import Producto, PresentacionxProducto, Impuesto
+from maestro.models import Producto, PresentacionxProducto, Impuesto, CatalogoxProveedor
 from compras.models import DetalleCompra, OfertaCompra, Compra
 from almacen.utils import update_kardex_stock
 import json
@@ -33,6 +33,17 @@ def fill_data_compra(compra, dc_form, impuestos):
         dc_form.cantidad_unidad_entrega = dc_form.cantidad_unidad_pedido
         dc_form.is_checked = True
         dc_form.save()
+        catalogo_proveedor = CatalogoxProveedor.objects.get(producto=dc_form.presentacionxproducto.producto_id,
+                                                            proveedor=compra.proveedor_id)
+        catalogo_proveedor.presentacionxproducto = dc_form.presentacionxproducto
+        catalogo_proveedor.precio_tentativo = dc_form.precio
+        catalogo_proveedor.save()
+        producto = Producto.objects.get(pk=dc_form.presentacionxproducto.producto_id)
+        precio_actual_compra = dc_form.total_final / dc_form.cantidad_unidad_entrega
+        if producto.precio_compra < precio_actual_compra:
+            producto.precio_compra = precio_actual_compra
+            producto.precio_venta = producto.precio_compra + producto.utilidad_monetaria
+            producto.save()
         update_kardex_stock(dc_form, '1', '1', compra)
     for im in impuesto_array:
         dc_form.impuesto.add(im)

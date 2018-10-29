@@ -2,15 +2,15 @@ from maestro.models import CatalogoxProveedor, Impuesto, Sucursal
 from ventas.models import OfertaVenta, DetalleVenta, Venta
 from almacen.models import Stock
 from almacen.utils import update_kardex_stock
+from finanzas.models import Jornada, DetalleJornada
 import json
 from django.db.models import Max
 from django.db.models import Sum
 
 
 def fill_data_venta(venta, dv_form, impuestos):
-    incidencia=[]
-    precio_base = CatalogoxProveedor.objects.filter(producto=dv_form.producto).aggregate(Max('precio_base'))
-    dv_form.precio = precio_base['precio_base__max']
+    incidencia = []
+    dv_form.precio = dv_form.producto.precio_venta * dv_form.presentacionxproducto.cantidad
     stock = Stock.objects.filter(almacen__sucursal=Sucursal.objects.get(pk=venta.sucursal_id))
     stock = stock.filter(producto=dv_form.presentacionxproducto.producto_id)
     stock = stock.annotate(Sum('cantidad'))
@@ -64,6 +64,11 @@ def fill_data_venta(venta, dv_form, impuestos):
     dv_form.impuesto_monto = impuesto_monto
     dv_form.total_final = dv_form.total + impuesto_monto
     dv_form.save()
+    if venta.tipo == '1' and venta.estado != '3':
+        dv_form.cantidad_presentacion_entrega = dv_form.cantidad_presentacion_pedido
+        dv_form.cantidad_unidad_entrega = dv_form.cantidad_unidad_pedido
+        dv_form.save()
+        update_kardex_stock(dv_form, '2', '2', venta)
     for im in impuesto_array:
         dv_form.impuesto.add(im)
     ofertas_type_product = OfertaVenta.objects.filter(producto_oferta=dv_form.producto.id, tipo=1)
@@ -171,3 +176,18 @@ def fill_data_detalleventa(detalle_venta, flag_estado, venta):
     # '2' y '2' significa salida y venta para el kardex
     if flag_estado == '3':
         update_kardex_stock(detalle_venta, '2', '2', venta)
+
+
+def cancelarventa(venta, asignado):
+    if venta.estado != '4':
+        estado = venta.estado
+        venta.estado = '4'
+        venta.save()
+        if estado == '3':
+            if venta.is_pagado:
+                jornada = Jornada.objects.get(pk=4)
+                DetalleJornada(jornada=jornada, tipo='2', target=venta.id, monto=venta.total_final,
+                               descripcion='Reembolso Venta', asignado=asignado).save()
+            detalleventa = DetalleVenta.objects.filter(venta=venta.id)
+            for dv in detalleventa:
+                update_kardex_stock(dv, '1', '4', venta)

@@ -4,7 +4,10 @@ import json
 
 
 def update_kardex_stock(detalle, tipo_movimiento, tipo_detalle, obj):
-    almacen = Almacen.objects.get(pk=detalle.compra.almacen_id)
+    if tipo_detalle == '2' or tipo_detalle == '4':
+        almacen = Almacen.objects.filter(sucursal=obj.sucursal_id)[0]
+    elif tipo_detalle == '1':
+        almacen = Almacen.objects.get(pk=obj.almacen_id)
     try:
         stock = Stock.objects.get(producto=detalle.producto_id, almacen=almacen.id)
     except Stock.DoesNotExist:
@@ -22,6 +25,8 @@ def update_kardex_stock(detalle, tipo_movimiento, tipo_detalle, obj):
     if tipo_movimiento == '1':
         if tipo_detalle == '1':
             kardex.detallecompra = detalle
+        elif tipo_detalle == '4':
+            kardex.detalleventa = detalle
         kardex.cantidad_entrada = kardex.cantidad
         kardex.precio_unitario_entrada = detalle.total_final / detalle.cantidad_unidad_entrega
         kardex.total_entrada = detalle.total_final
@@ -33,12 +38,12 @@ def update_kardex_stock(detalle, tipo_movimiento, tipo_detalle, obj):
         kardex.numero_comprobante = obj.numero_comprobante
     elif tipo_movimiento == '2':
         if tipo_detalle == '2':
-            kardex.detallecompra = detalle
+            kardex.detalleventa = detalle
         kardex.cantidad_entrada = kardex.cantidad
         kardex.precio_unitario_salida = detalle.total_final / detalle.cantidad_unidad_entrega
         kardex.total_salida = detalle.total_final
         kardex.cantidad_saldo = cantidad_stock
-        kardex.precio_unitario_saldo = kardex.precio_unitario_entrada
+        kardex.precio_unitario_saldo = kardex.precio_unitario_salida
         kardex.total_saldo = cantidad_stock * kardex.precio_unitario_saldo
         kardex.tipo_comprobante = obj.tipo_comprobante
         kardex.serie_comprobante = obj.serie_comprobante

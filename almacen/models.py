@@ -18,7 +18,9 @@ class Kardex(models.Model):
     )
     TIPO_DETALLE_CHOICES = (
         (1, 'COMPRA'),
-        (2, 'VENTA')
+        (2, 'VENTA'),
+        (3, 'REEMBOLSO COMPRA'),
+        (4, 'REEMBOLSO VENTA'),
     )
 
     almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)

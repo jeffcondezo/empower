@@ -13,9 +13,19 @@
         <div class="panel-heading">
             <div class="btn-group pull-right">
                 <a href="/ventas/venta/{{ object.id }}/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-edit"></i></a>
-                <a onclick="ajax_demo()"  class="btn btn-xs btn-success buttons"><i class="fa fa-print"></i></a>
+                {% if object.is_pagado %}
+                    <a onclick="ajax_demo()"  class="btn btn-xs btn-success buttons"><i class="fa fa-print"></i></a>
+                    {% if not object.is_entregado %}
+                        <a href="#modal-entrega" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-dollar-sign"></i></a>
+                    {% endif %}
+                {% else %}
+                    <a href="#modal-pago" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-dollar-sign"></i></a>
+                {% endif %}
+                {% if object.estado != '4' %}
+                    <a href="#modal-cancelar" data-toggle="modal" class="btn btn-xs btn-danger buttons"><i class="far fa-trash-alt"></i></a>
+                {% endif %}
+                <a href="#modal-duplicar" data-toggle="modal" class="btn btn-xs btn-warning buttons"><i class="far fa-clone"></i></a>
                 <a href="/ventas/reporteventas/{{ object.id }}" class="btn btn-xs btn-success buttons"><i class="far fa-file-excel"></i></a>
-                <a href="#modal-convertir" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-dollar-sign"></i></a>
             </div>
             <h4 class="panel-title">Venta</h4>
         </div>
@@ -157,7 +167,7 @@
 
 {% block modal %}
     <!-- #modal-dialog -->
-    <div class="modal fade" id="modal-convertir">
+    <div class="modal fade" id="modal-pago">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="form_pago_venta" action="/finanzas/pagoventa/{{ object.id }}/" method="POST">{% csrf_token %}
@@ -193,6 +203,66 @@
                     <div class="modal-footer">
                         <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
                         <button type="submit" class="btn btn-success">Pagar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+        <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-entrega">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="form_pago_venta" action="/ventas/{{ object.id }}/entrega" method="GET">
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Entrega de la Venta:</legend>
+                            <p>¿Ha entregado todos los pedidos de la venta?</p>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="submit" class="btn btn-success">Sí</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+            <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-cancelar">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="form_pago_venta" action="/ventas/venta/{{ object.id }}/cancelar" method="GET">
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Cancelar Venta:</legend>
+                            <p>¿Está seguro que desea cancelar la venta?</p>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="submit" class="btn btn-danger">Sí</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+            <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-duplicar">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="form_pago_venta" action="/ventas/venta/{{ object.id }}/duplicar" method="GET">
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Duplicar la Venta:</legend>
+                            <p>Se procederá a duplicar la venta</p>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="submit" class="btn btn-warning">Duplicar</button>
                     </div>
                 </form>
             </div>

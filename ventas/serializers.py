@@ -33,6 +33,13 @@ class CatalogoxProveedorSerializer(serializers.ModelSerializer):
         fields = ['id', 'precio_base', 'producto']
 
 
+class ProductoPrecioVentaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Producto
+        fields = ['id', 'precio_venta', 'descripcion']
+
+
 class OfertaVentaSerializer(serializers.ModelSerializer):
     presentacion_oferta = PresentacionxProductoSerializer()
     presentacion_retorno = PresentacionxProductoSerializer()

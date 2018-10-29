@@ -9,7 +9,7 @@ from maestro.mixin import BasicEMixin
 from datetime import datetime
 # Extra python features<--
 
-from .utils import fill_data_venta, load_tax, create_venta_txt
+from .utils import fill_data_venta, load_tax, create_venta_txt, cancelarventa
 
 # Model import-->
 from ventas.models import OfertaVenta, Venta, DetalleVenta
@@ -155,6 +155,34 @@ class VentaCreateView(RedirectView):
         return url
 
 
+class VentaDuplicarView(RedirectView):
+
+    url = '/ventas/venta/'
+    view_name = 'venta'
+    action_name = 'crear'
+
+    def get_redirect_url(self, *args, **kwargs):
+        venta = Venta.objects.get(pk=self.kwargs['venta'])
+        detalleventa = DetalleVenta.objects.filter(venta=venta.id, is_oferta=False)
+        venta.estado = '1'
+        venta.pk = None
+        venta.save()
+        total = 0
+        for d in detalleventa:
+            impuesto = d.impuesto.all()
+            d.pk = None
+            d.venta = venta
+            impuesto_array = []
+            for i in impuesto:
+                impuesto_array.append(str(i.id))
+            fill_data_venta(venta, d, json.dumps(impuesto_array))
+            total += d.total_final
+        venta.total_final = total
+        venta.save()
+        url = self.url + str(venta.id) + '/edit'
+        return url
+
+
 class VentaEditView(BasicEMixin, TemplateView):
 
     template_name = 'ventas/venta-edit.html'
@@ -213,6 +241,7 @@ class VentaEditView(BasicEMixin, TemplateView):
                     else:
                         return HttpResponse(dv_form.errors)
                 venta.total_final = total
+                venta.save()
             if venta.tipo == '1':
                 venta.estado = '3'
             else:
@@ -242,6 +271,33 @@ class VentaDetailView(BasicEMixin, DetailView):
         if 'incidencias' in self.request.GET:
             context['incidencias'] = json.loads(self.request.GET['incidencias'])
         return context
+
+
+class VentaEntregaView(RedirectView):
+
+    url = '/ventas/venta/'
+    view_name = 'ventas'
+    action_name = 'venta_entrega'
+
+    def get_redirect_url(self, *args, **kwargs):
+        venta = Venta.objects.get(pk=self.kwargs['venta'])
+        venta.is_pagado = True
+        venta.save()
+        url = self.url + str(venta.id) + '/edit'
+        return url
+
+
+class VentaCancelarView(RedirectView):
+
+    url = '/ventas/venta/'
+    view_name = 'ventas'
+    action_name = 'venta_cancelar'
+
+    def get_redirect_url(self, *args, **kwargs):
+        venta = Venta.objects.get(pk=self.kwargs['venta'])
+        cancelarventa(venta, self.request.user)
+        url = self.url + str(venta.id) + '/edit'
+        return url
 
 
 def ReporteVentas(request, id):

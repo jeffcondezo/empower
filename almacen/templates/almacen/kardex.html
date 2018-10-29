@@ -37,11 +37,11 @@
                     {% for k in object_list %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
+                            <td>{{ k.fechahora|date:'d-m-Y H:i' }}</td>
                             <td>{{ k.producto.descripcion }}</td>
                             <td>{% if k.tipo_movimiento == '1' %}ENTRADA{% else %}SALIDA{% endif %}</td>
                             <td>{{ k.cantidad }}</td>
                             <td>{{ k.almacen.descripcion }}</td>
-                            <td>{{ k.fechahora|date:'d-m-Y H:i' }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

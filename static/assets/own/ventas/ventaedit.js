@@ -268,8 +268,8 @@ function prod_change(obj, new_value,e) {
         presentacion_select.value = '';
         $(presentacion_select).select2('open');
         var dataprecio = data['precio'];
-        current_tr.querySelector('.precio_inp').value = dataprecio[0]['precio_base'];
-        current_tr.querySelector('.td_precio').innerHTML = dataprecio[0]['precio_base'];
+        current_tr.querySelector('.precio_inp').value = dataprecio[0]['precio_venta'];
+        current_tr.querySelector('.td_precio').innerHTML = dataprecio[0]['precio_venta'];
         var dataoferta = data['oferta'];
         if (dataoferta.length > 0){
             current_tr.querySelector('.promocion_inp').value = convertOfertatoString(dataoferta);

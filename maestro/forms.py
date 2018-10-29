@@ -80,10 +80,11 @@ class ProductoForm(forms.ModelForm):
 
     class Meta:
         model = Producto
-        fields = ['descripcion', 'empresa']
+        fields = ['descripcion', 'empresa', 'utilidad_monetaria']
         widgets = {
             'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
-            'empresa': forms.Select(attrs={'class': 'default-select2 form-control'})
+            'empresa': forms.Select(attrs={'class': 'default-select2 form-control'}),
+            'utilidad_monetaria': forms.NumberInput(attrs={'class': 'form-control'})
         }
 
     def __init__(self, *args, **kwargs):

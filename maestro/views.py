@@ -540,4 +540,4 @@ class CatalogoProveedorAddView(BasicEMixin, TemplateView):
                         catalogoproveedor = form.save(commit=False)
                         catalogoproveedor.proveedor = proveedor
                         catalogoproveedor.save()
-        return redirect('/maestro/catalogoproveedor/'+str(proveedor.id))
+        return redirect('/maestro/catalogoproveedor/?proveedor='+str(proveedor.id))
