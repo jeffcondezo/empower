@@ -63,12 +63,13 @@ class CompraListView(BasicEMixin, ListView):
         if 'total_final1' in self.request.GET or 'total_final2' in self.request.GET:
             monto1 = self.request.GET['total_final1']
             monto2 = self.request.GET['total_final2']
-            if monto1 == '':
-                query = query.filter(total_final__lte=monto2)
-            elif monto2 == '':
-                query = query.filter(total_final__gte=monto1)
-            else:
+            if monto1 != '' and monto2 != '':
                 query = query.filter(total_final__gte=monto1, total_final__lte=monto2)
+            if monto1 == '' and monto2 != '':
+                query = query.filter(total_final__lte=monto2)
+            elif monto2 == '' and monto1 != '':
+                query = query.filter(total_final__gte=monto1)
+
         return query
 
 
@@ -218,12 +219,12 @@ def reporte_orden(request):
     if 'total_final1' in request.POST or 'total_final2' in request.POST:
         monto1 = request.POST['total_final1']
         monto2 = request.POST['total_final2']
-        if monto1 == '':
-            query = query.filter(total_final__lte=monto2)
-        elif monto2 == '':
-            query = query.filter(total_final__gte=monto1)
-        else:
+        if monto1 != '' and monto2 != '':
             query = query.filter(total_final__gte=monto1, total_final__lte=monto2)
+        if monto1 == '' and monto2 != '':
+            query = query.filter(total_final__lte=monto2)
+        elif monto2 == '' and monto1 != '':
+            query = query.filter(total_final__gte=monto1)
 
     print(request.POST['fechahora_creacion1'])
 

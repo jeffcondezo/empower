@@ -120,12 +120,12 @@ class VentaListView(BasicEMixin, ListView):
         if 'total1' in self.request.GET or 'total2' in self.request.GET:
             total1 = self.request.GET['total1']
             total2 = self.request.GET['total2']
-            if total1 == '':
-                query = query.filter(total__lte=total2)
-            elif total2 == '':
-                query = query.filter(total__gte=total1)
-            else:
+            if total1 != '' and total2 != '':
                 query = query.filter(total__gte=total1, total__lte=total2)
+            elif total1 == '' and total2 != '':
+                query = query.filter(total__lte=total2)
+            elif total2 == '' and total1 != '':
+                query = query.filter(total__gte=total1)
         return query
 
 
