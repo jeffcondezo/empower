@@ -6,6 +6,7 @@ from maestro.models import Caja, Proveedor
 from clientes.models import Cliente
 from finanzas.models import DetalleJornada, Jornada, CuentaCliente, CuentaProveedor, PagoCliente, PagoProveedor
 from ventas.models import Venta
+from compras.models import Compra
 # Model import<--
 
 
@@ -192,6 +193,8 @@ class PagoVentaForm(forms.ModelForm):
     pago = forms.FloatField(required=False,
                             widget=forms.NumberInput(attrs={'class': 'form-control', 'id': 'pago_inp',
                                                             'readonly': 'readonly'}))
+    caja = forms.ModelChoiceField(queryset=Caja.objects.all(), required=True,
+                                  widget=forms.Select(attrs={'class': 'default-select2 form-control'}))
 
     class Meta:
         model = Venta
@@ -202,3 +205,33 @@ class PagoVentaForm(forms.ModelForm):
             'serie_comprobante': forms.TextInput(attrs={'class': 'form-control'}),
             'numero_comprobante': forms.TextInput(attrs={'class': 'form-control'})
         }
+
+    def __init__(self, *args, **kwargs):
+        super(PagoVentaForm, self).__init__(*args, **kwargs)
+        self.fields['caja'].empty_label = None
+
+
+class PagoCompraForm(forms.ModelForm):
+
+    duracion = forms.ChoiceField(choices=CuentaProveedor.DURACION_CHOICES, required=False,
+                                 widget=forms.Select(
+                                     attrs={'class': 'default-select2 form-control'}))
+    pago = forms.FloatField(required=False,
+                            widget=forms.NumberInput(attrs={'class': 'form-control', 'id': 'pago_inp',
+                                                            'readonly': 'readonly'}))
+    caja = forms.ModelChoiceField(queryset=Caja.objects.all(), required=True,
+                                  widget=forms.Select(attrs={'class': 'default-select2 form-control'}))
+
+    class Meta:
+        model = Compra
+        fields = ['tipo_pago', 'tipo_comprobante', 'serie_comprobante', 'numero_comprobante']
+        widgets = {
+            'tipo_pago': forms.Select(attrs={'class': 'default-select2 form-control tipo_pago'}),
+            'tipo_comprobante': forms.Select(attrs={'class': 'default-select2 form-control'}),
+            'serie_comprobante': forms.TextInput(attrs={'class': 'form-control'}),
+            'numero_comprobante': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(PagoCompraForm, self).__init__(*args, **kwargs)
+        self.fields['caja'].empty_label = None

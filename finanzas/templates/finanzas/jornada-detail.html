@@ -30,7 +30,7 @@
                         <label class="control-label">FECHA/HORA APERTURA:</label>
                     </div>
                     <div class="col-md-2">
-                        {{ object.asignado_inicio|date:'d-m-Y H:i' }}
+                        {{ object.fechahora_inicio|date:'d-m-Y H:i' }}
                     </div>
                     <div class="col-md-2">
                         <label class="control-label">FECHA/HORA CIERRE:</label>
@@ -79,7 +79,6 @@
                                 <th>Movimiento</th>
                                 <th>Monto</th>
                                 <th>Detalles</th>
-                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -91,7 +90,6 @@
                                         <td><a href="/ventas/venta/{{ d.target|default_if_none:'' }}">{{ d.target|default_if_none:'' }}</a></td>
                                         <td>{{ d.monto }}</td>
                                         <td>{{ d.descripcion }}</td>
-                                        <td></td>
                                     </tr>
                             {% endfor %}
                         </tbody>

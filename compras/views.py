@@ -11,6 +11,7 @@ from maestro.models import Proveedor, Almacen
 
 # Forms import-->
 from compras.forms import CompraCreateForm, CompraEditForm, DetalleCompraForm, CompraFiltroForm, ImpuestoForm
+from finanzas.forms import PagoCompraForm
 # Forms import<--
 
 # Utils import-->
@@ -190,6 +191,7 @@ class CompraDetailView(BasicEMixin, DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['detalle'] = cargar_ofertas(DetalleCompra.objects.filter(compra=self.kwargs['pk']))
+        context['pago_form'] = PagoCompraForm()
         return context
 
 

@@ -167,18 +167,10 @@ class VentaDuplicarView(RedirectView):
         venta.estado = '1'
         venta.pk = None
         venta.save()
-        total = 0
         for d in detalleventa:
-            impuesto = d.impuesto.all()
             d.pk = None
             d.venta = venta
-            impuesto_array = []
-            for i in impuesto:
-                impuesto_array.append(str(i.id))
-            fill_data_venta(venta, d, json.dumps(impuesto_array))
-            total += d.total_final
-        venta.total_final = total
-        venta.save()
+            d.save()
         url = self.url + str(venta.id) + '/edit'
         return url
 
@@ -270,6 +262,7 @@ class VentaDetailView(BasicEMixin, DetailView):
         context['pago_form'] = PagoVentaForm()
         if 'incidencias' in self.request.GET:
             context['incidencias'] = json.loads(self.request.GET['incidencias'])
+            print(context['incidencias'])
         return context
 
 
@@ -281,9 +274,9 @@ class VentaEntregaView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         venta = Venta.objects.get(pk=self.kwargs['venta'])
-        venta.is_pagado = True
+        venta.is_entregado = True
         venta.save()
-        url = self.url + str(venta.id) + '/edit'
+        url = self.url + str(venta.id) + ''
         return url
 
 

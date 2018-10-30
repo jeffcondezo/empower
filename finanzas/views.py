@@ -1,5 +1,6 @@
 from django.views.generic import DetailView, ListView, TemplateView, RedirectView
 from django.shortcuts import redirect, HttpResponse
+import json
 
 # Mixin Import-->
 from maestro.mixin import BasicEMixin
@@ -317,6 +318,12 @@ class VentaPagoView(RedirectView):
         form = PagoVentaForm(self.request.POST, instance=venta)
         if not venta.is_pagado:
             if form.is_valid():
+                try:
+                    jornada = Jornada.objects.get(caja=form.cleaned_data['caja'], estado=True)
+                except Jornada.DoesNotExist:
+
+                    url = self.url + str(venta.id) + '/?incidencias='+json.dumps([['3', 'La caja está cerrada, no se pudo concretar el pago.']])
+                    return url
                 venta = form.save(commit=False)
                 venta.is_pagado = True
                 fecha_actual = datetime.now()
@@ -351,10 +358,13 @@ class VentaPagoView(RedirectView):
                 else:
                     venta.tipo_pago = '1'
                     venta.estado_pago = '2'
-                jornada = Jornada.objects.get(pk=4)
+                jornada.monto_actual += pago
+                jornada.save()
                 DetalleJornada(jornada=jornada, tipo='1', target=venta.id, monto=pago, descripcion='Venta',
                                asignado=self.request.user).save()
                 venta.save()
+            else:
+                return HttpResponse(form.errors)
             url = self.url + str(venta.id) + '/edit'
         else:
             url = '/ventas/venta'

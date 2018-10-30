@@ -88,26 +88,17 @@ function init_load_basicdata(data) {
     if(typeof data['precio'] !== 'undefined') {
         var tempdata = [];
         for (var i = 0; i < data['precio'].length; i++) {
-            if(typeof tempdata[data['precio'][i]['producto']] === 'undefined'){
-                tempdata[data['precio'][i]['producto']] = [];
-            }
-            tempdata[data['precio'][i]['producto']].push(data['precio'][i])
-        }
-        for (var i = 0; i < tempdata.length; i++) {
-            if(typeof tempdata[i] !== 'undefined') {
-                var tr = document.querySelector('tr[data-prod="'+i+'"]');
-                var select = tr.querySelector('.presentacionxproducto');
-                console.log(tempdata[i][0]['precio_base']);
-                tr.querySelector('.precio_inp').value = tempdata[i][0]['precio_base'];
-                tr.querySelector('.td_precio').innerHTML = tempdata[i][0]['precio_base'] * select.options[select.selectedIndex].getAttribute("data-cantidad");
-                var impuestos = tr.querySelector('.impuesto_inp').value;
-                if (impuestos !== '' && impuestos !== '[]') {
-                    current_pos_impuesto.value = tr.querySelector('.tax').getAttribute("data-pos");
-                    impuestos = JSON.parse(impuestos);
-                    $(impuesto_select).val(impuestos).change();
-                    var event = new Event('click');
-                    btn_save_impuesto.dispatchEvent(event);
-                }
+            var tr = document.querySelector('tr[data-prod="'+data['precio'][i]['id']+'"]');
+            var select = tr.querySelector('.presentacionxproducto');
+            tr.querySelector('.precio_inp').value = data['precio'][i]['precio_venta'];
+            tr.querySelector('.td_precio').innerHTML = data['precio'][i]['precio_venta'] * select.options[select.selectedIndex].getAttribute("data-cantidad");
+            var impuestos = tr.querySelector('.impuesto_inp').value;
+            if (impuestos !== '' && impuestos !== '[]') {
+                current_pos_impuesto.value = tr.querySelector('.tax').getAttribute("data-pos");
+                impuestos = JSON.parse(impuestos);
+                $(impuesto_select).val(impuestos).change();
+                var event = new Event('click');
+                btn_save_impuesto.dispatchEvent(event);
             }
         }
     }

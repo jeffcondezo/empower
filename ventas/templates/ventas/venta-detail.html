@@ -16,10 +16,12 @@
                 {% if object.is_pagado %}
                     <a onclick="ajax_demo()"  class="btn btn-xs btn-success buttons"><i class="fa fa-print"></i></a>
                     {% if not object.is_entregado %}
-                        <a href="#modal-entrega" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-dollar-sign"></i></a>
+                        <a href="#modal-entrega" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-check-circle"></i></a>
                     {% endif %}
                 {% else %}
-                    <a href="#modal-pago" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-dollar-sign"></i></a>
+                    {% if object.estado != '4' %}
+                        <a href="#modal-pago" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-dollar-sign"></i></a>
+                    {% endif %}
                 {% endif %}
                 {% if object.estado != '4' %}
                     <a href="#modal-cancelar" data-toggle="modal" class="btn btn-xs btn-danger buttons"><i class="far fa-trash-alt"></i></a>
@@ -83,8 +85,10 @@
                             {% for i in incidencias %}
                                 {% if i.0 == '1' %}
                                     <li> El producto {{ i.1 }} no cuenta con la cantidad solicitada: {{ i.2 }}, se le asigno el máximo {{ i.3 }}.</li>
-                                {% else %}
+                                {% elif i.0 == '2' %}
                                     <li> La promoción del producto {{ i.1 }}: solo afectó a {{ i.3 }} de los {{ i.2 }} comprados.</li>
+                                {% elif i.0 == '3' %}
+                                    <li> {{ i.1 }} </li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -175,6 +179,10 @@
                         <fieldset>
                             <legend class="m-b-15">Pago de la Venta:</legend>
                             <div class="form-group">
+                                <label for="exampleInputEmail1">Caja:</label>
+                                {{ pago_form.caja }}
+                            </div>
+                            <div class="form-group">
                                 <label for="exampleInputEmail1">Tipo Pago:</label>
                                 {{ pago_form.tipo_pago }}
                             </div>
@@ -213,7 +221,7 @@
     <div class="modal fade" id="modal-entrega">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="form_pago_venta" action="/ventas/{{ object.id }}/entrega" method="GET">
+                <form id="form_pago_venta" action="/ventas/venta/{{ object.id }}/entrega" method="GET">
                     <div class="modal-body">
                         <fieldset>
                             <legend class="m-b-15">Entrega de la Venta:</legend>
@@ -274,7 +282,7 @@
         <script src="{% static "assets/plugins/select2/dist/js/select2.min.js" %}"></script>
         <script src="{% static "assets/own/ventas/ventadetail.js" %}"></script>
     <script>
-        $(".default-select2").select2({placeholder: "Seleccione", dropdownParent: $('#modal-convertir')});
+        $(".default-select2").select2({placeholder: "Seleccione", dropdownParent: $('#modal-pago')});
         $(".select2-container--default").removeAttr('style').css("width","100%");
                 function BtPrint(prn){
    var S = "#Intent;scheme=rawbt;";

@@ -17,11 +17,21 @@ class Compra(models.Model):
         ('1', 'COMPRA DIRECTA'),
         ('2', 'PEDIDO'),
     )
+    TIPO_PAGO_CHOICES = (
+        ('1', 'CONTADO'),
+        ('2', 'CREDITO'),
+    )
+    ESTADO_PAGO_CHOICES = (
+        ('1', 'EN DEUDA'),
+        ('2', 'PAGADO'),
+    )
     asignado = models.ForeignKey(User, on_delete=models.PROTECT)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.PROTECT)
     almacen = models.ForeignKey(Almacen, on_delete=models.PROTECT)
     estado = models.CharField(max_length=1, choices=ESTADO_CHOICES, default=1)
     tipo = models.CharField(max_length=1, choices=TIPO_CHOICES, default=1)
+    tipo_pago = models.CharField(max_length=1, choices=TIPO_PAGO_CHOICES, default=1)
+    estado_pago = models.CharField(max_length=1, choices=ESTADO_PAGO_CHOICES, default=1)
     is_financiado = models.BooleanField(default=False)
     is_entregado = models.BooleanField(default=False)
     fechahora_creacion = models.DateTimeField(auto_now_add=True)
