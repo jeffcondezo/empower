@@ -39,6 +39,8 @@ def update_kardex_stock(detalle, tipo_movimiento, tipo_detalle, obj):
     elif tipo_movimiento == '2':
         if tipo_detalle == '2':
             kardex.detalleventa = detalle
+        elif tipo_detalle == '3':
+            kardex.detallecompra = detalle
         kardex.cantidad_entrada = kardex.cantidad
         kardex.precio_unitario_salida = detalle.total_final / detalle.cantidad_unidad_entrega
         kardex.total_salida = detalle.total_final

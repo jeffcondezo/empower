@@ -2,7 +2,7 @@ from django.views.generic import DetailView, ListView, TemplateView, RedirectVie
 from django.shortcuts import redirect, HttpResponse
 from django.db.models import Sum
 from datetime import datetime
-
+import json
 
 # Model import-->
 from compras.models import Compra, DetalleCompra, OfertaCompra
@@ -16,7 +16,7 @@ from finanzas.forms import PagoCompraForm
 
 # Utils import-->
 from .utils import fill_data_compra, recalcular_total_compra, \
-    cargar_ofertas, create_ofertas, loadtax, cargar_oferta
+    cargar_ofertas, create_ofertas, loadtax, cargar_oferta, cancelarcompra
 # Utils import<--
 from openpyxl.writer.excel import save_virtual_workbook
 from openpyxl.styles import Border, Side
@@ -193,7 +193,36 @@ class CompraDetailView(BasicEMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['detalle'] = cargar_ofertas(DetalleCompra.objects.filter(compra=self.kwargs['pk']))
         context['pago_form'] = PagoCompraForm()
+        if 'incidencias' in self.request.GET:
+            context['incidencias'] = json.loads(self.request.GET['incidencias'])
         return context
+
+
+class CompraEntregaView(RedirectView):
+
+    url = '/compras/compra/'
+    view_name = 'compras'
+    action_name = 'compra_entrega'
+
+    def get_redirect_url(self, *args, **kwargs):
+        compra = Compra.objects.get(pk=self.kwargs['compra'])
+        compra.is_entregado = True
+        compra.save()
+        url = self.url + str(compra.id) + ''
+        return url
+
+
+class CompraCancelarView(RedirectView):
+
+    url = '/compras/compra/'
+    view_name = 'compras'
+    action_name = 'compra_cancelar'
+
+    def get_redirect_url(self, *args, **kwargs):
+        compra = Compra.objects.get(pk=self.kwargs['venta'])
+        cancelarcompra(compra, self.request.user)
+        url = self.url + str(compra.id) + '/edit'
+        return url
 
 
 def reporte_orden(request):
@@ -225,9 +254,6 @@ def reporte_orden(request):
             query = query.filter(total_final__lte=monto2)
         elif monto2 == '' and monto1 != '':
             query = query.filter(total_final__gte=monto1)
-
-    print(request.POST['fechahora_creacion1'])
-
     i = 6
     total = 0
     for o in query:

@@ -478,7 +478,7 @@ function action_btn_promocion() {
                     dt.setAttribute("class", "inverse");
                     dt.innerHTML = 'Descuento en Efectivo.';
                     var dd = document.createElement("dd");
-                    dd.innerHTML = 'Por cada ' + temp_data['cantidad_oferta'] + ' recibes un descuento de : S/.'+
+                    dd.innerHTML = 'Por cada ' + temp_data['cantidad_oferta'] +' '+temp_data['presentacion_oferta']['presentacion']['descripcion']  +' recibes un descuento de : S/.'+
                         temp_data['retorno'];
                     break;
                 case "3":

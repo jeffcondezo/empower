@@ -1,6 +1,7 @@
 from maestro.models import Producto, PresentacionxProducto, Impuesto, CatalogoxProveedor
 from compras.models import DetalleCompra, OfertaCompra, Compra
 from almacen.utils import update_kardex_stock
+from finanzas.models import Jornada, DetalleJornada
 import json
 
 
@@ -350,3 +351,29 @@ def fill_data_detallecompra(detalle_compra, flag_estado, compra):
     # '1' y '1' significa entrada y compra para el kardex
     if flag_estado == '3':
         update_kardex_stock(detalle_compra, '1', '1', compra)
+
+
+def cancelarcompra(compra, asignado):
+    if compra.estado != '4':
+        url = ''
+        try:
+            jornada = Jornada.objects.get(target=compra.id, tipo='1', estado=True)
+        except Jornada.DoesNotExist:
+
+            url = '/?incidencias=' + json.dumps([
+                ['3', 'La caja está cerrada, no se puede cancelar.']])
+            return url
+        estado = compra.estado
+        compra.estado = '4'
+        compra.save()
+        if estado == '3':
+            if compra.is_pagado:
+                DetalleJornada(jornada=jornada, tipo='1', target=compra.id, monto=compra.total_final,
+                               descripcion='Reembolso Compra', asignado=asignado).save()
+            detallecompra = DetalleCompra.objects.filter(venta=compra.id)
+            for dc in detallecompra:
+                update_kardex_stock(dc, '1', '3', compra)
+    else:
+        url = '/?incidencias=' + json.dumps([
+            ['3', 'Ya se canceló']])
+    return url

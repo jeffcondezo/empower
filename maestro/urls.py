@@ -6,9 +6,9 @@ from maestro.views import SucursalListView, SucursalDetailView, SucursalEditView
     PresentacionListView, PresentacionDetailView, PresentacionEditView,\
     ProductoListView, ProductoDetailView, ProductoEditView, ProductoCategoriaView, ProductoPresentacionView,\
     CatalogoListView, CatalogoDeleteView, CatalogoAddView,\
-    ProveedorListView, ProveedorDetailView, ProveedorEditView,\
+    ProveedorListView, ProveedorDetailView, ProductoPrecioView, ProveedorEditView,\
     CatalogoProveedorListView, CatalogoProveedorDeleteView, CatalogoProveedorAddView,\
-    CajaListView, CajaDetailView, CajaEditView
+    CajaListView, CajaDetailView, CajaEditView, migracion
 
 from maestro.rviews import ProductosListView
 
@@ -39,6 +39,7 @@ urlpatterns = [
     path('producto/<int:pk>/edit', ProductoEditView.as_view()),
     path('producto/<int:pk>/categoria', ProductoCategoriaView.as_view()),
     path('producto/<int:pk>/presentacion', ProductoPresentacionView.as_view()),
+    path('producto/<int:pk>/precio', ProductoPrecioView.as_view()),
     path('catalogo/', CatalogoListView.as_view()),
     path('catalogo/delete', CatalogoDeleteView.as_view()),
     path('catalogo/add/<int:pk>/', CatalogoAddView.as_view()),
@@ -48,6 +49,8 @@ urlpatterns = [
     path('catalogoproveedor/', CatalogoProveedorListView.as_view()),
     path('catalogoproveedor/delete', CatalogoProveedorDeleteView.as_view()),
     path('catalogoproveedor/add/<int:pk>/', CatalogoProveedorAddView.as_view()),
+    path('migration/', migracion, name='migracion'),
+
     # API URL'S
     path('api/producto', ProductosListView.as_view()),
 ]

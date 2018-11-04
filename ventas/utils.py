@@ -180,14 +180,25 @@ def fill_data_detalleventa(detalle_venta, flag_estado, venta):
 
 def cancelarventa(venta, asignado):
     if venta.estado != '4':
+        url = ''
+        try:
+            jornada = Jornada.objects.get(target=venta.id, tipo='2', estado=True)
+        except Jornada.DoesNotExist:
+
+            url = '/?incidencias=' + json.dumps([
+                ['3', 'La caja está cerrada, no se puede cancelar.']])
+            return url
         estado = venta.estado
         venta.estado = '4'
         venta.save()
         if estado == '3':
             if venta.is_pagado:
-                jornada = Jornada.objects.get(pk=4)
                 DetalleJornada(jornada=jornada, tipo='2', target=venta.id, monto=venta.total_final,
                                descripcion='Reembolso Venta', asignado=asignado).save()
             detalleventa = DetalleVenta.objects.filter(venta=venta.id)
             for dv in detalleventa:
                 update_kardex_stock(dv, '1', '4', venta)
+    else:
+        url = '/?incidencias=' + json.dumps([
+            ['3', 'Ya se canceló']])
+    return url

@@ -262,7 +262,6 @@ class VentaDetailView(BasicEMixin, DetailView):
         context['pago_form'] = PagoVentaForm()
         if 'incidencias' in self.request.GET:
             context['incidencias'] = json.loads(self.request.GET['incidencias'])
-            print(context['incidencias'])
         return context
 
 
@@ -288,8 +287,23 @@ class VentaCancelarView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         venta = Venta.objects.get(pk=self.kwargs['venta'])
-        cancelarventa(venta, self.request.user)
-        url = self.url + str(venta.id) + '/edit'
+        resp = cancelarventa(venta, self.request.user)
+        url = self.url + str(venta.id) + '/edit/'+resp
+        return url
+
+
+class VentaFindView(RedirectView):
+
+    url = '/ventas/venta'
+    view_name = 'ventas'
+    action_name = 'venta_cancelar'
+
+    def get_redirect_url(self, *args, **kwargs):
+        try:
+            venta = Venta.objects.get(pk=self.request.GET['venta'])
+            url = self.url + '/' + self.request.GET['venta']
+        except Venta.DoesNotExist:
+            url = self.url
         return url
 
 

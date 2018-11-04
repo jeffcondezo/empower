@@ -23,6 +23,9 @@ from .utils import format_categories
 # Extra python features-->
 from .mixin import BasicEMixin
 # Extra python features<--
+from openpyxl.writer.excel import save_virtual_workbook
+from openpyxl.styles import Border, Side
+from openpyxl import Workbook,load_workbook
 
 
 # Views
@@ -286,6 +289,47 @@ class ProductoDetailView(BasicEMixin, DetailView):
         return context
 
 
+class ProductoPrecioView(BasicEMixin, TemplateView):
+
+    template_name = 'maestro/producto-precio.html'
+    nav_name = 'nav_producto'
+    nav_main = 'nav_main_producto'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object'] = Producto.objects.get(pk=self.kwargs['pk'])
+        context['presentaciones'] = PresentacionxProducto.objects.filter(producto=self.kwargs['pk'])
+        return context
+
+    def post(self, request, *args, **kwargs):
+        producto = Producto.objects.get(pk=self.kwargs['pk'])
+        OfertaVenta.objects.filter(producto_oferta=producto).delete()
+        presentacionxproducto = PresentacionxProducto.objects.filter(producto=producto)
+        sucursal = Sucursal.objects.get(pk=1)
+        for p in presentacionxproducto:
+            if request.POST['precio_compra-'+str(p.id)] != '':
+                precio_compra = float(request.POST['precio_compra-'+str(p.id)]) / p.cantidad
+                if producto.precio_compra < precio_compra:
+                    producto.precio_compra = precio_compra
+            if request.POST['precio_venta-'+str(p.id)] != '':
+                precio_venta = round(float(request.POST['precio_venta-'+str(p.id)]) / p.cantidad, 1)
+                if producto.precio_venta <= precio_venta:
+                    producto.precio_venta = precio_venta
+                ofertaventa = OfertaVenta.objects.filter(producto_oferta=producto, is_active=True, estado=True,
+                                                         cantidad_unidad_oferta__lte=p.cantidad)
+                descuento = 0
+                for ofv in ofertaventa:
+                    descuento += (p.cantidad/ofv.presentacion_oferta.cantidad) * float(ofv.retorno)
+                if (p.cantidad * producto.precio_venta) - descuento > float(request.POST['precio_venta-'+str(p.id)]):
+                    OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
+                                presentacion_oferta=p, cantidad_oferta=1,
+                                cantidad_unidad_oferta=p.cantidad,
+                                retorno=((producto.precio_venta * p.cantidad)-float(request.POST['precio_venta-'+str(p.id)]))-descuento).save()
+        producto.utilidad_monetaria = producto.precio_venta - float(producto.precio_compra)
+        producto.save()
+        return redirect('/maestro/producto/1/precio')
+
+
 class ProductoEditView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/producto-edit.html'
@@ -541,3 +585,126 @@ class CatalogoProveedorAddView(BasicEMixin, TemplateView):
                         catalogoproveedor.proveedor = proveedor
                         catalogoproveedor.save()
         return redirect('/maestro/catalogoproveedor/?proveedor='+str(proveedor.id))
+
+
+from ventas.models import OfertaVenta
+from almacen.models import Stock
+
+
+def migracion(request):
+    libro = Workbook()
+    libro = load_workbook("./migracion.xlsx")
+    h = libro["Hoja1"]
+    direccion = [['K', 'L'], ['M', 'N'], ['O', 'P'], ['Q', 'R']]
+    empresa = Empresa.objects.get(pk=1)
+    sucursal = Sucursal.objects.get(pk=1)
+    almacen = Almacen.objects.get(pk=1)
+    for index in range(5, 292):
+        presentaciones = []
+        # Guardar producto
+        name_producto = h['J'+str(index)].value
+        try:
+            producto = Producto.objects.get(descripcion=name_producto)
+        except Producto.DoesNotExist:
+            producto = Producto(descripcion=name_producto, empresa=empresa)
+            producto.save()
+        producto.catalogo.add(sucursal)
+        for i in range(0, 4):
+            direccion_name = direccion[i][0]
+            direccion_detail = direccion[i][1]
+            name = h[direccion_name+str(index)].value
+            detail = h[direccion_detail+str(index)].value
+            print(detail)
+            if (name != '' and name is not None) and (detail != '' and detail is not None):
+                detail_split = detail.split(' ')
+                if detail_split[0] != '' and detail_split[1] != '':
+                    if detail_split[1][-1:] == 'S':
+                        detail_split[1] = detail_split[1][:-1]
+                    if name[-1:] == 'S':
+                        name = name[:-1]
+                    presentaciones.append([name, detail_split[0], detail_split[1]])
+        for idx, p in enumerate(reversed(presentaciones)):
+            if idx == 0:
+                if p[2] == 'U':
+                    p[2] = 'UNIDAD'
+                try:
+                    presentacion_temp = Presentacion.objects.get(descripcion=p[2])
+                except Presentacion.DoesNotExist:
+                    presentacion_temp = Presentacion(descripcion=p[2])
+                    presentacion_temp.save()
+                PresentacionxProducto(presentacion=presentacion_temp, producto=producto, cantidad=1).save()
+            try:
+                presentacion_to_save = Presentacion.objects.get(descripcion=p[0])
+            except Presentacion.DoesNotExist:
+                presentacion_to_save = Presentacion(descripcion=p[0])
+                presentacion_to_save.save()
+            presentacion_prev = PresentacionxProducto.objects.get(producto=producto, presentacion__descripcion=p[2])
+            try:
+                PresentacionxProducto.objects.get(presentacion=presentacion_to_save, producto=producto)
+            except PresentacionxProducto.DoesNotExist:
+                PresentacionxProducto(presentacion=presentacion_to_save, producto=producto,
+                                      cantidad=int(p[1])*presentacion_prev.cantidad).save()
+        # # Calcular el precio
+        #
+        #     # Precio Venta Alto
+        # name_presentacion_precio = h['W'+str(index)].value
+        # precio = h['V'+str(index)].value
+        # if name_presentacion_precio != '' and name_presentacion_precio is not None:
+        #     try:
+        #         presentacion_precio = PresentacionxProducto.objects.get(producto=producto,
+        #                                                                 presentacion__descripcion=name_presentacion_precio)
+        #         producto.precio_venta = round((precio / presentacion_precio.cantidad), 1)
+        #         if (producto.precio_venta * presentacion_precio.cantidad) > precio:
+        #             OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
+        #                         presentacion_oferta=presentacion_precio, cantidad_oferta=1,
+        #                         cantidad_unidad_oferta=presentacion_precio.cantidad,
+        #                         retorno=(producto.precio_venta * presentacion_precio.cantidad)-precio).save()
+        #     except PresentacionxProducto.DoesNotExist:
+        #         pass
+        #
+        #     # Precio Compra
+        # precio_compra = h['T'+str(index)].value
+        # if precio_compra != '' and precio_compra is not None:
+        #     presentacion_precio_compra = PresentacionxProducto.objects.get(producto=producto,
+        #                                                                    presentacion__descripcion=presentaciones[0][0])
+        #     producto.precio_compra = round((precio_compra / presentacion_precio_compra.cantidad), 2)
+        #
+        #     # Precio Venta Bajo
+        # precio_venta = h['U'+str(index)].value
+        # if precio_venta != '' and precio_venta is not None:
+        #     presentacion_precio_venta = PresentacionxProducto.objects.get(producto=producto,
+        #                                                                   presentacion__descripcion=presentaciones[0][0])
+        #     if (producto.precio_venta * presentacion_precio_venta.cantidad) > precio_venta:
+        #         ofertaventa = OfertaVenta.objects.filter(producto_oferta=producto, is_active=True, estado=True)
+        #         descuento = 0
+        #         for ofv in ofertaventa:
+        #             descuento += (presentacion_precio_venta.cantidad/ofv.presentacion_oferta.cantidad) * float(ofv.retorno)
+        #         OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
+        #                     presentacion_oferta=presentacion_precio_venta, cantidad_oferta=1,
+        #                     cantidad_unidad_oferta=presentacion_precio_venta.cantidad,
+        #                     retorno=((producto.precio_venta * presentacion_precio_venta.cantidad)-precio_venta)-descuento)\
+        #             .save()
+        # if producto.precio_venta != 0 and producto.precio_compra != 0:
+        #     producto.utilidad_monetaria = producto.precio_venta-producto.precio_compra
+        # producto.save()
+
+        # Stock
+        direccion_stock = [['B', 'C'], ['D', 'E'], ['F', 'G'], ['H', 'I']]
+        try:
+            stock = Stock.objects.get(almacen=almacen, producto=producto)
+        except Stock.DoesNotExist:
+            stock = Stock(almacen=almacen, producto=producto, cantidad=0)
+            stock.save()
+        for j in range(0, 4):
+            direccion_stock_name = direccion_stock[j][1]
+            direccion_stock_detail = direccion_stock[j][0]
+            name_stock = h[direccion_stock_name+str(index)].value
+            cantidad_stock = h[direccion_stock_detail+str(index)].value
+            if (name_stock != '' and name_stock is not None) and (cantidad_stock != '' and cantidad_stock is not None):
+                if name_stock[-1:] == 'S':
+                    name_stock = name_stock[:-1]
+                presentacion_stock = PresentacionxProducto.objects.get(producto=producto,
+                                                                       presentacion__descripcion=name_stock)
+                stock.cantidad += presentacion_stock.cantidad * int(cantidad_stock)
+        stock.save()
+    return HttpResponse(producto.precio_venta)

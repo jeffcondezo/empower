@@ -1,6 +1,7 @@
 from django.views.generic import DetailView, ListView, TemplateView, RedirectView
 from django.shortcuts import redirect, HttpResponse
 import json
+from decimal import Decimal
 
 # Mixin Import-->
 from maestro.mixin import BasicEMixin
@@ -14,12 +15,13 @@ import datetime as dt
 # Model import-->
 from finanzas.models import Jornada, DetalleJornada, CuentaCliente, CuentaProveedor, PagoCliente, PagoProveedor
 from ventas.models import Venta
+from compras.models import Compra
 # Model import<--
 
 # Forms import-->
 from finanzas.forms import JornadaFiltroForm, DetalleJornadaCreateForm,\
     JornadaCreateForm, CuentaClienteFiltroForm, PagoClienteCreateForm, CuentaProveedorFiltroForm,\
-    PagoProveedorCreateForm, PagoVentaForm
+    PagoProveedorCreateForm, PagoVentaForm, PagoCompraForm
 # Forms import<--
 
 
@@ -368,4 +370,71 @@ class VentaPagoView(RedirectView):
             url = self.url + str(venta.id) + '/edit'
         else:
             url = '/ventas/venta'
+        return url
+
+
+class CompraPagoView(RedirectView):
+
+    url = '/compras/compra/'
+    view_name = 'finanzas'
+    action_name = 'compra_pago'
+
+    def get_redirect_url(self, *args, **kwargs):
+        compra = Compra.objects.get(pk=self.kwargs['compra'])
+        form = PagoCompraForm(self.request.POST, instance=compra)
+        if not compra.is_financiado:
+            if form.is_valid():
+                try:
+                    jornada = Jornada.objects.get(caja=form.cleaned_data['caja'], estado=True)
+                except Jornada.DoesNotExist:
+
+                    url = self.url + str(compra.id) + '/?incidencias='+json.dumps([
+                        ['3', 'La caja está cerrada, no se pudo concretar el pago.']])
+                    return url
+                pago = form.cleaned_data['pago']
+                if jornada.monto_actual < pago:
+                    url = self.url + str(compra.id) + '/?incidencias='+json.dumps([
+                        ['3', 'Saldo insuficiente en Caja']])
+                    return url
+                jornada.monto_actual -= Decimal(pago)
+                jornada.save()
+                compra = form.save(commit=False)
+                compra.is_financiado = True
+                fecha_actual = datetime.now()
+                fecha_final = fecha_actual
+                if form.cleaned_data['duracion'] == '1':
+                    fecha_final = fecha_actual + dt.timedelta(days=7)
+                elif form.cleaned_data['duracion'] == '2':
+                    fecha_final = fecha_actual + dt.timedelta(days=14)
+                elif form.cleaned_data['duracion'] == '3':
+                    fecha_final = fecha_actual + dt.timedelta(days=21)
+                elif form.cleaned_data['duracion'] == '4':
+                    fecha_final = fecha_actual + dt.timedelta(days=30)
+                tipo = form.cleaned_data['tipo_pago']
+                estado = ''
+                if tipo == '2':
+                    if compra.total_final == pago:
+                        compra.tipo_pago = '1'
+                        compra.estado_pago = '2'
+                        estado = '2'
+                    elif compra.total_final > pago:
+                        compra.estado_pago = '1'
+                        estado = '1'
+                else:
+                    compra.estado_pago = '2'
+                    estado = '2'
+                cuentaproveedor = CuentaProveedor(duracion=form.cleaned_data['duracion'], tipo=tipo,
+                                                  estado=estado, fechahora_caducidad=fecha_final,
+                                                  monto_total=compra.total_final, monto_amortizado=pago,
+                                                  proveedor=compra.proveedor)
+                cuentaproveedor.save()
+                PagoProveedor(tipo='1', monto=pago, cuentaproveedor=cuentaproveedor, asignado=self.request.user).save()
+                DetalleJornada(jornada=jornada, tipo='2', target=compra.id, monto=pago, descripcion='Compra',
+                               asignado=self.request.user).save()
+                compra.save()
+            else:
+                return HttpResponse(form.errors)
+            url = self.url + str(compra.id)
+        else:
+            url = '/compras/compra'
         return url

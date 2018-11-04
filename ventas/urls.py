@@ -1,7 +1,7 @@
 # urls.py
 from django.urls import path
 from ventas.views import OfertaListView, OfertaEditView, OfertaDetailView, VentaListView, VentaCreateView,\
-    VentaEditView, VentaDetailView, ReporteVentas, VentaEntregaView, VentaCancelarView, VentaDuplicarView
+    VentaEditView, VentaDetailView, ReporteVentas, VentaEntregaView, VentaCancelarView, VentaDuplicarView, VentaFindView
 from ventas.rviews import ProductoDetailsView, ValidarStockView
 
 
@@ -11,6 +11,7 @@ urlpatterns = [
     path('oferta/<int:pk>/edit', OfertaEditView.as_view()),
     path('venta', VentaListView.as_view()),
     path('venta/add', VentaCreateView.as_view()),
+    path('find', VentaFindView.as_view()),
     path('venta/<int:pk>/edit', VentaEditView.as_view()),
     path('venta/<int:pk>/', VentaDetailView.as_view()),
     path('venta/<int:venta>/entrega', VentaEntregaView.as_view()),
