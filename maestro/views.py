@@ -327,7 +327,11 @@ class ProductoPrecioView(BasicEMixin, TemplateView):
                                 retorno=((producto.precio_venta * p.cantidad)-float(request.POST['precio_venta-'+str(p.id)]))-descuento).save()
         producto.utilidad_monetaria = producto.precio_venta - float(producto.precio_compra)
         producto.save()
-        return redirect('/maestro/producto/1/precio')
+        next_prod = Producto.objects.filter(precio_venta=0).order_by('id')[:1]
+        if len(next_prod) == 0:
+            return redirect('/maestro/producto/'+str(producto.id))
+        else:
+            return redirect('/maestro/producto/'+str(producto.id)+'/precio')
 
 
 class ProductoEditView(BasicEMixin, TemplateView):

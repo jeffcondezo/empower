@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, RedirectView
 from django.db.models import Sum
 from django.shortcuts import redirect, HttpResponse
 
@@ -12,7 +12,8 @@ from ventas.models import Venta, DetalleVenta
 
 # Form import-->
 from compras.forms import DetalleCompraRecepcionForm, DetalleCompraNoDeseadoForm, CompraRecepcionForm
-from almacen.forms import StockFiltroForm, KardexFiltroForm, RecepcionFiltroForm, KardexReportFiltroForm
+from almacen.forms import StockFiltroForm, KardexFiltroForm, RecepcionFiltroForm, KardexReportFiltroForm,\
+    StockCambioForm
 from ventas.forms import VentaEntregaForm, DetalleVentaEntregaForm
 # Form import<--
 
@@ -35,6 +36,8 @@ from datetime import datetime
 from maestro.mixin import BasicEMixin
 # Extra python features<--
 # Create your views here.
+
+
 class StockView(BasicEMixin, ListView):
 
     template_name = 'almacen/stock.html'
@@ -44,6 +47,7 @@ class StockView(BasicEMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['stock_filtro'] = StockFiltroForm(self.request.GET)
+        context['stock_cambio'] = StockCambioForm()
         return context
 
     def get_queryset(self):
@@ -60,6 +64,34 @@ class StockView(BasicEMixin, ListView):
             query = query.filter(producto__categorias__in=categoria)
         query = query.values('producto__descripcion').annotate(Sum('cantidad'))
         return query
+
+
+class CambiarStockView(RedirectView):
+
+    url = '/almacen/stock/'
+    view_name = 'almacen'
+    action_name = 'cambiar_stock'
+
+    def get_redirect_url(self, *args, **kwargs):
+        form = StockCambioForm(self.request.POST)
+        if form.is_valid():
+            try:
+                producto = Producto.objects.get(descripcion=form.cleaned_data['producto'])
+                stock = Stock.objects.get(producto=producto, almacen=1)
+                kardex = Kardex.objects.filter(producto=producto, almacen=1)
+                diferencia = stock.cantidad - form.cleaned_data['stock']
+                stock.cantidad -= diferencia
+                stock.save()
+                for k in kardex:
+                    k.cantidad_saldo -= diferencia
+                    k.total_saldo = k.cantidad_saldo*k.precio_unitario_saldo
+                    k.save()
+            except Producto.DoesNotExist:
+                pass
+            url = '/almacen/stock/'
+        else:
+            url = '/almacen/stock/'
+        return url
 
 
 class KardexView(BasicEMixin, ListView):

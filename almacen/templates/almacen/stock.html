@@ -24,6 +24,7 @@
                     <tr>
                         <th class="text-nowrap">Producto</th>
                         <th class="text-nowrap">Cantidad</th>
+                        <th class="text-nowrap">Cambiar Stock</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,6 +32,7 @@
                         <tr>
                             <td>{{ s.producto__descripcion }}</td>
                             <td>{{ s.cantidad__sum }}</td>
+                            <td><div class="fa-2x"><a data-prod="{{ s.producto__descripcion }}" class="no-link stock_btn" ><i class="fas fa-xs fa-edit icons-table"></i></a></div></td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -93,6 +95,31 @@
 
                 </form>
             </div>
+
+
+    <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-stock">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="/almacen/stock_cambio/">{% csrf_token %}
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Cambiar Stock</legend>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Nuevo Stock</label>
+                                {{ stock_cambio.stock }}
+                                {{ stock_cambio.producto }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button type="submit" class="btn btn-success">Cambiar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block bottom_scripts %}
@@ -109,5 +136,10 @@
         });
         $(".multiple-select2").select2();
         $(".select2-container--default").removeAttr('style').css("width","100%");
+        $(".stock_btn").click(function() {
+
+                  $('#modal-stock').modal('show');
+                  $('#prod_inp').val(this.getAttribute('data-prod'));
+                });
     </script>
 {% endblock %}

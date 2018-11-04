@@ -110,3 +110,13 @@ class KardexReportFiltroForm(forms.Form):
                                                   widget=forms.TextInput(
                                                       attrs={'id': 'date_fin', 'placeholder': 'Fin',
                                                              'class': 'form-control'}))
+
+
+class StockCambioForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super(StockCambioForm, self).__init__(*args, **kwargs)
+        self.fields['stock'] = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                                  'placeholder': 'Stock Nuevo'}),
+                                                  required=True)
+        self.fields['producto'] = forms.CharField(widget=forms.HiddenInput(attrs={'id': 'prod_inp'}), required=True)
