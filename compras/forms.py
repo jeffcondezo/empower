@@ -59,8 +59,8 @@ class DetalleCompraForm(forms.ModelForm):
             self.fields['cantidad_presentacion_pedido'] = forms.IntegerField(
                 widget=forms.NumberInput(attrs={'class': 'form-control cantidadpresentacion'})
             )
-            self.fields['precio'] = forms.IntegerField(
-                widget=forms.NumberInput(attrs={'class': 'form-control precio'})
+            self.fields['precio'] = forms.DecimalField(
+                widget=forms.NumberInput(attrs={'class': 'form-control precio', 'step': '.01'})
             )
         else:
             self.fields['producto'] = forms.ModelChoiceField(
@@ -72,9 +72,9 @@ class DetalleCompraForm(forms.ModelForm):
                 required=False,
                 widget=forms.NumberInput(attrs={'class': 'form-control cantidadpresentacion'})
             )
-            self.fields['precio'] = forms.IntegerField(
+            self.fields['precio'] = forms.DecimalField(
                 required=False,
-                widget=forms.NumberInput(attrs={'class': 'form-control precio'})
+                widget=forms.NumberInput(attrs={'class': 'form-control precio', 'step': '.01'})
             )
 
 

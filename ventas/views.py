@@ -29,6 +29,8 @@ class OfertaListView(BasicEMixin, ListView):
     template_name = 'ventas/oferta-list.html'
     model = OfertaVenta
     nav_name = 'nav_oferta'
+    view_name = 'oferta_venta'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -48,12 +50,16 @@ class OfertaDetailView(BasicEMixin, DetailView):
     template_name = 'ventas/oferta-detail.html'
     model = OfertaVenta
     nav_name = 'nav_oferta'
+    view_name = 'oferta_venta'
+    action_name = 'leer'
 
 
 class OfertaEditView(BasicEMixin, TemplateView):
 
     template_name = 'ventas/oferta-edit.html'
     nav_name = 'nav_oferta'
+    view_name = 'oferta_venta'
+    action_name = 'editar'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -179,8 +185,8 @@ class VentaEditView(BasicEMixin, TemplateView):
 
     template_name = 'ventas/venta-edit.html'
     nav_name = 'nav_venta'
-    view_name = 'orden_compra'
-    action_name = 'actualizar'
+    view_name = 'venta'
+    action_name = 'editar'
 
     def dispatch(self, request, *args, **kwargs):
         venta = Venta.objects.get(pk=self.kwargs['pk'])
@@ -214,6 +220,9 @@ class VentaEditView(BasicEMixin, TemplateView):
             DetalleVenta.objects.filter(venta=venta.id, is_oferta=True).delete()
             if request.POST['detalleventa_to_save'] != '':
                 total = 0
+                sub_total = 0
+                total_final = 0
+                descuento = 0
                 for i in request.POST['detalleventa_to_save'].split(','):
                     if 'dv'+i+'-id' in self.request.POST:
                         dv = DetalleVenta.objects.get(pk=self.request.POST['dv'+i+'-id'])
@@ -229,10 +238,16 @@ class VentaEditView(BasicEMixin, TemplateView):
                         incidencia = fill_data_venta(venta, dv_form, request.POST['dv'+i+'-impuesto_inp'])
                         if len(incidencia) > 0:
                             incidencias.append(incidencia)
-                        total += dv_form.total_final
+                        total_final += dv_form.total_final
+                        total += dv_form.total
+                        sub_total += dv_form.sub_total
+                        descuento += dv_form.descuento
                     else:
                         return HttpResponse(dv_form.errors)
-                venta.total_final = total
+                venta.total_final = total_final
+                venta.total = total
+                venta.sub_total = sub_total
+                venta.descuento = descuento
                 venta.save()
             if venta.tipo == '1':
                 venta.estado = '3'
@@ -268,8 +283,8 @@ class VentaDetailView(BasicEMixin, DetailView):
 class VentaEntregaView(RedirectView):
 
     url = '/ventas/venta/'
-    view_name = 'ventas'
-    action_name = 'venta_entrega'
+    view_name = 'venta'
+    action_name = 'entregar'
 
     def get_redirect_url(self, *args, **kwargs):
         venta = Venta.objects.get(pk=self.kwargs['venta'])
@@ -282,13 +297,13 @@ class VentaEntregaView(RedirectView):
 class VentaCancelarView(RedirectView):
 
     url = '/ventas/venta/'
-    view_name = 'ventas'
-    action_name = 'venta_cancelar'
+    view_name = 'venta'
+    action_name = 'cancelar'
 
     def get_redirect_url(self, *args, **kwargs):
         venta = Venta.objects.get(pk=self.kwargs['venta'])
         resp = cancelarventa(venta, self.request.user)
-        url = self.url + str(venta.id) + '/edit/'+resp
+        url = self.url + str(venta.id) + '/'+resp
         return url
 
 
@@ -296,7 +311,7 @@ class VentaFindView(RedirectView):
 
     url = '/ventas/venta'
     view_name = 'ventas'
-    action_name = 'venta_cancelar'
+    action_name = 'leer'
 
     def get_redirect_url(self, *args, **kwargs):
         try:

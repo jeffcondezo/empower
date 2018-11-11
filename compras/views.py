@@ -114,7 +114,7 @@ class CompraEditView(BasicEMixin, TemplateView):
     template_name = 'compras/compra-edit.html'
     nav_name = 'nav_compra'
     view_name = 'compra'
-    action_name = 'actualizar'
+    action_name = 'editar'
 
     def dispatch(self, request, *args, **kwargs):
         compra = Compra.objects.get(pk=self.kwargs['pk'])
@@ -201,8 +201,8 @@ class CompraDetailView(BasicEMixin, DetailView):
 class CompraEntregaView(RedirectView):
 
     url = '/compras/compra/'
-    view_name = 'compras'
-    action_name = 'compra_entrega'
+    view_name = 'compra'
+    action_name = 'entregar'
 
     def get_redirect_url(self, *args, **kwargs):
         compra = Compra.objects.get(pk=self.kwargs['compra'])
@@ -215,8 +215,8 @@ class CompraEntregaView(RedirectView):
 class CompraCancelarView(RedirectView):
 
     url = '/compras/compra/'
-    view_name = 'compras'
-    action_name = 'compra_cancelar'
+    view_name = 'compra'
+    action_name = 'cancelar'
 
     def get_redirect_url(self, *args, **kwargs):
         compra = Compra.objects.get(pk=self.kwargs['venta'])

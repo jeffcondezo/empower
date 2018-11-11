@@ -103,11 +103,15 @@ class Accion(models.Model):
 
 class AccionxVista(models.Model):
     accion = models.ForeignKey(Accion, on_delete=models.PROTECT)
-    vista = models.ForeignKey(Vista,on_delete=models.PROTECT)
+    vista = models.ForeignKey(Vista, on_delete=models.PROTECT)
+
+
+class Grupo(models.Model):
+    descripcion = models.CharField(max_length=150)
 
 
 class AsignacionAccion(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE)
     accionxvista = models.ForeignKey(AccionxVista, on_delete=models.PROTECT)
 
 
@@ -134,3 +138,8 @@ class Caja(models.Model):
 
     def __str__(self):
         return self.descripcion
+
+
+class AsignacionGrupo(models.Model):
+    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.PROTECT)

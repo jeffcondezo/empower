@@ -43,12 +43,16 @@ class SucursalDetailView(BasicEMixin, DetailView):
     template_name = 'maestro/sucursal-detail.html'
     model = Sucursal
     nav_name = 'nav_sucursal'
+    view_name = 'sucursal'
+    action_name = 'leer'
 
 
 class SucursalEditView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/sucursal-edit.html'
     nav_name = 'nav_sucursal'
+    view_name = 'sucursal'
+    action_name = 'editar'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -77,6 +81,8 @@ class AlmacenListView(BasicEMixin, ListView):
     template_name = 'maestro/almacen-list.html'
     model = Almacen
     nav_name = 'nav_almacen'
+    view_name = 'almacen'
+    action_name = 'leer'
 
 
 class AlmacenDetailView(BasicEMixin, DetailView):
@@ -84,12 +90,16 @@ class AlmacenDetailView(BasicEMixin, DetailView):
     template_name = 'maestro/almacen-detail.html'
     model = Almacen
     nav_name = 'nav_almacen'
+    view_name = 'almacen'
+    action_name = 'leer'
 
 
 class AlmacenEditView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/almacen-edit.html'
     nav_name = 'nav_almacen'
+    view_name = 'almacen'
+    action_name = 'editar'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -118,6 +128,8 @@ class CajaListView(BasicEMixin, ListView):
     template_name = 'maestro/caja-list.html'
     model = Caja
     nav_name = 'nav_caja'
+    view_name = 'caja'
+    action_name = 'leer'
 
 
 class CajaDetailView(BasicEMixin, DetailView):
@@ -125,12 +137,16 @@ class CajaDetailView(BasicEMixin, DetailView):
     template_name = 'maestro/caja-detail.html'
     model = Caja
     nav_name = 'nav_caja'
+    view_name = 'caja'
+    action_name = 'leer'
 
 
 class CajaEditView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/caja-edit.html'
     nav_name = 'nav_caja'
+    view_name = 'caja'
+    action_name = 'editar'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -160,6 +176,8 @@ class CategoriaListView(BasicEMixin, ListView):
     model = Categoria
     nav_name = 'nav_categoria'
     nav_main = 'nav_main_producto'
+    view_name = 'categoria'
+    action_name = 'leer'
 
 
 class CategoriaDetailView(BasicEMixin, DetailView):
@@ -168,6 +186,8 @@ class CategoriaDetailView(BasicEMixin, DetailView):
     model = Categoria
     nav_name = 'nav_categoria'
     nav_main = 'nav_main_producto'
+    view_name = 'categoria'
+    action_name = 'leer'
 
 
 class CategoriaEditView(BasicEMixin, TemplateView):
@@ -175,6 +195,8 @@ class CategoriaEditView(BasicEMixin, TemplateView):
     template_name = 'maestro/categoria-edit.html'
     nav_name = 'nav_categoria'
     nav_main = 'nav_main_producto'
+    view_name = 'categoria'
+    action_name = 'editar'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -214,6 +236,8 @@ class PresentacionListView(BasicEMixin, ListView):
     model = Presentacion
     nav_name = 'nav_presentacion'
     nav_main = 'nav_main_producto'
+    view_name = 'presentacion'
+    action_name = 'leer'
 
 
 class PresentacionDetailView(BasicEMixin, DetailView):
@@ -222,6 +246,8 @@ class PresentacionDetailView(BasicEMixin, DetailView):
     model = Presentacion
     nav_name = 'nav_presentacion'
     nav_main = 'nav_main_producto'
+    view_name = 'presentacion'
+    action_name = 'leer'
 
 
 class PresentacionEditView(BasicEMixin, TemplateView):
@@ -229,6 +255,8 @@ class PresentacionEditView(BasicEMixin, TemplateView):
     template_name = 'maestro/presentacion-edit.html'
     nav_name = 'nav_presentacion'
     nav_main = 'nav_main_producto'
+    view_name = 'presentacion'
+    action_name = 'editar'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -258,6 +286,8 @@ class ProductoListView(BasicEMixin, ListView):
     model = Producto
     nav_name = 'nav_producto'
     nav_main = 'nav_main_producto'
+    view_name = 'producto'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -279,6 +309,8 @@ class ProductoDetailView(BasicEMixin, DetailView):
     model = Producto
     nav_name = 'nav_producto'
     nav_main = 'nav_main_producto'
+    view_name = 'producto'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -294,6 +326,8 @@ class ProductoPrecioView(BasicEMixin, TemplateView):
     template_name = 'maestro/producto-precio.html'
     nav_name = 'nav_producto'
     nav_main = 'nav_main_producto'
+    view_name = 'producto'
+    action_name = 'set_precio'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -339,6 +373,8 @@ class ProductoEditView(BasicEMixin, TemplateView):
     template_name = 'maestro/producto-edit.html'
     nav_name = 'nav_producto'
     nav_main = 'nav_main_producto'
+    view_name = 'producto'
+    action_name = 'editar'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -367,6 +403,8 @@ class ProductoCategoriaView(BasicEMixin, TemplateView):
     template_name = 'maestro/producto-categoria.html'
     nav_name = 'nav_producto'
     nav_main = 'nav_main_producto'
+    view_name = 'producto'
+    action_name = 'set_categoria'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -393,6 +431,8 @@ class ProductoPresentacionView(BasicEMixin, TemplateView):
     template_name = 'maestro/producto-presentacion.html'
     nav_name = 'nav_producto'
     nav_main = 'nav_main_producto'
+    view_name = 'producto'
+    action_name = 'set_presentacion'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -431,6 +471,8 @@ class CatalogoListView(BasicEMixin, ListView):
     model = Producto
     nav_name = 'nav_catalogo'
     nav_main = 'nav_main_producto'
+    view_name = 'catalogo'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -446,9 +488,11 @@ class CatalogoListView(BasicEMixin, ListView):
         return query
 
 
-class CatalogoDeleteView(RedirectView):
+class CatalogoDeleteView(BasicEMixin, RedirectView):
 
     url = '/maestro/catalogo/'
+    view_name = 'catalogo'
+    action_name = 'eliminar'
 
     def get_redirect_url(self, *args, **kwargs):
         sucursal = Sucursal.objects.get(pk=self.request.POST['sucursal'])
@@ -463,6 +507,8 @@ class CatalogoAddView(BasicEMixin, TemplateView):
     template_name = 'maestro/catalogo-add.html'
     nav_name = 'nav_catalogo'
     nav_main = 'nav_main_producto'
+    view_name = 'catalogo'
+    action_name = 'crear'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -486,6 +532,8 @@ class ProveedorListView(BasicEMixin, ListView):
     model = Proveedor
     nav_name = 'nav_proveedor'
     nav_main = 'nav_main_proveedor'
+    view_name = 'proveedor'
+    action_name = 'leer'
 
 
 class ProveedorDetailView(BasicEMixin, DetailView):
@@ -494,6 +542,8 @@ class ProveedorDetailView(BasicEMixin, DetailView):
     model = Proveedor
     nav_name = 'nav_proveedor'
     nav_main = 'nav_main_proveedor'
+    view_name = 'proveedor'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -506,6 +556,8 @@ class ProveedorEditView(BasicEMixin, TemplateView):
     template_name = 'maestro/proveedor-edit.html'
     nav_name = 'nav_proveedor'
     nav_main = 'nav_main_proveedor'
+    view_name = 'proveedor'
+    action_name = 'editar'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -535,6 +587,8 @@ class CatalogoProveedorListView(BasicEMixin, ListView):
     model = Producto
     nav_name = 'nav_catalogoproveedor'
     nav_main = 'nav_main_proveedor'
+    view_name = 'catalogo_proveedor'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -550,9 +604,11 @@ class CatalogoProveedorListView(BasicEMixin, ListView):
         return query
 
 
-class CatalogoProveedorDeleteView(RedirectView):
+class CatalogoProveedorDeleteView(BasicEMixin, RedirectView):
 
     url = '/maestro/catalogoproveedor/'
+    view_name = 'catalogo_proveedor'
+    action_name = 'eliminar'
 
     def get_redirect_url(self, *args, **kwargs):
         proveedor = self.request.POST['proveedor']
@@ -567,6 +623,8 @@ class CatalogoProveedorAddView(BasicEMixin, TemplateView):
     template_name = 'maestro/catalogoproveedor-add.html'
     nav_name = 'nav_catalogoproveedor'
     nav_main = 'nav_main_proveedor'
+    view_name = 'catalogo_proveedor'
+    action_name = 'crear'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -593,122 +651,137 @@ class CatalogoProveedorAddView(BasicEMixin, TemplateView):
 
 from ventas.models import OfertaVenta
 from almacen.models import Stock
+from maestro.models import Vista, AccionxVista, AsignacionAccion, Accion, Grupo
 
 
 def migracion(request):
-    libro = Workbook()
-    libro = load_workbook("./migracion.xlsx")
-    h = libro["Hoja1"]
-    direccion = [['K', 'L'], ['M', 'N'], ['O', 'P'], ['Q', 'R']]
-    empresa = Empresa.objects.get(pk=1)
-    sucursal = Sucursal.objects.get(pk=1)
-    almacen = Almacen.objects.get(pk=1)
-    for index in range(5, 292):
-        presentaciones = []
-        # Guardar producto
-        name_producto = h['J'+str(index)].value
+    # libro = Workbook()
+    # libro = load_workbook("./migracion.xlsx")
+    # h = libro["Hoja1"]
+    # direccion = [['K', 'L'], ['M', 'N'], ['O', 'P'], ['Q', 'R']]
+    # empresa = Empresa.objects.get(pk=1)
+    # sucursal = Sucursal.objects.get(pk=1)
+    # almacen = Almacen.objects.get(pk=1)
+    # for index in range(5, 292):
+    #     presentaciones = []
+    #     # Guardar producto
+    #     name_producto = h['J'+str(index)].value
+    #     try:
+    #         producto = Producto.objects.get(descripcion=name_producto)
+    #     except Producto.DoesNotExist:
+    #         producto = Producto(descripcion=name_producto, empresa=empresa)
+    #         producto.save()
+    #     producto.catalogo.add(sucursal)
+    #     for i in range(0, 4):
+    #         direccion_name = direccion[i][0]
+    #         direccion_detail = direccion[i][1]
+    #         name = h[direccion_name+str(index)].value
+    #         detail = h[direccion_detail+str(index)].value
+    #         print(detail)
+    #         if (name != '' and name is not None) and (detail != '' and detail is not None):
+    #             detail_split = detail.split(' ')
+    #             if detail_split[0] != '' and detail_split[1] != '':
+    #                 if detail_split[1][-1:] == 'S':
+    #                     detail_split[1] = detail_split[1][:-1]
+    #                 if name[-1:] == 'S':
+    #                     name = name[:-1]
+    #                 presentaciones.append([name, detail_split[0], detail_split[1]])
+    #     for idx, p in enumerate(reversed(presentaciones)):
+    #         if idx == 0:
+    #             if p[2] == 'U':
+    #                 p[2] = 'UNIDAD'
+    #             try:
+    #                 presentacion_temp = Presentacion.objects.get(descripcion=p[2])
+    #             except Presentacion.DoesNotExist:
+    #                 presentacion_temp = Presentacion(descripcion=p[2])
+    #                 presentacion_temp.save()
+    #             PresentacionxProducto(presentacion=presentacion_temp, producto=producto, cantidad=1).save()
+    #         try:
+    #             presentacion_to_save = Presentacion.objects.get(descripcion=p[0])
+    #         except Presentacion.DoesNotExist:
+    #             presentacion_to_save = Presentacion(descripcion=p[0])
+    #             presentacion_to_save.save()
+    #         presentacion_prev = PresentacionxProducto.objects.get(producto=producto, presentacion__descripcion=p[2])
+    #         try:
+    #             PresentacionxProducto.objects.get(presentacion=presentacion_to_save, producto=producto)
+    #         except PresentacionxProducto.DoesNotExist:
+    #             PresentacionxProducto(presentacion=presentacion_to_save, producto=producto,
+    #                                   cantidad=int(p[1])*presentacion_prev.cantidad).save()
+    #     # # Calcular el precio
+    #     #
+    #     #     # Precio Venta Alto
+    #     # name_presentacion_precio = h['W'+str(index)].value
+    #     # precio = h['V'+str(index)].value
+    #     # if name_presentacion_precio != '' and name_presentacion_precio is not None:
+    #     #     try:
+    #     #         presentacion_precio = PresentacionxProducto.objects.get(producto=producto,
+    #     #                                                                 presentacion__descripcion=name_presentacion_precio)
+    #     #         producto.precio_venta = round((precio / presentacion_precio.cantidad), 1)
+    #     #         if (producto.precio_venta * presentacion_precio.cantidad) > precio:
+    #     #             OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
+    #     #                         presentacion_oferta=presentacion_precio, cantidad_oferta=1,
+    #     #                         cantidad_unidad_oferta=presentacion_precio.cantidad,
+    #     #                         retorno=(producto.precio_venta * presentacion_precio.cantidad)-precio).save()
+    #     #     except PresentacionxProducto.DoesNotExist:
+    #     #         pass
+    #     #
+    #     #     # Precio Compra
+    #     # precio_compra = h['T'+str(index)].value
+    #     # if precio_compra != '' and precio_compra is not None:
+    #     #     presentacion_precio_compra = PresentacionxProducto.objects.get(producto=producto,
+    #     #                                                                    presentacion__descripcion=presentaciones[0][0])
+    #     #     producto.precio_compra = round((precio_compra / presentacion_precio_compra.cantidad), 2)
+    #     #
+    #     #     # Precio Venta Bajo
+    #     # precio_venta = h['U'+str(index)].value
+    #     # if precio_venta != '' and precio_venta is not None:
+    #     #     presentacion_precio_venta = PresentacionxProducto.objects.get(producto=producto,
+    #     #                                                                   presentacion__descripcion=presentaciones[0][0])
+    #     #     if (producto.precio_venta * presentacion_precio_venta.cantidad) > precio_venta:
+    #     #         ofertaventa = OfertaVenta.objects.filter(producto_oferta=producto, is_active=True, estado=True)
+    #     #         descuento = 0
+    #     #         for ofv in ofertaventa:
+    #     #             descuento += (presentacion_precio_venta.cantidad/ofv.presentacion_oferta.cantidad) * float(ofv.retorno)
+    #     #         OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
+    #     #                     presentacion_oferta=presentacion_precio_venta, cantidad_oferta=1,
+    #     #                     cantidad_unidad_oferta=presentacion_precio_venta.cantidad,
+    #     #                     retorno=((producto.precio_venta * presentacion_precio_venta.cantidad)-precio_venta)-descuento)\
+    #     #             .save()
+    #     # if producto.precio_venta != 0 and producto.precio_compra != 0:
+    #     #     producto.utilidad_monetaria = producto.precio_venta-producto.precio_compra
+    #     # producto.save()
+    #
+    #     # Stock
+    #     direccion_stock = [['B', 'C'], ['D', 'E'], ['F', 'G'], ['H', 'I']]
+    #     try:
+    #         stock = Stock.objects.get(almacen=almacen, producto=producto)
+    #     except Stock.DoesNotExist:
+    #         stock = Stock(almacen=almacen, producto=producto, cantidad=0)
+    #         stock.save()
+    #     for j in range(0, 4):
+    #         direccion_stock_name = direccion_stock[j][1]
+    #         direccion_stock_detail = direccion_stock[j][0]
+    #         name_stock = h[direccion_stock_name+str(index)].value
+    #         cantidad_stock = h[direccion_stock_detail+str(index)].value
+    #         if (name_stock != '' and name_stock is not None) and (cantidad_stock != '' and cantidad_stock is not None):
+    #             if name_stock[-1:] == 'S':
+    #                 name_stock = name_stock[:-1]
+    #             presentacion_stock = PresentacionxProducto.objects.get(producto=producto,
+    #                                                                    presentacion__descripcion=name_stock)
+    #             stock.cantidad += presentacion_stock.cantidad * int(cantidad_stock)
+    #     stock.save()
+    grupo = Grupo.objects.get(pk=1)
+    vista = Vista.objects.get(pk=23)
+    accion = Accion.objects.filter(id__in=[1, 2, 4, 9, 10])
+    for a in accion:
         try:
-            producto = Producto.objects.get(descripcion=name_producto)
-        except Producto.DoesNotExist:
-            producto = Producto(descripcion=name_producto, empresa=empresa)
-            producto.save()
-        producto.catalogo.add(sucursal)
-        for i in range(0, 4):
-            direccion_name = direccion[i][0]
-            direccion_detail = direccion[i][1]
-            name = h[direccion_name+str(index)].value
-            detail = h[direccion_detail+str(index)].value
-            print(detail)
-            if (name != '' and name is not None) and (detail != '' and detail is not None):
-                detail_split = detail.split(' ')
-                if detail_split[0] != '' and detail_split[1] != '':
-                    if detail_split[1][-1:] == 'S':
-                        detail_split[1] = detail_split[1][:-1]
-                    if name[-1:] == 'S':
-                        name = name[:-1]
-                    presentaciones.append([name, detail_split[0], detail_split[1]])
-        for idx, p in enumerate(reversed(presentaciones)):
-            if idx == 0:
-                if p[2] == 'U':
-                    p[2] = 'UNIDAD'
-                try:
-                    presentacion_temp = Presentacion.objects.get(descripcion=p[2])
-                except Presentacion.DoesNotExist:
-                    presentacion_temp = Presentacion(descripcion=p[2])
-                    presentacion_temp.save()
-                PresentacionxProducto(presentacion=presentacion_temp, producto=producto, cantidad=1).save()
-            try:
-                presentacion_to_save = Presentacion.objects.get(descripcion=p[0])
-            except Presentacion.DoesNotExist:
-                presentacion_to_save = Presentacion(descripcion=p[0])
-                presentacion_to_save.save()
-            presentacion_prev = PresentacionxProducto.objects.get(producto=producto, presentacion__descripcion=p[2])
-            try:
-                PresentacionxProducto.objects.get(presentacion=presentacion_to_save, producto=producto)
-            except PresentacionxProducto.DoesNotExist:
-                PresentacionxProducto(presentacion=presentacion_to_save, producto=producto,
-                                      cantidad=int(p[1])*presentacion_prev.cantidad).save()
-        # # Calcular el precio
-        #
-        #     # Precio Venta Alto
-        # name_presentacion_precio = h['W'+str(index)].value
-        # precio = h['V'+str(index)].value
-        # if name_presentacion_precio != '' and name_presentacion_precio is not None:
-        #     try:
-        #         presentacion_precio = PresentacionxProducto.objects.get(producto=producto,
-        #                                                                 presentacion__descripcion=name_presentacion_precio)
-        #         producto.precio_venta = round((precio / presentacion_precio.cantidad), 1)
-        #         if (producto.precio_venta * presentacion_precio.cantidad) > precio:
-        #             OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
-        #                         presentacion_oferta=presentacion_precio, cantidad_oferta=1,
-        #                         cantidad_unidad_oferta=presentacion_precio.cantidad,
-        #                         retorno=(producto.precio_venta * presentacion_precio.cantidad)-precio).save()
-        #     except PresentacionxProducto.DoesNotExist:
-        #         pass
-        #
-        #     # Precio Compra
-        # precio_compra = h['T'+str(index)].value
-        # if precio_compra != '' and precio_compra is not None:
-        #     presentacion_precio_compra = PresentacionxProducto.objects.get(producto=producto,
-        #                                                                    presentacion__descripcion=presentaciones[0][0])
-        #     producto.precio_compra = round((precio_compra / presentacion_precio_compra.cantidad), 2)
-        #
-        #     # Precio Venta Bajo
-        # precio_venta = h['U'+str(index)].value
-        # if precio_venta != '' and precio_venta is not None:
-        #     presentacion_precio_venta = PresentacionxProducto.objects.get(producto=producto,
-        #                                                                   presentacion__descripcion=presentaciones[0][0])
-        #     if (producto.precio_venta * presentacion_precio_venta.cantidad) > precio_venta:
-        #         ofertaventa = OfertaVenta.objects.filter(producto_oferta=producto, is_active=True, estado=True)
-        #         descuento = 0
-        #         for ofv in ofertaventa:
-        #             descuento += (presentacion_precio_venta.cantidad/ofv.presentacion_oferta.cantidad) * float(ofv.retorno)
-        #         OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
-        #                     presentacion_oferta=presentacion_precio_venta, cantidad_oferta=1,
-        #                     cantidad_unidad_oferta=presentacion_precio_venta.cantidad,
-        #                     retorno=((producto.precio_venta * presentacion_precio_venta.cantidad)-precio_venta)-descuento)\
-        #             .save()
-        # if producto.precio_venta != 0 and producto.precio_compra != 0:
-        #     producto.utilidad_monetaria = producto.precio_venta-producto.precio_compra
-        # producto.save()
-
-        # Stock
-        direccion_stock = [['B', 'C'], ['D', 'E'], ['F', 'G'], ['H', 'I']]
+            axv = AccionxVista.objects.get(accion=a.id, vista=vista.id)
+        except AccionxVista.DoesNotExist:
+            axv = AccionxVista(accion=a, vista=vista)
+            axv.save()
         try:
-            stock = Stock.objects.get(almacen=almacen, producto=producto)
-        except Stock.DoesNotExist:
-            stock = Stock(almacen=almacen, producto=producto, cantidad=0)
-            stock.save()
-        for j in range(0, 4):
-            direccion_stock_name = direccion_stock[j][1]
-            direccion_stock_detail = direccion_stock[j][0]
-            name_stock = h[direccion_stock_name+str(index)].value
-            cantidad_stock = h[direccion_stock_detail+str(index)].value
-            if (name_stock != '' and name_stock is not None) and (cantidad_stock != '' and cantidad_stock is not None):
-                if name_stock[-1:] == 'S':
-                    name_stock = name_stock[:-1]
-                presentacion_stock = PresentacionxProducto.objects.get(producto=producto,
-                                                                       presentacion__descripcion=name_stock)
-                stock.cantidad += presentacion_stock.cantidad * int(cantidad_stock)
-        stock.save()
-    return HttpResponse(producto.precio_venta)
+            AsignacionAccion.objects.get(grupo=grupo.id, accionxvista=axv.id)
+        except AsignacionAccion.DoesNotExist:
+            aa = AsignacionAccion(grupo=grupo, accionxvista=axv)
+            aa.save()
+    return HttpResponse('Done' + vista.descripcion)

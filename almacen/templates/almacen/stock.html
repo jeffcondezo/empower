@@ -24,6 +24,7 @@
                     <tr>
                         <th class="text-nowrap">Producto</th>
                         <th class="text-nowrap">Cantidad</th>
+                        <th class="text-nowrap">Detalles</th>
                         <th class="text-nowrap">Cambiar Stock</th>
                     </tr>
                 </thead>
@@ -32,6 +33,7 @@
                         <tr>
                             <td>{{ s.producto__descripcion }}</td>
                             <td>{{ s.cantidad__sum }}</td>
+                            <td>{{ s.stock_detail }}</td>
                             <td><div class="fa-2x"><a data-prod="{{ s.producto__descripcion }}" class="no-link stock_btn" ><i class="fas fa-xs fa-edit icons-table"></i></a></div></td>
                         </tr>
                     {% endfor %}

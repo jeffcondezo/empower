@@ -1,5 +1,5 @@
 from almacen.models import Kardex, Stock
-from maestro.models import Almacen
+from maestro.models import Almacen, PresentacionxProducto
 import json
 
 
@@ -62,3 +62,17 @@ def loadtax(d):
         total += i.porcentaje
     d.impuesto_value = [impuestos, total]
     return d
+
+
+def loadstockdetail(stock):
+    for s in stock:
+        presentacionesxproducto = PresentacionxProducto.objects.filter(producto=s['producto__id']).order_by('-cantidad')
+        cantidad = s['cantidad__sum']
+        string = ''
+        for p in presentacionesxproducto:
+            temp_cant = cantidad // p.cantidad
+            if temp_cant > 0:
+                string += str(temp_cant) + ' ' + p.presentacion.descripcion + ' // '
+                cantidad -= temp_cant * p.cantidad
+        s['stock_detail'] = string[:-3]
+    return stock

@@ -357,7 +357,7 @@ def cancelarcompra(compra, asignado):
     if compra.estado != '4':
         url = ''
         try:
-            jornada = Jornada.objects.get(target=compra.id, tipo='1', estado=True)
+            jornada = Jornada.objects.get(estado=True)
         except Jornada.DoesNotExist:
 
             url = '/?incidencias=' + json.dumps([

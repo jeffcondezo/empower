@@ -103,7 +103,7 @@ class JornadaCloseView(RedirectView):
 
     url = '/finanzas/jornada/'
     view_name = 'jornada'
-    action_name = 'close'
+    action_name = 'cerrar'
 
     def get_redirect_url(self, *args, **kwargs):
         jornada = Jornada.objects.get(pk=self.kwargs['jornada'])
@@ -117,7 +117,7 @@ class JornadaCreateView(RedirectView):
 
     url = '/finanzas/jornada/'
     view_name = 'jornada'
-    action_name = 'close'
+    action_name = 'abrir'
 
     def get_redirect_url(self, *args, **kwargs):
         form = JornadaCreateForm(self.request.POST)
@@ -138,7 +138,7 @@ class CuentaClienteListView(BasicEMixin, ListView):
     template_name = 'finanzas/cuentacliente-list.html'
     model = CuentaCliente
     nav_name = 'nav_cuentacliente'
-    view_name = 'cuentacliente'
+    view_name = 'cuenta_cliente'
     action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -191,7 +191,7 @@ class CuentaClienteDetailView(BasicEMixin, DetailView):
     template_name = 'finanzas/cuentacliente-detail.html'
     model = CuentaCliente
     nav_name = 'nav_cuentacliente'
-    view_name = 'cuentacliente'
+    view_name = 'cuenta_cliente'
     action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -204,7 +204,7 @@ class CuentaClienteDetailView(BasicEMixin, DetailView):
 class PagoClienteCreateView(RedirectView):
 
     url = '/finanzas/cuentacliente/'
-    view_name = 'pago'
+    view_name = 'pago_cliente'
     action_name = 'crear'
 
     def get_redirect_url(self, *args, **kwargs):
@@ -226,7 +226,7 @@ class CuentaProveedorListView(BasicEMixin, ListView):
     template_name = 'finanzas/cuentaproveedor-list.html'
     model = CuentaProveedor
     nav_name = 'nav_cuentaproveedor'
-    view_name = 'cuentaproveedor'
+    view_name = 'cuenta_proveedor'
     action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -279,7 +279,7 @@ class CuentaProveedorDetailView(BasicEMixin, DetailView):
     template_name = 'finanzas/cuentaproveedor-detail.html'
     model = CuentaProveedor
     nav_name = 'nav_cuentaproveedor'
-    view_name = 'cuentaproveedor'
+    view_name = 'cuenta_proveedor'
     action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -292,7 +292,7 @@ class CuentaProveedorDetailView(BasicEMixin, DetailView):
 class PagoProveedorCreateView(RedirectView):
 
     url = '/finanzas/cuentaproveedor/'
-    view_name = 'pago'
+    view_name = 'pago_proveedor'
     action_name = 'crear'
 
     def get_redirect_url(self, *args, **kwargs):
@@ -360,7 +360,7 @@ class VentaPagoView(RedirectView):
                 else:
                     venta.tipo_pago = '1'
                     venta.estado_pago = '2'
-                jornada.monto_actual += pago
+                jornada.monto_actual += Decimal(pago)
                 jornada.save()
                 DetalleJornada(jornada=jornada, tipo='1', target=venta.id, monto=pago, descripcion='Venta',
                                asignado=self.request.user).save()

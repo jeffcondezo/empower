@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
-from maestro.models import AccionxVista, AsignacionAccion
+from maestro.models import AccionxVista, AsignacionAccion, AsignacionGrupo
 from django.http import HttpResponseRedirect
 
 
@@ -22,11 +22,11 @@ class BasicEMixin(UserPassesTestMixin):
         return context
 
     def test_func(self):
-        return True
         accionxvista = AccionxVista.objects.get(accion__descripcion=self.action_name,
                                                 vista__descripcion=self.view_name)
+        a_grupo = AsignacionGrupo.objects.get(usuario=self.request.user.id)
         try:
-            AsignacionAccion.objects.get(usuario=self.request.user.id, accionxvista=accionxvista.id)
+            AsignacionAccion.objects.get(grupo=a_grupo.grupo_id, accionxvista=accionxvista.id)
             response = True
         except AsignacionAccion.DoesNotExist:
             response = False

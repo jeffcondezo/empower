@@ -8,6 +8,9 @@ from maestro.models import Almacen, Sucursal, Categoria, Proveedor, Producto
 from .models import Stock, Kardex
 from compras.models import Compra, DetalleCompra
 from ventas.models import Venta, DetalleVenta
+from openpyxl import Workbook,load_workbook
+from openpyxl.writer.excel import save_virtual_workbook
+from openpyxl.styles import Border, Side
 # Model import<--
 
 # Form import-->
@@ -19,13 +22,8 @@ from ventas.forms import VentaEntregaForm, DetalleVentaEntregaForm
 
 # Utils import-->
 from compras.utils import fill_data_detallecompra
-from almacen.utils import loadtax
+from almacen.utils import loadtax, loadstockdetail
 from ventas.utils import fill_data_detalleventa
-
-from openpyxl import Workbook,load_workbook
-from openpyxl.writer.excel import save_virtual_workbook
-from openpyxl.styles import Border, Side
-
 # Utils import<--
 
 # Extra python features-->
@@ -43,6 +41,8 @@ class StockView(BasicEMixin, ListView):
     template_name = 'almacen/stock.html'
     model = Stock
     nav_name = 'nav_stock'
+    view_name = 'stock'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,7 +62,7 @@ class StockView(BasicEMixin, ListView):
             query = Stock.objects.all()
         if len(categoria) > 0:
             query = query.filter(producto__categorias__in=categoria)
-        query = query.values('producto__descripcion').annotate(Sum('cantidad'))
+        query = loadstockdetail(query.values('producto__descripcion', 'producto__id').annotate(Sum('cantidad')))
         return query
 
 
@@ -70,7 +70,7 @@ class CambiarStockView(RedirectView):
 
     url = '/almacen/stock/'
     view_name = 'almacen'
-    action_name = 'cambiar_stock'
+    action_name = 'set_stock'
 
     def get_redirect_url(self, *args, **kwargs):
         form = StockCambioForm(self.request.POST)
@@ -99,6 +99,8 @@ class KardexView(BasicEMixin, ListView):
     template_name = 'almacen/kardex.html'
     model = Kardex
     nav_name = 'nav_kardex'
+    view_name = 'stock'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -135,6 +137,8 @@ class RecepcionCompraListView(BasicEMixin, ListView):
     template_name = 'almacen/recepcion_compra-list.html'
     model = Compra
     nav_name = 'nav_recepcion_compra'
+    view_name = 'recepcion_compra'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -155,6 +159,7 @@ class RecepcionCompraEditView(BasicEMixin, DetailView):
     model = Compra
     nav_name = 'nav_recepcion_compra'
     view_name = 'recepcion_compra'
+    action_name = 'editar'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -393,7 +398,6 @@ def KardexReportView(request):
             response['Content-Disposition'] = 'attachment; filename=kardex.xls'
             libro.save(response)
             return response
-
 
         except Producto.DoesNotExist:
             return HttpResponse('NO EXISTE REGISTROS')

@@ -407,14 +407,14 @@ function action_calcular_line_total(tr, value) {
                 }
              }
         }
-        tr.querySelector('.td_subtotal').innerHTML = subtotal;
-        td_descuento.innerHTML = descuento;
+        tr.querySelector('.td_subtotal').innerHTML = subtotal.toFixed(2);
+        td_descuento.innerHTML = descuento.toFixed(2);
         var impuesto_value = 0 ;
         if(impuesto !== '' && impuesto !== '[]'){
             impuesto = JSON.parse(impuesto);
             impuesto_value = get_impuesto_value(impuesto, subtotal - parseFloat(descuento));
         }
-        tr.querySelector('.td_total').innerHTML = subtotal - parseFloat(descuento) + impuesto_value;
+        tr.querySelector('.td_total').innerHTML = (subtotal - parseFloat(descuento) + impuesto_value).toFixed(2);
     }else{
         tr.querySelector('.td_subtotal').innerHTML = 0;
         td_descuento.innerHTML = 0;

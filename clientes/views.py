@@ -20,6 +20,8 @@ class ClienteListView(BasicEMixin, ListView):
     template_name = 'clientes/cliente-list.html'
     model = Cliente
     nav_name = 'nav_cliente'
+    view_name = 'cliente'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -46,6 +48,8 @@ class ClienteDetailView(BasicEMixin, DetailView):
     template_name = 'clientes/cliente-detail.html'
     model = Cliente
     nav_name = 'nav_cliente'
+    view_name = 'cliente'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -57,6 +61,8 @@ class ClienteEditView(BasicEMixin, TemplateView):
 
     template_name = 'clientes/cliente-edit.html'
     nav_name = 'nav_cliente'
+    view_name = 'cliente'
+    action_name = 'editar'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -92,6 +98,8 @@ class ContactoListView(BasicEMixin, ListView):
     template_name = 'clientes/contacto-list.html'
     model = ContactosCliente
     nav_name = 'nav_contacto'
+    view_name = 'contacto'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -118,6 +126,8 @@ class ContactoDetailView(BasicEMixin, DetailView):
     template_name = 'clientes/contacto-detail.html'
     model = ContactosCliente
     nav_name = 'nav_contacto'
+    view_name = 'contacto'
+    action_name = 'leer'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -128,6 +138,8 @@ class ContactoEditView(BasicEMixin, TemplateView):
 
     template_name = 'clientes/contacto-edit.html'
     nav_name = 'nav_contacto'
+    view_name = 'contacto'
+    action_name = 'editar'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
