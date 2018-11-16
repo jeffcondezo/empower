@@ -358,8 +358,8 @@ class ProductoPrecioView(BasicEMixin, TemplateView):
                     OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
                                 presentacion_oferta=p, cantidad_oferta=1,
                                 cantidad_unidad_oferta=p.cantidad,
-                                retorno=((producto.precio_venta * p.cantidad)-float(request.POST['precio_venta-'+str(p.id)]))-descuento).save()
-        producto.utilidad_monetaria = producto.precio_venta - float(producto.precio_compra)
+                                retorno=(float(producto.precio_venta * p.cantidad)-float(request.POST['precio_venta-'+str(p.id)]))-descuento).save()
+        producto.utilidad_monetaria = float(producto.precio_venta) - float(producto.precio_compra)
         producto.save()
         next_prod = Producto.objects.filter(precio_venta=0).order_by('id')[:1]
         if len(next_prod) == 0:
@@ -662,7 +662,7 @@ def migracion(request):
     # empresa = Empresa.objects.get(pk=1)
     # sucursal = Sucursal.objects.get(pk=1)
     # almacen = Almacen.objects.get(pk=1)
-    # for index in range(5, 292):
+    # for index in range(5, 337):
     #     presentaciones = []
     #     # Guardar producto
     #     name_producto = h['J'+str(index)].value
@@ -677,7 +677,6 @@ def migracion(request):
     #         direccion_detail = direccion[i][1]
     #         name = h[direccion_name+str(index)].value
     #         detail = h[direccion_detail+str(index)].value
-    #         print(detail)
     #         if (name != '' and name is not None) and (detail != '' and detail is not None):
     #             detail_split = detail.split(' ')
     #             if detail_split[0] != '' and detail_split[1] != '':
@@ -770,18 +769,22 @@ def migracion(request):
     #                                                                    presentacion__descripcion=name_stock)
     #             stock.cantidad += presentacion_stock.cantidad * int(cantidad_stock)
     #     stock.save()
-    grupo = Grupo.objects.get(pk=1)
-    vista = Vista.objects.get(pk=23)
-    accion = Accion.objects.filter(id__in=[1, 2, 4, 9, 10])
-    for a in accion:
-        try:
-            axv = AccionxVista.objects.get(accion=a.id, vista=vista.id)
-        except AccionxVista.DoesNotExist:
-            axv = AccionxVista(accion=a, vista=vista)
-            axv.save()
-        try:
-            AsignacionAccion.objects.get(grupo=grupo.id, accionxvista=axv.id)
-        except AsignacionAccion.DoesNotExist:
-            aa = AsignacionAccion(grupo=grupo, accionxvista=axv)
-            aa.save()
-    return HttpResponse('Done' + vista.descripcion)
+    # grupo = Grupo.objects.get(pk=1)
+    # vista = Vista.objects.get(pk=23)
+    # accion = Accion.objects.filter(id__in=[1, 2, 4, 9, 10])
+    # for a in accion:
+    #     try:
+    #         axv = AccionxVista.objects.get(accion=a.id, vista=vista.id)
+    #     except AccionxVista.DoesNotExist:
+    #         axv = AccionxVista(accion=a, vista=vista)
+    #         axv.save()
+    #     try:
+    #         AsignacionAccion.objects.get(grupo=grupo.id, accionxvista=axv.id)
+    #     except AsignacionAccion.DoesNotExist:
+    #         aa = AsignacionAccion(grupo=grupo, accionxvista=axv)
+    #         aa.save()
+    productos = Producto.objects.all()
+    proveedor = Proveedor.objects.get(pk=1)
+    for p in productos:
+        CatalogoxProveedor(producto=p, proveedor=proveedor).save()
+    return HttpResponse('Done')

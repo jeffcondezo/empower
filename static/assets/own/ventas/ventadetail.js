@@ -33,7 +33,7 @@ function action_tipo_pago(obj, new_value) {
             obj.value = '1';
             $(obj).trigger('select2:selecting');
         }else{
-            pago_inp.removeAttribute("id");
+            pago_inp.removeAttribute("readonly");
             pago_inp.value = '';
             periodo_credito.classList.remove("periodo_credito_hdn");
         }

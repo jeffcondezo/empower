@@ -17,6 +17,9 @@ class Cliente(models.Model):
     apellidos = models.CharField(max_length=250, blank=True, null=True)
     telefono = models.CharField(max_length=12, blank=True, null=True)
     correo = models.EmailField(blank=True, null=True)
+    limite_credito = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    credito_disponible = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    deuda_actual = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     def __str__(self):
         return self.descripcion

@@ -320,11 +320,20 @@ class VentaPagoView(RedirectView):
         form = PagoVentaForm(self.request.POST, instance=venta)
         if not venta.is_pagado:
             if form.is_valid():
+                if venta.tipo_pago == '2':
+                    if venta.cliente is None:
+                        url = self.url + str(venta.id) + '/?incidencias=' + json.dumps(
+                            [['3', 'No se puede pagar al credito sin cliente']])
+                        return url
+                    elif venta.total_final > venta.cliente.credito_disponible:
+                        url = self.url + str(venta.id) + '/?incidencias=' + json.dumps(
+                            [['3', 'El cliente no tiene suficiente linea de credito disponible.']])
+                        return url
                 try:
                     jornada = Jornada.objects.get(caja=form.cleaned_data['caja'], estado=True)
                 except Jornada.DoesNotExist:
-
-                    url = self.url + str(venta.id) + '/?incidencias='+json.dumps([['3', 'La caja está cerrada, no se pudo concretar el pago.']])
+                    url = self.url + str(venta.id) + '/?incidencias='+json.dumps(
+                        [['3', 'La caja está cerrada, no se pudo concretar el pago.']])
                     return url
                 venta = form.save(commit=False)
                 venta.is_pagado = True

@@ -28,7 +28,7 @@ function action_tipo_pago(obj, new_value) {
         pago_inp.value = total_inp.value;
         periodo_credito.classList.add("periodo_credito_hdn");
     }else if(new_value==='2'){
-            pago_inp.removeAttribute("id");
+            pago_inp.removeAttribute("readonly");
             pago_inp.value = '';
             periodo_credito.classList.remove("periodo_credito_hdn");
     }
