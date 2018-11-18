@@ -109,6 +109,9 @@ class AccionxVista(models.Model):
 class Grupo(models.Model):
     descripcion = models.CharField(max_length=150)
 
+    def __str__(self):
+        return self.descripcion
+
 
 class AsignacionAccion(models.Model):
     grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE)

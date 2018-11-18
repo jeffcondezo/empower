@@ -1,16 +1,18 @@
 from django.views.generic import DetailView, ListView, TemplateView, RedirectView
 from django.shortcuts import redirect, HttpResponse
 from django.db.models import Sum
-
+from django.contrib.auth.hashers import make_password
 # Model import-->
 from maestro.models import Empresa, Sucursal, Almacen, Categoria,\
-    Presentacion, Producto, PresentacionxProducto, Proveedor, CatalogoxProveedor, Caja
+    Presentacion, Producto, PresentacionxProducto, Proveedor, CatalogoxProveedor, Caja, AsignacionGrupo, Grupo
+from ventas.models import OfertaVenta
+from django.contrib.auth.models import User
 # Model import<--
 
 # Forms import-->
 from .forms import SucursalForm, AlmacenForm, CategoriaForm, PresentacionForm,\
     ProductoForm, ProductoCategoriaForm, ProductoPresentacionForm, ProveedorForm,\
-    CatalogoProveedorForm, ProductoFiltroForm, CatalogoFiltroForm, CatalogoProveedorFiltroForm, CajaForm
+    CatalogoProveedorForm, ProductoFiltroForm, CatalogoFiltroForm, CatalogoProveedorFiltroForm, CajaForm, UsuarioForm
 # Forms import<--
 
 # Utils import-->
@@ -649,142 +651,223 @@ class CatalogoProveedorAddView(BasicEMixin, TemplateView):
         return redirect('/maestro/catalogoproveedor/?proveedor='+str(proveedor.id))
 
 
-from ventas.models import OfertaVenta
-from almacen.models import Stock
-from maestro.models import Vista, AccionxVista, AsignacionAccion, Accion, Grupo
+class UsuarioListView(BasicEMixin, ListView):
+
+    template_name = 'maestro/usuario-list.html'
+    model = User
+    nav_name = 'nav_usuario'
+    nav_main = 'nav_main_usuario'
+    view_name = 'usuario'
+    action_name = 'leer'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_queryset(self):
+        query = User.objects.all()
+        return query
 
 
-def migracion(request):
-    # libro = Workbook()
-    # libro = load_workbook("./migracion.xlsx")
-    # h = libro["Hoja1"]
-    # direccion = [['K', 'L'], ['M', 'N'], ['O', 'P'], ['Q', 'R']]
-    # empresa = Empresa.objects.get(pk=1)
-    # sucursal = Sucursal.objects.get(pk=1)
-    # almacen = Almacen.objects.get(pk=1)
-    # for index in range(5, 337):
-    #     presentaciones = []
-    #     # Guardar producto
-    #     name_producto = h['J'+str(index)].value
-    #     try:
-    #         producto = Producto.objects.get(descripcion=name_producto)
-    #     except Producto.DoesNotExist:
-    #         producto = Producto(descripcion=name_producto, empresa=empresa)
-    #         producto.save()
-    #     producto.catalogo.add(sucursal)
-    #     for i in range(0, 4):
-    #         direccion_name = direccion[i][0]
-    #         direccion_detail = direccion[i][1]
-    #         name = h[direccion_name+str(index)].value
-    #         detail = h[direccion_detail+str(index)].value
-    #         if (name != '' and name is not None) and (detail != '' and detail is not None):
-    #             detail_split = detail.split(' ')
-    #             if detail_split[0] != '' and detail_split[1] != '':
-    #                 if detail_split[1][-1:] == 'S':
-    #                     detail_split[1] = detail_split[1][:-1]
-    #                 if name[-1:] == 'S':
-    #                     name = name[:-1]
-    #                 presentaciones.append([name, detail_split[0], detail_split[1]])
-    #     for idx, p in enumerate(reversed(presentaciones)):
-    #         if idx == 0:
-    #             if p[2] == 'U':
-    #                 p[2] = 'UNIDAD'
-    #             try:
-    #                 presentacion_temp = Presentacion.objects.get(descripcion=p[2])
-    #             except Presentacion.DoesNotExist:
-    #                 presentacion_temp = Presentacion(descripcion=p[2])
-    #                 presentacion_temp.save()
-    #             PresentacionxProducto(presentacion=presentacion_temp, producto=producto, cantidad=1).save()
-    #         try:
-    #             presentacion_to_save = Presentacion.objects.get(descripcion=p[0])
-    #         except Presentacion.DoesNotExist:
-    #             presentacion_to_save = Presentacion(descripcion=p[0])
-    #             presentacion_to_save.save()
-    #         presentacion_prev = PresentacionxProducto.objects.get(producto=producto, presentacion__descripcion=p[2])
-    #         try:
-    #             PresentacionxProducto.objects.get(presentacion=presentacion_to_save, producto=producto)
-    #         except PresentacionxProducto.DoesNotExist:
-    #             PresentacionxProducto(presentacion=presentacion_to_save, producto=producto,
-    #                                   cantidad=int(p[1])*presentacion_prev.cantidad).save()
-    #     # # Calcular el precio
-    #     #
-    #     #     # Precio Venta Alto
-    #     # name_presentacion_precio = h['W'+str(index)].value
-    #     # precio = h['V'+str(index)].value
-    #     # if name_presentacion_precio != '' and name_presentacion_precio is not None:
-    #     #     try:
-    #     #         presentacion_precio = PresentacionxProducto.objects.get(producto=producto,
-    #     #                                                                 presentacion__descripcion=name_presentacion_precio)
-    #     #         producto.precio_venta = round((precio / presentacion_precio.cantidad), 1)
-    #     #         if (producto.precio_venta * presentacion_precio.cantidad) > precio:
-    #     #             OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
-    #     #                         presentacion_oferta=presentacion_precio, cantidad_oferta=1,
-    #     #                         cantidad_unidad_oferta=presentacion_precio.cantidad,
-    #     #                         retorno=(producto.precio_venta * presentacion_precio.cantidad)-precio).save()
-    #     #     except PresentacionxProducto.DoesNotExist:
-    #     #         pass
-    #     #
-    #     #     # Precio Compra
-    #     # precio_compra = h['T'+str(index)].value
-    #     # if precio_compra != '' and precio_compra is not None:
-    #     #     presentacion_precio_compra = PresentacionxProducto.objects.get(producto=producto,
-    #     #                                                                    presentacion__descripcion=presentaciones[0][0])
-    #     #     producto.precio_compra = round((precio_compra / presentacion_precio_compra.cantidad), 2)
-    #     #
-    #     #     # Precio Venta Bajo
-    #     # precio_venta = h['U'+str(index)].value
-    #     # if precio_venta != '' and precio_venta is not None:
-    #     #     presentacion_precio_venta = PresentacionxProducto.objects.get(producto=producto,
-    #     #                                                                   presentacion__descripcion=presentaciones[0][0])
-    #     #     if (producto.precio_venta * presentacion_precio_venta.cantidad) > precio_venta:
-    #     #         ofertaventa = OfertaVenta.objects.filter(producto_oferta=producto, is_active=True, estado=True)
-    #     #         descuento = 0
-    #     #         for ofv in ofertaventa:
-    #     #             descuento += (presentacion_precio_venta.cantidad/ofv.presentacion_oferta.cantidad) * float(ofv.retorno)
-    #     #         OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
-    #     #                     presentacion_oferta=presentacion_precio_venta, cantidad_oferta=1,
-    #     #                     cantidad_unidad_oferta=presentacion_precio_venta.cantidad,
-    #     #                     retorno=((producto.precio_venta * presentacion_precio_venta.cantidad)-precio_venta)-descuento)\
-    #     #             .save()
-    #     # if producto.precio_venta != 0 and producto.precio_compra != 0:
-    #     #     producto.utilidad_monetaria = producto.precio_venta-producto.precio_compra
-    #     # producto.save()
-    #
-    #     # Stock
-    #     direccion_stock = [['B', 'C'], ['D', 'E'], ['F', 'G'], ['H', 'I']]
-    #     try:
-    #         stock = Stock.objects.get(almacen=almacen, producto=producto)
-    #     except Stock.DoesNotExist:
-    #         stock = Stock(almacen=almacen, producto=producto, cantidad=0)
-    #         stock.save()
-    #     for j in range(0, 4):
-    #         direccion_stock_name = direccion_stock[j][1]
-    #         direccion_stock_detail = direccion_stock[j][0]
-    #         name_stock = h[direccion_stock_name+str(index)].value
-    #         cantidad_stock = h[direccion_stock_detail+str(index)].value
-    #         if (name_stock != '' and name_stock is not None) and (cantidad_stock != '' and cantidad_stock is not None):
-    #             if name_stock[-1:] == 'S':
-    #                 name_stock = name_stock[:-1]
-    #             presentacion_stock = PresentacionxProducto.objects.get(producto=producto,
-    #                                                                    presentacion__descripcion=name_stock)
-    #             stock.cantidad += presentacion_stock.cantidad * int(cantidad_stock)
-    #     stock.save()
-    # grupo = Grupo.objects.get(pk=1)
-    # vista = Vista.objects.get(pk=23)
-    # accion = Accion.objects.filter(id__in=[1, 2, 4, 9, 10])
-    # for a in accion:
-    #     try:
-    #         axv = AccionxVista.objects.get(accion=a.id, vista=vista.id)
-    #     except AccionxVista.DoesNotExist:
-    #         axv = AccionxVista(accion=a, vista=vista)
-    #         axv.save()
-    #     try:
-    #         AsignacionAccion.objects.get(grupo=grupo.id, accionxvista=axv.id)
-    #     except AsignacionAccion.DoesNotExist:
-    #         aa = AsignacionAccion(grupo=grupo, accionxvista=axv)
-    #         aa.save()
-    productos = Producto.objects.all()
-    proveedor = Proveedor.objects.get(pk=1)
-    for p in productos:
-        CatalogoxProveedor(producto=p, proveedor=proveedor).save()
-    return HttpResponse('Done')
+class UsuarioDetailView(BasicEMixin, DetailView):
+    template_name = 'maestro/usuario-detail.html'
+    model = User
+    nav_name = 'nav_usuario'
+    nav_main = 'nav_main_usuario'
+    view_name = 'usuario'
+    action_name = 'leer'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class UsuarioEditView(BasicEMixin, TemplateView):
+
+    template_name = 'maestro/usuario-edit.html'
+    nav_name = 'nav_usuario'
+    nav_main = 'nav_main_usuario'
+    view_name = 'usuario'
+    action_name = 'editar'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.kwargs['pk'] == 0:
+            context['object'] = UsuarioForm
+        else:
+            user = User.objects.get(pk=self.kwargs['pk'])
+            grupoassign = AsignacionGrupo.objects.get(usuario=user)
+            context['object'] = UsuarioForm(instance=user, initial={'grupo': grupoassign.grupo})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if self.kwargs['pk'] == 0:
+            form = UsuarioForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.password = make_password(form.cleaned_data['password'])
+                user.save()
+                try:
+                    grupoassign = AsignacionGrupo.objects.get(usuario=user)
+                    grupoassign.grupo = form.cleaned_data['grupo']
+                    grupoassign.save()
+                except AsignacionGrupo.DoesNotExist:
+                    AsignacionGrupo(usuario=user, grupo=form.cleaned_data['grupo']).save()
+            else:
+                return HttpResponse(form.errors)
+        else:
+            user = User.objects.get(pk=self.kwargs['pk'])
+            form = UsuarioForm(request.POST, instance=user)
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.password = make_password(form.cleaned_data['password'])
+                user.save()
+                try:
+                    grupoassign = AsignacionGrupo.objects.get(usuario=user)
+                    grupoassign.grupo = form.cleaned_data['grupo']
+                    grupoassign.save()
+                except AsignacionGrupo.DoesNotExist:
+                    AsignacionGrupo(usuario=user, grupo=form.cleaned_data['grupo']).save()
+            else:
+                return HttpResponse(form.errors)
+        return redirect('/maestro/usuario/'+str(user.id))
+
+# from ventas.models import OfertaVenta
+# from almacen.models import Stock
+# from maestro.models import Vista, AccionxVista, AsignacionAccion, Accion, Grupo
+#
+#
+# def migracion(request):
+#     # libro = Workbook()
+#     # libro = load_workbook("./migracion.xlsx")
+#     # h = libro["Hoja1"]
+#     # direccion = [['K', 'L'], ['M', 'N'], ['O', 'P'], ['Q', 'R']]
+#     # empresa = Empresa.objects.get(pk=1)
+#     # sucursal = Sucursal.objects.get(pk=1)
+#     # almacen = Almacen.objects.get(pk=1)
+#     # for index in range(5, 337):
+#     #     presentaciones = []
+#     #     # Guardar producto
+#     #     name_producto = h['J'+str(index)].value
+#     #     try:
+#     #         producto = Producto.objects.get(descripcion=name_producto)
+#     #     except Producto.DoesNotExist:
+#     #         producto = Producto(descripcion=name_producto, empresa=empresa)
+#     #         producto.save()
+#     #     producto.catalogo.add(sucursal)
+#     #     for i in range(0, 4):
+#     #         direccion_name = direccion[i][0]
+#     #         direccion_detail = direccion[i][1]
+#     #         name = h[direccion_name+str(index)].value
+#     #         detail = h[direccion_detail+str(index)].value
+#     #         if (name != '' and name is not None) and (detail != '' and detail is not None):
+#     #             detail_split = detail.split(' ')
+#     #             if detail_split[0] != '' and detail_split[1] != '':
+#     #                 if detail_split[1][-1:] == 'S':
+#     #                     detail_split[1] = detail_split[1][:-1]
+#     #                 if name[-1:] == 'S':
+#     #                     name = name[:-1]
+#     #                 presentaciones.append([name, detail_split[0], detail_split[1]])
+#     #     for idx, p in enumerate(reversed(presentaciones)):
+#     #         if idx == 0:
+#     #             if p[2] == 'U':
+#     #                 p[2] = 'UNIDAD'
+#     #             try:
+#     #                 presentacion_temp = Presentacion.objects.get(descripcion=p[2])
+#     #             except Presentacion.DoesNotExist:
+#     #                 presentacion_temp = Presentacion(descripcion=p[2])
+#     #                 presentacion_temp.save()
+#     #             PresentacionxProducto(presentacion=presentacion_temp, producto=producto, cantidad=1).save()
+#     #         try:
+#     #             presentacion_to_save = Presentacion.objects.get(descripcion=p[0])
+#     #         except Presentacion.DoesNotExist:
+#     #             presentacion_to_save = Presentacion(descripcion=p[0])
+#     #             presentacion_to_save.save()
+#     #         presentacion_prev = PresentacionxProducto.objects.get(producto=producto, presentacion__descripcion=p[2])
+#     #         try:
+#     #             PresentacionxProducto.objects.get(presentacion=presentacion_to_save, producto=producto)
+#     #         except PresentacionxProducto.DoesNotExist:
+#     #             PresentacionxProducto(presentacion=presentacion_to_save, producto=producto,
+#     #                                   cantidad=int(p[1])*presentacion_prev.cantidad).save()
+#     #     # # Calcular el precio
+#     #     #
+#     #     #     # Precio Venta Alto
+#     #     # name_presentacion_precio = h['W'+str(index)].value
+#     #     # precio = h['V'+str(index)].value
+#     #     # if name_presentacion_precio != '' and name_presentacion_precio is not None:
+#     #     #     try:
+#     #     #         presentacion_precio = PresentacionxProducto.objects.get(producto=producto,
+#     #     #                                                                 presentacion__descripcion=name_presentacion_precio)
+#     #     #         producto.precio_venta = round((precio / presentacion_precio.cantidad), 1)
+#     #     #         if (producto.precio_venta * presentacion_precio.cantidad) > precio:
+#     #     #             OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
+#     #     #                         presentacion_oferta=presentacion_precio, cantidad_oferta=1,
+#     #     #                         cantidad_unidad_oferta=presentacion_precio.cantidad,
+#     #     #                         retorno=(producto.precio_venta * presentacion_precio.cantidad)-precio).save()
+#     #     #     except PresentacionxProducto.DoesNotExist:
+#     #     #         pass
+#     #     #
+#     #     #     # Precio Compra
+#     #     # precio_compra = h['T'+str(index)].value
+#     #     # if precio_compra != '' and precio_compra is not None:
+#     #     #     presentacion_precio_compra = PresentacionxProducto.objects.get(producto=producto,
+#     #     #                                                                    presentacion__descripcion=presentaciones[0][0])
+#     #     #     producto.precio_compra = round((precio_compra / presentacion_precio_compra.cantidad), 2)
+#     #     #
+#     #     #     # Precio Venta Bajo
+#     #     # precio_venta = h['U'+str(index)].value
+#     #     # if precio_venta != '' and precio_venta is not None:
+#     #     #     presentacion_precio_venta = PresentacionxProducto.objects.get(producto=producto,
+#     #     #                                                                   presentacion__descripcion=presentaciones[0][0])
+#     #     #     if (producto.precio_venta * presentacion_precio_venta.cantidad) > precio_venta:
+#     #     #         ofertaventa = OfertaVenta.objects.filter(producto_oferta=producto, is_active=True, estado=True)
+#     #     #         descuento = 0
+#     #     #         for ofv in ofertaventa:
+#     #     #             descuento += (presentacion_precio_venta.cantidad/ofv.presentacion_oferta.cantidad) * float(ofv.retorno)
+#     #     #         OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
+#     #     #                     presentacion_oferta=presentacion_precio_venta, cantidad_oferta=1,
+#     #     #                     cantidad_unidad_oferta=presentacion_precio_venta.cantidad,
+#     #     #                     retorno=((producto.precio_venta * presentacion_precio_venta.cantidad)-precio_venta)-descuento)\
+#     #     #             .save()
+#     #     # if producto.precio_venta != 0 and producto.precio_compra != 0:
+#     #     #     producto.utilidad_monetaria = producto.precio_venta-producto.precio_compra
+#     #     # producto.save()
+#     #
+#     #     # Stock
+#     #     direccion_stock = [['B', 'C'], ['D', 'E'], ['F', 'G'], ['H', 'I']]
+#     #     try:
+#     #         stock = Stock.objects.get(almacen=almacen, producto=producto)
+#     #     except Stock.DoesNotExist:
+#     #         stock = Stock(almacen=almacen, producto=producto, cantidad=0)
+#     #         stock.save()
+#     #     for j in range(0, 4):
+#     #         direccion_stock_name = direccion_stock[j][1]
+#     #         direccion_stock_detail = direccion_stock[j][0]
+#     #         name_stock = h[direccion_stock_name+str(index)].value
+#     #         cantidad_stock = h[direccion_stock_detail+str(index)].value
+#     #         if (name_stock != '' and name_stock is not None) and (cantidad_stock != '' and cantidad_stock is not None):
+#     #             if name_stock[-1:] == 'S':
+#     #                 name_stock = name_stock[:-1]
+#     #             presentacion_stock = PresentacionxProducto.objects.get(producto=producto,
+#     #                                                                    presentacion__descripcion=name_stock)
+#     #             stock.cantidad += presentacion_stock.cantidad * int(cantidad_stock)
+#     #     stock.save()
+#     # grupo = Grupo.objects.get(pk=1)
+#     # vista = Vista.objects.get(pk=23)
+#     # accion = Accion.objects.filter(id__in=[1, 2, 4, 9, 10])
+#     # for a in accion:
+#     #     try:
+#     #         axv = AccionxVista.objects.get(accion=a.id, vista=vista.id)
+#     #     except AccionxVista.DoesNotExist:
+#     #         axv = AccionxVista(accion=a, vista=vista)
+#     #         axv.save()
+#     #     try:
+#     #         AsignacionAccion.objects.get(grupo=grupo.id, accionxvista=axv.id)
+#     #     except AsignacionAccion.DoesNotExist:
+#     #         aa = AsignacionAccion(grupo=grupo, accionxvista=axv)
+#     #         aa.save()
+#     productos = Producto.objects.all()
+#     proveedor = Proveedor.objects.get(pk=1)
+#     for p in productos:
+#         CatalogoxProveedor(producto=p, proveedor=proveedor).save()
+#     return HttpResponse('Done')

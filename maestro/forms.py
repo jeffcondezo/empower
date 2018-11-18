@@ -1,10 +1,11 @@
 from django import forms
 
-# Model import-->
 from django.forms import ModelChoiceField
 
+# Model import-->
 from maestro.models import Empresa,Sucursal, Almacen, Categoria, Presentacion, Producto,\
-    PresentacionxProducto, Proveedor, CatalogoxProveedor, Caja
+    PresentacionxProducto, Proveedor, CatalogoxProveedor, Caja, Grupo
+from django.contrib.auth.models import User
 # Model import<--
 
 
@@ -155,3 +156,23 @@ class CatalogoProveedorFiltroForm(forms.Form):
                                                           widget=forms.SelectMultiple(
                                                               attrs={'class': 'multiple-select2 form-control'}))
         self.fields['proveedor'].empty_label = None
+
+
+class UsuarioForm(forms.ModelForm):
+
+    grupo = forms.ModelChoiceField(queryset=Grupo.objects.all(), required=True,
+                                   widget=forms.Select(attrs={'class': 'default-select2 form-control'}))
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'password']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(UsuarioForm, self).__init__(*args, **kwargs)
+        self.fields['grupo'].empty_label = None
