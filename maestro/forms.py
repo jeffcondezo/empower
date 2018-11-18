@@ -163,6 +163,10 @@ class UsuarioForm(forms.ModelForm):
     grupo = forms.ModelChoiceField(queryset=Grupo.objects.all(), required=True,
                                    widget=forms.Select(attrs={'class': 'default-select2 form-control'}))
 
+    sucursal = forms.ModelMultipleChoiceField(queryset=Sucursal.objects.all(), required=True,
+                                              widget=forms.SelectMultiple(
+                                                  attrs={'class': 'default-select2 form-control'}))
+
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'password']

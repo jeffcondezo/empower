@@ -77,6 +77,8 @@
                             <li class="divider"></li>
                             <li><a href="/maestro/proveedor"><b>Proveedores</b></a></li>
                             <li><a href="/maestro/catalogoproveedor">Catálogo</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/maestro/usuario">Usuario</a></li>
                         </ul>
 					</li>
                     <li class="dropdown">
@@ -129,7 +131,7 @@
 			</div>
 			<!-- end navbar-collapse -->
 
-			<!-- begin header-nav -->
+					<!-- begin header-nav -->
 			<ul class="navbar-nav navbar-right">
 				<li>
 					<form action="/ventas/find" method="get" class="navbar-form hidden-sm">
@@ -214,15 +216,10 @@
 				<li class="dropdown navbar-user">
 					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
 						<img src="{% static "assets/img/user/user-13.jpg" %}" alt="" />
-						<span class="d-none d-md-inline">JCondezo</span> <b class="caret"></b>
+						<span class="d-none d-md-inline">{{ user_name }}</span> <b class="caret"></b>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right">
-						<a href="javascript:;" class="dropdown-item">Edit Profile</a>
-						<a href="javascript:;" class="dropdown-item"><span class="badge badge-danger pull-right">2</span> Inbox</a>
-						<a href="javascript:;" class="dropdown-item">Calendar</a>
-						<a href="javascript:;" class="dropdown-item">Setting</a>
-						<div class="dropdown-divider"></div>
-						<a href="javascript:;" class="dropdown-item">Log Out</a>
+						<a href="javascript:;" class="dropdown-item">Cerrar Sesión</a>
 					</div>
 				</li>
 			</ul>
@@ -244,8 +241,8 @@
 							</div>
 							<div class="info">
 								<b class="caret pull-right"></b>
-								JCondezo
-								<small>Administrador</small>
+								{{ user_name }}
+								<small>{{ grupo_name }}</small>
 							</div>
 						</a>
 					</li>
@@ -255,8 +252,6 @@
                             <li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
                             <li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li>
                         </ul>
-
-
 					</li>
 				</ul>
 				<!-- end sidebar user -->

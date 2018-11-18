@@ -146,3 +146,4 @@ class Caja(models.Model):
 class AsignacionGrupo(models.Model):
     grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.PROTECT)
+    sucursal = models.ManyToManyField(Sucursal)

@@ -697,7 +697,8 @@ class UsuarioEditView(BasicEMixin, TemplateView):
         else:
             user = User.objects.get(pk=self.kwargs['pk'])
             grupoassign = AsignacionGrupo.objects.get(usuario=user)
-            context['object'] = UsuarioForm(instance=user, initial={'grupo': grupoassign.grupo})
+            context['object'] = UsuarioForm(instance=user, initial={'grupo': grupoassign.grupo,
+                                                                    'sucursal': grupoassign.sucursal.all()})
         return context
 
     def post(self, request, *args, **kwargs):
@@ -710,6 +711,7 @@ class UsuarioEditView(BasicEMixin, TemplateView):
                 try:
                     grupoassign = AsignacionGrupo.objects.get(usuario=user)
                     grupoassign.grupo = form.cleaned_data['grupo']
+                    grupoassign.sucursal = form.cleaned_data['sucursal']
                     grupoassign.save()
                 except AsignacionGrupo.DoesNotExist:
                     AsignacionGrupo(usuario=user, grupo=form.cleaned_data['grupo']).save()
@@ -725,6 +727,7 @@ class UsuarioEditView(BasicEMixin, TemplateView):
                 try:
                     grupoassign = AsignacionGrupo.objects.get(usuario=user)
                     grupoassign.grupo = form.cleaned_data['grupo']
+                    grupoassign.sucursal.set(form.cleaned_data['sucursal'])
                     grupoassign.save()
                 except AsignacionGrupo.DoesNotExist:
                     AsignacionGrupo(usuario=user, grupo=form.cleaned_data['grupo']).save()

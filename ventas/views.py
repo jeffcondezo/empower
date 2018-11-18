@@ -101,7 +101,7 @@ class VentaListView(BasicEMixin, ListView):
         return context
 
     def get_queryset(self):
-        Venta.objects.filter()
+        alt = 0
         query = super().get_queryset()
         cliente = self.request.GET.getlist('cliente')
         sucursal = self.request.GET.getlist('sucursal')
@@ -109,17 +109,23 @@ class VentaListView(BasicEMixin, ListView):
         tipo_pago = self.request.GET.getlist('tipo_pago')
         estado_pago = self.request.GET.getlist('estado_pago')
         if len(cliente) > 0:
+            alt += 1
             query = query.filter(cliente__in=cliente)
         if len(sucursal) > 0:
+            alt += 1
             query = query.filter(sucursal__in=sucursal)
         if len(estado) > 0:
+            alt += 1
             query = query.filter(estado__in=estado)
         if len(tipo_pago) > 0:
+            alt += 1
             query = query.filter(tipo_pago__in=tipo_pago)
         if len(estado_pago) > 0:
+            alt += 1
             query = query.filter(estado_pago__in=estado_pago)
         if 'fechahora_creacion1' in self.request.GET and 'fechahora_creacion2' in self.request.GET:
             if self.request.GET['fechahora_creacion1'] != '' and self.request.GET['fechahora_creacion2'] != '':
+                alt += 1
                 fecha_inicio = datetime.strptime(self.request.GET['fechahora_creacion1'], '%d/%m/%Y %H:%M')
                 fecha_fin = datetime.strptime(self.request.GET['fechahora_creacion2'], '%d/%m/%Y %H:%M')
                 query = query.filter(fechahora_creacion__gte=fecha_inicio, fechahora_creacion__lte=fecha_fin)
@@ -127,11 +133,16 @@ class VentaListView(BasicEMixin, ListView):
             total1 = self.request.GET['total1']
             total2 = self.request.GET['total2']
             if total1 != '' and total2 != '':
+                alt += 1
                 query = query.filter(total__gte=total1, total__lte=total2)
             elif total1 == '' and total2 != '':
+                alt += 1
                 query = query.filter(total__lte=total2)
             elif total2 == '' and total1 != '':
+                alt += 1
                 query = query.filter(total__gte=total1)
+        if alt == 0:
+            query = Venta.objects.filter(estado__in=[1, 2])
         return query
 
 

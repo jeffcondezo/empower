@@ -46,17 +46,22 @@ class CompraListView(BasicEMixin, ListView):
 
     def get_queryset(self):
         query = super().get_queryset()
+        alt = 0
         proveedores = self.request.GET.getlist('proveedor')
         estados = self.request.GET.getlist('estado')
         tipo = self.request.GET.getlist('tipo')
         if len(proveedores) > 0:
             query = query.filter(proveedor__in=proveedores)
+            alt += 1
         if len(estados) > 0:
             query = query.filter(estado__in=estados)
+            alt += 1
         if len(tipo) > 0:
             query = query.filter(tipo__in=tipo)
+            alt += 1
         if 'fechahora_creacion1' in self.request.GET and 'fechahora_creacion2' in self.request.GET:
             if self.request.GET['fechahora_creacion1'] != '' and self.request.GET['fechahora_creacion2'] != '':
+                alt += 1
                 fecha_inicio = datetime.strptime(self.request.GET['fechahora_creacion1'], '%d/%m/%Y %H:%M')
                 fecha_fin = datetime.strptime(self.request.GET['fechahora_creacion2'], '%d/%m/%Y %H:%M')
                 query = query.filter(fechahora_creacion__gte=fecha_inicio, fechahora_creacion__lte=fecha_fin)
@@ -64,12 +69,16 @@ class CompraListView(BasicEMixin, ListView):
             monto1 = self.request.GET['total_final1']
             monto2 = self.request.GET['total_final2']
             if monto1 != '' and monto2 != '':
+                alt += 1
                 query = query.filter(total_final__gte=monto1, total_final__lte=monto2)
             if monto1 == '' and monto2 != '':
+                alt += 1
                 query = query.filter(total_final__lte=monto2)
             elif monto2 == '' and monto1 != '':
+                alt += 1
                 query = query.filter(total_final__gte=monto1)
-
+        if alt == 0:
+            query = Compra.objects.filter(estado__in=[1, 2])
         return query
 
 
