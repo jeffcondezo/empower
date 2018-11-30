@@ -1,4 +1,4 @@
-from django.views.generic import DetailView, ListView, TemplateView, RedirectView
+from django.views.generic import DetailView, ListView, TemplateView, RedirectView, UpdateView
 from django.shortcuts import redirect, HttpResponse
 import json
 # Mixin Import-->
@@ -10,13 +10,16 @@ from datetime import datetime
 # Extra python features<--
 
 from .utils import fill_data_venta, load_tax, create_venta_txt, cancelarventa
+from maestro.utils import empresa_list
 
 # Model import-->
 from ventas.models import OfertaVenta, Venta, DetalleVenta
+from finanzas.models import Jornada
 # Model import<--
 
 # Forms import-->
-from .forms import OfertaVentaForm, VentaFiltroForm, VentaCreateForm, VentaEditForm, DetalleVentaForm, ImpuestoForm
+from .forms import OfertaVentaForm, VentaFiltroForm, VentaCreateForm, VentaEditForm, DetalleVentaForm, ImpuestoForm,\
+    VentaDescuentoAdicionalForm
 from finanzas.forms import PagoVentaForm
 # Forms import<--
 from openpyxl.styles import Border, Side
@@ -42,6 +45,7 @@ class OfertaListView(BasicEMixin, ListView):
             query = OfertaVenta.objects.filter(categorias__in=categorias)
         else:
             query = OfertaVenta.objects.all()
+        query = query.filter(sucursal__empresa__in=empresa_list(self.request.user))
         return query
 
 
@@ -64,18 +68,18 @@ class OfertaEditView(BasicEMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.kwargs['pk'] == 0:
-                context['object'] = OfertaVentaForm
+                context['object'] = OfertaVentaForm(user=self.request.user)
         else:
             producto = OfertaVenta.objects.get(pk=self.kwargs['pk'])
-            context['object'] = OfertaVentaForm(instance=producto)
+            context['object'] = OfertaVentaForm(instance=producto, user=self.request.user)
         return context
 
     def post(self, request, *args, **kwargs):
         if self.kwargs['pk'] == 0:
-            form = OfertaVentaForm(request.POST)
+            form = OfertaVentaForm(request.POST, user=self.request.user)
         else:
             producto = OfertaVenta.objects.get(pk=self.kwargs['pk'])
-            form = OfertaVentaForm(request.POST, instance=producto)
+            form = OfertaVentaForm(request.POST, instance=producto, user=self.request.user)
         if form.is_valid():
             oferta = form.save(commit=False)
             if oferta.stock_faltante is None:
@@ -96,8 +100,8 @@ class VentaListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['venta_filtro'] = VentaFiltroForm(self.request.GET)
-        context['venta_create'] = VentaCreateForm()
+        context['venta_filtro'] = VentaFiltroForm(self.request.GET, user=self.request.user)
+        context['venta_create'] = VentaCreateForm(user=self.request.user)
         return context
 
     def get_queryset(self):
@@ -143,36 +147,41 @@ class VentaListView(BasicEMixin, ListView):
                 query = query.filter(total__gte=total1)
         if alt == 0:
             query = Venta.objects.filter(estado__in=[1, 2])
+        query = query.filter(sucursal__empresa__in=empresa_list(self.request.user))
         return query
 
 
-class VentaCreateView(RedirectView):
+class VentaCreateView(BasicEMixin, RedirectView):
 
     url = '/ventas/venta/'
     view_name = 'venta'
     action_name = 'crear'
 
     def get_redirect_url(self, *args, **kwargs):
-        form = VentaCreateForm(self.request.POST)
+        form = VentaCreateForm(self.request.POST, user=self.request.user)
         if form.is_valid():
-            if form.cleaned_data['cliente'] is not None:
-                try:
-                    venta = Venta.objects.get(cliente=form.cleaned_data['cliente'], estado=1)
-                except Venta.DoesNotExist:
+            jornada = Jornada.objects.filter(estado=True)
+            if len(jornada) > 0:
+                if form.cleaned_data['cliente'] is not None:
+                    try:
+                        venta = Venta.objects.get(cliente=form.cleaned_data['cliente'], estado=1)
+                    except Venta.DoesNotExist:
+                        venta = form.save(commit=False)
+                        venta.asignado = self.request.user
+                        venta.save()
+                else:
                     venta = form.save(commit=False)
                     venta.asignado = self.request.user
                     venta.save()
+                url = self.url + str(venta.id) + '/edit'
             else:
-                venta = form.save(commit=False)
-                venta.asignado = self.request.user
-                venta.save()
-            url = self.url + str(venta.id) + '/edit'
+                url = '/ventas/venta'
         else:
             url = '/ventas/venta'
         return url
 
 
-class VentaDuplicarView(RedirectView):
+class VentaDuplicarView(BasicEMixin, RedirectView):
 
     url = '/ventas/venta/'
     view_name = 'venta'
@@ -189,6 +198,30 @@ class VentaDuplicarView(RedirectView):
             d.venta = venta
             d.save()
         url = self.url + str(venta.id) + '/edit'
+        return url
+
+
+class VentaDescuentoAdicionalView(BasicEMixin, UpdateView):
+
+    form_class = VentaDescuentoAdicionalForm
+    model = DetalleVenta
+    success_url = '/ventas/venta/'
+    view_name = 'venta'
+    action_name = 'descuento_adicional'
+
+    def form_valid(self, form):
+        detalleventa = form.save(commit=False)
+        if not detalleventa.venta.is_pagado:
+            detalleventa.total_con_descuento -= detalleventa.descuento_adicional
+            detalleventa.save()
+            venta = detalleventa.venta
+            venta.descuento += detalleventa.descuento_adicional
+            venta.total_con_descuento -= detalleventa.descuento_adicional
+            venta.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        url = self.success_url + str(self.object.id)
         return url
 
 
@@ -209,7 +242,7 @@ class VentaEditView(BasicEMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         venta = Venta.objects.get(pk=self.kwargs['pk'])
-        context['form'] = VentaEditForm(instance=venta)
+        context['form'] = VentaEditForm(instance=venta, user=self.request.user)
         context['impuesto_form'] = ImpuestoForm()
         context['model'] = venta
         detalle = DetalleVenta.objects.filter(venta=self.kwargs['pk'], is_oferta=False)
@@ -224,7 +257,7 @@ class VentaEditView(BasicEMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         venta = Venta.objects.get(pk=self.kwargs['pk'])
-        form = VentaEditForm(request.POST, instance=venta)
+        form = VentaEditForm(request.POST, instance=venta, user=self.request.user)
         incidencias = []
         if form.is_valid():
             venta = form.save()
@@ -257,6 +290,7 @@ class VentaEditView(BasicEMixin, TemplateView):
                         return HttpResponse(dv_form.errors)
                 venta.total_final = total_final
                 venta.total = total
+                venta.total_con_descuento = total_final
                 venta.sub_total = sub_total
                 venta.descuento = descuento
                 venta.save()
@@ -286,6 +320,7 @@ class VentaDetailView(BasicEMixin, DetailView):
         create_venta_txt(self.kwargs['pk'])
         context['detalle'] = DetalleVenta.objects.filter(venta=self.kwargs['pk'])
         context['pago_form'] = PagoVentaForm()
+        context['descuento_form'] = VentaDescuentoAdicionalForm()
         if 'incidencias' in self.request.GET:
             context['incidencias'] = json.loads(self.request.GET['incidencias'])
         return context

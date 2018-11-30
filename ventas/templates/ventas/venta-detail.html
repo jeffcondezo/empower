@@ -29,7 +29,7 @@
                 <a href="#modal-duplicar" data-toggle="modal" class="btn btn-xs btn-warning buttons"><i class="far fa-clone"></i></a>
                 <a href="/ventas/reporteventas/{{ object.id }}" class="btn btn-xs btn-success buttons"><i class="far fa-file-excel"></i></a>
             </div>
-            <h4 class="panel-title">Venta</h4>
+            <h4 class="panel-title">Venta - Nº: {{ object.id }}</h4>
         </div>
         <div class="panel-body">
 
@@ -78,6 +78,23 @@
                     </div>
 
                 </div>
+                                <div class="form-group row m-b-3">
+                    <div class="col-md-2">
+                        <label class="control-label">TIPO COMPROBANTE:</label>
+                    </div>
+                    <div class="col-md-2" id="orden_total">
+                        {{ object.tipo_comprobante.descripcion|default_if_none:'' }}
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="control-label">SERIE - NÚMERO:</label>
+                    </div>
+                    <div class="col-md-2">
+                        {{ object.serie_comprobante|default_if_none:'' }} - {{ object.numero_comprobante|default_if_none:'' }}
+                    </div>
+
+
+                </div>
            <div class="col-md-12">
                {% if incidencias %}
                    <div class="alert alert-danger fade show">
@@ -106,9 +123,8 @@
                                 <th width="10%">Cantidad</th>
                                 <th width="10%">Precio</th>
                                 <th width="10%">SubTotal</th>
-                                <th width="10%">Descuento</th>
+                                <th width="15%">Descuento Adicional</th>
                                 <th width="10%">Total</th>
-                                <th width="15%">Promociones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -118,11 +134,20 @@
                                         <td>{{ d.presentacionxproducto.producto.descripcion }}</td>
                                         <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
                                         <td>{{ d.cantidad_presentacion_pedido }} &#8773; {{ d.cantidad_unidad_pedido }} U.</td>
-                                        <td>{{ d.precio }}</td>
-                                        <td>{{ d.sub_total }}</td>
-                                        <td>{{ d.descuento }}</td>
+                                        <td>{% widthratio d.total_final d.cantidad_presentacion_pedido 1 %}</td>
                                         <td>{{ d.total_final }}</td>
-                                        <td>
+                                        <td>{% if d.descuento_adicional > 0 %}
+                                            {{ d.descuento_adicional }}
+                                        {% else %}
+                                            {% if not object.is_pagado %}
+                                                <div class="fa-2x"><a data-id="{{ d.id }}" class="no-link descuento_btn" data-toggle="modal" href="#modal-descuento"><i class="fas fa-xs fa-gift icons-table"></i></a></div>
+                                            {% else %}
+                                                0
+                                            {% endif %}
+                                        {% endif %}
+                                        </td>
+                                        <td>{{ d.total_con_descuento }}</td>
+                                        <!--<td>
                                             {% for p in d.promocion %}
                                                 {% if p.tipo == '1' %}
                                                     {{ p.cantidad_presentacion }} {{ p.producto.descripcion }} en {{ p.presentacion.presentacion.descripcion }}
@@ -130,7 +155,7 @@
                                                     Descuento de: {{ p.descuento }} para un total de {{ p.total }}
                                                 {% endif %}
                                             {% endfor %}
-                                        </td>
+                                        </td>-->
                                     </tr>
                                 {% endif %}
                             {% endfor %}
@@ -193,6 +218,10 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Pago:</label>
                                 {{ pago_form.pago }}
+                            </div>
+                            <div class="form-group periodo_credito_hdn" id="recibo_credito">
+                                <label for="exampleInputEmail1">Recibo por Pago:</label>
+                                {{ pago_form.recibo }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tipo Comprobante:</label>
@@ -271,6 +300,28 @@
                     <div class="modal-footer">
                         <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
                         <button type="submit" class="btn btn-warning">Duplicar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+        <div class="modal fade" id="modal-descuento">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="form_descuento" action="/ventas/detalleventa/x/descuento" method="POST">{% csrf_token %}
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend class="m-b-15">Descuento Adicional:</legend>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Monto:</label>
+                                {{ descuento_form.descuento_adicional }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                        <button class="btn btn-success">Descontar</button>
                     </div>
                 </form>
             </div>

@@ -55,11 +55,11 @@
                     </div>
 
                     <div class="col-md-2">
-                        <label class="control-label">MONTO AMORTIZADO / TOTAL:</label>
+                        <label class="control-label">TOTAL / AMORTIZADO / DEUDA:</label>
                     </div>
 
                     <div class="col-md-2">
-                        {{ object.monto_amortizado }} / {{ object.monto_total }}
+                        {{ object.monto_total }} / {{ object.monto_amortizado }} /  {{ object.monto_deuda}}
                     </div>
 
                 </div>
@@ -76,6 +76,7 @@
                                 <th>Fecha/Hora</th>
                                 <th>Tipo</th>
                                 <th>Monto</th>
+                                <th>Recibo de Pago</th>
                                 <th>Banco</th>
                                 <th>Codigo</th>
                                 <th>Acciones</th>
@@ -88,6 +89,7 @@
                                         <td>{{ d.fechahora|date:'d-m-Y H:i' }}</td>
                                         <td>{{ d.get_tipo_display }}</td>
                                         <td>{{ d.monto }}</td>
+                                        <td>{{ d.recibo }}</td>
                                         <td>{{ d.get_banco_display }}</td>
                                         <td>{{ d.codigo }}</td>
                                         <td></td>

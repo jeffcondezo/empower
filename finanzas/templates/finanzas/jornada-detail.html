@@ -87,7 +87,13 @@
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ d.fechahora|date:'d-m-Y H:i' }}</td>
                                         <td>{{ d.get_tipo_display }}</td>
-                                        <td><a href="/ventas/venta/{{ d.target|default_if_none:'' }}">{{ d.target|default_if_none:'' }}</a></td>
+                                        <td>
+                                            {% if tipo == '1' %}
+                                                <a href="/ventas/venta/{{ d.target|default_if_none:'' }}">{{ d.target|default_if_none:'' }}</a>
+                                            {% else %}
+                                                <a href="/compras/compra/{{ d.target|default_if_none:'' }}">{{ d.target|default_if_none:'' }}</a>
+                                            {% endif %}
+                                        </td>
                                         <td>{{ d.monto }}</td>
                                         <td>{{ d.descripcion }}</td>
                                     </tr>

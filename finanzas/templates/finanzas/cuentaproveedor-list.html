@@ -29,6 +29,7 @@
                         <th class="text-nowrap">Vencimiento</th>
                         <th class="text-nowrap">Total</th>
                         <th class="text-nowrap">Amortizado</th>
+                        <th class="text-nowrap">Deuda</th>
                         <th class="text-nowrap">Acciones</th>
                     </tr>
                 </thead>
@@ -42,6 +43,7 @@
                             <td>{{ c.fechahora_caducidad|date:'d-m-Y H:i' }}</td>
                             <td>{{ c.monto_total }}</td>
                             <td>{{ c.monto_amortizado }}</td>
+                            <td>{{ c.monto_deuda }}</td>
                             <td><div class="fa-2x"><a class="no-link" href="/finanzas/cuentaproveedor/{{ c.id }}"><i class="fas fa-xs fa-eye icons-table"></i></a></div></td>
                         </tr>
                     {% endfor %}
@@ -62,28 +64,28 @@
                             <legend class="m-b-15">Filtros</legend>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Proveedor</label>
-                                {{ cuentacliente_filtro.proveedor }}
+                                {{ cuentaproveedor_filtro.proveedor }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Condición</label>
-                                {{ cuentacliente_filtro.duracion }}
+                                {{ cuentaproveedor_filtro.duracion }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Estado</label>
-                                {{ cuentacliente_filtro.estado }}
+                                {{ cuentaproveedor_filtro.estado }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tipo</label>
-                                {{ cuentacliente_filtro.tipo }}
+                                {{ cuentaproveedor_filtro.tipo }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Fechas</label>
                                 <div class="row row-space-12">
                                     <div class="col-xs-8">
-                                        {{ cuentacliente_filtro.fechahora_caducidad1 }}
+                                        {{ cuentaproveedor_filtro.fechahora_caducidad1 }}
                                     </div>
                                     <div class="col-xs-8">
-                                        {{ cuentacliente_filtro.fechahora_caducidad2 }}
+                                        {{ cuentaproveedor_filtro.fechahora_caducidad2 }}
                                     </div>
                                 </div>
                             </div>
@@ -91,10 +93,10 @@
                                 <label for="exampleInputEmail1">Monto Amortizado</label>
                                 <div class="row row-space-12">
                                     <div class="col-xs-8">
-                                        {{ cuentacliente_filtro.monto_amortizado1 }}
+                                        {{ cuentaproveedor_filtro.monto_amortizado1 }}
                                     </div>
                                     <div class="col-xs-8">
-                                        {{ cuentacliente_filtro.monto_amortizado2 }}
+                                        {{ cuentaproveedor_filtro.monto_amortizado2 }}
                                     </div>
                                 </div>
                             </div>
@@ -102,10 +104,10 @@
                                 <label for="exampleInputEmail1">Monto Total</label>
                                 <div class="row row-space-12">
                                     <div class="col-xs-8">
-                                        {{ cuentacliente_filtro.monto_amortizado1 }}
+                                        {{ cuentaproveedor_filtro.monto_amortizado1 }}
                                     </div>
                                     <div class="col-xs-8">
-                                        {{ cuentacliente_filtro.monto_amortizado2 }}
+                                        {{ cuentaproveedor_filtro.monto_amortizado2 }}
                                     </div>
                                 </div>
                             </div>

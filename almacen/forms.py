@@ -8,6 +8,10 @@ from .models import Stock, Kardex
 from clientes.models import Cliente
 # Model import<--
 
+# Utils import-->
+from maestro.utils import empresa_list
+# Utils import<--
+
 
 class DetalleCompraForm(forms.ModelForm):
 
@@ -26,16 +30,19 @@ class DetalleCompraOfertaForm(forms.ModelForm):
 class StockFiltroForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(StockFiltroForm, self).__init__(*args, **kwargs)
         self.fields['categoria'] = forms.ModelChoiceField(queryset=Categoria.objects.all(), required=False,
                                                           widget=forms.SelectMultiple(
                                                               attrs={'class': 'multiple-select2 form-control'}))
         self.fields['categoria'].empty_label = None
-        self.fields['sucursal'] = forms.ModelChoiceField(queryset=Sucursal.objects.all(), required=False,
+        self.fields['sucursal'] = forms.ModelChoiceField(queryset=Sucursal.objects.filter(
+            empresa__in=empresa_list(user)), required=False,
                                                          widget=forms.SelectMultiple(
                                                              attrs={'class': 'multiple-select2 form-control'}))
         self.fields['sucursal'].empty_label = None
-        self.fields['almacen'] = forms.ModelChoiceField(queryset=Almacen.objects.all(), required=False,
+        self.fields['almacen'] = forms.ModelChoiceField(queryset=Almacen.objects.filter(
+            sucursal__empresa__in=empresa_list(user)), required=False,
                                                         widget=forms.SelectMultiple(
                                                             attrs={'class': 'multiple-select2 form-control'}))
         self.fields['almacen'].empty_label = None
@@ -44,16 +51,19 @@ class StockFiltroForm(forms.Form):
 class KardexFiltroForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(KardexFiltroForm, self).__init__(*args, **kwargs)
         self.fields['categoria'] = forms.ModelChoiceField(queryset=Categoria.objects.all(), required=False,
                                                           widget=forms.SelectMultiple(
                                                               attrs={'class': 'multiple-select2 form-control'}))
         self.fields['categoria'].empty_label = None
-        self.fields['sucursal'] = forms.ModelChoiceField(queryset=Sucursal.objects.all(), required=False,
+        self.fields['sucursal'] = forms.ModelChoiceField(queryset=Sucursal.objects.filter(
+            empresa__in=empresa_list(user)), required=False,
                                                          widget=forms.SelectMultiple(
                                                              attrs={'class': 'multiple-select2 form-control'}))
         self.fields['sucursal'].empty_label = None
-        self.fields['almacen'] = forms.ModelChoiceField(queryset=Almacen.objects.all(), required=False,
+        self.fields['almacen'] = forms.ModelChoiceField(queryset=Almacen.objects.filter(
+            sucursal__empresa__in=empresa_list(user)), required=False,
                                                         widget=forms.SelectMultiple(
                                                             attrs={'class': 'multiple-select2 form-control'}))
         self.fields['almacen'].empty_label = None
@@ -73,8 +83,10 @@ class KardexFiltroForm(forms.Form):
 class RecepcionFiltroForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(RecepcionFiltroForm, self).__init__(*args, **kwargs)
-        self.fields['proveedor'] = forms.ModelChoiceField(queryset=Proveedor.objects.all(), required=False,
+        self.fields['proveedor'] = forms.ModelChoiceField(queryset=Proveedor.objects.filter(
+            empresa__in=empresa_list(user)), required=False,
                                                           widget=forms.SelectMultiple(
                                                               attrs={'class': 'multiple-select2 form-control'}))
         self.fields['proveedor'].empty_label = None
@@ -91,13 +103,16 @@ class EntregaFiltroForm(forms.Form):
 
 
 class KardexReportFiltroForm(forms.Form):
+
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(KardexReportFiltroForm, self).__init__(*args, **kwargs)
         self.fields['productos'] = forms.ModelChoiceField(queryset=Producto.objects.all(), required=False,
                                                           widget=forms.Select(
                                                               attrs={'class': 'default-select2 form-control'}))
         self.fields['productos'].empty_label = None
-        self.fields['sucursal'] = forms.ModelChoiceField(queryset=Sucursal.objects.all(), required=False,
+        self.fields['sucursal'] = forms.ModelChoiceField(queryset=Sucursal.objects.filter(
+            empresa__in=empresa_list(user)), required=False,
                                                          widget=forms.Select(
                                                              attrs={'class': 'default-select2 form-control'}))
         self.fields['sucursal'].empty_label = None

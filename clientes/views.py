@@ -12,6 +12,9 @@ from clientes.models import Cliente, ContactosCliente
 # Forms import-->
 from .forms import ClienteForm, ContactoForm, ClienteFiltroForm, ContactoFiltroForm
 # Forms import<--
+# Utils import-->
+from maestro.utils import empresa_list
+# Utils import<--
 
 
 # Create your views here.
@@ -40,6 +43,7 @@ class ClienteListView(BasicEMixin, ListView):
             query = Cliente.objects.all()
         if len(tipo) > 0:
             query = query.filter(tipo__in=tipo)
+        query = query.filter(empresa__in=empresa_list(self.request.user))
         return query
 
 
@@ -67,18 +71,18 @@ class ClienteEditView(BasicEMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.kwargs['pk'] == 0:
-            context['object'] = ClienteForm()
+            context['object'] = ClienteForm(user=self.request.user)
         else:
             cliente = Cliente.objects.get(pk=self.kwargs['pk'])
-            context['object'] = ClienteForm(instance=cliente)
+            context['object'] = ClienteForm(instance=cliente, user=self.request.user)
         return context
 
     def post(self, request, *args, **kwargs):
         if self.kwargs['pk'] == 0:
-            form = ClienteForm(request.POST)
+            form = ClienteForm(request.POST, user=self.request.user)
         else:
             cliente = Cliente.objects.get(pk=self.kwargs['pk'])
-            form = ClienteForm(request.POST, instance=cliente)
+            form = ClienteForm(request.POST, instance=cliente, user=self.request.user)
         if form.is_valid():
             cliente = form.save(commit=False)
             if form.cleaned_data['tipo'] == '1':
@@ -103,7 +107,7 @@ class ContactoListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['contacto_filtro'] = ContactoFiltroForm(self.request.GET)
+        context['contacto_filtro'] = ContactoFiltroForm(self.request.GET, user=self.request.user)
         return context
 
     def get_queryset(self):
@@ -144,18 +148,18 @@ class ContactoEditView(BasicEMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.kwargs['pk'] == 0:
-            context['object'] = ContactoForm(self.request.GET)
+            context['object'] = ContactoForm(self.request.GET, user=self.request.user)
         else:
             contacto = ContactosCliente.objects.get(pk=self.kwargs['pk'])
-            context['object'] = ContactoForm(instance=contacto)
+            context['object'] = ContactoForm(instance=contacto, user=self.request.user)
         return context
 
     def post(self, request, *args, **kwargs):
         if self.kwargs['pk'] == 0:
-            form = ContactoForm(request.POST)
+            form = ContactoForm(request.POST, user=self.request.user)
         else:
             contacto = ContactosCliente.objects.get(pk=self.kwargs['pk'])
-            form = ContactoForm(request.POST, instance=contacto)
+            form = ContactoForm(request.POST, instance=contacto, user=self.request.user)
         if form.is_valid():
             contacto = form.save(commit=False)
             contacto.descripcion = contacto.nombres + ' ' + contacto.apellidos

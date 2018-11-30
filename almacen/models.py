@@ -1,6 +1,6 @@
 from django.db import models
 from maestro.models import Producto, Almacen, TipoComprobante
-from compras.models import DetalleCompra
+from compras.models import DetalleCompra, DetalleNotaCredito
 from ventas.models import DetalleVenta
 
 
@@ -21,6 +21,7 @@ class Kardex(models.Model):
         (2, 'VENTA'),
         (3, 'REEMBOLSO COMPRA'),
         (4, 'REEMBOLSO VENTA'),
+        (5, 'CONSIGNA PEDIDO')
     )
 
     almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
@@ -39,6 +40,7 @@ class Kardex(models.Model):
     total_saldo = models.DecimalField(max_digits=8, decimal_places=2)
     detallecompra = models.ForeignKey(DetalleCompra, on_delete=models.PROTECT, blank=True, null=True)
     detalleventa = models.ForeignKey(DetalleVenta, on_delete=models.PROTECT, blank=True, null=True)
+    detallenota = models.ForeignKey(DetalleNotaCredito, on_delete=models.PROTECT, blank=True, null=True)
     fechahora = models.DateTimeField(auto_now_add=True)
     tipo_comprobante = models.ForeignKey(TipoComprobante, on_delete=models.PROTECT, null=True, blank=True)
     serie_comprobante = models.CharField(max_length=10, null=True, blank=True)

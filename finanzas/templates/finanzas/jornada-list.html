@@ -36,7 +36,7 @@
                             <td>{{ c.caja.descripcion }}</td>
                             <td>{{ c.fechahora_inicio|date:'d-m-Y H:i' }}</td>
                             <td>{{ c.asignado_inicio.username }}</td>
-                            <td>{{ c.monto }}</td>
+                            <td>{{ c.monto_actual }}</td>
                             <td><div class="fa-2x"><a class="no-link" href="/finanzas/jornada/{{ c.id }}"><i class="fas fa-xs fa-eye icons-table"></i></a></div></td>
                         </tr>
                     {% endfor %}

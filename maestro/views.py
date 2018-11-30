@@ -12,11 +12,12 @@ from django.contrib.auth.models import User
 # Forms import-->
 from .forms import SucursalForm, AlmacenForm, CategoriaForm, PresentacionForm,\
     ProductoForm, ProductoCategoriaForm, ProductoPresentacionForm, ProveedorForm,\
-    CatalogoProveedorForm, ProductoFiltroForm, CatalogoFiltroForm, CatalogoProveedorFiltroForm, CajaForm, UsuarioForm
+    CatalogoProveedorForm, ProductoFiltroForm, CatalogoFiltroForm, CatalogoProveedorFiltroForm, CajaForm, UsuarioForm, \
+    EmpresaForm
 # Forms import<--
 
 # Utils import-->
-from .utils import format_categories
+from .utils import format_categories, empresa_list
 # Utils import<--
 
 # Extra python features-->
@@ -31,10 +32,58 @@ from openpyxl import Workbook,load_workbook
 
 
 # Views
+class EmpresaListView(BasicEMixin, ListView):
+
+    template_name = 'maestro/empresa-list.html'
+    model = Empresa
+    nav_name = 'nav_empresa'
+    view_name = 'empresa'
+    action_name = 'leer'
+
+
+class EmpresaDetailView(BasicEMixin, DetailView):
+
+    template_name = 'maestro/empresa-detail.html'
+    model = Empresa
+    nav_name = 'nav_empresa'
+    view_name = 'empresa'
+    action_name = 'leer'
+
+
+class EmpresaEditView(BasicEMixin, TemplateView):
+
+    template_name = 'maestro/empresa-edit.html'
+    nav_name = 'nav_empresa'
+    view_name = 'empresa'
+    action_name = 'editar'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.kwargs['pk'] == 0:
+            context['object'] = EmpresaForm()
+        else:
+            empresa = Empresa.objects.get(pk=self.kwargs['pk'])
+            context['object'] = EmpresaForm(instance=empresa)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if self.kwargs['pk'] == 0:
+            form = EmpresaForm(request.POST)
+        else:
+            empresa = Empresa.objects.get(pk=self.kwargs['pk'])
+            form = EmpresaForm(request.POST, instance=empresa)
+        if form.is_valid():
+            form.save()
+        else:
+            return HttpResponse(form.errors)
+        return redirect('/maestro/empresa')
+
+
 class SucursalListView(BasicEMixin, ListView):
 
     template_name = 'maestro/sucursal-list.html'
     model = Sucursal
+    nav_main = 'nav_main_sucursal'
     nav_name = 'nav_sucursal'
     view_name = 'sucursal'
     action_name = 'leer'
@@ -44,6 +93,7 @@ class SucursalDetailView(BasicEMixin, DetailView):
 
     template_name = 'maestro/sucursal-detail.html'
     model = Sucursal
+    nav_main = 'nav_main_sucursal'
     nav_name = 'nav_sucursal'
     view_name = 'sucursal'
     action_name = 'leer'
@@ -52,6 +102,7 @@ class SucursalDetailView(BasicEMixin, DetailView):
 class SucursalEditView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/sucursal-edit.html'
+    nav_main = 'nav_main_sucursal'
     nav_name = 'nav_sucursal'
     view_name = 'sucursal'
     action_name = 'editar'
@@ -232,6 +283,37 @@ class CategoriaEditView(BasicEMixin, TemplateView):
         return redirect('/maestro/categoria')
 
 
+class CategoriaProductoAddView(BasicEMixin, TemplateView):
+
+    template_name = 'maestro/categoriaproducto-add.html'
+    nav_name = 'nav_categoria'
+    nav_main = 'nav_main_producto'
+    view_name = 'categoria'
+    action_name = 'leer'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = Categoria.objects.all()
+        context['own_categoria'] = int(self.kwargs['pk'])
+        return context
+
+    def post(self, request, *args, **kwargs):
+        categoria_general = Categoria.objects.get(pk=self.request.POST['categoria'])
+        if request.POST['catalogo_to_save'] != "":
+            catalogo_toadd = request.POST['catalogo_to_save'].split(',')
+            for c in catalogo_toadd:
+                producto = Producto.objects.get(pk=request.POST['p'+c+'-producto'])
+                categoria = categoria_general
+                producto.categorias.add(categoria_general)
+                nivel = categoria.nivel
+                if nivel > 1:
+                    for n in range(1, nivel):
+                        catact = categoria.padre
+                        producto.categorias.add(catact)
+                        categoria = categoria.padre
+        return redirect('/maestro/categoria/'+str(categoria_general.id))
+
+
 class PresentacionListView(BasicEMixin, ListView):
 
     template_name = 'maestro/presentacion-list.html'
@@ -339,35 +421,61 @@ class ProductoPrecioView(BasicEMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         producto = Producto.objects.get(pk=self.kwargs['pk'])
-        OfertaVenta.objects.filter(producto_oferta=producto).delete()
         presentacionxproducto = PresentacionxProducto.objects.filter(producto=producto)
-        sucursal = Sucursal.objects.get(pk=1)
         for p in presentacionxproducto:
             if request.POST['precio_compra-'+str(p.id)] != '':
-                precio_compra = float(request.POST['precio_compra-'+str(p.id)]) / p.cantidad
-                if producto.precio_compra < precio_compra:
-                    producto.precio_compra = precio_compra
+                precio_compra = float(request.POST['precio_compra-'+str(p.id)])
+                if p.precio_compra < precio_compra:
+                    p.precio_compra = precio_compra
+                    p.save()
+                    presentacion_temp1 = PresentacionxProducto.objects.filter(producto=producto, id__lt=p.id)
+                    for o in presentacion_temp1:
+                        precio_temp1 = (p.precio_compra / p.cantidad) * o.cantidad
+                        if precio_temp1 > o.precio_compra:
+                            o.precio_compra = precio_temp1
+                            o.save()
+                if p.precio_compra == 0:
+                    presentacion_temp3 = PresentacionxProducto.objects.filter(producto=producto, id__lt=p.id)
+                    for r in presentacion_temp3:
+                        if r.precio_compra != 0:
+                            p.precio_compra = (r.precio_compra/r.cantidad)*p.cantidad
+                            p.save()
+                            continue
+            else:
+                if p.precio_compra == 0:
+                    presentacion_temp3 = PresentacionxProducto.objects.filter(producto=producto, id__lt=p.id)
+                    for r in presentacion_temp3:
+                        if r.precio_compra != 0:
+                            p.precio_compra = (r.precio_compra/r.cantidad)*p.cantidad
+                            p.save()
+                            continue
             if request.POST['precio_venta-'+str(p.id)] != '':
-                precio_venta = round(float(request.POST['precio_venta-'+str(p.id)]) / p.cantidad, 1)
-                if producto.precio_venta <= precio_venta:
-                    producto.precio_venta = precio_venta
-                ofertaventa = OfertaVenta.objects.filter(producto_oferta=producto, is_active=True, estado=True,
-                                                         cantidad_unidad_oferta__lte=p.cantidad)
-                descuento = 0
-                for ofv in ofertaventa:
-                    descuento += (p.cantidad/ofv.presentacion_oferta.cantidad) * float(ofv.retorno)
-                if (p.cantidad * producto.precio_venta) - descuento > float(request.POST['precio_venta-'+str(p.id)]):
-                    OfertaVenta(sucursal=sucursal, tipo='2', tipo_duracion='2', producto_oferta=producto,
-                                presentacion_oferta=p, cantidad_oferta=1,
-                                cantidad_unidad_oferta=p.cantidad,
-                                retorno=(float(producto.precio_venta * p.cantidad)-float(request.POST['precio_venta-'+str(p.id)]))-descuento).save()
-        producto.utilidad_monetaria = float(producto.precio_venta) - float(producto.precio_compra)
-        producto.save()
-        next_prod = Producto.objects.filter(precio_venta=0).order_by('id')[:1]
-        if len(next_prod) == 0:
-            return redirect('/maestro/producto/'+str(producto.id))
-        else:
-            return redirect('/maestro/producto/'+str(producto.id)+'/precio')
+                precio_venta = float(request.POST['precio_venta-'+str(p.id)])
+                if p.precio_venta < precio_venta:
+                    p.precio_venta = precio_venta
+                    p.save()
+                    presentacion_temp2 = PresentacionxProducto.objects.filter(producto=producto, id__lt=p.id)
+                    for q in presentacion_temp2:
+                        precio_temp2 = (p.precio_venta / p.cantidad) * q.cantidad
+                        if precio_temp2 > q.precio_venta:
+                            q.precio_venta = precio_temp2
+                            q.save()
+                if p.precio_venta == 0:
+                    presentacion_temp4 = PresentacionxProducto.objects.filter(producto=producto, id__lt=p.id)
+                    for s in presentacion_temp4:
+                        if s.precio_venta != 0:
+                            p.precio_venta = (s.precio_venta / s.cantidad) * p.cantidad
+                            p.save()
+                            continue
+            else:
+                if p.precio_venta == 0:
+                    presentacion_temp4 = PresentacionxProducto.objects.filter(producto=producto, id__lt=p.id)
+                    for s in presentacion_temp4:
+                        if s.precio_venta != 0:
+                            p.precio_venta = (s.precio_venta / s.cantidad) * p.cantidad
+                            p.save()
+                            continue
+        return redirect('/maestro/producto/'+str(producto.id)+'/precio')
 
 
 class ProductoEditView(BasicEMixin, TemplateView):
@@ -390,13 +498,19 @@ class ProductoEditView(BasicEMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         if self.kwargs['pk'] == 0:
             form = ProductoForm(request.POST)
+            if form.is_valid():
+                producto = form.save()
+                proveedor = Proveedor.objects.get(pk=1)
+                CatalogoxProveedor(producto=producto, proveedor=proveedor).save()
+            else:
+                return HttpResponse(form.errors)
         else:
             producto = Producto.objects.get(pk=self.kwargs['pk'])
             form = ProductoForm(request.POST, instance=producto)
-        if form.is_valid():
-            form.save()
-        else:
-            return HttpResponse(form.errors)
+            if form.is_valid():
+                form.save()
+            else:
+                return HttpResponse(form.errors)
         return redirect('/maestro/producto')
 
 
@@ -423,6 +537,13 @@ class ProductoCategoriaView(BasicEMixin, TemplateView):
         form = ProductoCategoriaForm(request.POST, instance=producto)
         if form.is_valid():
             form.save()
+            categorias = form.cleaned_data['categorias']
+            for c in categorias:
+                nivel = c.nivel
+                for n in range(1, nivel):
+                    catact = c.padre
+                    producto.categorias.add(catact)
+                    c = c.padre
         else:
             return HttpResponse(form.errors)
         return redirect('/maestro/producto/'+str(pk))
@@ -472,7 +593,7 @@ class CatalogoListView(BasicEMixin, ListView):
     template_name = 'maestro/catalogo-list.html'
     model = Producto
     nav_name = 'nav_catalogo'
-    nav_main = 'nav_main_producto'
+    nav_main = 'nav_main_sucursal'
     view_name = 'catalogo'
     action_name = 'leer'
 
@@ -508,7 +629,7 @@ class CatalogoAddView(BasicEMixin, TemplateView):
 
     template_name = 'maestro/catalogo-add.html'
     nav_name = 'nav_catalogo'
-    nav_main = 'nav_main_producto'
+    nav_main = 'nav_main_sucursal'
     view_name = 'catalogo'
     action_name = 'crear'
 
@@ -537,6 +658,11 @@ class ProveedorListView(BasicEMixin, ListView):
     view_name = 'proveedor'
     action_name = 'leer'
 
+    def get_queryset(self):
+        query = super().get_queryset()
+        query = query.filter(empresa__in=empresa_list(self.request.user))
+        return query
+
 
 class ProveedorDetailView(BasicEMixin, DetailView):
 
@@ -564,18 +690,18 @@ class ProveedorEditView(BasicEMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.kwargs['pk'] == 0:
-            context['object'] = ProveedorForm
+            context['object'] = ProveedorForm(user=self.request.user)
         else:
             proveedor = Proveedor.objects.get(pk=self.kwargs['pk'])
-            context['object'] = ProveedorForm(instance=proveedor)
+            context['object'] = ProveedorForm(instance=proveedor, user=self.request.user)
         return context
 
     def post(self, request, *args, **kwargs):
         if self.kwargs['pk'] == 0:
-            form = ProveedorForm(request.POST)
+            form = ProveedorForm(request.POST, user=self.request.user)
         else:
             proveedor = Proveedor.objects.get(pk=self.kwargs['pk'])
-            form = ProveedorForm(request.POST, instance=proveedor)
+            form = ProveedorForm(request.POST, instance=proveedor, user=self.request.user)
         if form.is_valid():
             form.save()
         else:
@@ -594,13 +720,14 @@ class CatalogoProveedorListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['catalogo_filtro'] = CatalogoProveedorFiltroForm(self.request.GET)
+        context['catalogo_filtro'] = CatalogoProveedorFiltroForm(self.request.GET, user=self.request.user)
         return context
 
     def get_queryset(self):
         proveedor = self.request.GET.getlist('proveedor')
         if len(proveedor) > 0:
-            query = CatalogoxProveedor.objects.filter(proveedor__in=proveedor)
+            query = CatalogoxProveedor.objects.filter(proveedor__in=proveedor,
+                                                      proveedor__empresa__in=empresa_list(self.request.user))
         else:
             query = CatalogoxProveedor.objects.none()
         return query

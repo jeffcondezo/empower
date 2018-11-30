@@ -13,10 +13,6 @@
 
 <div class="panel panel-inverse">
     <div class="panel-heading">
-        <div class="pull-right">
-            <button type="submit" form="compra" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i> Guardar
-            </button>
-        </div>
         <h4 class="panel-title">Recepcion de Compra </h4>
     </div>
 
@@ -120,9 +116,7 @@
                 </div>
 
             </div>
-
         </div>
-</div>
 
 <div class="panel panel-inverse">
     <div class="panel-heading">
@@ -147,13 +141,14 @@
                         <thead>
                             <tr>
                                 <th width="10%">Check</th>
-                                <th width="20%">Producto</th>
-                                <th width="15%">Presentación</th>
-                                <th width="10%">Cantidad</th>
+                                <th width="15%">Producto</th>
+                                <th width="10%">Presentación</th>
+                                <th width="10%">Cant. Ingreso</th>
                                 <th width="10%">Precio</th>
                                 <th width="10%">Descuento</th>
                                 <th width="10%">Impuesto</th>
                                 <th width="15%">Total</th>
+                                <th width="10%">Flete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -165,18 +160,24 @@
                                         <td>{{ d.presentacionxproducto.presentacion.descripcion }}</td>
                                         <td>
                                             <input type="hidden" class="form-control cantidad_pedido" value="{{ d.cantidad_presentacion_pedido }}">
-                                            <input class="form-control cantidad_entrega" name="dc{{ forloop.counter }}-cantidad_presentacion_entrega"  value="{{ d.cantidad_presentacion_pedido }}">
+                                            <input class="form-control cantidad_entrega" name="dc{{ forloop.counter }}-cantidad_presentacion_entrega"  value="{{ d.cantidad_presentacion_entrega|default_if_none:d.cantidad_presentacion_pedido }}">
                                         </td>
                                         <td class="td_precio">{{ d.precio }}</td>
                                         <td class="td_descuento">{{ d.descuento }}</td>
                                         <td class="td_impuesto">{% for i in d.impuesto_value.0 %} * {{ i }} <br>  {% endfor %}<input type="hidden" class="impuesto_inp" value="{{ d.impuesto_value.1 }}"></td>
                                         <td>{% if d.is_oferta %} {{ d.total_final }}<input type="hidden" class="form-control totalfinal" name="dc{{ forloop.counter }}-total_final"  value="{{ d.total_final }}"> {% else %}<input class="form-control totalfinal" name="dc{{ forloop.counter }}-total_final"  value="{{ d.total_final }}">{% endif %}</td>
+                                        <td class="td_flete"><input class="form-control flete" name="dc{{ forloop.counter }}-flete"  value="{{ d.flete }}"></td>
                                     </tr>
                                 {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
+                <div  class="modal-footer pull-right" id="btn_save">
+                <button type="submit" class="btn btn-xs btn-success"><i class="fa fa-save fas"></i> Guardar
+                </button>
+            </div>
+                <!--
                <legend class="m-b-15">
                    Productos no Pedidos
                    <span class="span-right"><a href="#modal-agregar_producto" data-toggle="modal" class="btn btn-primary buttons"><i class="fa fa-plus"></i> Agregar</a></span>
@@ -216,7 +217,7 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                </div>
+                </div>-->
 
 
     </div>

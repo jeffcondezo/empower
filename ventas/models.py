@@ -8,9 +8,9 @@ from django.contrib.auth.models import User
 class Venta(models.Model):
     ESTADO_ENVIO_CHOICES = (
         ('1', 'GENERADO'),
-        ('2', 'CONVERTIDO A PEDIDO'),
+        # ('2', 'CONVERTIDO A PEDIDO'),
         ('3', 'VENTA'),
-        ('4', 'CANCELADO'),
+        ('4', 'ANULADO'),
         ('5', 'OCUPADO'),
     )
     ESTADO_PAGO_CHOICES = (
@@ -23,7 +23,6 @@ class Venta(models.Model):
     )
     TIPO_CHOICES = (
         ('1', 'VENTA DIRECTA'),
-        ('2', 'PEDIDO'),
     )
     asignado = models.ForeignKey(User, on_delete=models.PROTECT)
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, null=True, blank=True)
@@ -40,7 +39,9 @@ class Venta(models.Model):
     descuento = models.DecimalField(max_digits=8, decimal_places=2, default=0, blank=True, null=True)
     impuesto_monto = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    descuento_adicional = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total_final = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    total_con_descuento = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     is_pagado = models.BooleanField(default=False)
     is_entregado = models.BooleanField(default=False)
 
@@ -59,7 +60,9 @@ class DetalleVenta(models.Model):
     impuesto = models.ManyToManyField(Impuesto)
     impuesto_monto = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
+    descuento_adicional = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total_final = models.DecimalField(max_digits=8, decimal_places=2)
+    total_con_descuento = models.DecimalField(max_digits=8, decimal_places=2)
     is_oferta = models.BooleanField(default=False)
     is_nodeseado = models.BooleanField(default=True)
     is_checked = models.BooleanField(default=False)

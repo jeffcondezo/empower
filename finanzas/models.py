@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 from maestro.models import Caja, Proveedor
 from clientes.models import Cliente
+from compras.models import Compra
+from ventas.models import Venta
 
 
 class Jornada(models.Model):
@@ -45,15 +47,17 @@ class CuentaCliente(models.Model):
         ('2', 'PAGADO'),
     )
     TIPO_CHOICES = (
-        ('1', 'CREDITO'),
-        ('2', 'CONTADO'),
+        ('1', 'CONTADO'),
+        ('2', 'CREDITO'),
     )
+    venta = models.ForeignKey(Venta, on_delete=models.PROTECT)
     duracion = models.CharField(max_length=1, choices=DURACION_CHOICES)
     estado = models.CharField(max_length=1, choices=ESTADO_CHOICES)
     tipo = models.CharField(max_length=1, choices=TIPO_CHOICES)
     fechahora_caducidad = models.DateTimeField(blank=True, null=True)
     monto_total = models.DecimalField(max_digits=8, decimal_places=2)
     monto_amortizado = models.DecimalField(max_digits=8, decimal_places=2)
+    monto_deuda = models.DecimalField(max_digits=8, decimal_places=2)
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT)
 
 
@@ -64,17 +68,20 @@ class PagoCliente(models.Model):
         ('3', 'CHEQUE'),
     )
     BANCO_CHOICES = (
-        ('1', 'BANCO DE CRÉDITO DEL PERÚ'),
-        ('2', 'BANCO CONTINENTAL'),
+        ('0', 'NO APLICA'),
+        ('1', 'BANCO CONTINENTAL'),
+        ('2', 'BANCO DE CRÉDITO DEL PERÚ'),
         ('3', 'BANCO DE LA NACIÓN'),
     )
     fechahora = models.DateTimeField(auto_now_add=True)
     tipo = models.CharField(max_length=1, choices=TIPO_CHOICES)
     monto = models.DecimalField(max_digits=8, decimal_places=2)
     cuentacliente = models.ForeignKey(CuentaCliente, on_delete=models.PROTECT)
+    recibo = models.CharField(max_length=50, blank=True, null=True)
     banco = models.CharField(max_length=1, choices=BANCO_CHOICES, blank=True, null=True)
     codigo = models.CharField(max_length=150, blank=True, null=True)
     asignado = models.ForeignKey(User, on_delete=models.PROTECT)
+    venta = models.ForeignKey(Venta, on_delete=models.PROTECT, blank=True, null=True)
 
 
 class CuentaProveedor(models.Model):
@@ -90,15 +97,17 @@ class CuentaProveedor(models.Model):
         ('3', 'CANCELADO'),
     )
     TIPO_CHOICES = (
-        ('1', 'CREDITO'),
-        ('2', 'CONTADO'),
+        ('1', 'CONTADO'),
+        ('2', 'CREDITO'),
     )
+    compra = models.ForeignKey(Compra, on_delete=models.PROTECT)
     duracion = models.CharField(max_length=1, choices=DURACION_CHOICES)
     estado = models.CharField(max_length=1, choices=ESTADO_CHOICES)
     tipo = models.CharField(max_length=1, choices=TIPO_CHOICES)
     fechahora_caducidad = models.DateTimeField()
     monto_total = models.DecimalField(max_digits=8, decimal_places=2)
     monto_amortizado = models.DecimalField(max_digits=8, decimal_places=2)
+    monto_deuda = models.DecimalField(max_digits=8, decimal_places=2)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.PROTECT)
 
 
@@ -107,10 +116,12 @@ class PagoProveedor(models.Model):
         ('1', 'EFECTIVO'),
         ('2', 'DEPOSITO'),
         ('3', 'CHEQUE'),
+        ('4', 'NOTA CREDITO'),
     )
     BANCO_CHOICES = (
-        ('1', 'BANCO DE CRÉDITO DEL PERÚ'),
-        ('2', 'BANCO CONTINENTAL'),
+        ('0', 'NO APLICA'),
+        ('1', 'BANCO CONTINENTAL'),
+        ('2', 'BANCO DE CRÉDITO DEL PERÚ'),
         ('3', 'BANCO DE LA NACIÓN'),
     )
     fechahora = models.DateTimeField(auto_now_add=True)
@@ -119,4 +130,6 @@ class PagoProveedor(models.Model):
     cuentaproveedor = models.ForeignKey(CuentaProveedor, on_delete=models.PROTECT)
     banco = models.CharField(max_length=1, choices=BANCO_CHOICES)
     codigo = models.CharField(max_length=150)
+    recibo = models.CharField(max_length=50)
     asignado = models.ForeignKey(User, on_delete=models.PROTECT)
+    compra = models.ForeignKey(Compra, on_delete=models.PROTECT, blank=True, null=True)

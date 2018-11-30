@@ -21,9 +21,10 @@ from ventas.forms import VentaEntregaForm, DetalleVentaEntregaForm
 # Form import<--
 
 # Utils import-->
-from compras.utils import fill_data_detallecompra
+from compras.utils import fill_data_detallecompra, crear_nota_credito
 from almacen.utils import loadtax, loadstockdetail
 from ventas.utils import fill_data_detalleventa
+from maestro.utils import empresa_list
 # Utils import<--
 
 # Extra python features-->
@@ -46,7 +47,7 @@ class StockView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['stock_filtro'] = StockFiltroForm(self.request.GET)
+        context['stock_filtro'] = StockFiltroForm(self.request.GET, user=self.request.user)
         context['stock_cambio'] = StockCambioForm()
         return context
 
@@ -62,6 +63,7 @@ class StockView(BasicEMixin, ListView):
             query = Stock.objects.all()
         if len(categoria) > 0:
             query = query.filter(producto__categorias__in=categoria)
+        query = query.filter(almacen__sucursal__empresa__in=empresa_list(self.request.user))
         query = loadstockdetail(query.values('producto__descripcion', 'producto__id').annotate(Sum('cantidad')))
         return query
 
@@ -104,8 +106,8 @@ class KardexView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['kardex_filtro'] = KardexFiltroForm(self.request.GET)
-        context['kardex_report'] = KardexReportFiltroForm(self.request.GET)
+        context['kardex_filtro'] = KardexFiltroForm(self.request.GET, user=self.request.user)
+        context['kardex_report'] = KardexReportFiltroForm(self.request.GET, user=self.request.user)
         return context
 
     def get_queryset(self):
@@ -128,6 +130,7 @@ class KardexView(BasicEMixin, ListView):
                 fecha_inicio = datetime.strptime(self.request.GET['fecha_inicio'], '%d/%m/%Y %H:%M')
                 fecha_fin = datetime.strptime(self.request.GET['fecha_fin'], '%d/%m/%Y %H:%M')
                 query = query.filter(fechahora__gte=fecha_inicio, fechahora__lte=fecha_fin)
+        query = query.filter(almacen__sucursal__empresa__in=empresa_list(self.request.user))
         query.order_by('fechahora')
         return query
 
@@ -142,7 +145,7 @@ class RecepcionCompraListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['recepcion_filtro'] = RecepcionFiltroForm(self.request.GET)
+        context['recepcion_filtro'] = RecepcionFiltroForm(self.request.GET, user=self.request.user)
         return context
 
     def get_queryset(self):
@@ -150,6 +153,7 @@ class RecepcionCompraListView(BasicEMixin, ListView):
         query = Compra.objects.filter(tipo='2', estado='2')
         if len(proveedores) > 0:
             query = query.filter(proveedor__in=proveedores)
+        query = query.filter(proveedor__empresa__in=empresa_list(self.request.user))
         return query
 
 
@@ -174,9 +178,13 @@ class RecepcionCompraEditView(BasicEMixin, DetailView):
     def post(self, request, *args, **kwargs):
         compra = Compra.objects.get(pk=self.kwargs['pk'])
         form = CompraRecepcionForm(request.POST, instance=compra)
+        incidencia = ''
         if form.is_valid():
             compra = form.save()
             if request.POST['detallecompra_to_save'] != '':
+                total_final = 0
+                flete = 0
+                total_inc_flete = 0
                 for i in request.POST['detallecompra_to_save'].split(','):
                     if 'dc'+i+'-id' in self.request.POST:
                         if self.request.POST['dc'+i+'-id'] != '':
@@ -189,12 +197,24 @@ class RecepcionCompraEditView(BasicEMixin, DetailView):
                         dc_obj = dc_form.save(commit=False)
                         dc_obj.compra = compra
                         fill_data_detallecompra(dc_obj, compra.estado, compra)
+                        total_final += dc_obj.total_final
+                        flete += dc_obj.flete
+                        total_inc_flete += (dc_obj.total_final + dc_obj.flete)
+                compra.total_final = total_final
+                compra.total_inc_flete = total_inc_flete
+                compra.flete = flete
+                compra.save()
+                if compra.estado == '3':
+                    incidencia = crear_nota_credito(compra)
             if request.POST['detallecompra_to_delete'] != '':
                 for j in request.POST['detallecompra_to_delete'].split(','):
                     detalle_compra = DetalleCompra.objects.get(pk=j)
                     if detalle_compra.is_nodeseado:
                         detalle_compra.delete()
-            return redirect('/compras/compra/' + str(compra.id))
+            if compra.estado == '3':
+                return redirect('/compras/compra/' + str(compra.id) + incidencia)
+            else:
+                return redirect('/almacen/recepcion_compra/')
         else:
             return HttpResponse(form.errors)
 
@@ -305,7 +325,6 @@ def KardexReportView(request):
             p = Producto.objects.get(id=request.POST['productos'], empresa_id=s.empresa_id)
             fecha_inicio = datetime.strptime(request.POST['date_inicio'], '%d/%m/%Y %H:%M')
             fecha_fin = datetime.strptime(request.POST['date_fin'], '%d/%m/%Y %H:%M')
-            print(fecha_fin)
             # k=Kardex.objects.filter(
             #   fechahora__gte=fecha_inicio, fechahora__lte=fecha_fin,
             #   producto_id=p.id)

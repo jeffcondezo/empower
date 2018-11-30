@@ -105,7 +105,7 @@ function get_color_cantidad(pedido, entrega) {
 
 function action_totalfinal_blur() {
     var tr_content = this.parentElement.parentElement;
-    var current_cantidad_pedido = tr_content.querySelector('.cantidad_entrega');
+    var current_cantidad_pedido = tr_content.querySelector('.cantidad_pedido');
     var td_descuento = tr_content.querySelector('.td_descuento');
     var impuesto_inp = tr_content.querySelector('.impuesto_inp');
     var total_final_inp = tr_content.querySelector('.totalfinal');

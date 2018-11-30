@@ -17,7 +17,7 @@ from finanzas.models import Jornada, DetalleJornada, CuentaCliente, CuentaProvee
 from ventas.models import Venta
 from compras.models import Compra
 # Model import<--
-
+from maestro.utils import empresa_list
 # Forms import-->
 from finanzas.forms import JornadaFiltroForm, DetalleJornadaCreateForm,\
     JornadaCreateForm, CuentaClienteFiltroForm, PagoClienteCreateForm, CuentaProveedorFiltroForm,\
@@ -35,8 +35,8 @@ class JornadaListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['jornada_filtro'] = JornadaFiltroForm(self.request.GET)
-        context['jornada_open'] = JornadaCreateForm()
+        context['jornada_filtro'] = JornadaFiltroForm(self.request.GET, user=self.request.user)
+        context['jornada_open'] = JornadaCreateForm(user=self.request.user)
         return context
 
     def get_queryset(self):
@@ -58,6 +58,7 @@ class JornadaListView(BasicEMixin, ListView):
                 query = query.filter(monto_actual__gte=monto1)
             else:
                 query = query.filter(monto_actual__gte=monto1, monto_actual__lte=monto2)
+        query.filter(caja__sucursal__empresa__in=empresa_list(self.request.user))
         return query
 
 
@@ -120,7 +121,7 @@ class JornadaCreateView(RedirectView):
     action_name = 'abrir'
 
     def get_redirect_url(self, *args, **kwargs):
-        form = JornadaCreateForm(self.request.POST)
+        form = JornadaCreateForm(self.request.POST, user=self.request.user)
         if form.is_valid():
             try:
                 jornada = Jornada.objects.get(caja=form.cleaned_data['caja'], estado=True)
@@ -143,7 +144,7 @@ class CuentaClienteListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['cuentacliente_filtro'] = CuentaClienteFiltroForm(self.request.GET)
+        context['cuentacliente_filtro'] = CuentaClienteFiltroForm(self.request.GET, user=self.request.user)
         return context
 
     def get_queryset(self):
@@ -152,37 +153,52 @@ class CuentaClienteListView(BasicEMixin, ListView):
         duracion = self.request.GET.getlist('duracion')
         estado = self.request.GET.getlist('estado')
         tipo = self.request.GET.getlist('tipo')
+        alt = 0
         if len(cliente) > 0:
+            alt += 1
             query = query.filter(cliente__in=cliente)
         if len(duracion) > 0:
+            alt += 1
             query = query.filter(duracion__in=duracion)
         if len(estado) > 0:
+            alt += 1
             query = query.filter(estado__in=estado)
         if len(tipo) > 0:
+            alt += 1
             query = query.filter(tipo__in=tipo)
         if 'fechahora_caducidad1' in self.request.GET and 'fechahora_caducidad2' in self.request.GET:
             if self.request.GET['fechahora_caducidad1'] != '' and self.request.GET['fechahora_caducidad2'] != '':
+                alt += 1
                 fecha_inicio = datetime.strptime(self.request.GET['fechahora_caducidad1'], '%d/%m/%Y %H:%M')
                 fecha_fin = datetime.strptime(self.request.GET['fechahora_caducidad2'], '%d/%m/%Y %H:%M')
                 query = query.filter(fechahora_caducidad__gte=fecha_inicio, fechahora_caducidad__lte=fecha_fin)
         if 'monto_amortizado1' in self.request.GET or 'monto_amortizado2' in self.request.GET:
             monto_amortizado1 = self.request.GET['monto_amortizado1']
             monto_amortizado2 = self.request.GET['monto_amortizado2']
-            if monto_amortizado1 == '':
+            if monto_amortizado1 == '' and monto_amortizado2 != '':
+                alt += 1
                 query = query.filter(monto_amortizado__lte=monto_amortizado2)
-            elif monto_amortizado2 == '':
+            elif monto_amortizado2 == '' and monto_amortizado1 != '':
+                alt += 1
                 query = query.filter(monto_amortizado__gte=monto_amortizado1)
-            else:
+            elif monto_amortizado1 != '' and monto_amortizado2 != '':
+                alt += 1
                 query = query.filter(monto_amortizado__gte=monto_amortizado1, monto_amortizado__lte=monto_amortizado2)
         if 'monto_total1' in self.request.GET or 'monto_total2' in self.request.GET:
             monto_total1 = self.request.GET['monto_total1']
             monto_total2 = self.request.GET['monto_total2']
-            if monto_total1 == '':
+            if monto_total1 == '' and monto_total2 != '':
+                alt += 1
                 query = query.filter(monto_total__lte=monto_total2)
-            elif monto_total2 == '':
+            elif monto_total2 == '' and monto_total1 != '':
+                alt += 1
                 query = query.filter(monto_total__gte=monto_total1)
-            else:
+            elif monto_total1 != '' and monto_total2 != '':
+                alt += 1
                 query = query.filter(monto_total__gte=monto_total1, monto_total__lte=monto_total2)
+        if alt == 0:
+            query = query.filter(estado='1')
+        query = query.filter(cliente__empresa__in=empresa_list(self.request.user))
         return query
 
 
@@ -216,6 +232,9 @@ class PagoClienteCreateView(RedirectView):
             pago.cuentacliente = cuentacliente
             pago.save()
             cuentacliente.monto_amortizado += pago.monto
+            cuentacliente.monto_deuda -= pago.monto
+            if cuentacliente.monto_deuda == 0:
+                cuentacliente.estado = '2'
             cuentacliente.save()
         url = self.url + str(self.kwargs['cuentacliente'])
         return url
@@ -231,7 +250,7 @@ class CuentaProveedorListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['cuentaproveedor_filtro'] = CuentaProveedorFiltroForm(self.request.GET)
+        context['cuentaproveedor_filtro'] = CuentaProveedorFiltroForm(self.request.GET, user=self.request.user)
         return context
 
     def get_queryset(self):
@@ -240,37 +259,51 @@ class CuentaProveedorListView(BasicEMixin, ListView):
         duracion = self.request.GET.getlist('duracion')
         estado = self.request.GET.getlist('estado')
         tipo = self.request.GET.getlist('tipo')
+        alt = 0
         if len(cliente) > 0:
+            alt += 1
             query = query.filter(cliente__in=cliente)
         if len(duracion) > 0:
+            alt += 1
             query = query.filter(duracion__in=duracion)
         if len(estado) > 0:
+            alt += 1
             query = query.filter(estado__in=estado)
         if len(tipo) > 0:
+            alt += 1
             query = query.filter(tipo__in=tipo)
         if 'fechahora_caducidad1' in self.request.GET and 'fechahora_caducidad2' in self.request.GET:
             if self.request.GET['fechahora_caducidad1'] != '' and self.request.GET['fechahora_caducidad2'] != '':
+                alt += 1
                 fecha_inicio = datetime.strptime(self.request.GET['fechahora_caducidad1'], '%d/%m/%Y %H:%M')
                 fecha_fin = datetime.strptime(self.request.GET['fechahora_caducidad2'], '%d/%m/%Y %H:%M')
                 query = query.filter(fechahora_caducidad__gte=fecha_inicio, fechahora_caducidad__lte=fecha_fin)
         if 'monto_amortizado1' in self.request.GET or 'monto_amortizado2' in self.request.GET:
             monto_amortizado1 = self.request.GET['monto_amortizado1']
             monto_amortizado2 = self.request.GET['monto_amortizado2']
-            if monto_amortizado1 == '':
+            if monto_amortizado1 == '' and monto_amortizado2 != '':
+                alt += 1
                 query = query.filter(monto_amortizado__lte=monto_amortizado2)
-            elif monto_amortizado2 == '':
+            elif monto_amortizado2 == '' and monto_amortizado1 != '':
+                alt += 1
                 query = query.filter(monto_amortizado__gte=monto_amortizado1)
-            else:
+            elif monto_amortizado1 != '' and monto_amortizado2 != '':
+                alt += 1
                 query = query.filter(monto_amortizado__gte=monto_amortizado1, monto_amortizado__lte=monto_amortizado2)
         if 'monto_total1' in self.request.GET or 'monto_total2' in self.request.GET:
             monto_total1 = self.request.GET['monto_total1']
             monto_total2 = self.request.GET['monto_total2']
             if monto_total1 == '':
+                alt += 1
                 query = query.filter(monto_total__lte=monto_total2)
             elif monto_total2 == '':
+                alt += 1
                 query = query.filter(monto_total__gte=monto_total1)
             else:
+                alt += 1
                 query = query.filter(monto_total__gte=monto_total1, monto_total__lte=monto_total2)
+        if alt == 0:
+            query = query.filter(estado='1')
         return query
 
 
@@ -304,6 +337,9 @@ class PagoProveedorCreateView(RedirectView):
             pago.cuentaproveedor = cuentaproveedor
             pago.save()
             cuentaproveedor.monto_amortizado += pago.monto
+            cuentaproveedor.monto_deuda -= pago.monto
+            if cuentaproveedor.monto_deuda == 0:
+                cuentaproveedor.estado = '2'
             cuentaproveedor.save()
         url = self.url + str(self.kwargs['cuentaproveedor'])
         return url
@@ -360,12 +396,13 @@ class VentaPagoView(RedirectView):
                     else:
                         venta.estado_pago = '2'
                         estado = '2'
-                    cuentacliente = CuentaCliente(duracion=form.cleaned_data['duracion'], tipo=tipo,
+                    cuentacliente = CuentaCliente(duracion=form.cleaned_data['duracion'], tipo=tipo, venta=venta,
                                                   estado=estado, fechahora_caducidad=fecha_final,
                                                   monto_total=venta.total_final, monto_amortizado=pago,
-                                                  cliente=venta.cliente)
+                                                  monto_deuda=float(venta.total_final) - pago, cliente=venta.cliente)
                     cuentacliente.save()
-                    PagoCliente(tipo='1', monto=pago, cuentacliente=cuentacliente, asignado=self.request.user).save()
+                    PagoCliente(tipo='1', monto=pago, cuentacliente=cuentacliente, asignado=self.request.user,
+                                recibo=form.cleaned_data['recibo'], venta=venta).save()
                 else:
                     venta.tipo_pago = '1'
                     venta.estado_pago = '2'
@@ -432,12 +469,14 @@ class CompraPagoView(RedirectView):
                 else:
                     compra.estado_pago = '2'
                     estado = '2'
-                cuentaproveedor = CuentaProveedor(duracion=form.cleaned_data['duracion'], tipo=tipo,
+                cuentaproveedor = CuentaProveedor(duracion=form.cleaned_data['duracion'], tipo=tipo, compra=compra,
                                                   estado=estado, fechahora_caducidad=fecha_final,
                                                   monto_total=compra.total_final, monto_amortizado=pago,
+                                                  monto_deuda=float(compra.total_final) - pago,
                                                   proveedor=compra.proveedor)
                 cuentaproveedor.save()
-                PagoProveedor(tipo='1', monto=pago, cuentaproveedor=cuentaproveedor, asignado=self.request.user).save()
+                PagoProveedor(tipo='1', monto=pago, cuentaproveedor=cuentaproveedor, asignado=self.request.user,
+                              recibo=form.cleaned_data['recibo'], compra=compra).save()
                 DetalleJornada(jornada=jornada, tipo='2', target=compra.id, monto=pago, descripcion='Compra',
                                asignado=self.request.user).save()
                 compra.save()

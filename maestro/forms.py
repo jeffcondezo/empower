@@ -5,8 +5,20 @@ from django.forms import ModelChoiceField
 # Model import-->
 from maestro.models import Empresa,Sucursal, Almacen, Categoria, Presentacion, Producto,\
     PresentacionxProducto, Proveedor, CatalogoxProveedor, Caja, Grupo
+from maestro.utils import empresa_list
 from django.contrib.auth.models import User
 # Model import<--
+
+
+class EmpresaForm(forms.ModelForm):
+
+    class Meta:
+        model = Empresa
+        fields = '__all__'
+        widgets = {
+            'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
+            'ruc': forms.TextInput(attrs={'class': 'form-control'})
+        }
 
 
 class SucursalForm(forms.ModelForm):
@@ -102,6 +114,10 @@ class ProductoCategoriaForm(forms.ModelForm):
             'categorias': forms.SelectMultiple(attrs={'class': 'multiple-select2 form-control'})
         }
 
+    def __init__(self, *args, **kwargs):
+        super(ProductoCategoriaForm, self).__init__(*args, **kwargs)
+        self.fields['categorias'].required = False
+
 
 class ProductoPresentacionForm(forms.ModelForm):
 
@@ -118,7 +134,16 @@ class ProveedorForm(forms.ModelForm):
         widgets = {
             'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
             'ruc': forms.TextInput(attrs={'class': 'form-control'}),
+            'empresa': forms.Select(attrs={'class': 'default-select2 form-control'})
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(ProveedorForm, self).__init__(*args, **kwargs)
+        self.fields['empresa'] = forms.ModelChoiceField(queryset=Empresa.objects.filter(id__in=empresa_list(user)),
+                                                        required=False, widget=forms.Select(
+                                                            attrs={'class': 'default-select2 form-control'}))
+        self.fields['empresa'].empty_label = None
 
 
 class CatalogoProveedorForm(forms.ModelForm):
@@ -151,8 +176,10 @@ class CatalogoFiltroForm(forms.Form):
 class CatalogoProveedorFiltroForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(CatalogoProveedorFiltroForm, self).__init__(*args, **kwargs)
-        self.fields['proveedor'] = forms.ModelChoiceField(queryset=Proveedor.objects.all(), required=False,
+        self.fields['proveedor'] = forms.ModelChoiceField(queryset=Proveedor.objects.filter(
+            empresa__in=empresa_list(user)), required=False,
                                                           widget=forms.SelectMultiple(
                                                               attrs={'class': 'multiple-select2 form-control'}))
         self.fields['proveedor'].empty_label = None

@@ -1,4 +1,5 @@
 from django.db import models
+from maestro.models import Empresa
 
 
 # Create your models here.
@@ -20,6 +21,7 @@ class Cliente(models.Model):
     limite_credito = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     credito_disponible = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     deuda_actual = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.descripcion

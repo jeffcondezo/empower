@@ -56,12 +56,12 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th width="20%">Producto</th>
-                                    <th width="10%">Presentación</th>
-                                    <th width="10%">Precio</th>
+                                    <th width="17%">Producto</th>
+                                    <th width="13%">Presentación</th>
                                     <th width="10%">Cantidad</th>
-                                    <th width="10%">SubTotal</th>
-                                    <th width="10%">Desc.</th>
+                                    <th width="15%">Precio</th>
+                                    <th width="8%">SubTot.</th>
+                                    <th width="8%">Desc.</th>
                                     <th width="10%">Impuesto</th>
                                     <th width="10%">Total</th>
                                     <th width="5%">Promocion</th>
@@ -72,8 +72,8 @@
                                 <tr id="tr_detallecompra_empty">
                                     <td>{{ clean_form.producto }}</td>
                                     <td><select class="presentacionxproducto"></select></td>
-                                    <td class="td_precio">{{ clean_form.precio }}</td>
                                     <td>{{ clean_form.cantidad_presentacion }}</td>
+                                    <td class="td_precio">{{ clean_form.precio }}</td>
                                     <td class="td_subtotal">0</td>
                                     <td class="td_descuento">0</td>
                                     <td class="td_impuesto"><button type="button" class="btn btn-xs btn-success tax"><i class="fa fa-plus fas"></i></button></td>

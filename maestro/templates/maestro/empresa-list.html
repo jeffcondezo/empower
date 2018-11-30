@@ -11,30 +11,27 @@
     <div class="panel panel-inverse">
         <div class="panel-heading">
             <div class="btn-group pull-right">
-               <a href="/maestro/categoria/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i></a>
+                <a href="/maestro/empresa/0/edit" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i></a>
+
             </div>
-            <h4 class="panel-title">Categoría</h4>
+            <h4 class="panel-title">Empresa</h4>
         </div>
         <div class="panel-body">
-         
+           
             <table id="table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-nowrap">Descripción</th>
-                        <th class="text-nowrap">Nivel</th>
-                        <th class="text-nowrap">Categoría Padre</th>
+                        <th class="text-nowrap">Razón Social</th>
+                        <th class="text-nowrap">RUC</th>
                         <th class="text-nowrap">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for c in object_list %}
+                    {% for s in object_list %}
                         <tr>
-                            <td>{{ c.descripcion }}</td>
-                            <td>{{ c.nivel }}</td>
-                            <td>{{ c.padre.descripcion }}</td>
-                            <td><div class="fa-2x"><a class="no-link" href="/maestro/categoria/{{ c.id }}"><i class="fas fa-xs fa-eye icons-table"></i></a>
-                                <a class="no-link" href="/maestro/categoria/{{ c.id }}/edit"><i  class="fas fa-xs fa-edit icons-table"></i></a>
-                                <a class="no-link" href="/maestro/categoria/add/{{ c.id }}/"><i  class="fas fa-xs fa-plus/ icons-table"></i></a></div></td>
+                            <td>{{ s.descripcion }}</td>
+                            <td>{{ s.ruc }}</td>
+                            <td><div class="fa-2x"><a class="no-link" href="/maestro/sucursal/{{ s.id }}"><i class="fas fa-xs fa-eye icons-table"></i></a><a class="no-link" href="/maestro/sucursal/{{ s.id }}/edit"><i  class="fas fa-xs fa-edit icons-table"></i></a></div></td>
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -2,7 +2,7 @@ from maestro.models import CatalogoxProveedor, Impuesto, Sucursal
 from ventas.models import OfertaVenta, DetalleVenta, Venta
 from almacen.models import Stock
 from almacen.utils import update_kardex_stock
-from finanzas.models import Jornada, DetalleJornada
+from finanzas.models import Jornada, DetalleJornada, CuentaCliente
 import json
 from django.db.models import Max
 from django.db.models import Sum
@@ -63,6 +63,7 @@ def fill_data_venta(venta, dv_form, impuestos):
             impuesto_monto += (dv_form.total * temp_i.porcentaje)/100
     dv_form.impuesto_monto = impuesto_monto
     dv_form.total_final = dv_form.total + impuesto_monto
+    dv_form.total_con_descuento = dv_form.total_final
     dv_form.save()
     if venta.tipo == '1' and venta.estado != '3':
         dv_form.cantidad_presentacion_entrega = dv_form.cantidad_presentacion_pedido
@@ -146,8 +147,11 @@ def create_venta_txt(venta_id):
 
     for dv in detalleventa:
         f.write(
-            dv.presentacionxproducto.producto.descripcion + "//" + dv.presentacionxproducto.presentacion.descripcion + "\n")
-        f.write("    " + str(dv.cantidad_presentacion_pedido)+ '('+ str(dv.cantidad_unidad_pedido) +')'+ "  S/." + str(dv.precio) + " S/. " + str(
+            dv.presentacionxproducto.producto.descripcion + "//" +
+            dv.presentacionxproducto.presentacion.descripcion + "\n")
+        f.write("    " + str(dv.cantidad_presentacion_pedido)
+                + '(' + str(dv.cantidad_unidad_pedido) + ')'
+                + "  S/." + str(dv.precio) + " S/. " + str(
             dv.total_final) + "\n")
         f.write("\n")
         sub_total = sub_total + dv.total_final
@@ -157,6 +161,14 @@ def create_venta_txt(venta_id):
     f.write("DESCUENTO      S/ :" + ' ' + str(venta.descuento) + "\n")
     f.write("IMP. MONTO     S/ :" + ' ' + str(venta.impuesto_monto) + "\n")
     f.write("TOTAL          S/ :" + ' ' + str(venta.total_final) + "\n")
+    f.write("*****************************" + "\n")
+    try:
+        cuenta_cliente = CuentaCliente.objects.get(pk=venta_id)
+        f.write("PAGADO         S/ :" + ' ' + str(cuenta_cliente.monto_amortizado) + "\n")
+        f.write("DEUDA          S/ :" + ' ' + str(cuenta_cliente.monto_deuda) + "\n")
+    except CuentaCliente.DoesNotExist:
+        f.write("     AUN NO SE HA PAGADO." + "\n")
+    f.write("*****************************" + "\n")
     f.write("*****************************" + "\n")
     f.write("     GRACIAS POR SU COMPRA." + "\n")
     f.write("*****************************" + "\n")

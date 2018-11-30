@@ -89,6 +89,12 @@ legend{
 .form_group_styles{
     width: 17%;
 }
+.form_group_styles_control2{
+    width: 25%;
+}
+.form_group_styles_inp{
+    width: 11%;
+}
 #div_producto_empty{
     display: none;
 }

@@ -6,6 +6,7 @@ from maestro.models import Sucursal, Producto, PresentacionxProducto, Impuesto
 from ventas.models import OfertaVenta, Venta, DetalleVenta
 from clientes.models import Cliente
 from finanzas.models import CuentaCliente
+from maestro.utils import empresa_list
 # Model import<--
 
 
@@ -37,7 +38,10 @@ class OfertaVentaForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(OfertaVentaForm, self).__init__(*args, **kwargs)
+        self.fields['sucursal'] = forms.ModelChoiceField(queryset=Sucursal.objects.filter(
+            empresa__in=empresa_list(user)), widget=forms.Select(attrs={'class': 'default-select2 form-control'}))
         self.fields['sucursal'].empty_label = None
         self.fields['tipo'].choices = [i for i in self.fields['tipo'].choices if i[0] in ['1', '2', '3']]
         self.fields['tipo_duracion'].choices = [i for i in self.fields['tipo_duracion'].choices if i[0] in ['1', '2']]
@@ -58,20 +62,27 @@ class VentaCreateForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(VentaCreateForm, self).__init__(*args, **kwargs)
-        self.fields['cliente'].empty_label = None
+        self.fields['cliente'] = forms.ModelChoiceField(queryset=Cliente.objects.filter(empresa__in=empresa_list(user)),
+                                                        required=False, widget=forms.Select(
+                                                            attrs={'class': 'default-select2 form-control'}))
+        self.fields['sucursal'] = forms.ModelChoiceField(queryset=Sucursal.objects.filter(
+            empresa__in=empresa_list(user)), widget=forms.Select(attrs={'class': 'default-select2 form-control'}))
         self.fields['sucursal'].empty_label = None
 
 
 class VentaFiltroForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(VentaFiltroForm, self).__init__(*args, **kwargs)
-        self.fields['cliente'] = forms.ModelChoiceField(queryset=Cliente.objects.all(), required=False,
-                                                        widget=forms.SelectMultiple(
+        self.fields['cliente'] = forms.ModelChoiceField(queryset=Cliente.objects.filter(empresa__in=empresa_list(user)),
+                                                        required=False, widget=forms.SelectMultiple(
                                                             attrs={'class': 'multiple-select2 form-control'}))
         self.fields['cliente'].empty_label = None
-        self.fields['sucursal'] = forms.ModelChoiceField(queryset=Sucursal.objects.all(), required=False,
+        self.fields['sucursal'] = forms.ModelChoiceField(queryset=Sucursal.objects.filter(
+            empresa__in=empresa_list(user)), required=False,
                                                          widget=forms.SelectMultiple(
                                                              attrs={'class': 'multiple-select2 form-control'}))
         self.fields['sucursal'].empty_label = None
@@ -113,7 +124,12 @@ class VentaEditForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(VentaEditForm, self).__init__(*args, **kwargs)
+        self.fields['cliente'] = forms.ModelChoiceField(queryset=Cliente.objects.filter(empresa__in=empresa_list(user)),
+                                                        required=False,
+                                                        widget=forms.Select(
+                                                            attrs={'class': 'default-select2 form-control'}))
         self.fields['tipo'].empty_label = None
         self.fields['tipo'].choices = [i for i in self.fields['tipo'].choices if i[0] in ['1', '2']]
 
@@ -180,3 +196,12 @@ class DetalleVentaEntregaForm(forms.ModelForm):
         model = DetalleVenta
         fields = ['cantidad_presentacion_entrega', 'is_checked']
 
+
+class VentaDescuentoAdicionalForm(forms.ModelForm):
+
+    class Meta:
+        model = DetalleVenta
+        fields = ['descuento_adicional']
+        widgets = {
+            'descuento_adicional': forms.NumberInput(attrs={'class': 'form-control', 'min': '0'})
+        }

@@ -66,8 +66,8 @@
                                     <tr>
                                         <td>{{ p.presentacion.descripcion }}</td>
                                         <td>{{ p.cantidad }}</td>
-                                        <td><input type="number" step=".01" class="form-control" name="precio_compra-{{ p.id }}"></td>
-                                        <td><input type="number" step=".01" class="form-control" name="precio_venta-{{ p.id }}"></td>
+                                        <td><input type="number" step=".01" class="form-control" value="{{ p.precio_compra }}" name="precio_compra-{{ p.id }}"></td>
+                                        <td><input type="number" step=".01" class="form-control" value="{{ p.precio_venta }}" name="precio_venta-{{ p.id }}"></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

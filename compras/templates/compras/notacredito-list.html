@@ -1,4 +1,4 @@
-{% extends "finanzas/base.html" %}
+{% extends "compras/base.html" %}
 {% load static %}
 
 {% block head_files %}
@@ -14,37 +14,34 @@
     <div class="panel panel-inverse">
         <div class="panel-heading">
             <div class="btn-group pull-right">
-                <a href="#modal-filtros" class="btn btn-xs btn-primary buttons" data-toggle="modal"><i class="fa fa-search"></i></a>
+                <a href="#modal-filtros" class="btn btn-xs btn-primary buttons" data-toggle="modal"><i class="fa fa-search"></i></a>&nbsp;
             </div>
-            <h4 class="panel-title">Cuentas de los Clientes</h4>
+            <h4 class="panel-title">Notas de Crédito</h4>
         </div>
         <div class="panel-body">
+           
             <table id="table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-nowrap">Cliente</th>
-                        <th class="text-nowrap">Condición</th>
+                        <th class="text-nowrap">Proveedor</th>
+                        <th class="text-nowrap">Compra</th>
+                        <th class="text-nowrap">Fecha Creación</th>
+                        <th class="text-nowrap">Fecha Cierre</th>
                         <th class="text-nowrap">Estado</th>
-                        <th class="text-nowrap">Tipo</th>
-                        <th class="text-nowrap">Vencimiento</th>
-                        <th class="text-nowrap">Total</th>
-                        <th class="text-nowrap">Amortizado</th>
-                        <th class="text-nowrap">Deuda</th>
+                        <th class="text-nowrap">Monto</th>
                         <th class="text-nowrap">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for c in object_list %}
+                    {% for o in object_list %}
                         <tr>
-                            <td>{{ c.cliente.descripcion }}</td>
-                            <td>{{ c.get_duracion_display }}</td>
-                            <td>{{ c.get_estado_display }}</td>
-                            <td>{{ c.get_tipo_display }}</td>
-                            <td>{{ c.fechahora_caducidad|date:'d-m-Y H:i' }}</td>
-                            <td>{{ c.monto_total }}</td>
-                            <td>{{ c.monto_amortizado }}</td>
-                            <td>{{ c.monto_deuda }}</td>
-                            <td><div class="fa-2x"><a class="no-link" href="/finanzas/cuentacliente/{{ c.id }}"><i class="fas fa-xs fa-eye icons-table"></i></a></div></td>
+                            <td>{{ o.proveedor.descripcion }}</td>
+                            <td>{{ o.compra.id }}</td>
+                            <td>{{ o.fechahora_creacion|date:'d-m-Y H:i' }}</td>
+                            <td>{{ o.fechahora_cierre|date:'d-m-Y H:i' }}</td>
+                            <td>{{ o.get_estado_display }}</td>
+                            <td>{{ o.monto }}</td>
+                            <td><div class="fa-2x"><a class="no-link" href="/compras/notacredito/{{ o.id }}"><i class="fas fa-xs fa-eye icons-table"></i></a></div></td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -54,7 +51,7 @@
 {% endblock %}
 
 {% block modal %}
-        <!-- #modal-dialog -->
+    <!-- #modal-dialog -->
     <div class="modal fade" id="modal-filtros">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -63,40 +60,32 @@
                         <fieldset>
                             <legend class="m-b-15">Filtros</legend>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Cliente</label>
-                                {{ cuentacliente_filtro.cliente }}
+                                <label for="exampleInputEmail1">Estados</label>
+                                {{ notacredito_filtro.estado }}
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Condición</label>
-                                {{ cuentacliente_filtro.duracion }}
+                                <label for="exampleInputEmail1">Proveedores</label>
+                                {{ notacredito_filtro.proveedor }}
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Estado</label>
-                                {{ cuentacliente_filtro.estado }}
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Tipo</label>
-                                {{ cuentacliente_filtro.tipo }}
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Fechas</label>
+                                <label for="exampleInputEmail1">Fecha Creación</label>
                                 <div class="row row-space-12">
                                     <div class="col-xs-8">
-                                        {{ cuentacliente_filtro.fechahora_caducidad1 }}
+                                        {{ notacredito_filtro.fechahora_creacion1 }}
                                     </div>
                                     <div class="col-xs-8">
-                                        {{ cuentacliente_filtro.fechahora_caducidad2 }}
+                                        {{ notacredito_filtro.fechahora_creacion2 }}
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Monto Amortizado</label>
+                                <label for="exampleInputEmail1">Fecha Cierre</label>
                                 <div class="row row-space-12">
                                     <div class="col-xs-8">
-                                        {{ cuentacliente_filtro.monto_amortizado1 }}
+                                        {{ notacredito_filtro.fechahora_cierre1 }}
                                     </div>
                                     <div class="col-xs-8">
-                                        {{ cuentacliente_filtro.monto_amortizado2 }}
+                                        {{ notacredito_filtro.fechahora_cierre2 }}
                                     </div>
                                 </div>
                             </div>
@@ -104,10 +93,10 @@
                                 <label for="exampleInputEmail1">Monto Total</label>
                                 <div class="row row-space-12">
                                     <div class="col-xs-8">
-                                        {{ cuentacliente_filtro.monto_amortizado1 }}
+                                        {{ notacredito_filtro.monto1 }}
                                     </div>
                                     <div class="col-xs-8">
-                                        {{ cuentacliente_filtro.monto_amortizado2 }}
+                                        {{ notacredito_filtro.monto2 }}
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +110,9 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
+
 {% block bottom_scripts %}
     <script src="{% static "assets/plugins/DataTables/media/js/jquery.dataTables.js" %}"></script>
 	<script src="{% static "assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js" %}"></script>
@@ -136,17 +127,24 @@
             },
             responsive: true
         });
-        $(".default-select2").select2({placeholder: 'Seleccione'});
+        $(".default-select2").select2();
         $(".multiple-select2").select2();
         $(".select2-container--default").removeAttr('style').css("width","100%");
-        $('#fechahora_caducidad1').datetimepicker({format:'DD/MM/YYYY HH:mm'});
-        $('#fechahora_caducidad2').datetimepicker({format:'DD/MM/YYYY HH:mm'});
-        $("#fechahora_caducidad1").on("dp.change", function (e) {
-            $('#fechahora_caducidad2').data("DateTimePicker").minDate(e.date);
+        $('#fechahora_creacion1').datetimepicker({format:'DD/MM/YYYY HH:mm'});
+        $('#fechahora_creacion2').datetimepicker({format:'DD/MM/YYYY HH:mm'});
+        $("#fechahora_creacion1").on("dp.change", function (e) {
+            $('#fechahora_creacion2').data("DateTimePicker").minDate(e.date);
         });
-        $("#fechahora_caducidad2").on("dp.change", function (e) {
-            $('#fechahora_caducidad1').data("DateTimePicker").maxDate(e.date);
+        $("#fechahora_creacion2").on("dp.change", function (e) {
+            $('#fechahora_creacion1').data("DateTimePicker").maxDate(e.date);
         });
-
+        $('#fechahora_cierre1').datetimepicker({format:'DD/MM/YYYY HH:mm'});
+        $('#fechahora_cierre2').datetimepicker({format:'DD/MM/YYYY HH:mm'});
+        $("#fechahora_cierre1").on("dp.change", function (e) {
+            $('#fechahora_cierre2').data("DateTimePicker").minDate(e.date);
+        });
+        $("#fechahora_cierre2").on("dp.change", function (e) {
+            $('#fechahora_cierre1').data("DateTimePicker").maxDate(e.date);
+        });
     </script>
 {% endblock %}

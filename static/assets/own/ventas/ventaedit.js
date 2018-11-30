@@ -90,8 +90,8 @@ function init_load_basicdata(data) {
         for (var i = 0; i < data['precio'].length; i++) {
             var tr = document.querySelector('tr[data-prod="'+data['precio'][i]['id']+'"]');
             var select = tr.querySelector('.presentacionxproducto');
-            tr.querySelector('.precio_inp').value = data['precio'][i]['precio_venta'];
-            tr.querySelector('.td_precio').innerHTML = data['precio'][i]['precio_venta'] * select.options[select.selectedIndex].getAttribute("data-cantidad");
+            tr.querySelector('.precio_inp').value = (data['precio'][i]['precio_venta']).toFixed(2);
+            tr.querySelector('.td_precio').innerHTML = (data['precio'][i]['precio_venta'] * select.options[select.selectedIndex].getAttribute("data-cantidad")).toFixed(2);
             var impuestos = tr.querySelector('.impuesto_inp').value;
             if (impuestos !== '' && impuestos !== '[]') {
                 current_pos_impuesto.value = tr.querySelector('.tax').getAttribute("data-pos");
@@ -259,8 +259,8 @@ function prod_change(obj, new_value,e) {
         presentacion_select.value = '';
         $(presentacion_select).select2('open');
         var dataprecio = data['precio'];
-        current_tr.querySelector('.precio_inp').value = dataprecio[0]['precio_venta'];
-        current_tr.querySelector('.td_precio').innerHTML = dataprecio[0]['precio_venta'];
+        current_tr.querySelector('.precio_inp').value = parseFloat(dataprecio[0]['precio_venta']).toFixed(2);
+        current_tr.querySelector('.td_precio').innerHTML = parseFloat(dataprecio[0]['precio_venta']).toFixed(2);
         var dataoferta = data['oferta'];
         if (dataoferta.length > 0){
             current_tr.querySelector('.promocion_inp').value = convertOfertatoString(dataoferta);
@@ -298,7 +298,7 @@ function action_pres_change(obj, new_value) {
     var tr = obj.parentElement.parentElement;
     var cantidadpresentacion = obj.querySelector('option[value="'+new_value+'"]').getAttribute('data-cantidad');
     var precio = parseFloat(tr.querySelector('.precio_inp').value);
-    tr.querySelector('.td_precio').innerHTML = precio * parseFloat(cantidadpresentacion);
+    tr.querySelector('.td_precio').innerHTML = (precio * parseFloat(cantidadpresentacion)).toFixed(2);
     action_calcular_line_total(tr, cantidadpresentacion);
     var cantidad_dom = tr.querySelector('.cantidadpresentacion');
     setTimeout(function(){$(cantidad_dom).focus();},0);
@@ -346,7 +346,7 @@ function init_add_button() {
         select_presentacion.setAttribute('required', 'required');
         select_presentacion.removeAttribute('name');
         select_presentacion.setAttribute('name', 'dv'+pos+'-presentacionxproducto');
-        $(select_presentacion).select2({placeholder: "Seleccione el Producto", minimumResultsForSearch: -1});
+        $(select_presentacion).select2({placeholder: "Seleccione el Producto"});
         $(select_presentacion).on("select2:selecting", function(e) {
             action_pres_change(this, e.params.args.data.id);
         });

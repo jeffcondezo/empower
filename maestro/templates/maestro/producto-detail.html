@@ -75,6 +75,8 @@
                             <tr>
                                 <th>Descripcion</th>
                                 <th>Cantidad por Unidad</th>
+                                <th>Precio Compra</th>
+                                <th>Precio Venta</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,6 +84,8 @@
                                 <tr>
                                     <td>{{ p.presentacion.descripcion }}</td>
                                     <td>{{ p.cantidad }}</td>
+                                    <td>{{ p.precio_compra }}</td>
+                                    <td>{{ p.precio_venta }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

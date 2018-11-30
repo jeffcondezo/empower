@@ -60,6 +60,9 @@ class PresentacionxProducto(models.Model):
     presentacion = models.ForeignKey(Presentacion, on_delete=models.PROTECT)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
+    precio_compra = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    precio_venta = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    utilidad = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     def __str__(self):
         return self.presentacion.descripcion
@@ -68,6 +71,7 @@ class PresentacionxProducto(models.Model):
 class Proveedor(models.Model):
     descripcion = models.CharField(max_length=250)
     ruc = models.CharField(max_length=11)
+    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.descripcion
@@ -147,3 +151,9 @@ class AsignacionGrupo(models.Model):
     grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.PROTECT)
     sucursal = models.ManyToManyField(Sucursal)
+
+
+class ContadorComprobante(models.Model):
+    serie = models.IntegerField()
+    contador = models.IntegerField()
+    comprobante = models.ForeignKey(TipoComprobante, on_delete=models.PROTECT)

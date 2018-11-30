@@ -1,22 +1,26 @@
-from django.views.generic import DetailView, ListView, TemplateView, RedirectView
+from django.views.generic import DetailView, ListView, TemplateView, RedirectView, UpdateView
 from django.shortcuts import redirect, HttpResponse
 from django.db.models import Sum
 from datetime import datetime
 import json
 
 # Model import-->
-from compras.models import Compra, DetalleCompra, OfertaCompra
+from compras.models import Compra, DetalleCompra, OfertaCompra, NotaCredito, DetalleNotaCredito
 from maestro.models import Proveedor, Almacen
 # Model import<--
 
 # Forms import-->
-from compras.forms import CompraCreateForm, CompraEditForm, DetalleCompraForm, CompraFiltroForm, ImpuestoForm
-from finanzas.forms import PagoCompraForm
+from compras.forms import CompraCreateForm, CompraEditForm, DetalleCompraForm, CompraFiltroForm, ImpuestoForm,\
+    NotaCreditoFiltroForm
+from finanzas.forms import PagoCompraForm, NotaCreditoCerrarForm
 # Forms import<--
 
 # Utils import-->
 from .utils import fill_data_compra, recalcular_total_compra, \
     cargar_ofertas, create_ofertas, loadtax, cargar_oferta, cancelarcompra
+from maestro.utils import empresa_list
+from finanzas.utils import cerrarnota
+from almacen.utils import update_kardex_stock_notacredito
 # Utils import<--
 from openpyxl.writer.excel import save_virtual_workbook
 from openpyxl.styles import Border, Side
@@ -40,8 +44,8 @@ class CompraListView(BasicEMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['compra_filtro'] = CompraFiltroForm(self.request.GET)
-        context['compra_create'] = CompraCreateForm()
+        context['compra_filtro'] = CompraFiltroForm(self.request.GET, user=self.request.user)
+        context['compra_create'] = CompraCreateForm(user=self.request.user)
         return context
 
     def get_queryset(self):
@@ -68,7 +72,7 @@ class CompraListView(BasicEMixin, ListView):
         if 'total_final1' in self.request.GET or 'total_final2' in self.request.GET:
             monto1 = self.request.GET['total_final1']
             monto2 = self.request.GET['total_final2']
-            if monto1 != '' and monto2 != '':
+            if monto1 == '' and monto2 != '':
                 alt += 1
                 query = query.filter(total_final__gte=monto1, total_final__lte=monto2)
             if monto1 == '' and monto2 != '':
@@ -79,6 +83,7 @@ class CompraListView(BasicEMixin, ListView):
                 query = query.filter(total_final__gte=monto1)
         if alt == 0:
             query = Compra.objects.filter(estado__in=[1, 2])
+        query = query.filter(proveedor__empresa__in=empresa_list(self.request.user))
         return query
 
 
@@ -104,7 +109,7 @@ class CompraCreateView(RedirectView):
     action_name = 'crear'
 
     def get_redirect_url(self, *args, **kwargs):
-        form = CompraCreateForm(self.request.POST)
+        form = CompraCreateForm(self.request.POST, user=self.request.user)
         if form.is_valid():
             try:
                 compra = Compra.objects.get(proveedor=form.cleaned_data['proveedor'], estado=1)
@@ -177,6 +182,7 @@ class CompraEditView(BasicEMixin, TemplateView):
                     else:
                         return HttpResponse(dc_form.errors)
                 compra.total_final = total
+                compra.total_inc_flete = total
                 if compra.tipo == '1':
                     compra.estado = '3'
                 else:
@@ -228,7 +234,7 @@ class CompraCancelarView(RedirectView):
     action_name = 'cancelar'
 
     def get_redirect_url(self, *args, **kwargs):
-        compra = Compra.objects.get(pk=self.kwargs['venta'])
+        compra = Compra.objects.get(pk=self.kwargs['compra'])
         cancelarcompra(compra, self.request.user)
         url = self.url + str(compra.id) + '/edit'
         return url
@@ -310,3 +316,115 @@ def reporte_orden(request):
     response['Content-Disposition'] = 'attachment; filename=compra' + str(o.id) + '.xls'
     libro.save(response)
     return response
+
+
+class NotaCreditoListView(BasicEMixin, ListView):
+
+    template_name = 'compras/notacredito-list.html'
+    model = NotaCredito
+    nav_name = 'nav_nota_credito'
+    view_name = 'compra'
+    action_name = 'leer'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['notacredito_filtro'] = NotaCreditoFiltroForm(self.request.GET, user=self.request.user)
+        return context
+
+    def get_queryset(self):
+        query = super().get_queryset()
+        alt = 0
+        proveedores = self.request.GET.getlist('proveedor')
+        estados = self.request.GET.getlist('estado')
+        if len(proveedores) > 0:
+            query = query.filter(proveedor__in=proveedores)
+            alt += 1
+        if len(estados) > 0:
+            query = query.filter(estado__in=estados)
+            alt += 1
+        if 'fechahora_creacion1' in self.request.GET and 'fechahora_creacion2' in self.request.GET:
+            if self.request.GET['fechahora_creacion1'] != '' and self.request.GET['fechahora_creacion2'] != '':
+                alt += 1
+                fecha_inicio = datetime.strptime(self.request.GET['fechahora_creacion1'], '%d/%m/%Y %H:%M')
+                fecha_fin = datetime.strptime(self.request.GET['fechahora_creacion2'], '%d/%m/%Y %H:%M')
+                query = query.filter(fechahora_creacion__gte=fecha_inicio, fechahora_creacion__lte=fecha_fin)
+        if 'fechahora_cierre1' in self.request.GET and 'fechahora_cierre2' in self.request.GET:
+            if self.request.GET['fechahora_cierre1'] != '' and self.request.GET['fechahora_cierre2'] != '':
+                alt += 1
+                fecha_inicio = datetime.strptime(self.request.GET['fechahora_cierre1'], '%d/%m/%Y %H:%M')
+                fecha_fin = datetime.strptime(self.request.GET['fechahora_cierre2'], '%d/%m/%Y %H:%M')
+                query = query.filter(fechahora_creacion__gte=fecha_inicio, fechahora_creacion__lte=fecha_fin)
+        if 'monto1' in self.request.GET or 'monto2' in self.request.GET:
+            monto1 = self.request.GET['monto1']
+            monto2 = self.request.GET['monto2']
+            if monto1 == '' and monto2 != '':
+                alt += 1
+                query = query.filter(total_final__gte=monto1, total_final__lte=monto2)
+            if monto1 == '' and monto2 != '':
+                alt += 1
+                query = query.filter(total_final__lte=monto2)
+            elif monto2 == '' and monto1 != '':
+                alt += 1
+                query = query.filter(total_final__gte=monto1)
+        if alt == 0:
+            query = NotaCredito.objects.filter(estado__in=['1'])
+        query = query.filter(proveedor__empresa__in=empresa_list(self.request.user))
+        return query
+
+
+class NotaCreditoDetailView(BasicEMixin, DetailView):
+
+    template_name = 'compras/notacredito-detail.html'
+    model = NotaCredito
+    nav_name = 'nav_notacredito'
+    view_name = 'compra'
+    action_name = 'leer'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['detalle'] = DetalleNotaCredito.objects.filter(notacredito=self.kwargs['pk'])
+        context['notacredito_form'] = NotaCreditoCerrarForm()
+        if 'incidencias' in self.request.GET:
+            context['incidencias'] = json.loads(self.request.GET['incidencias'])
+        return context
+
+
+class DetalleNotaCreditoConsignaView(BasicEMixin, RedirectView):
+
+    url = '/compras/notacredito/'
+    view_name = 'compra'
+    action_name = 'crear'
+
+    def get_redirect_url(self, *args, **kwargs):
+        detalle_notacredito = DetalleNotaCredito.objects.get(pk=self.kwargs['detalle_notacredito'])
+        detalle_notacredito.estado = '2'
+        detalle_notacredito.save()
+        nota = detalle_notacredito.notacredito
+        nota.monto -= detalle_notacredito.total
+        if nota.monto == 0:
+            nota.fechahora_cierre = datetime.now()
+            nota.estado = '2'
+        nota.save()
+        update_kardex_stock_notacredito(detalle_notacredito, nota)
+        url = self.url + str(nota.id)
+        return url
+
+
+class NotaCreditoCerrarView(RedirectView):
+
+    url = '/compras/notacredito/'
+    view_name = 'compra'
+    action_name = 'cancelar'
+
+    def get_redirect_url(self, *args, **kwargs):
+        nota = NotaCredito.objects.get(pk=self.kwargs['pk'])
+        form = NotaCreditoCerrarForm(self.request.POST, instance=nota)
+        if form.is_valid():
+            print(form.cleaned_data['serie_comprobante'])
+            print(form.cleaned_data['numero_comprobante'])
+            nota = form.save()
+            incidencia = cerrarnota(nota, self.request.user)
+        else:
+            incidencia = '/?incidencias=' + json.dumps([['3', 'Registre los datos de la Nota.']])
+        url = self.url + str(nota.id) + incidencia
+        return url

@@ -2,9 +2,12 @@ from django import forms
 from django.forms import ModelChoiceField
 
 # Model import-->
-from compras.models import Compra, DetalleCompra
-from maestro.models import Producto, Proveedor, TipoComprobante, Impuesto
+from compras.models import Compra, DetalleCompra, NotaCredito
+from maestro.models import Producto, Proveedor, TipoComprobante, Impuesto, Almacen
 # Model import<--
+# Utils import-->
+from maestro.utils import empresa_list
+# Utils import<--
 
 
 class CompraCreateForm(forms.ModelForm):
@@ -18,8 +21,14 @@ class CompraCreateForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(CompraCreateForm, self).__init__(*args, **kwargs)
+        self.fields['almacen'] = forms.ModelChoiceField(queryset=Almacen.objects.filter(
+            sucursal__empresa__in=empresa_list(user)), widget=forms.Select(
+            attrs={'class': 'default-select2 form-control'}))
         self.fields['almacen'].empty_label = None
+        self.fields['proveedor'] = forms.ModelChoiceField(queryset=Proveedor.objects.filter(
+            empresa__in=empresa_list(user)), widget=forms.Select(attrs={'class': 'default-select2 form-control'}))
         self.fields['proveedor'].empty_label = None
 
 
@@ -81,7 +90,7 @@ class DetalleCompraForm(forms.ModelForm):
 class DetalleCompraRecepcionForm(forms.ModelForm):
     class Meta:
         model = DetalleCompra
-        fields = ['cantidad_presentacion_entrega', 'total_final', 'is_checked']
+        fields = ['cantidad_presentacion_entrega', 'total_final', 'is_checked', 'flete']
 
 
 # Sirve para el modal de agregar un no deseado a la compra.
@@ -133,8 +142,10 @@ class DetalleCompraNoDeseadoForm(forms.ModelForm):
 class CompraFiltroForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(CompraFiltroForm, self).__init__(*args, **kwargs)
-        self.fields['proveedor'] = forms.ModelChoiceField(queryset=Proveedor.objects.all(), required=False,
+        self.fields['proveedor'] = forms.ModelChoiceField(queryset=Proveedor.objects.filter(
+            empresa__in=empresa_list(user)), required=False,
                                                           widget=forms.SelectMultiple(
                                                               attrs={'class': 'multiple-select2 form-control'}))
         self.fields['proveedor'].empty_label = None
@@ -181,3 +192,41 @@ class CompraRecepcionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CompraRecepcionForm, self).__init__(*args, **kwargs)
         self.fields['estado'].choices = [i for i in self.fields['estado'].choices if i[0] in ['2', '3']]
+
+
+class NotaCreditoFiltroForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(NotaCreditoFiltroForm, self).__init__(*args, **kwargs)
+        self.fields['proveedor'] = forms.ModelChoiceField(queryset=Proveedor.objects.filter(
+            empresa__in=empresa_list(user)), required=False,
+                                                          widget=forms.SelectMultiple(
+                                                              attrs={'class': 'multiple-select2 form-control'}))
+        self.fields['proveedor'].empty_label = None
+        self.fields['estado'] = forms.ChoiceField(choices=NotaCredito.ESTADO_CHOICES, required=False,
+                                                  widget=forms.SelectMultiple(
+                                                      attrs={'class': 'multiple-select2 form-control'}))
+        self.fields['fechahora_creacion1'] = forms.CharField(required=False, widget=forms.TextInput(
+                                                               attrs={'id': 'fechahora_creacion1',
+                                                                      'placeholder': 'Inicio',
+                                                                      'class': 'form-control'}))
+        self.fields['fechahora_creacion2'] = forms.CharField(required=False, widget=forms.TextInput(
+                                                                 attrs={'id': 'fechahora_creacion2',
+                                                                        'placeholder': 'Fin',
+                                                                        'class': 'form-control'}))
+        self.fields['fechahora_cierre1'] = forms.CharField(required=False, widget=forms.TextInput(
+                                                               attrs={'id': 'fechahora_cierre1',
+                                                                      'placeholder': 'Inicio',
+                                                                      'class': 'form-control'}))
+        self.fields['fechahora_cierre2'] = forms.CharField(required=False, widget=forms.TextInput(
+                                                                 attrs={'id': 'fechahora_cierre2',
+                                                                        'placeholder': 'Fin',
+                                                                        'class': 'form-control'}))
+        self.fields['monto1'] = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                                 'placeholder': 'Mínimo'}),
+                                                 required=False)
+        self.fields['monto2'] = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                                 'placeholder': 'Máximo'}),
+                                                 required=False)
+

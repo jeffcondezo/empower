@@ -1,5 +1,5 @@
 from maestro.models import Producto, PresentacionxProducto, Impuesto, CatalogoxProveedor
-from compras.models import DetalleCompra, OfertaCompra, Compra
+from compras.models import DetalleCompra, OfertaCompra, Compra, NotaCredito, DetalleNotaCredito
 from almacen.utils import update_kardex_stock
 from finanzas.models import Jornada, DetalleJornada
 import json
@@ -27,6 +27,7 @@ def fill_data_compra(compra, dc_form, impuestos):
             impuesto_monto += (dc_form.total * temp_i.porcentaje)/100
     dc_form.impuesto_monto = impuesto_monto
     dc_form.total_final = dc_form.total + impuesto_monto
+    dc_form.total_inc_flete = dc_form.total + impuesto_monto
     dc_form.is_nodeseado = False
     dc_form.save()
     if compra.tipo == '1' and compra.estado != '3':
@@ -345,9 +346,19 @@ def fill_data_detallecompra(detalle_compra, flag_estado, compra):
             porcentaje += i.porcentaje
     detalle_compra.total = (detalle_compra.total_final*100)/(100+porcentaje)
     detalle_compra.impuesto_monto = detalle_compra.total_final - detalle_compra.total
+    detalle_compra.total_inc_flete = detalle_compra.total_final + detalle_compra.flete
     detalle_compra.sub_total = (detalle_compra.total+detalle_compra.descuento)
-    detalle_compra.precio = detalle_compra.sub_total/detalle_compra.cantidad_presentacion_entrega
+    if detalle_compra.cantidad_presentacion_entrega > detalle_compra.cantidad_presentacion_pedido:
+        detalle_compra.precio = detalle_compra.sub_total/detalle_compra.cantidad_presentacion_entrega
+    else:
+        detalle_compra.precio = detalle_compra.sub_total / detalle_compra.cantidad_presentacion_pedido
     detalle_compra.save()
+    producto = Producto.objects.get(pk=detalle_compra.presentacionxproducto.producto_id)
+    precio_actual_compra = detalle_compra.total_inc_flete / detalle_compra.cantidad_unidad_entrega
+    if producto.precio_compra < precio_actual_compra:
+        producto.precio_compra = precio_actual_compra
+        producto.precio_venta = producto.precio_compra + producto.utilidad_monetaria
+        producto.save()
     # '1' y '1' significa entrada y compra para el kardex
     if flag_estado == '3':
         update_kardex_stock(detalle_compra, '1', '1', compra)
@@ -377,3 +388,59 @@ def cancelarcompra(compra, asignado):
         url = '/?incidencias=' + json.dumps([
             ['3', 'Ya se canceló']])
     return url
+
+
+def crear_nota_credito(compra):
+    detallecompra = DetalleCompra.objects.filter(compra=compra)
+    count_discrepancia = 0
+    response = ''
+    nota = NotaCredito.objects.none()
+    monto = 0
+    for d in detallecompra:
+        if d.cantidad_presentacion_pedido > d.cantidad_presentacion_entrega:
+            cantidad_nota = d.cantidad_presentacion_pedido - d.cantidad_presentacion_entrega
+            if count_discrepancia == 0:
+                nota = NotaCredito(compra=compra, proveedor=compra.proveedor)
+                nota.save()
+            presentacion_cantidad = d.presentacionxproducto.cantidad
+            DetalleNotaCredito(notacredito=nota, producto=d.producto, tipo='2',
+                               presentacionxproducto=d. presentacionxproducto,
+                               cantidad_presentacion_pedido=d.cantidad_presentacion_pedido,
+                               cantidad_presentacion_entrega=d.cantidad_presentacion_entrega,
+                               cantidad_presentacion_nota=cantidad_nota,
+                               cantidad_unidad_pedido=d.cantidad_presentacion_pedido * presentacion_cantidad,
+                               cantidad_unidad_entrega=d.cantidad_presentacion_entrega * presentacion_cantidad,
+                               cantidad_unidad_nota=cantidad_nota * presentacion_cantidad,
+                               precio=(d.total_final/d.cantidad_presentacion_pedido),
+                               total=(d.total_final/d.cantidad_presentacion_pedido)*cantidad_nota).save()
+            count_discrepancia += 1
+            d.is_discrepancia = True
+            d.save()
+            monto += d.total
+        elif d.cantidad_presentacion_pedido < d.cantidad_presentacion_entrega:
+            cantidad_nota = d.cantidad_presentacion_entrega - d.cantidad_presentacion_pedido
+            if count_discrepancia == 0:
+                nota = NotaCredito(compra=compra, proveedor=compra.proveedor)
+                nota.save()
+            presentacion_cantidad = d.presentacionxproducto.cantidad
+            DetalleNotaCredito(notacredito=nota, producto=d.producto, tipo='1',
+                               presentacionxproducto=d. presentacionxproducto,
+                               cantidad_presentacion_pedido=d.cantidad_presentacion_pedido,
+                               cantidad_presentacion_entrega=d.cantidad_presentacion_entrega,
+                               cantidad_presentacion_nota=cantidad_nota,
+                               cantidad_unidad_pedido=d.cantidad_presentacion_pedido * presentacion_cantidad,
+                               cantidad_unidad_entrega=d.cantidad_presentacion_entrega * presentacion_cantidad,
+                               cantidad_unidad_nota=cantidad_nota * presentacion_cantidad,
+                               precio=(d.total_final/d.cantidad_presentacion_pedido),
+                               total=(d.total_final/d.cantidad_presentacion_pedido)*cantidad_nota).save()
+            count_discrepancia += 1
+            d.is_discrepancia = True
+            d.save()
+            monto += d.total
+    if count_discrepancia > 0:
+        nota.monto = monto
+        nota.save()
+        compra.is_discrepancia = True
+        response = '/?incidencias=[["3", "Se han registrado las diferencias."]]'
+    return response
+

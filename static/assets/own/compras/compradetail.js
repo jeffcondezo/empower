@@ -2,6 +2,7 @@ var form_pago_compra = document.getElementById('form_pago_compra');
 var pago_inp = document.getElementById('pago_inp');
 var total_inp = document.getElementById('total_inp');
 var periodo_credito = document.getElementById('periodo_credito');
+var recibo_credito = document.getElementById('recibo_credito');
 
 function init_detail() {
 
@@ -27,9 +28,11 @@ function action_tipo_pago(obj, new_value) {
         pago_inp.setAttribute('readonly', 'readonly');
         pago_inp.value = total_inp.value;
         periodo_credito.classList.add("periodo_credito_hdn");
+        recibo_credito.classList.add("periodo_credito_hdn");
     }else if(new_value==='2'){
             pago_inp.removeAttribute("readonly");
             pago_inp.value = '';
             periodo_credito.classList.remove("periodo_credito_hdn");
+            recibo_credito.classList.remove("periodo_credito_hdn");
     }
 }

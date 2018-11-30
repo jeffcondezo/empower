@@ -6,15 +6,18 @@ from maestro.models import Caja, Proveedor
 from clientes.models import Cliente
 from finanzas.models import DetalleJornada, Jornada, CuentaCliente, CuentaProveedor, PagoCliente, PagoProveedor
 from ventas.models import Venta
-from compras.models import Compra
+from compras.models import Compra, NotaCredito
 # Model import<--
+from maestro.utils import empresa_list
 
 
 class JornadaFiltroForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(JornadaFiltroForm, self).__init__(*args, **kwargs)
-        self.fields['caja'] = forms.ModelChoiceField(queryset=Caja.objects.all(), required=False,
+        self.fields['caja'] = forms.ModelChoiceField(queryset=Caja.objects.filter(
+            sucursal__empresa__in=empresa_list(user)), required=False,
                                                      widget=forms.SelectMultiple(
                                                          attrs={'class': 'multiple-select2 form-control'}))
         self.fields['caja'].empty_label = None
@@ -63,16 +66,22 @@ class JornadaCreateForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(JornadaCreateForm, self).__init__(*args, **kwargs)
+        self.fields['caja'] = forms.ModelChoiceField(queryset=Caja.objects.filter(
+            sucursal__empresa__in=empresa_list(user)),
+                                                     widget=forms.Select(
+                                                         attrs={'class': 'default-select2 form-control'}))
         self.fields['caja'].empty_label = None
 
 
 class CuentaClienteFiltroForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(CuentaClienteFiltroForm, self).__init__(*args, **kwargs)
-        self.fields['cliente'] = forms.ModelChoiceField(queryset=Cliente.objects.all(), required=False,
-                                                        widget=forms.SelectMultiple(
+        self.fields['cliente'] = forms.ModelChoiceField(queryset=Cliente.objects.filter(empresa__in=empresa_list(user)),
+                                                        required=False, widget=forms.SelectMultiple(
                                                          attrs={'class': 'multiple-select2 form-control'}))
         self.fields['cliente'].empty_label = None
         self.fields['duracion'] = forms.ChoiceField(choices=CuentaCliente.DURACION_CHOICES, required=False,
@@ -123,14 +132,16 @@ class PagoClienteCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PagoClienteCreateForm, self).__init__(*args, **kwargs)
         self.fields['tipo'].choices = [i for i in self.fields['tipo'].choices if i[0] in ['1', '2', '3']]
-        self.fields['banco'].choices = [i for i in self.fields['banco'].choices if i[0] in ['1', '2', '3']]
+        self.fields['banco'].choices = [i for i in self.fields['banco'].choices if i[0] in ['0', '1', '2', '3']]
 
 
 class CuentaProveedorFiltroForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
         super(CuentaProveedorFiltroForm, self).__init__(*args, **kwargs)
-        self.fields['proveedor'] = forms.ModelChoiceField(queryset=Proveedor.objects.all(), required=False,
+        self.fields['proveedor'] = forms.ModelChoiceField(queryset=Proveedor.objects.filter(
+            empresa__in=empresa_list(user)), required=False,
                                                           widget=forms.SelectMultiple(
                                                          attrs={'class': 'multiple-select2 form-control'}))
         self.fields['proveedor'].empty_label = None
@@ -171,18 +182,18 @@ class PagoProveedorCreateForm(forms.ModelForm):
 
     class Meta:
         model = PagoProveedor
-        fields = ['tipo', 'monto', 'banco', 'codigo']
+        fields = ['tipo', 'monto', 'banco', 'recibo']
         widgets = {
             'tipo': forms.Select(attrs={'class': 'default-select2 form-control'}),
             'banco': forms.Select(attrs={'class': 'default-select2 form-control'}),
             'monto': forms.NumberInput(attrs={'class': 'form-control'}),
-            'codigo': forms.TextInput(attrs={'class': 'form-control'}),
+            'recibo': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
         super(PagoProveedorCreateForm, self).__init__(*args, **kwargs)
         self.fields['tipo'].choices = [i for i in self.fields['tipo'].choices if i[0] in ['1', '2', '3']]
-        self.fields['banco'].choices = [i for i in self.fields['banco'].choices if i[0] in ['1', '2', '3']]
+        self.fields['banco'].choices = [i for i in self.fields['banco'].choices if i[0] in ['0', '1', '2', '3']]
 
 
 class PagoVentaForm(forms.ModelForm):
@@ -193,6 +204,8 @@ class PagoVentaForm(forms.ModelForm):
     pago = forms.FloatField(required=False,
                             widget=forms.NumberInput(attrs={'class': 'form-control', 'id': 'pago_inp',
                                                             'readonly': 'readonly'}))
+    recibo = forms.CharField(required=False,
+                             widget=forms.TextInput(attrs={'class': 'form-control'}))
     caja = forms.ModelChoiceField(queryset=Caja.objects.all(), required=True,
                                   widget=forms.Select(attrs={'class': 'default-select2 form-control'}))
 
@@ -219,6 +232,8 @@ class PagoCompraForm(forms.ModelForm):
     pago = forms.FloatField(required=False,
                             widget=forms.NumberInput(attrs={'class': 'form-control', 'id': 'pago_inp',
                                                             'readonly': 'readonly'}))
+    recibo = forms.CharField(required=False,
+                             widget=forms.TextInput(attrs={'class': 'form-control'}))
     caja = forms.ModelChoiceField(queryset=Caja.objects.all(), required=True,
                                   widget=forms.Select(attrs={'class': 'default-select2 form-control'}))
 
@@ -235,3 +250,15 @@ class PagoCompraForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PagoCompraForm, self).__init__(*args, **kwargs)
         self.fields['caja'].empty_label = None
+
+
+class NotaCreditoCerrarForm(forms.ModelForm):
+
+    class Meta:
+        model = NotaCredito
+        fields = ['serie_comprobante', 'numero_comprobante']
+        widgets = {
+            'serie_comprobante': forms.TextInput(attrs={'class': 'form-control'}),
+            'numero_comprobante': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
