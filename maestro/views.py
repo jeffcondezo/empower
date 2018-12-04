@@ -515,6 +515,8 @@ class ProductoEditView(BasicEMixin, TemplateView):
             if form.is_valid():
                 producto = form.save()
                 proveedor = Proveedor.objects.get(pk=1)
+                sucursal = Sucursal.objects.get(pk=1)
+                producto.catalogo.add(sucursal)
                 CatalogoxProveedor(producto=producto, proveedor=proveedor).save()
             else:
                 return HttpResponse(form.errors)
@@ -658,7 +660,7 @@ class CatalogoAddView(BasicEMixin, TemplateView):
         if request.POST['catalogo_to_save'] != "":
             catalogo_toadd = request.POST['catalogo_to_save'].split(',')
             for c in catalogo_toadd:
-                producto = Producto.objects.get(pk=c)
+                producto = Producto.objects.get(pk=self.request.POST['p'+c+'-producto'])
                 producto.catalogo.add(sucursal)
         return redirect('/maestro/catalogo/?sucursal='+str(sucursal.id))
 

@@ -236,6 +236,11 @@ class PagoVentaForm(forms.ModelForm):
 
 class PagoCompraForm(forms.ModelForm):
 
+    TIPO_PAGO_CHOICES = (
+        ('1', "PAGO DESDE CAJA"),
+        ('2', "PAGO LIBRE"),
+    )
+
     duracion = forms.ChoiceField(choices=CuentaProveedor.DURACION_CHOICES, required=False,
                                  widget=forms.Select(
                                      attrs={'class': 'default-select2 form-control'}))
@@ -246,6 +251,8 @@ class PagoCompraForm(forms.ModelForm):
                              widget=forms.TextInput(attrs={'class': 'form-control'}))
     caja = forms.ModelChoiceField(queryset=Caja.objects.all(), required=True,
                                   widget=forms.Select(attrs={'class': 'default-select2 form-control'}))
+    fondos = forms.ChoiceField(choices=TIPO_PAGO_CHOICES,
+                               widget=forms.Select(attrs={'class': 'default-select2 form-control'}))
 
     class Meta:
         model = Compra
@@ -260,6 +267,7 @@ class PagoCompraForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PagoCompraForm, self).__init__(*args, **kwargs)
         self.fields['caja'].empty_label = None
+        self.fields['fondos'].empty_label = None
 
 
 class NotaCreditoCerrarForm(forms.ModelForm):

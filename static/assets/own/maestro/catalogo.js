@@ -42,7 +42,7 @@ function init_add_button() {
         temp_tr.removeAttribute("id");
         var select = temp_tr.querySelector("select");
         var pos = (parseInt(current_pos.value) + 1).toString();
-        select.setAttribute("name", "p"+pos+"-presentacion");
+        select.setAttribute("name", "p"+pos+"-producto");
         $(select).select2({
           ajax: {
             url: '/maestro/api/producto',

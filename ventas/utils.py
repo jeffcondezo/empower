@@ -159,7 +159,7 @@ def create_venta_txt(venta_id):
 
     f.write("*****************************" + "\n")
     f.write("SUB TOTAL      S/ :" + ' ' + str(venta.sub_total) + "\n")
-    f.write("DESCUENTO      S/ :" + ' ' + str(venta.descuento) + "\n")
+    f.write("DESCUENTO      S/ :" + ' ' + str(venta.descuento_adicional) + "\n")
     f.write("IMP. MONTO     S/ :" + ' ' + str(venta.impuesto_monto) + "\n")
     f.write("TOTAL          S/ :" + ' ' + str(venta.total_final) + "\n")
     f.write("*****************************" + "\n")

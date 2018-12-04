@@ -421,7 +421,7 @@ class VentaPagoView(RedirectView):
                     venta.estado_pago = '2'
                 jornada.monto_actual += Decimal(pago)
                 jornada.save()
-                DetalleJornada(jornada=jornada, tipo='1', target=venta.id, monto=pago, descripcion='Venta',
+                DetalleJornada(jornada=jornada, tipo='1', target=venta.id, monto=pago, descripcion='Pago Venta',
                                asignado=self.request.user).save()
                 venta.save()
             else:
@@ -446,17 +446,20 @@ class CompraPagoView(RedirectView):
                 try:
                     jornada = Jornada.objects.get(caja=form.cleaned_data['caja'], estado=True)
                 except Jornada.DoesNotExist:
-
                     url = self.url + str(compra.id) + '/?incidencias='+json.dumps([
                         ['3', 'La caja está cerrada, no se pudo concretar el pago.']])
                     return url
                 pago = form.cleaned_data['pago']
-                if jornada.monto_actual < pago:
-                    url = self.url + str(compra.id) + '/?incidencias='+json.dumps([
-                        ['3', 'Saldo insuficiente en Caja']])
-                    return url
-                jornada.monto_actual -= Decimal(pago)
-                jornada.save()
+                if form.cleaned_data['tipo_pago'] == '1':
+                    if jornada.monto_actual < pago:
+                        url = self.url + str(compra.id) + '/?incidencias='+json.dumps([
+                            ['3', 'Saldo insuficiente en Caja']])
+                        return url
+                    descripcion = 'Pago Compra desde Caja'
+                    jornada.monto_actual -= Decimal(pago)
+                    jornada.save()
+                else:
+                    descripcion = 'Pago Compra Libre'
                 compra = form.save(commit=False)
                 compra.is_financiado = True
                 fecha_actual = datetime.now()
@@ -490,7 +493,7 @@ class CompraPagoView(RedirectView):
                 cuentaproveedor.save()
                 PagoProveedor(tipo='1', monto=pago, cuentaproveedor=cuentaproveedor, asignado=self.request.user,
                               recibo=form.cleaned_data['recibo'], compra=compra).save()
-                DetalleJornada(jornada=jornada, tipo='2', target=compra.id, monto=pago, descripcion='Compra',
+                DetalleJornada(jornada=jornada, tipo='2', target=compra.id, monto=pago, descripcion=descripcion,
                                asignado=self.request.user).save()
                 compra.save()
             else:

@@ -192,7 +192,11 @@
                 <form id="form_pago_compra" action="/finanzas/pagocompra/{{ object.id }}/" method="POST">{% csrf_token %}
                     <div class="modal-body">
                         <fieldset>
-                            <legend class="m-b-15">Pago de la Venta:</legend>
+                            <legend class="m-b-15">Pago de la Compra:</legend>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">FONDOS:</label>
+                                {{ pago_form.fondos }}
+                            </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Caja:</label>
                                 {{ pago_form.caja }}
