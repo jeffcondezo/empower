@@ -112,11 +112,12 @@
                             <tr>
                                 <th width="15%">Producto</th>
                                 <th width="10%">Presentación</th>
-                                <th width="10%">Cantidad</th>
+                                <th width="10%">Cant.</th>
                                 <th width="10%">Precio</th>
                                 <th width="10%">SubTotal</th>
-                                <th width="10%">Descuento</th>
-                                <th width="10%">Impuesto</th>
+                                <th width="5%">Desc.</th>
+                                <th width="5%">Imp.</th>
+                                <th width="10%">Flete</th>
                                 <th width="10%">Total</th>
                                 <th width="15%">Promociones</th>
                             </tr>
@@ -132,7 +133,8 @@
                                         <td>{{ d.sub_total }}</td>
                                         <td>{{ d.descuento }}</td>
                                         <td>{{ d.impuesto_monto }}</td>
-                                        <td>{{ d.total_final }}</td>
+                                        <td>{{ d.flete }}</td>
+                                        <td>{{ d.total_inc_flete }}</td>
                                         <td>
                                             {% for p in d.promocion %}
                                                 {% if p.tipo == '1' %}

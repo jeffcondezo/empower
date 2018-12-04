@@ -46,6 +46,7 @@ class Compra(models.Model):
     total_final = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total_inc_flete = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     is_discrepancia = models.BooleanField(default=False)
+    guia_remision = models.CharField(max_length=50, blank=True, null=True)
 
 
 class DetalleCompra(models.Model):

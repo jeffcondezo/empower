@@ -221,7 +221,7 @@ class VentaDescuentoAdicionalView(BasicEMixin, UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        url = self.success_url + str(self.object.id)
+        url = self.success_url + str(self.object.venta.id)
         return url
 
 
@@ -296,6 +296,8 @@ class VentaEditView(BasicEMixin, TemplateView):
                 venta.save()
             if venta.tipo == '1':
                 venta.estado = '3'
+            elif venta.tipo == '2':
+                venta.estado = '1'
             else:
                 venta.estado = '2'
             venta.save()
@@ -382,9 +384,12 @@ def ReporteVentas(request, id):
     h.cell(row=3, column=3).value = str(venta.sucursal.descripcion)
     h.cell(row=3, column=5).value = str(venta.get_estado_display())
     h.cell(row=3, column=8).value = new_fecha
-    h.cell(row=5, column=3).value = venta.total
+    h.cell(row=5, column=3).value = venta.total_con_descuento
     h.cell(row=5, column=5).value = venta.asignado.username
-    h.cell(row=5, column=8).value = str(venta.cliente)
+    if venta.cliente is None:
+        h.cell(row=5, column=8).value = str('Regular')
+    else:
+        h.cell(row=5, column=8).value = str(venta.cliente)
 
     for dv in detalleventa:
         i = i + 1
@@ -414,12 +419,12 @@ def ReporteVentas(request, id):
                                                 right=Side(border_style='thin', color='FF000000'),
                                                 bottom=Side(border_style='thin', color='FF000000'),
                                                 left=Side(border_style='thin', color='FF000000'))
-        h.cell(row=i, column=7).value = dv.descuento
+        h.cell(row=i, column=7).value = dv.descuento_adicional
         h.cell(row=i, column=7).border = Border(top=Side(border_style='thin', color='FF000000'),
                                                 right=Side(border_style='thin', color='FF000000'),
                                                 bottom=Side(border_style='thin', color='FF000000'),
                                                 left=Side(border_style='thin', color='FF000000'))
-        h.cell(row=i, column=8).value = dv.total_final
+        h.cell(row=i, column=8).value = dv.total_con_descuento
         h.cell(row=i, column=8).border = Border(top=Side(border_style='thin', color='FF000000'),
                                                 right=Side(border_style='thin', color='FF000000'),
                                                 bottom=Side(border_style='thin', color='FF000000'),
@@ -431,5 +436,95 @@ def ReporteVentas(request, id):
 
     response = HttpResponse(content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename=detalleventa' + str(venta.id) + '.xls'
+    libro.save(response)
+    return response
+
+
+def ReportVentas(request):
+    libro = Workbook()
+    libro = load_workbook("./venta.xlsx")
+    h = libro.get_sheet_by_name("Hoja1")
+
+    Venta.objects.filter()
+    query = Venta.objects.all()
+    cliente = request.POST.getlist('cliente')
+    sucursal = request.POST.getlist('sucursal')
+    estado = request.POST.getlist('estado')
+    tipo_pago = request.POST.getlist('tipo_pago')
+    estado_pago = request.POST.getlist('estado_pago')
+    if len(cliente) > 0:
+        query = query.filter(cliente__in=cliente)
+    if len(sucursal) > 0:
+        query = query.filter(sucursal__in=sucursal)
+    if len(estado) > 0:
+        query = query.filter(estado__in=estado)
+    if len(tipo_pago) > 0:
+        query = query.filter(tipo_pago__in=tipo_pago)
+    if len(estado_pago) > 0:
+        query = query.filter(estado_pago__in=estado_pago)
+    if 'fechahora_creacion1' in request.POST and 'fechahora_creacion2' in request.POST:
+        if request.POST['fechahora_creacion1'] != '' and request.POST['fechahora_creacion2'] != '':
+            fecha_inicio = datetime.strptime(request.POST['fechahora_creacion1'], '%d/%m/%Y %H:%M')
+            fecha_fin = datetime.strptime(request.POST['fechahora_creacion2'], '%d/%m/%Y %H:%M')
+            query = query.filter(fechahora_creacion__gte=fecha_inicio, fechahora_creacion__lte=fecha_fin)
+    if 'total1' in request.POST or 'total2' in request.POST:
+        total1 = request.POST['total1']
+        total2 = request.POST['total2']
+        if total1 != '' and total2 != '':
+            query = query.filter(total__gte=total1, total__lte=total2)
+        elif total1 == '' and total2 != '':
+            query = query.filter(total__lte=total2)
+        elif total2 == '' and total1 != '':
+            query = query.filter(total__gte=total1)
+
+    i = 5
+    total = 0
+    for o in query:
+        i = i + 1
+        if(o.cliente == None):
+            h.cell(row=i, column=2).value = str('REGULAR')
+        else:
+            h.cell(row=i, column=3).value = o.cliente
+
+        h.cell(row=i, column=3).value = o.sucursal.descripcion
+        h.cell(row=i, column=4).value = o.asignado.username
+        h.cell(row=i, column=5).value = o.get_estado_display()
+        h.cell(row=i, column=6).value = o.get_tipo_pago_display()
+        h.cell(row=i, column=7).value = o.total_final
+        total = total + o.total_final
+
+        ### BORDER CADA FILA ###
+
+        h.cell(row=i, column=2).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                right=Side(border_style='thin', color='FF000000'),
+                                                bottom=Side(border_style='thin', color='FF000000'),
+                                                left=Side(border_style='thin', color='FF000000'))
+        h.cell(row=i, column=3).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                right=Side(border_style='thin', color='FF000000'),
+                                                bottom=Side(border_style='thin', color='FF000000'),
+                                                left=Side(border_style='thin', color='FF000000'))
+        h.cell(row=i, column=4).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                right=Side(border_style='thin', color='FF000000'),
+                                                bottom=Side(border_style='thin', color='FF000000'),
+                                                left=Side(border_style='thin', color='FF000000'))
+        h.cell(row=i, column=5).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                right=Side(border_style='thin', color='FF000000'),
+                                                bottom=Side(border_style='thin', color='FF000000'),
+                                                left=Side(border_style='thin', color='FF000000'))
+        h.cell(row=i, column=6).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                right=Side(border_style='thin', color='FF000000'),
+                                                bottom=Side(border_style='thin', color='FF000000'),
+                                                left=Side(border_style='thin', color='FF000000'))
+        h.cell(row=i, column=7).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                right=Side(border_style='thin', color='FF000000'),
+                                                bottom=Side(border_style='thin', color='FF000000'),
+                                                left=Side(border_style='thin', color='FF000000'))
+
+    i = i + 2
+    h.cell(row=i, column=6).value = "TOTAL"
+    h.cell(row=i, column=7).value = total
+
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=venta' + str(o.id) + '.xls'
     libro.save(response)
     return response

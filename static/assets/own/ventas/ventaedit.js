@@ -57,6 +57,7 @@ function init_load_basicdata(data) {
             opt.value = data['presentacion'][i]['id'];
             opt.innerHTML = data['presentacion'][i]['presentacion']['descripcion'];
             opt.setAttribute("data-cantidad", data['presentacion'][i]['cantidad']);
+            opt.setAttribute("data-precio", data['presentacion'][i]['precio_venta']);
             var select = document.getElementById('sel_pre_' + data['presentacion'][i]['producto']);
             select.append(opt)
         }
@@ -90,8 +91,7 @@ function init_load_basicdata(data) {
         for (var i = 0; i < data['precio'].length; i++) {
             var tr = document.querySelector('tr[data-prod="'+data['precio'][i]['id']+'"]');
             var select = tr.querySelector('.presentacionxproducto');
-            tr.querySelector('.precio_inp').value = (data['precio'][i]['precio_venta']).toFixed(2);
-            tr.querySelector('.td_precio').innerHTML = (data['precio'][i]['precio_venta'] * select.options[select.selectedIndex].getAttribute("data-cantidad")).toFixed(2);
+            tr.querySelector('.td_precio').innerHTML = select.options[select.selectedIndex].getAttribute("data-precio");
             var impuestos = tr.querySelector('.impuesto_inp').value;
             if (impuestos !== '' && impuestos !== '[]') {
                 current_pos_impuesto.value = tr.querySelector('.tax').getAttribute("data-pos");
@@ -252,14 +252,14 @@ function prod_change(obj, new_value,e) {
         for (var i = 0; i < datapresentacion.length; i++) {
             var opt = document.createElement('option');
             opt.value = datapresentacion[i]['id'];
-            opt.innerHTML = datapresentacion[i]['presentacion']['descripcion'];
+            opt.innerHTML = datapresentacion[i]['presentacion']['descripcion'] + ' x ' + datapresentacion[i]['cantidad'] + 'U.';
             opt.setAttribute("data-cantidad", datapresentacion[i]['cantidad']);
+            opt.setAttribute("data-precio", datapresentacion[i]['precio_venta']);
             presentacion_select.append(opt);
         }
         presentacion_select.value = '';
         $(presentacion_select).select2('open');
         var dataprecio = data['precio'];
-        current_tr.querySelector('.precio_inp').value = parseFloat(dataprecio[0]['precio_venta']).toFixed(2);
         current_tr.querySelector('.td_precio').innerHTML = parseFloat(dataprecio[0]['precio_venta']).toFixed(2);
         var dataoferta = data['oferta'];
         if (dataoferta.length > 0){
@@ -297,8 +297,8 @@ function validar_duplicado_prod(id_prod) {
 function action_pres_change(obj, new_value) {
     var tr = obj.parentElement.parentElement;
     var cantidadpresentacion = obj.querySelector('option[value="'+new_value+'"]').getAttribute('data-cantidad');
-    var precio = parseFloat(tr.querySelector('.precio_inp').value);
-    tr.querySelector('.td_precio').innerHTML = (precio * parseFloat(cantidadpresentacion)).toFixed(2);
+    var precio_presentacion = obj.querySelector('option[value="'+new_value+'"]').getAttribute('data-precio');
+    tr.querySelector('.td_precio').innerHTML = (parseFloat(precio_presentacion)).toFixed(2);
     action_calcular_line_total(tr, cantidadpresentacion);
     var cantidad_dom = tr.querySelector('.cantidadpresentacion');
     setTimeout(function(){$(cantidad_dom).focus();},0);

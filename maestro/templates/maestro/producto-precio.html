@@ -6,6 +6,7 @@
     <div class="panel panel-inverse">
         <div class="panel-heading">
             <div class="btn-group pull-right">
+              <a href="/maestro/producto/{{ next }}/precio" class="btn btn-xs btn-primary buttons"><i class="fa fa-arrow-right"></i></a>
             </div>
             <h4 class="panel-title">Producto</h4>
         </div>
@@ -27,26 +28,6 @@
                 <div class="col-md-3">
                   {{ object.descripcion }}
                 </div>
-                <div class="col-md-1">
-                  <label  class="control-label">UTILIDAD:</label>
-                </div>
-                <div class="col-md-3">
-                  {{ object.utilidad_monetaria }}
-                </div>
-              </div>
-                         <div class="form-group row m-b-2">
-                <div class="col-md-1">
-                  <label class="control-label">PRECIO VENTA:</label>
-                </div>
-                <div class="col-md-3">
-                  {{ object.precio_venta }}
-                </div>
-                <div class="col-md-1">
-                  <label  class="control-label">PRECIO COMPRA:</label>
-                </div>
-                <div class="col-md-3">
-                  {{ object.precio_compra }}
-                </div>
               </div>
                <legend class="m-b-15">Precios
                </legend>
@@ -59,6 +40,7 @@
                                     <th>Cantidad por Unidad</th>
                                     <th>Precio Compra</th>
                                     <th>Precio Venta</th>
+                                    <th>Utilidad</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,6 +50,7 @@
                                         <td>{{ p.cantidad }}</td>
                                         <td><input type="number" step=".01" class="form-control" value="{{ p.precio_compra }}" name="precio_compra-{{ p.id }}"></td>
                                         <td><input type="number" step=".01" class="form-control" value="{{ p.precio_venta }}" name="precio_venta-{{ p.id }}"></td>
+                                        <td>{{ p.utilidad }}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

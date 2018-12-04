@@ -2,7 +2,7 @@
 from django.urls import path
 from finanzas.views import JornadaListView, JornadaDetailView, DetalleJornadaCreateView, JornadaCloseView,\
     JornadaCreateView, CuentaClienteListView, CuentaClienteDetailView, PagoClienteCreateView, CuentaProveedorListView,\
-    CuentaProveedorDetailView, PagoProveedorCreateView, VentaPagoView, CompraPagoView
+    CuentaProveedorDetailView, PagoProveedorCreateView, VentaPagoView, CompraPagoView, reporte_jornada
 
 
 urlpatterns = [
@@ -19,4 +19,6 @@ urlpatterns = [
     path('cuentaproveedor', CuentaProveedorListView.as_view()),
     path('cuentaproveedor/<int:pk>/', CuentaProveedorDetailView.as_view()),
     path('pagoproveedor/add/<int:cuentaproveedor>/', PagoProveedorCreateView.as_view()),
+    path('reportjornada/<int:id>', reporte_jornada, name='reportjornada')
+
 ]

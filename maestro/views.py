@@ -417,6 +417,12 @@ class ProductoPrecioView(BasicEMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['object'] = Producto.objects.get(pk=self.kwargs['pk'])
         context['presentaciones'] = PresentacionxProducto.objects.filter(producto=self.kwargs['pk'])
+        prod_next = Producto.objects.filter(id__gt=self.kwargs['pk'])[:1]
+        if len(prod_next) > 0:
+            siguiente = prod_next[0].id
+        else:
+            siguiente = self.kwargs['pk']
+        context['next'] = siguiente
         return context
 
     def post(self, request, *args, **kwargs):
@@ -427,18 +433,21 @@ class ProductoPrecioView(BasicEMixin, TemplateView):
                 precio_compra = float(request.POST['precio_compra-'+str(p.id)])
                 if p.precio_compra < precio_compra:
                     p.precio_compra = precio_compra
+                    p.utilidad = float(p.precio_venta) - float(p.precio_compra)
                     p.save()
                     presentacion_temp1 = PresentacionxProducto.objects.filter(producto=producto, id__lt=p.id)
                     for o in presentacion_temp1:
                         precio_temp1 = (p.precio_compra / p.cantidad) * o.cantidad
                         if precio_temp1 > o.precio_compra:
                             o.precio_compra = precio_temp1
+                            o.utilidad = float(o.precio_venta) - float(o.precio_compra)
                             o.save()
                 if p.precio_compra == 0:
                     presentacion_temp3 = PresentacionxProducto.objects.filter(producto=producto, id__lt=p.id)
                     for r in presentacion_temp3:
                         if r.precio_compra != 0:
                             p.precio_compra = (r.precio_compra/r.cantidad)*p.cantidad
+                            p.utilidad = float(p.precio_venta) - float(p.precio_compra)
                             p.save()
                             continue
             else:
@@ -447,24 +456,28 @@ class ProductoPrecioView(BasicEMixin, TemplateView):
                     for r in presentacion_temp3:
                         if r.precio_compra != 0:
                             p.precio_compra = (r.precio_compra/r.cantidad)*p.cantidad
+                            p.utilidad = float(p.precio_venta) - float(p.precio_compra)
                             p.save()
                             continue
             if request.POST['precio_venta-'+str(p.id)] != '':
                 precio_venta = float(request.POST['precio_venta-'+str(p.id)])
                 if p.precio_venta < precio_venta:
                     p.precio_venta = precio_venta
+                    p.utilidad = p.precio_venta - float(p.precio_compra)
                     p.save()
                     presentacion_temp2 = PresentacionxProducto.objects.filter(producto=producto, id__lt=p.id)
                     for q in presentacion_temp2:
                         precio_temp2 = (p.precio_venta / p.cantidad) * q.cantidad
                         if precio_temp2 > q.precio_venta:
                             q.precio_venta = precio_temp2
+                            q.utilidad = q.precio_venta - float(q.precio_compra)
                             q.save()
                 if p.precio_venta == 0:
                     presentacion_temp4 = PresentacionxProducto.objects.filter(producto=producto, id__lt=p.id)
                     for s in presentacion_temp4:
                         if s.precio_venta != 0:
                             p.precio_venta = (s.precio_venta / s.cantidad) * p.cantidad
+                            p.utilidad = p.precio_venta - float(p.precio_compra)
                             p.save()
                             continue
             else:
@@ -473,6 +486,7 @@ class ProductoPrecioView(BasicEMixin, TemplateView):
                     for s in presentacion_temp4:
                         if s.precio_venta != 0:
                             p.precio_venta = (s.precio_venta / s.cantidad) * p.cantidad
+                            p.utilidad = p.precio_venta - float(p.precio_compra)
                             p.save()
                             continue
         return redirect('/maestro/producto/'+str(producto.id)+'/precio')

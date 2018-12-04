@@ -23,6 +23,7 @@ class Venta(models.Model):
     )
     TIPO_CHOICES = (
         ('1', 'VENTA DIRECTA'),
+        ('2', 'PROFORMA'),
     )
     asignado = models.ForeignKey(User, on_delete=models.PROTECT)
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, null=True, blank=True)

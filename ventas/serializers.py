@@ -22,7 +22,7 @@ class PresentacionxProductoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PresentacionxProducto
-        fields = ['id', 'presentacion', 'producto', 'cantidad']
+        fields = ['id', 'presentacion', 'producto', 'cantidad', 'precio_venta']
 
 
 # Usado para obtener el precio base del producto.

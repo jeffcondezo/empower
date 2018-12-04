@@ -85,8 +85,8 @@
                                     <tr id="tr_dc_{{ forloop.counter }}" data-id="{{ d.1.id }}">
                                         <td><input type="hidden" value="{{ d.1.id }}" name="dc{{ forloop.counter }}-id">{{ d.0.producto }}</td>
                                         <td><select name="dc{{ forloop.counter }}-presentacionxproducto" data-selected="{{ d.1.presentacionxproducto_id }}" required class="sel_presentacionxproducto" id="sel_pre_{{ d.1.producto_id }}"></select></td>
-                                        <td class="td_precio">{{ d.0.precio }}</td>
                                         <td>{{ d.0.cantidad_presentacion_pedido }}</td>
+                                        <td class="td_precio">{{ d.0.precio }}</td>
                                         <td class="td_subtotal">0</td>
                                         <td class="td_descuento">0</td>
                                         <td class="td_impuesto"><button type="button" class="btn btn-xs btn-success tax" data-pos="{{ forloop.counter }}"><i class="fa fa-plus fas"></i></button></td>

@@ -31,6 +31,16 @@ class JornadaFiltroForm(forms.Form):
                                                                  attrs={'id': 'fechahora_inicio2',
                                                                         'placeholder': 'Fin',
                                                                         'class': 'form-control'}))
+        self.fields['fechahora_inicio3'] = forms.CharField(required=False,
+                                                           widget=forms.TextInput(
+                                                               attrs={'id': 'fechahora_inicio3',
+                                                                      'placeholder': 'Inicio',
+                                                                      'class': 'form-control'}))
+        self.fields['fechahora_inicio4'] = forms.CharField(required=False,
+                                                           widget=forms.TextInput(
+                                                                 attrs={'id': 'fechahora_inicio4',
+                                                                        'placeholder': 'Fin',
+                                                                        'class': 'form-control'}))
         self.fields['monto1'] = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                                  'placeholder': 'Mínimo'}),
                                                  required=False)

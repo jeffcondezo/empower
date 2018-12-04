@@ -44,7 +44,7 @@
                             <td>{{ o.asignado.username }}</td>
                             <td>{{ o.get_estado_display }}</td>
                             <td>{{ o.get_tipo_display }}</td>
-                            <td>{{ o.total_final }}</td>
+                            <td>{{ o.total_inc_flete }}</td>
                             <td><div class="fa-2x"><a class="no-link" href="/compras/compra/{{ o.id }}"><i class="fas fa-xs fa-eye icons-table"></i></a><a class="no-link" href="/compras/compra/{{ o.id }}/edit"><i  class="fas fa-xs fa-edit icons-table"></i></a></div></td>
                         </tr>
                     {% endfor %}

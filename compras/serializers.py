@@ -24,6 +24,13 @@ class PresentacionxProductoSerializer(serializers.ModelSerializer):
         fields = ['id', 'presentacion', 'producto', 'cantidad']
 
 
+class PrecioCompraSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PresentacionxProducto
+        fields = ['precio_compra']
+
+
 class PrecioTentativoSerializer(serializers.ModelSerializer):
 
     class Meta:

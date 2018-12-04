@@ -17,6 +17,8 @@
                 <a href="#modal-crear" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-plus"></i></a>
                 <a href="#modal-filtros" class="btn btn-xs btn-primary buttons" data-toggle="modal"><i class="fa fa-search"></i></a>  
                <!--  <a  href="/compras/reportes" id="btnExport" class="btn btn-xs btn-primary buttons no-link"><i class="fa fa-search"></i>Reporte</a>       -->
+                <button type="submit" form="reporte" class="btn btn-xs btn-success buttons"><i class="far fa-file-excel"></i></button>
+
             </div>
             <h4 class="panel-title">Venta</h4>
         </div>
@@ -42,7 +44,7 @@
                             <td>{{ o.asignado.username }}</td>
                             <td>{{ o.get_estado_display }}</td>
                             <td>{{ o.get_tipo_pago_display }}</td>
-                            <td>{{ o.total_final }}</td>
+                            <td>{{ o.total_con_descuento }}</td>
                             <td><div class="fa-2x"><a class="no-link" href="/ventas/venta/{{ o.id }}"><i class="fas fa-xs fa-eye icons-table"></i></a><a class="no-link" href="/ventas/venta/{{ o.id }}/edit"><i  class="fas fa-xs fa-edit icons-table"></i></a></div></td>
                         </tr>
                     {% endfor %}
@@ -140,6 +142,64 @@
                 </form>
             </div>
         </div>
+    </div>
+
+    <div style="display: none;">
+        <form method="post" id="reporte" action="{% url 'ventas:ventas_reporte' %}">{% csrf_token %}
+            <div class="modal-body">
+                <fieldset>
+                    <legend class="m-b-15">Filtros</legend>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Cliente</label>
+                        {{ venta_filtro.cliente }}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Sucursal</label>
+                        {{ venta_filtro.sucursal }}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Estado</label>
+                        {{ venta_filtro.estado }}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Tipo Pago</label>
+                        {{ venta_filtro.tipo_pago }}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Estado Pago</label>
+                        {{ venta_filtro.tipo_pago }}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Fechas</label>
+                        <div class="row row-space-12">
+                            <div class="col-xs-8">
+                                {{ venta_filtro.fechahora_creacion1 }}
+                            </div>
+                            <div class="col-xs-8">
+                                {{ venta_filtro.fechahora_creacion2 }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Total</label>
+                        <div class="row row-space-12">
+                            <div class="col-xs-8">
+                                {{ venta_filtro.total1 }}
+                            </div>
+                            <div class="col-xs-8">
+                                {{ venta_filtro.total2 }}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cerrar</a>
+                <button type="submit" class="btn btn-success">Filtrar</button>
+            </div>
+        </form>
+
+
     </div>
 {% endblock %}
 

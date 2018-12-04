@@ -35,17 +35,8 @@ def fill_data_compra(compra, dc_form, impuestos):
         dc_form.cantidad_unidad_entrega = dc_form.cantidad_unidad_pedido
         dc_form.is_checked = True
         dc_form.save()
-        catalogo_proveedor = CatalogoxProveedor.objects.get(producto=dc_form.presentacionxproducto.producto_id,
-                                                            proveedor=compra.proveedor_id)
-        catalogo_proveedor.presentacionxproducto = dc_form.presentacionxproducto
-        catalogo_proveedor.precio_tentativo = dc_form.precio
-        catalogo_proveedor.save()
-        producto = Producto.objects.get(pk=dc_form.presentacionxproducto.producto_id)
-        precio_actual_compra = dc_form.total_final / dc_form.cantidad_unidad_entrega
-        if producto.precio_compra < precio_actual_compra:
-            producto.precio_compra = precio_actual_compra
-            producto.precio_venta = producto.precio_compra + producto.utilidad_monetaria
-            producto.save()
+        precio_actual_compra = dc_form.total_final / dc_form.cantidad_presentacion_pedido
+        update_precio_compra(precio_actual_compra, dc_form.presentacionxproducto)
         update_kardex_stock(dc_form, '1', '1', compra)
     for im in impuesto_array:
         dc_form.impuesto.add(im)
@@ -353,14 +344,10 @@ def fill_data_detallecompra(detalle_compra, flag_estado, compra):
     else:
         detalle_compra.precio = detalle_compra.sub_total / detalle_compra.cantidad_presentacion_pedido
     detalle_compra.save()
-    producto = Producto.objects.get(pk=detalle_compra.presentacionxproducto.producto_id)
-    precio_actual_compra = detalle_compra.total_inc_flete / detalle_compra.cantidad_unidad_entrega
-    if producto.precio_compra < precio_actual_compra:
-        producto.precio_compra = precio_actual_compra
-        producto.precio_venta = producto.precio_compra + producto.utilidad_monetaria
-        producto.save()
     # '1' y '1' significa entrada y compra para el kardex
     if flag_estado == '3':
+        precio_actual_compra = detalle_compra.total_final / detalle_compra.cantidad_presentacion_entrega
+        update_precio_compra(precio_actual_compra, detalle_compra.presentacionxproducto)
         update_kardex_stock(detalle_compra, '1', '1', compra)
 
 
@@ -444,3 +431,13 @@ def crear_nota_credito(compra):
         response = '/?incidencias=[["3", "Se han registrado las diferencias."]]'
     return response
 
+
+def update_precio_compra(precio_actual, presentacionxproducto):
+    if precio_actual > presentacionxproducto.precio_compra:
+        presentacion_temp1 = PresentacionxProducto.objects.filter(producto=presentacionxproducto.producto)
+        for o in presentacion_temp1:
+            precio_temp1 = (precio_actual / presentacionxproducto.cantidad) * o.cantidad
+            if precio_temp1 > o.precio_compra:
+                o.precio_compra = precio_temp1
+                o.precio_venta = o.precio_compra + o.utilidad
+                o.save()

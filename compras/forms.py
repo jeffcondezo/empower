@@ -184,9 +184,10 @@ class CompraRecepcionForm(forms.ModelForm):
 
     class Meta:
         model = Compra
-        fields = ['estado']
+        fields = ['estado', 'guia_remision']
         widgets = {
-            'estado': forms.Select(attrs={'class': 'estado_select form-control'})
+            'estado': forms.Select(attrs={'class': 'estado_select form-control'}),
+            'guia_remision': forms.TextInput(attrs={'class': 'form-control'})
         }
 
     def __init__(self, *args, **kwargs):

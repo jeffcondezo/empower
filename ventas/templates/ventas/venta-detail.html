@@ -20,7 +20,9 @@
                     {% endif %}
                 {% else %}
                     {% if object.estado != '4' %}
-                        <a href="#modal-pago" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-dollar-sign"></i></a>
+                        {% if object.tipo != '2' %}
+                            <a href="#modal-pago" data-toggle="modal" class="btn btn-xs btn-primary buttons"><i class="fa fa-dollar-sign"></i></a>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
                 {% if object.estado != '4' %}
@@ -59,7 +61,7 @@
                         <label class="control-label">TOTAL:</label>
                     </div>
                     <div class="col-md-2" id="orden_total">
-                        {{ object.total_final|default_if_none:0 }}<input type="hidden" id="total_inp" value="{{ object.total_final|default_if_none:0 }}">
+                        {{ object.total_con_descuento|default_if_none:0 }}<input type="hidden" id="total_inp" value="{{ object.total_con_descuento|default_if_none:0 }}">
                     </div>
 
                     <div class="col-md-2">

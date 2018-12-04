@@ -78,7 +78,7 @@
                                     <td class="td_descuento">0</td>
                                     <td class="td_impuesto"><button type="button" class="btn btn-xs btn-success tax"><i class="fa fa-plus fas"></i></button></td>
                                     <td class="td_total">0</td>
-                                    <td><input type="hidden" class="impuesto_inp"><input type="hidden" class="precio_inp"><input type="hidden" class="promocion_inp"><a class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
+                                    <td><input type="hidden" class="impuesto_inp"><input type="hidden" class="promocion_inp"><a class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
                                     <td><a class="btn btn-default btn-icon btn-circle btn-lg delete_hdn"><i class="fas fa-trash"></i></a></td>
                                 </tr>
                                 {% for d in detalle %}
@@ -91,7 +91,7 @@
                                             <td class="td_descuento">0</td>
                                             <td class="td_impuesto"><button type="button" class="btn btn-xs btn-success tax" data-pos="{{ forloop.counter }}"><i class="fa fa-plus fas"></i></button></td>
                                             <td class="td_total">{{ d.1.total }}</td>
-                                            <td><input type="hidden" class="impuesto_inp" value="{{ d.1.impuesto_value }}" name="dv{{ forloop.counter }}-impuesto_inp"><input type="hidden" class="precio_inp"><input type="hidden" class="promocion_inp"><a data-pos="{{ forloop.counter }}" class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
+                                            <td><input type="hidden" class="impuesto_inp" value="{{ d.1.impuesto_value }}" name="dv{{ forloop.counter }}-impuesto_inp"><input type="hidden" class="promocion_inp"><a data-pos="{{ forloop.counter }}" class="btn btn-default btn-icon btn-circle btn-lg promocion"><i class="fas fa-gift"></i></a></td>
                                             <td><a class="btn btn-default btn-icon btn-circle btn-lg delete"><i class="fas fa-trash"></i></a></td>
                                         </tr>
                                 {% endfor %}

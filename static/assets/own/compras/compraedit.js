@@ -228,17 +228,17 @@ function action_pres_change(obj, new_value) {
             data = JSON.parse(xhttp.responseText);
             if(data.length === 0){
                 data[0] = {};
-                data[0]['precio_tentativo'] = 0;
+                data[0]['precio_compra'] = 0;
             }
         }
     };
     xhttp.open("GET", "/compras/api/preciotentativo/"+new_value, false);
     xhttp.send();
     var tr = obj.parentElement.parentElement;
-    tr.querySelector('.precio').value = data[0]['precio_tentativo'];
+    tr.querySelector('.precio').value = data[0]['precio_compra'];
     var cantidad = tr.querySelector('.cantidadpresentacion').value;
     if(cantidad != ''){
-        var total = data[0]['precio_tentativo']*cantidad;
+        var total = data[0]['precio_compra']*cantidad;
         tr.querySelector('.td_total').innerHTML = total;
         action_calcular_total();
     }

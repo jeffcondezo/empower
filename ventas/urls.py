@@ -2,9 +2,10 @@
 from django.urls import path
 from ventas.views import OfertaListView, OfertaEditView, OfertaDetailView, VentaListView, VentaCreateView,\
     VentaEditView, VentaDetailView, ReporteVentas, VentaEntregaView, VentaCancelarView, VentaDuplicarView,\
-    VentaFindView, VentaDescuentoAdicionalView
+    VentaFindView, VentaDescuentoAdicionalView, ReportVentas
 from ventas.rviews import ProductoDetailsView, ValidarStockView
 
+app_name = 'ventas'
 
 urlpatterns = [
     path('oferta', OfertaListView.as_view()),
@@ -20,6 +21,7 @@ urlpatterns = [
     path('venta/<int:venta>/duplicar', VentaDuplicarView.as_view()),
     path('detalleventa/<int:pk>/descuento', VentaDescuentoAdicionalView.as_view()),
     path('reporteventas/<int:id>', ReporteVentas, name='reporteventas'),
+    path('ventas_reporte/', ReportVentas, name='ventas_reporte'),
 
     path('api/productodetails/<str:producto>/<int:sucursal>', ProductoDetailsView.as_view()),
     path('api/validatestock/<int:presentacion>/<int:sucursal>/<int:cantidad>', ValidarStockView.as_view()),

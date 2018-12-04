@@ -132,7 +132,7 @@ class CompraEditView(BasicEMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         compra = Compra.objects.get(pk=self.kwargs['pk'])
-        if compra.estado != '1':
+        if compra.estado != '1' and compra.estado != '2':
             return redirect('/compras/compra/' + str(compra.id))
         else:
             return super().dispatch(request)
