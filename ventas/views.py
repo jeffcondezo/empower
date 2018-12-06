@@ -362,10 +362,13 @@ class VentaFindView(RedirectView):
     action_name = 'leer'
 
     def get_redirect_url(self, *args, **kwargs):
-        try:
-            venta = Venta.objects.get(pk=self.request.GET['venta'])
-            url = self.url + '/' + self.request.GET['venta']
-        except Venta.DoesNotExist:
+        if self.request.GET['venta'].isdigit():
+            try:
+                Venta.objects.get(pk=self.request.GET['venta'])
+                url = self.url + '/' + self.request.GET['venta']
+            except Venta.DoesNotExist:
+                url = self.url
+        else:
             url = self.url
         return url
 

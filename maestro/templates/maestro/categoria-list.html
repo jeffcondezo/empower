@@ -34,7 +34,7 @@
                             <td>{{ c.padre.descripcion }}</td>
                             <td><div class="fa-2x"><a class="no-link" href="/maestro/categoria/{{ c.id }}"><i class="fas fa-xs fa-eye icons-table"></i></a>
                                 <a class="no-link" href="/maestro/categoria/{{ c.id }}/edit"><i  class="fas fa-xs fa-edit icons-table"></i></a>
-                                <a class="no-link" href="/maestro/categoria/add/{{ c.id }}/"><i  class="fas fa-xs fa-plus/ icons-table"></i></a></div></td>
+                                <a class="no-link" href="/maestro/categoria/add/{{ c.id }}/"><i  class="fas fa-xs fa-plus icons-table"></i></a></div></td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -50,7 +50,7 @@
     <script>
         $('#table').DataTable({
             language: {
-                "url": "/static/assets/plugins/Datatables/language/Spanish.json"
+                "url": "/static/assets/plugins/DataTables/language/Spanish.json"
             },
             responsive: true
         });

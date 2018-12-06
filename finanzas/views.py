@@ -578,11 +578,11 @@ def reporte_jornada(request,id):
         libro = load_workbook("./ingreso_vs_egreso.xlsx")
         h = libro.get_sheet_by_name("Hoja1")
 
-        fecha_inicio = datetime.strptime(request.POST['fechahora_inicio1'], '%d/%m/%Y %H:%M')
-        fecha_fin = datetime.strptime(request.POST['fechahora_inicio2'], '%d/%m/%Y %H:%M')
+        fecha_inicio = datetime.strptime(request.POST['fechahora_inicio3'], '%d/%m/%Y %H:%M')
+        fecha_fin = datetime.strptime(request.POST['fechahora_inicio4'], '%d/%m/%Y %H:%M')
 
-        detalle_ingreso=DetalleJornada.objects.filter(tipo=1,fechahora__gte=fecha_inicio, fechahora__lte=fecha_fin)
-        detalle_egreso=DetalleJornada.objects.filter(tipo=2,fechahora__gte=fecha_inicio, fechahora__lte=fecha_fin)
+        detalle_ingreso=DetalleJornada.objects.filter(tipo=1, fechahora__gte=fecha_inicio, fechahora__lte=fecha_fin)
+        detalle_egreso=DetalleJornada.objects.filter(tipo=2, fechahora__gte=fecha_inicio, fechahora__lte=fecha_fin)
 
         j=6
         i=6
