@@ -1,4 +1,4 @@
-from .models import AsignacionGrupo
+from .models import AsignacionGrupo, PresentacionxProducto
 
 
 def format_categories(categorias):
@@ -21,3 +21,15 @@ def empresa_list(user):
     for s in sucursales:
         empresas.append(s.empresa_id)
     return empresas
+
+
+def set_presentacion_precio_compra(catalogoxproducto):
+    for c in catalogoxproducto:
+        presentacionxproducto = PresentacionxProducto.objects.filter(producto=c.producto).order_by('cantidad').reverse()[:1]
+        if len(presentacionxproducto) > 0:
+            c.presentacionxproducto_desc = presentacionxproducto[0].presentacion.descripcion
+            c.precio_compra = presentacionxproducto[0].precio_compra
+        else:
+            c.presentacionxproducto_desc = 'NO DEFINIDO'
+            c.precio_compra = 0.00
+    return catalogoxproducto

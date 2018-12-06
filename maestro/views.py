@@ -17,7 +17,7 @@ from .forms import SucursalForm, AlmacenForm, CategoriaForm, PresentacionForm,\
 # Forms import<--
 
 # Utils import-->
-from .utils import format_categories, empresa_list
+from .utils import format_categories, empresa_list, set_presentacion_precio_compra
 # Utils import<--
 
 # Extra python features-->
@@ -746,6 +746,7 @@ class CatalogoProveedorListView(BasicEMixin, ListView):
                                                       proveedor__empresa__in=empresa_list(self.request.user))
         else:
             query = CatalogoxProveedor.objects.none()
+        query = set_presentacion_precio_compra(query)
         return query
 
 

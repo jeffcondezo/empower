@@ -29,7 +29,7 @@
                     <tr>
                         <th class="text-nowrap">Descripción</th>
                         <th class="text-nowrap">Presentación de Compra</th>
-                        <th class="text-nowrap">Precio Tentativo</th>
+                        <th class="text-nowrap">Precio Compra</th>
                         <th class="text-nowrap">Acciones</th>
                     </tr>
                 </thead>
@@ -37,8 +37,8 @@
                     {% for cp in object_list %}
                         <tr>
                             <td>{{ cp.producto.descripcion }}</td>
-                            <td>{{ cp.presentacionxproducto.presentacion.descripcion }}</td>
-                            <td>{{ cp.precio_tentativo }}</td>
+                            <td>{{ cp.presentacionxproducto_desc }}</td>
+                            <td>{{ cp.precio_compra }}</td>
                             <td>
                                 <div class="fa-2x"><a data-click="swal-danger" data-id="{{ cp.producto.id }}" class="no-link-delete" href="javascript:;"><i class="fas fa-xs fa-trash icon-table-delete"></i></a></div>
                             </td>

@@ -124,14 +124,14 @@ def create_venta_txt(venta_id):
     venta = Venta.objects.get(id=venta_id)
     detalleventa = DetalleVenta.objects.filter(venta=venta_id)
     f = open("static/dinamicallygenerated/txt/venta-" + str(venta_id) + ".txt", "w+")
-    f.write("       ABADS E.I.R.L." + "\n")
+    f.write("                 ABADS E.I.R.L." + "\n")
     f.write("\n")
-    f.write("JR. SAN MARTIN 871" + "\n")
+    f.write("JR. SAN MARTIN 771B" + "\n")
     f.write("HUANUCO - HUANUCO - HUANUCO" + "\n")
     f.write("RUC: 20528995676" + "\n")
-    f.write("*****************************" + "\n")
-    f.write("       TICKET NRO: " + str(venta_id) + "\n")
-    f.write("*****************************" + "\n")
+    f.write("*********************************************" + "\n")
+    f.write("             TICKET NRO: " + str(venta_id) + "\n")
+    f.write("*********************************************" + "\n")
     f.write("VENTA: " + str(venta_id) + "\n")
     if venta.cliente is None:
         f.write("CLIENTE: REGULAR \n")
@@ -141,39 +141,54 @@ def create_venta_txt(venta_id):
     fecha = str(venta.fechahora_creacion)
     new_fecha = fecha[:19]
     f.write("FECHA:" + new_fecha + "\n")
-    f.write("*****************************" + "\n")
-    f.write("Prod/Pres Cant  Precio  Total" + "\n")
-    f.write("*****************************" + "\n")
+    f.write("*********************************************" + "\n")
+    f.write("Prod/Pres    Cant     Precio       Total" + "\n")
+    f.write("*********************************************" + "\n")
     sub_total = 0
 
     for dv in detalleventa:
         f.write(
             dv.presentacionxproducto.producto.descripcion + "//" +
             dv.presentacionxproducto.presentacion.descripcion + "\n")
-        f.write("    " + str(dv.cantidad_presentacion_pedido)
+        f.write("            " + str(dv.cantidad_presentacion_pedido)
                 + '(' + str(dv.cantidad_unidad_pedido) + ')'
-                + "  S/." + str(dv.precio) + " S/. " + str(
+                + "   S/." + str(dv.precio) + "   S/. " + str(
             dv.total_final) + "\n")
         f.write("\n")
         sub_total = sub_total + dv.total_final
 
-    f.write("*****************************" + "\n")
+    f.write("*********************************************" + "\n")
+    f.write("*********************************************" + "\n")
     f.write("SUB TOTAL      S/ :" + ' ' + str(venta.sub_total) + "\n")
     f.write("DESCUENTO      S/ :" + ' ' + str(venta.descuento_adicional) + "\n")
     f.write("IMP. MONTO     S/ :" + ' ' + str(venta.impuesto_monto) + "\n")
     f.write("TOTAL          S/ :" + ' ' + str(venta.total_final) + "\n")
-    f.write("*****************************" + "\n")
+    f.write("*********************************************" + "\n")
     try:
         cuenta_cliente = CuentaCliente.objects.get(pk=venta_id)
-        f.write("PAGADO         S/ :" + ' ' + str(cuenta_cliente.monto_amortizado) + "\n")
-        f.write("DEUDA          S/ :" + ' ' + str(cuenta_cliente.monto_deuda) + "\n")
+        if cuenta_cliente.monto_deuda > 0:
+            f.write("PAGADO         S/ :" + ' ' + str(cuenta_cliente.monto_amortizado) + "\n")
+            f.write("DEUDA          S/ :" + ' ' + str(cuenta_cliente.monto_deuda) + "\n")
+        else:
+            f.write("                  PAGADO." + "\n")
     except CuentaCliente.DoesNotExist:
-        f.write("     AUN NO SE HA PAGADO." + "\n")
-    f.write("*****************************" + "\n")
-    f.write("*****************************" + "\n")
-    f.write("     GRACIAS POR SU COMPRA." + "\n")
-    f.write("*****************************" + "\n")
-    f.write("*****************************" + "\n")
+        if venta.is_pagado:
+            f.write("                  PAGADO." + "\n")
+        else:
+            f.write("    AUN NO SE HA CANCELADO EL VALOR TOTAL." + "\n")
+    f.write("*********************************************" + "\n")
+    f.write("*********************************************" + "\n")
+    f.write("           GRACIAS POR SU COMPRA." + "\n")
+    f.write("*********************************************" + "\n")
+    f.write("*********************************************" + "\n")
+    f.write("\n")
+    f.write("\n")
+    f.write("\n")
+    f.write("\n")
+    f.write("\n")
+    f.write("\n")
+    f.write("\n")
+    f.write("\n")
     f.close()
 
 
