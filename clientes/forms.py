@@ -13,7 +13,8 @@ class ClienteForm(forms.ModelForm):
 
     class Meta:
         model = Cliente
-        fields = ['tipo', 'telefono', 'correo', 'ruc', 'dni', 'razon_social', 'nombres', 'apellidos', 'empresa']
+        fields = ['tipo', 'telefono', 'correo', 'ruc', 'dni', 'razon_social', 'nombres', 'apellidos', 'empresa',
+                  'limite_credito']
         widgets = {
             'correo': forms.EmailInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'}),
@@ -23,7 +24,8 @@ class ClienteForm(forms.ModelForm):
             'nombres': forms.TextInput(attrs={'class': 'form-control'}),
             'apellidos': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo': forms.Select(attrs={'class': 'default-select2 form-control'}),
-            'empresa': forms.Select(attrs={'class': 'default-select2 form-control'})
+            'empresa': forms.Select(attrs={'class': 'default-select2 form-control'}),
+            'limite_credito': forms.NumberInput(attrs={'class': 'form-control'})
         }
 
     def __init__(self, *args, **kwargs):

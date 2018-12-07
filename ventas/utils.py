@@ -124,6 +124,11 @@ def create_venta_txt(venta_id):
     venta = Venta.objects.get(id=venta_id)
     detalleventa = DetalleVenta.objects.filter(venta=venta_id)
     f = open("static/dinamicallygenerated/txt/venta-" + str(venta_id) + ".txt", "w+")
+    f.write("\n")
+    f.write("\n")
+    f.write("\n")
+    f.write("\n")
+    f.write("\n")
     f.write("                 ABADS E.I.R.L." + "\n")
     f.write("\n")
     f.write("JR. SAN MARTIN 771B" + "\n")
@@ -147,8 +152,9 @@ def create_venta_txt(venta_id):
     sub_total = 0
 
     for dv in detalleventa:
+        descripcion = str(dv.presentacionxproducto.producto.descripcion.encode("utf-8")).replace('\\xc3\\x91', 'N')[2:-1]
         f.write(
-            dv.presentacionxproducto.producto.descripcion + "//" +
+            descripcion + "//" +
             dv.presentacionxproducto.presentacion.descripcion + "\n")
         f.write("            " + str(dv.cantidad_presentacion_pedido)
                 + '(' + str(dv.cantidad_unidad_pedido) + ')'

@@ -14,8 +14,8 @@ import datetime as dt
 
 # Model import-->
 from finanzas.models import Jornada, DetalleJornada, CuentaCliente, CuentaProveedor, PagoCliente, PagoProveedor
-from ventas.models import Venta
-from compras.models import Compra
+from ventas.models import Venta, DetalleVenta
+from compras.models import Compra, DetalleCompra
 # Model import<--
 from maestro.utils import empresa_list
 # Forms import-->
@@ -244,6 +244,7 @@ class PagoClienteCreateView(RedirectView):
             pago.cuentacliente = cuentacliente
             pago.save()
             cuentacliente.monto_amortizado += pago.monto
+            cuentacliente.cliente.limite_credito += pago.monto
             cuentacliente.monto_deuda -= pago.monto
             if cuentacliente.monto_deuda == 0:
                 cuentacliente.estado = '2'
@@ -368,12 +369,13 @@ class VentaPagoView(RedirectView):
         form = PagoVentaForm(self.request.POST, instance=venta)
         if not venta.is_pagado:
             if form.is_valid():
+                pago = form.cleaned_data['pago']
                 if venta.tipo_pago == '2':
                     if venta.cliente is None:
                         url = self.url + str(venta.id) + '/?incidencias=' + json.dumps(
                             [['3', 'No se puede pagar al credito sin cliente']])
                         return url
-                    elif venta.total_final > venta.cliente.credito_disponible:
+                    elif (float(venta.total_final)-float(pago)) > venta.cliente.credito_disponible:
                         url = self.url + str(venta.id) + '/?incidencias=' + json.dumps(
                             [['3', 'El cliente no tiene suficiente linea de credito disponible.']])
                         return url
@@ -395,7 +397,6 @@ class VentaPagoView(RedirectView):
                 elif form.cleaned_data['duracion'] == '4':
                     fecha_final = fecha_actual + dt.timedelta(days=30)
                 tipo = form.cleaned_data['tipo_pago']
-                pago = form.cleaned_data['pago']
                 if venta.cliente is not None:
                     if tipo == '2':
                         if venta.total_final == pago:
@@ -413,7 +414,9 @@ class VentaPagoView(RedirectView):
                                                   monto_total=venta.total_con_descuento, monto_amortizado=pago,
                                                   monto_deuda=float(venta.total_con_descuento) - pago,
                                                   cliente=venta.cliente)
+
                     cuentacliente.save()
+                    venta.cliente.limite_credito -= (float(venta.total_final)-float(pago))
                     PagoCliente(tipo='1', monto=pago, cuentacliente=cuentacliente, asignado=self.request.user,
                                 recibo=form.cleaned_data['recibo'], venta=venta).save()
                 else:
@@ -570,8 +573,6 @@ def reporte_jornada(request,id):
         libro.save(response)
         return response
 
-
-
     elif request.POST['tipo_movimiento'] == '4':
 
         libro = Workbook()
@@ -698,13 +699,212 @@ def reporte_jornada(request,id):
         libro.save(response)
         return response
 
+    elif request.POST['tipo_movimiento'] == '5':
+
+        libro = Workbook()
+        libro = load_workbook("./reporte_separado.xlsx")
+        h = libro.get_sheet_by_name("Hoja1")
+
+        fecha_inicio = datetime.strptime(request.POST['fechahora_inicio3'], '%d/%m/%Y %H:%M')
+        fecha_fin = datetime.strptime(request.POST['fechahora_inicio4'], '%d/%m/%Y %H:%M')
+
+        ventas = Venta.objects.filter(estado_pago='2',
+                                      fechahora_creacion__gte=fecha_inicio,
+                                      fechahora_creacion__lte=fecha_fin, estado='3')
+
+        j=6
+        i=6
+        a=0
+        b=0
+        total=0
+        total_v1 = 0
+        total_v2 = 0
+        total_v3 = 0
+        total_v4 = 0
+        for v in ventas:
+            i = i + 1
+            a = a + 1
+            detalle_venta = DetalleVenta.objects.filter(venta=v)
+            monto_1 = 0
+            monto_2 = 0
+            monto_3 = 0
+            monto_4 = 0
+            for dv in detalle_venta:
+                producto = dv.producto
+                for c in producto.categorias.all():
+                    if c.id == 6:
+                        monto_1 += dv.total_con_descuento
+                        break
+                    elif c.id == 7:
+                        monto_2 += dv.total_con_descuento
+                        break
+                    elif c.id == 8:
+                        monto_3 += dv.total_con_descuento
+                        break
+                    elif c.id == 9:
+                        monto_4 += dv.total_con_descuento
+                        break
+            h.cell(row=i, column=2).value = v.id
+            h.cell(row=i, column=3).value = v.fechahora_creacion
+            h.cell(row=i, column=4).value = v.total_con_descuento
+            h.cell(row=i, column=5).value = monto_1
+            h.cell(row=i, column=6).value = monto_2
+            h.cell(row=i, column=7).value = monto_3
+            h.cell(row=i, column=8).value = monto_4
+            total += v.total_con_descuento
+            total_v1 += monto_1
+            total_v2 += monto_2
+            total_v3 += monto_3
+            total_v4 += monto_4
+
+            ### BORDER CADA FILA ###
+            h.cell(row=i, column=2).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                    right=Side(border_style='thin', color='FF000000'),
+                                                    bottom=Side(border_style='thin', color='FF000000'),
+                                                    left=Side(border_style='thin', color='FF000000'))
+
+            h.cell(row=i, column=3).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                    right=Side(border_style='thin', color='FF000000'),
+                                                    bottom=Side(border_style='thin', color='FF000000'),
+                                                    left=Side(border_style='thin', color='FF000000'))
+
+            h.cell(row=i, column=4).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                    right=Side(border_style='thin', color='FF000000'),
+                                                    bottom=Side(border_style='thin', color='FF000000'),
+                                                    left=Side(border_style='thin', color='FF000000'))
+
+            h.cell(row=i, column=5).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                    right=Side(border_style='thin', color='FF000000'),
+                                                    bottom=Side(border_style='thin', color='FF000000'),
+                                                    left=Side(border_style='thin', color='FF000000'))
+
+            h.cell(row=i, column=6).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                    right=Side(border_style='thin', color='FF000000'),
+                                                    bottom=Side(border_style='thin', color='FF000000'),
+                                                    left=Side(border_style='thin', color='FF000000'))
+
+            h.cell(row=i, column=7).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                    right=Side(border_style='thin', color='FF000000'),
+                                                    bottom=Side(border_style='thin', color='FF000000'),
+                                                    left=Side(border_style='thin', color='FF000000'))
+
+            h.cell(row=i, column=8).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                    right=Side(border_style='thin', color='FF000000'),
+                                                    bottom=Side(border_style='thin', color='FF000000'),
+                                                    left=Side(border_style='thin', color='FF000000'))
+        i = i + 2
+        h.cell(row=i, column=5).value = "TOTAL"
+        h.cell(row=i, column=6).value = total
+        h.cell(row=i+1, column=5).value = "TOTAL LIZBETH"
+        h.cell(row=i+1, column=6).value = total_v1
+        h.cell(row=i+2, column=5).value = "TOTAL NIKO"
+        h.cell(row=i+2, column=6).value = total_v2
+        h.cell(row=i+3, column=5).value = "TOTAL SONIA"
+        h.cell(row=i+3, column=6).value = total_v3
+        h.cell(row=i+4, column=5).value = "TOTAL NINGUNO"
+        h.cell(row=i+4, column=6).value = total_v4
+
+        compras = Compra.objects.filter(estado_pago='2',
+                                        fechahora_creacion__gte=fecha_inicio,
+                                        fechahora_creacion__lte=fecha_fin, estado='3')
+        total_c1 = 0
+        total_c2 = 0
+        total_c3 = 0
+        total_c4 = 0
+        total_e = 0
+        for co in compras:
+            j = j + 1
+            b=b+1
+            detalle_compra = DetalleCompra.objects.filter(compra=co)
+            monto_1 = 0
+            monto_2 = 0
+            monto_3 = 0
+            monto_4 = 0
+            for dc in detalle_compra:
+                producto = dc.producto
+                for c in producto.categorias.all():
+                    if c.id == 6:
+                        monto_1 += dc.total_inc_flete
+                        break
+                    elif c.id == 7:
+                        monto_2 += dc.total_inc_flete
+                        break
+                    elif c.id == 8:
+                        monto_3 += dc.total_inc_flete
+                        break
+                    elif c.id == 9:
+                        monto_4 += dc.total_inc_flete
+                        break
+            h.cell(row=j, column=10).value = co.id
+            h.cell(row=j, column=11).value = co.fechahora_creacion
+            h.cell(row=i, column=12).value = co.total_inc_flete
+            h.cell(row=i, column=13).value = monto_1
+            h.cell(row=i, column=14).value = monto_2
+            h.cell(row=i, column=15).value = monto_3
+            h.cell(row=i, column=16).value = monto_4
+            total_e = total_e + co.total_inc_flete
+            total_c1 += monto_1
+            total_c2 += monto_2
+            total_c3 += monto_3
+            total_c4 += monto_4
 
 
 
+            ### BORDER CADA FILA ###
+            h.cell(row=j, column=10).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                     right=Side(border_style='thin', color='FF000000'),
+                                                     bottom=Side(border_style='thin', color='FF000000'),
+                                                     left=Side(border_style='thin', color='FF000000'))
 
+            h.cell(row=j, column=11).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                     right=Side(border_style='thin', color='FF000000'),
+                                                     bottom=Side(border_style='thin', color='FF000000'),
+                                                     left=Side(border_style='thin', color='FF000000'))
+
+            h.cell(row=j, column=12).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                     right=Side(border_style='thin', color='FF000000'),
+                                                     bottom=Side(border_style='thin', color='FF000000'),
+                                                     left=Side(border_style='thin', color='FF000000'))
+
+            h.cell(row=j, column=13).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                     right=Side(border_style='thin', color='FF000000'),
+                                                     bottom=Side(border_style='thin', color='FF000000'),
+                                                     left=Side(border_style='thin', color='FF000000'))
+
+            h.cell(row=j, column=14).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                     right=Side(border_style='thin', color='FF000000'),
+                                                     bottom=Side(border_style='thin', color='FF000000'),
+                                                     left=Side(border_style='thin', color='FF000000'))
+
+            h.cell(row=j, column=15).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                     right=Side(border_style='thin', color='FF000000'),
+                                                     bottom=Side(border_style='thin', color='FF000000'),
+                                                     left=Side(border_style='thin', color='FF000000'))
+            h.cell(row=j, column=16).border = Border(top=Side(border_style='thin', color='FF000000'),
+                                                     right=Side(border_style='thin', color='FF000000'),
+                                                     bottom=Side(border_style='thin', color='FF000000'),
+                                                     left=Side(border_style='thin', color='FF000000'))
+
+
+        j = j + 2
+
+        h.cell(row=j, column=11).value = "TOTAL"
+        h.cell(row=j, column=12).value = total_e
+        h.cell(row=j+1, column=11).value = "TOTAL LIZBETH"
+        h.cell(row=j+1, column=12).value = total_c1
+        h.cell(row=j+2, column=11).value = "TOTAL NIKO"
+        h.cell(row=j+2, column=12).value = total_c2
+        h.cell(row=j+3, column=11).value = "TOTAL SONIA"
+        h.cell(row=j+3, column=12).value = total_c3
+        h.cell(row=j+4, column=11).value = "TOTAL NINGUNO"
+        h.cell(row=j+4, column=12).value = total_c4
+
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=reporte_dividido.xls'
+        libro.save(response)
+        return response
 
     else:
-        print(request.POST['tipo_movimiento'])
         libro = Workbook()
         libro = load_workbook("./detallejornada.xlsx")
         h = libro.get_sheet_by_name("Hoja1")
