@@ -245,6 +245,7 @@ class PagoClienteCreateView(RedirectView):
             pago.save()
             cuentacliente.monto_amortizado += pago.monto
             cuentacliente.cliente.limite_credito += pago.monto
+            cuentacliente.cliente.save()
             cuentacliente.monto_deuda -= pago.monto
             if cuentacliente.monto_deuda == 0:
                 cuentacliente.estado = '2'
@@ -375,7 +376,7 @@ class VentaPagoView(RedirectView):
                         url = self.url + str(venta.id) + '/?incidencias=' + json.dumps(
                             [['3', 'No se puede pagar al credito sin cliente']])
                         return url
-                    elif (float(venta.total_final)-float(pago)) > venta.cliente.credito_disponible:
+                    elif (float(venta.total_final)-float(pago)) > venta.cliente.limite_credito:
                         url = self.url + str(venta.id) + '/?incidencias=' + json.dumps(
                             [['3', 'El cliente no tiene suficiente linea de credito disponible.']])
                         return url
@@ -399,11 +400,11 @@ class VentaPagoView(RedirectView):
                 tipo = form.cleaned_data['tipo_pago']
                 if venta.cliente is not None:
                     if tipo == '2':
-                        if venta.total_final == pago:
+                        if venta.total_con_descuento == pago:
                             venta.tipo_pago = '1'
                             venta.estado_pago = '2'
                             estado = '2'
-                        elif venta.total_final > pago:
+                        elif venta.total_con_descuento > pago:
                             venta.estado_pago = '1'
                             estado = '1'
                     else:
@@ -416,7 +417,8 @@ class VentaPagoView(RedirectView):
                                                   cliente=venta.cliente)
 
                     cuentacliente.save()
-                    venta.cliente.limite_credito -= (float(venta.total_final)-float(pago))
+                    venta.cliente.limite_credito -= Decimal(float(venta.total_con_descuento)-float(pago))
+                    venta.cliente.save()
                     PagoCliente(tipo='1', monto=pago, cuentacliente=cuentacliente, asignado=self.request.user,
                                 recibo=form.cleaned_data['recibo'], venta=venta).save()
                 else:
@@ -478,11 +480,11 @@ class CompraPagoView(RedirectView):
                 tipo = form.cleaned_data['tipo_pago']
                 estado = ''
                 if tipo == '2':
-                    if compra.total_final == pago:
+                    if compra.total_inc_flete == pago:
                         compra.tipo_pago = '1'
                         compra.estado_pago = '2'
                         estado = '2'
-                    elif compra.total_final > pago:
+                    elif compra.total_inc_flete > pago:
                         compra.estado_pago = '1'
                         estado = '1'
                 else:

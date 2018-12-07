@@ -463,21 +463,21 @@ class ProductoPrecioView(BasicEMixin, TemplateView):
                 precio_venta = float(request.POST['precio_venta-'+str(p.id)])
                 if p.precio_venta < precio_venta:
                     p.precio_venta = precio_venta
-                    p.utilidad = p.precio_venta - float(p.precio_compra)
+                    p.utilidad = float(p.precio_venta) - float(p.precio_compra)
                     p.save()
                     presentacion_temp2 = PresentacionxProducto.objects.filter(producto=producto, id__lt=p.id)
                     for q in presentacion_temp2:
                         precio_temp2 = (p.precio_venta / p.cantidad) * q.cantidad
                         if precio_temp2 > q.precio_venta:
                             q.precio_venta = precio_temp2
-                            q.utilidad = q.precio_venta - float(q.precio_compra)
+                            q.utilidad = float(q.precio_venta) - float(q.precio_compra)
                             q.save()
                 if p.precio_venta == 0:
                     presentacion_temp4 = PresentacionxProducto.objects.filter(producto=producto, id__lt=p.id)
                     for s in presentacion_temp4:
                         if s.precio_venta != 0:
                             p.precio_venta = (s.precio_venta / s.cantidad) * p.cantidad
-                            p.utilidad = p.precio_venta - float(p.precio_compra)
+                            p.utilidad = float(p.precio_venta) - float(p.precio_compra)
                             p.save()
                             continue
             else:
@@ -486,7 +486,7 @@ class ProductoPrecioView(BasicEMixin, TemplateView):
                     for s in presentacion_temp4:
                         if s.precio_venta != 0:
                             p.precio_venta = (s.precio_venta / s.cantidad) * p.cantidad
-                            p.utilidad = p.precio_venta - float(p.precio_compra)
+                            p.utilidad = float(p.precio_venta) - float(p.precio_compra)
                             p.save()
                             continue
         return redirect('/maestro/producto/'+str(producto.id)+'/precio')

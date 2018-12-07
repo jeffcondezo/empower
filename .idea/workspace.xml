@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/almacen/views.py" line="56" />
-    <bookmark url="file://$PROJECT_DIR$/static/assets/own/compras/orden.js" line="177" />
+    <bookmark url="file://$PROJECT_DIR$/almacen/views.py" line="68" />
+    <bookmark url="file://$PROJECT_DIR$/static/assets/own/compras/compraedit.js" line="262" />
+    <bookmark url="file://$PROJECT_DIR$/static/assets/own/ventas/ventaedit.js" line="42" />
+    <bookmark url="file://$PROJECT_DIR$/compras/utils.py" line="70" />
+    <bookmark url="file://$PROJECT_DIR$/compras/forms.py" />
+    <bookmark url="file://$PROJECT_DIR$/maestro/urls.py" line="56" />
+    <bookmark url="file://$PROJECT_DIR$/ventas/forms.py" line="205" />
+    <bookmark url="file://$PROJECT_DIR$/finanzas/views.py" line="303" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="996efadd-7c17-4876-99a7-964f6f719ed3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/assets/own/almacen/recepcion.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/compras/templates/compras/orden-tocompra.html" afterPath="" />
+    <list default="true" id="996efadd-7c17-4876-99a7-964f6f719ed3" name="Default" comment="Pein fail en orden Edit 3">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Jeff_PC.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Jeff_PC.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/almacen/templates/almacen/recepcion.html" afterPath="$PROJECT_DIR$/almacen/templates/almacen/recepcion.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/almacen/views.py" afterPath="$PROJECT_DIR$/almacen/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compras/forms.py" afterPath="$PROJECT_DIR$/compras/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compras/models.py" afterPath="$PROJECT_DIR$/compras/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compras/utils.py" afterPath="$PROJECT_DIR$/compras/utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compras/views.py" afterPath="$PROJECT_DIR$/compras/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/assets/own/compras/orden.js" afterPath="$PROJECT_DIR$/static/assets/own/compras/orden.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finanzas/views.py" afterPath="$PROJECT_DIR$/finanzas/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maestro/views.py" afterPath="$PROJECT_DIR$/maestro/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -42,134 +41,158 @@
     <option name="myModuleName" value="empower" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="recepcion.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/recepcion.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="330">
-                  <caret line="114" column="109" lean-forward="false" selection-start-line="114" selection-start-column="91" selection-end-line="114" selection-end-column="109" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/compras/forms.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="704">
-                  <caret line="89" column="0" lean-forward="true" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/almacen/views.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="486">
-                  <caret line="143" column="38" lean-forward="true" selection-start-line="143" selection-start-column="38" selection-end-line="143" selection-end-column="38" />
-                  <folding>
-                    <element signature="e#0#53#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/compras/views.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="221">
-                  <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="15" selection-end-column="17" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/compras/utils.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="653">
-                  <caret line="204" column="28" lean-forward="true" selection-start-line="204" selection-start-column="28" selection-end-line="204" selection-end-column="28" />
-                  <folding>
-                    <element signature="e#0#58#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/almacen/models.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="459">
-                  <caret line="28" column="54" lean-forward="false" selection-start-line="28" selection-start-column="54" selection-end-line="28" selection-end-column="54" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/compras/models.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="493">
-                  <caret line="49" column="25" lean-forward="false" selection-start-line="49" selection-start-column="4" selection-end-line="49" selection-end-column="25" />
-                  <folding>
-                    <marker date="1534810270823" expanded="true" signature="2164:2461" ph="..." />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/finanzas/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="486" column="47" lean-forward="false" selection-start-line="486" selection-start-column="47" selection-end-line="486" selection-end-column="47" />
+              <folding>
+                <element signature="e#0#81#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maestro/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="365">
+              <caret line="460" column="36" lean-forward="true" selection-start-line="460" selection-start-column="36" selection-end-line="460" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ventas/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="399">
+              <caret line="40" column="28" lean-forward="true" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientes/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/finanzas/tests.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cliente-edit.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientes/templates/clientes/cliente-edit.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="206">
+              <caret line="48" column="87" lean-forward="false" selection-start-line="48" selection-start-column="73" selection-end-line="48" selection-end-column="87" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cliente-detail.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientes/templates/clientes/cliente-detail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="799">
+              <caret line="47" column="32" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientes/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#51#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientes/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="20" column="18" lean-forward="false" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ventas/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="364" column="25" lean-forward="false" selection-start-line="364" selection-start-column="25" selection-end-line="364" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.css&quot;</find>
-      <find>data-theme-file=&quot;../assets</find>
-      <find>NavMixin</find>
-      <find>id_producto</find>
-      <find>console.</find>
-      <find>modal</find>
-      <find>Modal Message Header</find>
-      <find>form-inline</find>
-      <find>legend</find>
-      <find>paren</find>
-      <find>node</find>
-      <find>fecha</find>
-      <find>+</find>
-      <find>fecha_idealentrega</find>
-      <find>create</find>
-      <find>td_precio_tentativo</find>
-      <find>{{ clean_form.cantidad_presentacion }}</find>
-      <find>td_precio</find>
-      <find>precio_tenta</find>
-      <find>const</find>
-      <find>init_add_button</find>
-      <find>data-.</find>
+      <find>cuentacliente.monto_deuda -= pago.monto</find>
+      <find>monto_amortizado</find>
+      <find>form_pago_venta</find>
+      <find>user=</find>
+      <find>Server err</find>
+      <find>print</find>
+      <find>StockFiltroForm</find>
+      <find>OfertaVentaForm</find>
+      <find>Sucursal</find>
+      <find>Cata</find>
+      <find>ProductoCategori</find>
+      <find>CatalogoProveedor</find>
+      <find>sel_presentacionxproducto</find>
+      <find>select_presentacion</find>
+      <find>crear_nota_credito</find>
+      <find>datetime.now</find>
+      <find>update_kardex_stock</find>
+      <find>cantidad_unidad_nota</find>
+      <find>TipoCC</find>
+      <find>RedirectView</find>
+      <find>VentaEditForm</find>
+      <find>index.html</find>
+      <find>precio_in</find>
       <find>precio</find>
-      <find>z-index</find>
-      <find>btn_add_promocion</find>
-      <find>open</find>
-      <find>show</find>
-      <find>to set the theme color</find>
-      <find>check-switchery-state-text</find>
-      <find>State</find>
+      <find>precio_i</find>
+      <find>reporte</find>
+      <find>Catalogo</find>
+      <find>.add(</find>
+      <find>Datatables</find>
+      <find>CatalogoPro</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -188,12 +211,25 @@
       <replace>BasicEMixin</replace>
       <replace>td_precio</replace>
       <replace>var</replace>
+      <replace>total_final</replace>
+      <replace>compra</replace>
+      <replace>dc_form</replace>
+      <replace>&lt;li&gt;&lt;a href=&quot;/almacen/recepcion_compra&quot;&gt;Recepcion Compra&lt;/a&gt;&lt;/li&gt;</replace>
+      <replace>detalleventa</replace>
+      <replace>dv</replace>
+      <replace>&lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;                            &lt;li&gt;&lt;a href=&quot;/maestro/proveedor&quot;&gt;&lt;b&gt;Proveedores&lt;/b&gt;&lt;/a&gt;&lt;/li&gt;                            &lt;li&gt;&lt;a href=&quot;/maestro/catalogoproveedor&quot;&gt;Catálogo&lt;/a&gt;&lt;/li&gt;                            &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;                            &lt;li&gt;&lt;a href=&quot;/maestro/usuario&quot;&gt;Usuario&lt;/a&gt;&lt;/li&gt;</replace>
+      <replace>&lt;li&gt;&lt;a href=&quot;/maestro/empresa&quot;&gt;Empresa&lt;/a&gt;&lt;/li&gt;							&lt;li&gt;&lt;a href=&quot;/maestro/sucursal&quot;&gt;Sucursales&lt;/a&gt;&lt;/li&gt;</replace>
+      <replace>#</replace>
+      <replace>DataTables</replace>
     </replaceStrings>
     <dirStrings>
       <dir>D:\Desarrollo py-3\empower\static\assets\plugins\DataTables</dir>
       <dir>D:\Desarrollo py-3\empower\static\assets</dir>
       <dir>D:\Desarrollo py-3\empower\compras</dir>
+      <dir>D:\Desarrollo py-3\empower\static\assets\plugins\bootstrap-eonasdan-datetimepicker</dir>
       <dir>D:\Desarrollo py-3\empower</dir>
+      <dir>D:\Desarrollo py-3\empower\maestro</dir>
+      <dir>D:\Desarrollo py-3\empower\almacen</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -202,57 +238,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-edit.html" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-categoria.html" />
+        <option value="$PROJECT_DIR$/compras/models.py" />
+        <option value="$PROJECT_DIR$/ventas/models.py" />
+        <option value="$PROJECT_DIR$/ventas/urls.py" />
+        <option value="$PROJECT_DIR$/finanzas/urls.py" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-precio.html" />
+        <option value="$PROJECT_DIR$/ventas/templates/ventas/venta-detail.html" />
+        <option value="$PROJECT_DIR$/compras/templates/compras/compra-edit.html" />
+        <option value="$PROJECT_DIR$/compras/views.py" />
+        <option value="$PROJECT_DIR$/static/assets/own/maestro/catalogo.js" />
+        <option value="$PROJECT_DIR$/finanzas/forms.py" />
+        <option value="$PROJECT_DIR$/compras/templates/compras/compra-detail.html" />
+        <option value="$PROJECT_DIR$/ventas/templates/ventas/base.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/base.html" />
+        <option value="$PROJECT_DIR$/finanzas/templates/finanzas/base.html" />
+        <option value="$PROJECT_DIR$/compras/templates/compras/base.html" />
+        <option value="$PROJECT_DIR$/clientes/templates/clientes/base.html" />
+        <option value="$PROJECT_DIR$/almacen/templates/almacen/base.html" />
+        <option value="$PROJECT_DIR$/ventas/views.py" />
+        <option value="$PROJECT_DIR$/almacen/templates/almacen/entrega_venta-list.html" />
+        <option value="$PROJECT_DIR$/almacen/templates/almacen/kardex.html" />
+        <option value="$PROJECT_DIR$/almacen/templates/almacen/recepcion_compra-list.html" />
+        <option value="$PROJECT_DIR$/almacen/templates/almacen/stock.html" />
+        <option value="$PROJECT_DIR$/clientes/templates/clientes/cliente-list.html" />
+        <option value="$PROJECT_DIR$/clientes/templates/clientes/contacto-list.html" />
+        <option value="$PROJECT_DIR$/compras/templates/compras/compra-list.html" />
+        <option value="$PROJECT_DIR$/compras/templates/compras/notacredito-list.html" />
+        <option value="$PROJECT_DIR$/finanzas/templates/finanzas/cuentacliente-list.html" />
+        <option value="$PROJECT_DIR$/finanzas/templates/finanzas/cuentaproveedor-list.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/almacen-list.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/caja-list.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/catalogo-list.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/categoria-list.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/empresa-list.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/presentacion-list.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-list.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/proveedor-list.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/sucursal-list.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/usuario-list.html" />
+        <option value="$PROJECT_DIR$/ventas/templates/ventas/oferta-list.html" />
+        <option value="$PROJECT_DIR$/ventas/templates/ventas/venta-list.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/proveedor-detail.html" />
+        <option value="$PROJECT_DIR$/maestro/templates/maestro/catalogoproveedor-list.html" />
         <option value="$PROJECT_DIR$/maestro/utils.py" />
         <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-detail.html" />
-        <option value="$PROJECT_DIR$/maestro/forms.py" />
-        <option value="$PROJECT_DIR$/static/assets/own/maestro/producto.js" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/catalogo-list.html" />
-        <option value="$PROJECT_DIR$/maestro/rviews.py" />
-        <option value="$PROJECT_DIR$/maestro/serializers.py" />
-        <option value="$PROJECT_DIR$/static/assets/own/maestro/catalogo.js" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/catalogo-add.html" />
-        <option value="$PROJECT_DIR$/static/assets/css/default/own_replace.css" />
-        <option value="$PROJECT_DIR$/almacen/templates/almacen/base.html" />
-        <option value="$PROJECT_DIR$/almacen/migrations/0004_kardex_fechahora.py" />
-        <option value="$PROJECT_DIR$/almacen/templates/almacen/stock.html" />
-        <option value="$PROJECT_DIR$/almacen/templates/almacen/kardex.html" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/access/login.html" />
-        <option value="$PROJECT_DIR$/maestro/lviews.py" />
-        <option value="$PROJECT_DIR$/maestro/urls.py" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/access/denied.html" />
+        <option value="$PROJECT_DIR$/finanzas/templates/finanzas/jornada-list.html" />
+        <option value="$PROJECT_DIR$/clientes/templates/clientes/cliente-edit.html" />
+        <option value="$PROJECT_DIR$/clientes/templates/clientes/cliente-detail.html" />
+        <option value="$PROJECT_DIR$/clientes/forms.py" />
+        <option value="$PROJECT_DIR$/ventas/utils.py" />
         <option value="$PROJECT_DIR$/maestro/views.py" />
-        <option value="$PROJECT_DIR$/almacen/models.py" />
-        <option value="$PROJECT_DIR$/empower/settings.py" />
-        <option value="$PROJECT_DIR$/maestro/mixin.py" />
-        <option value="$PROJECT_DIR$/empower/urls.py" />
-        <option value="$PROJECT_DIR$/compras/templates/compras/base.html" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/base.html" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-list.html" />
-        <option value="$PROJECT_DIR$/maestro/models.py" />
-        <option value="$PROJECT_DIR$/compras/rviews.py" />
-        <option value="$PROJECT_DIR$/maestro/templates/maestro/producto-presentacion.html" />
-        <option value="$PROJECT_DIR$/static/assets/own/compras/ordentocompra.js" />
-        <option value="$PROJECT_DIR$/compras/templates/compras/orden-tocompra.html" />
-        <option value="$PROJECT_DIR$/compras/urls.py" />
-        <option value="$PROJECT_DIR$/compras/templates/compras/orden-list.html" />
-        <option value="$PROJECT_DIR$/compras/serializers.py" />
-        <option value="$PROJECT_DIR$/static/assets/own/strings.js" />
-        <option value="$PROJECT_DIR$/static/assets/css/default/own_css.css" />
-        <option value="$PROJECT_DIR$/compras/templates/compras/orden-edit.html" />
-        <option value="$PROJECT_DIR$/almacen/templates/almacen/lista-pedidos.html" />
-        <option value="$PROJECT_DIR$/almacen/urls.py" />
-        <option value="$PROJECT_DIR$/almacen/templates/almacen/ordencompra.html" />
-        <option value="$PROJECT_DIR$/compras/templates/compras/orden-detail.html" />
-        <option value="$PROJECT_DIR$/static/assets/own/compras/orden.js" />
-        <option value="$PROJECT_DIR$/static/assets/own/almacen/recepcion.js" />
-        <option value="$PROJECT_DIR$/compras/models.py" />
-        <option value="$PROJECT_DIR$/compras/views.py" />
-        <option value="$PROJECT_DIR$/compras/forms.py" />
-        <option value="$PROJECT_DIR$/compras/utils.py" />
-        <option value="$PROJECT_DIR$/almacen/templates/almacen/recepcion.html" />
-        <option value="$PROJECT_DIR$/almacen/views.py" />
+        <option value="$PROJECT_DIR$/finanzas/views.py" />
       </list>
     </option>
   </component>
@@ -263,7 +299,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="321" />
+    <option name="x" value="619" />
+    <option name="y" value="129" />
     <option name="width" value="1370" />
     <option name="height" value="744" />
   </component>
@@ -293,79 +330,7 @@
             <path>
               <item name="empower" type="b2602c69:ProjectViewProjectNode" />
               <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="almacen" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="almacen" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="almacen" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="almacen" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="compras" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="compras" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="compras" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="compras" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="own" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="own" type="462c0819:PsiDirectoryNode" />
-              <item name="almacen" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="empower" type="b2602c69:ProjectViewProjectNode" />
-              <item name="empower" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="own" type="462c0819:PsiDirectoryNode" />
-              <item name="compras" type="462c0819:PsiDirectoryNode" />
+              <item name="maestro" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -377,7 +342,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/maestro" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
@@ -391,11 +356,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Desarrollo py-3\empower\static\assets\own" />
-      <recent name="D:\Desarrollo py-3\empower\static\assets\plugins" />
-      <recent name="D:\Desarrollo py-3\empower\almacen\templates\almacen" />
+      <recent name="D:\Desarrollo py-3\empower" />
       <recent name="D:\Desarrollo py-3\empower\static\assets\own\compras" />
       <recent name="D:\Desarrollo py-3\empower\compras\templates\compras" />
+      <recent name="D:\Desarrollo py-3\empower\static\assets\own\maestro" />
+      <recent name="D:\Desarrollo py-3\empower\maestro\templates\maestro" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Desarrollo py-3\empower\maestro\templates\maestro" />
@@ -510,83 +475,6 @@
       <option name="presentableId" value="Default" />
       <updated>1524407708155</updated>
     </task>
-    <task id="LOCAL-00001" summary="Lista de Productos">
-      <created>1530882834306</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1530882834306</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Nav Dinamico">
-      <created>1531143632825</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1531143632825</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Presentaciones x Producto P1">
-      <created>1531194747060</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1531194747060</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Presentaciones x Producto P2">
-      <created>1531316709471</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1531316709471</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Presentaciones x Producto Terminado">
-      <created>1531367035503</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1531367035503</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Maestro P1">
-      <created>1532181265007</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1532181265007</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Kardex">
-      <created>1532194574633</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1532194574633</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Kardex P2">
-      <created>1532349268835</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1532349268835</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Presentaciones x Producto Terminado">
-      <created>1532953917885</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1532953917886</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Orden Compra 1">
-      <created>1533506599107</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1533506599107</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Orden 1">
-      <created>1533611057087</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1533611057087</updated>
-    </task>
     <task id="LOCAL-00012" summary="Orden 3">
       <created>1533688980779</created>
       <option name="number" value="00012" />
@@ -636,33 +524,360 @@
       <option name="project" value="LOCAL" />
       <updated>1534772438295</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Recepcion 2">
+      <created>1534812100450</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1534812100451</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Recepcion 2">
+      <created>1534996278420</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1534996278420</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Correccion 1">
+      <created>1535085001514</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1535085001514</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Correccion 2">
+      <created>1535151352887</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1535151352888</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Filtros y Fecha">
+      <created>1536713471229</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1536713471230</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Clientes y Contactos">
+      <created>1536798591042</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1536798591042</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Compras Rebuild">
+      <created>1537215994910</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1537215994910</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Compras Rebuild">
+      <created>1537319095372</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1537319095372</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Compras Rebuild">
+      <created>1537330463335</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1537330463335</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Compras Rebuild">
+      <created>1537405486220</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1537405486220</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Ventas Inicio">
+      <created>1537507333004</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1537507333004</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Remake Styles">
+      <created>1537819396643</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1537819396643</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Remake Styles">
+      <created>1537826668864</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1537826668864</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Pein fail en orden Edit">
+      <created>1537830879602</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1537830879602</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Pein fail en orden Edit 2">
+      <created>1537831256273</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1537831256273</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Pein fail en orden Edit 3">
+      <created>1537831991470</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1537831991470</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Presentacion 1">
+      <created>1537996877387</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1537996877387</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Presentacion 1">
+      <created>1537999759141</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1537999759141</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Venta Edit End">
+      <created>1538791077397</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1538791077398</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Ventas Close">
+      <created>1538954855075</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1538954855075</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Pein fail en orden Edit 3">
+      <created>1539566848361</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1539566848361</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Final Test Compras">
+      <created>1539836201402</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1539836201402</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Revision 1">
+      <created>1539910324033</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1539910324033</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Compra Cerrada, falta discrepancia">
+      <created>1540065093563</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1540065093564</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Revision final">
+      <created>1540158773683</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1540158773683</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Pein fail en orden Edit 3">
+      <created>1540161038000</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1540161038000</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Pein fail en orden Edit 3">
+      <created>1540207632422</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1540207632422</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Correcciones Menores">
+      <created>1540780571751</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1540780571751</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Compras Pago">
+      <created>1540860296099</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1540860296099</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Corrección montos">
+      <created>1540942612769</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1540942612769</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Precio - Fixer">
+      <created>1541357954087</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1541357954087</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Stock Change">
+      <created>1541364727480</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1541364727481</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Usuarios Update">
+      <created>1541949911498</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1541949911498</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Pein fail en orden Edit 3">
+      <created>1542407550887</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1542407550888</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Usuario Vista">
+      <created>1542554889394</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1542554889395</updated>
+    </task>
+    <task id="LOCAL-00054" summary="User Fix">
+      <created>1542557321405</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1542557321405</updated>
+    </task>
+    <task id="LOCAL-00055" summary="V2 Inicio">
+      <created>1543549776899</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1543549776900</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Bug Fix">
+      <created>1543893749641</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1543893749642</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Add Pago Libre">
+      <created>1543945904857</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1543945904858</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Linux Adapt Datatables">
+      <created>1544101483369</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1544101483370</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Pein fail en orden Edit 3">
+      <created>1544125376658</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1544125376658</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Update Last to Abad">
+      <created>1544153669513</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1544153669514</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14765458" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14565217" sideWeight="0.52771854" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19349681" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.4978678" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20652173" sideWeight="0.35660982" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.4978678" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3619565" sideWeight="0.46908316" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20652173" sideWeight="0.6433902" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14565217" sideWeight="0.47228146" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27934784" sideWeight="0.5794243" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.7185501" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.4978678" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32934782" sideWeight="0.28144988" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.4978678" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20652173" sideWeight="0.52025586" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27934784" sideWeight="0.5794243" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18710022" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.7185501" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -671,24 +886,32 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Lista de Productos" />
-    <MESSAGE value="Nav Dinamico" />
-    <MESSAGE value="Presentaciones x Producto P1" />
-    <MESSAGE value="Presentaciones x Producto P2" />
-    <MESSAGE value="Maestro P1" />
-    <MESSAGE value="Kardex" />
-    <MESSAGE value="Kardex P2" />
-    <MESSAGE value="Presentaciones x Producto Terminado" />
-    <MESSAGE value="Orden Compra 1" />
-    <MESSAGE value="Orden 1" />
-    <MESSAGE value="Orden 3" />
-    <MESSAGE value="Orden 5" />
-    <MESSAGE value="Orden 6" />
-    <MESSAGE value="orden fin" />
-    <MESSAGE value="Tocompra1" />
-    <MESSAGE value="tocompra2" />
-    <MESSAGE value="Recepcion 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Recepcion 1" />
+    <MESSAGE value="Ventas Inicio" />
+    <MESSAGE value="Remake Styles" />
+    <MESSAGE value="Pein fail en orden Edit" />
+    <MESSAGE value="Pein fail en orden Edit 2" />
+    <MESSAGE value="Presentacion 1" />
+    <MESSAGE value="Venta Edit End" />
+    <MESSAGE value="Ventas Close" />
+    <MESSAGE value="Final Test Compras" />
+    <MESSAGE value="Revision 1" />
+    <MESSAGE value="Compra Cerrada, falta discrepancia" />
+    <MESSAGE value="Revision final" />
+    <MESSAGE value="Correcciones Menores" />
+    <MESSAGE value="Compras Pago" />
+    <MESSAGE value="Corrección montos" />
+    <MESSAGE value="Precio - Fixer" />
+    <MESSAGE value="Stock Change" />
+    <MESSAGE value="Usuarios Update" />
+    <MESSAGE value="Usuario Vista" />
+    <MESSAGE value="User Fix" />
+    <MESSAGE value="V2 Inicio" />
+    <MESSAGE value="Bug Fix" />
+    <MESSAGE value="Add Pago Libre" />
+    <MESSAGE value="Linux Adapt Datatables" />
+    <MESSAGE value="Pein fail en orden Edit 3" />
+    <MESSAGE value="Update Last to Abad" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Last to Abad" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -698,396 +921,403 @@
           <line>15</line>
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="6" />
+      <option name="time" value="26" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/maestro/lviews.py">
+    <entry file="file://$PROJECT_DIR$/finanzas/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/mixin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="28" column="61" lean-forward="false" selection-start-line="28" selection-start-column="61" selection-end-line="28" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/almacen-list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="41" column="56" lean-forward="false" selection-start-line="41" selection-start-column="48" selection-end-line="41" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compras/templates/compras/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3485">
-          <caret line="205" column="37" lean-forward="false" selection-start-line="205" selection-start-column="28" selection-end-line="205" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/empower/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="22" column="37" lean-forward="false" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+        <state relative-caret-position="204">
+          <caret line="19" column="10" lean-forward="false" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/views.py">
+    <entry file="file://$PROJECT_DIR$/finanzas/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="240" column="101" lean-forward="false" selection-start-line="240" selection-start-column="84" selection-end-line="240" selection-end-column="101" />
+        <state relative-caret-position="4403">
+          <caret line="269" column="27" lean-forward="false" selection-start-line="269" selection-start-column="27" selection-end-line="269" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/base.html">
+    <entry file="file://$PROJECT_DIR$/compras/templates/compras/compra-detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="491">
-          <caret line="228" column="96" lean-forward="false" selection-start-line="228" selection-start-column="96" selection-end-line="228" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/forms/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-473">
-          <caret line="1149" column="11" lean-forward="false" selection-start-line="1149" selection-start-column="11" selection-end-line="1149" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/presentacion-edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/own/maestro/catalogo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="21" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/rest_framework/generics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="194" column="6" lean-forward="false" selection-start-line="194" selection-start-column="6" selection-end-line="194" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/own/maestro/catalogoproveedor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/own/maestro/producto.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compras/rviews.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="10" column="35" lean-forward="false" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/forms/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="176" column="8" lean-forward="false" selection-start-line="176" selection-start-column="8" selection-end-line="176" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/ui_modal_notification.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="633" column="59" lean-forward="false" selection-start-line="633" selection-start-column="46" selection-end-line="633" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/form_elements.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="1365" column="102" lean-forward="true" selection-start-line="1354" selection-start-column="32" selection-end-line="1365" selection-end-column="102" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/own/admision/admision.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1394">
-          <caret line="82" column="37" lean-forward="false" selection-start-line="82" selection-start-column="37" selection-end-line="82" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-presentacion.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="82" column="201" lean-forward="true" selection-start-line="82" selection-start-column="52" selection-end-line="82" selection-end-column="201" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/plugins/bootstrap-eonasdan-datetimepicker/src/js/bootstrap-datetimepicker.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="1" lean-forward="false" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/catalogoproveedor-add.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1071">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="3298">
+          <caret line="194" column="68" lean-forward="false" selection-start-line="194" selection-start-column="68" selection-end-line="194" selection-end-column="68" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/maestro/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="30" column="68" lean-forward="true" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
+        <state relative-caret-position="102">
+          <caret line="20" column="16" lean-forward="false" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compras/templates/compras/orden-list.html">
+    <entry file="file://$PROJECT_DIR$/clientes/templates/clientes/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="59" column="29" lean-forward="true" selection-start-line="59" selection-start-column="29" selection-end-line="59" selection-end-column="29" />
+        <state relative-caret-position="51">
+          <caret line="144" column="106" lean-forward="false" selection-start-line="144" selection-start-column="106" selection-end-line="144" selection-end-column="106" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compras/templates/compras/orden-tocompra.html">
+    <entry file="file://$PROJECT_DIR$/compras/templates/compras/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1872">
-          <caret line="5" column="143" lean-forward="true" selection-start-line="5" selection-start-column="143" selection-end-line="5" selection-end-column="143" />
+        <state relative-caret-position="136">
+          <caret line="143" column="106" lean-forward="false" selection-start-line="143" selection-start-column="106" selection-end-line="143" selection-end-column="106" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/finanzas/templates/finanzas/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="143" column="106" lean-forward="false" selection-start-line="143" selection-start-column="106" selection-end-line="143" selection-end-column="106" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compras/serializers.py">
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/own/compras/ordentocompra.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="38" lean-forward="false" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/own/strings.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="88" lean-forward="false" selection-start-line="5" selection-start-column="71" selection-end-line="5" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/css/default/own_css.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="86" column="4" lean-forward="false" selection-start-line="86" selection-start-column="4" selection-end-line="86" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/css/default/own_replace.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="1" lean-forward="false" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compras/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="9" column="35" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="289">
+          <caret line="143" column="106" lean-forward="false" selection-start-line="143" selection-start-column="106" selection-end-line="143" selection-end-column="106" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/almacen/urls.py">
+    <entry file="file://$PROJECT_DIR$/ventas/templates/ventas/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="8" column="21" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="21" />
-          <folding>
-            <element signature="e#10#38#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/ordencompra.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1632">
-          <caret line="96" column="53" lean-forward="false" selection-start-line="96" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/plugins/switchery/switchery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-918">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maestro/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="55" column="12" lean-forward="false" selection-start-line="55" selection-start-column="4" selection-end-line="55" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/kardex.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1900">
-          <caret line="147" column="44" lean-forward="false" selection-start-line="147" selection-start-column="0" selection-end-line="148" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/documentation/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/js/demo/form-slider-switcher.demo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="46" column="0" lean-forward="false" selection-start-line="46" selection-start-column="0" selection-end-line="48" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/WB0N89JMK (3)/color_admin_v4.1/admin/template/template_html/form_slider_switcher.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="623" column="137" lean-forward="true" selection-start-line="623" selection-start-column="97" selection-end-line="623" selection-end-column="137" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/own/compras/orden.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1224">
-          <caret line="81" column="66" lean-forward="false" selection-start-line="81" selection-start-column="66" selection-end-line="81" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compras/templates/compras/orden-detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="88" column="74" lean-forward="false" selection-start-line="88" selection-start-column="74" selection-end-line="88" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/assets/own/almacen/recepcion.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="636">
-          <caret line="44" column="77" lean-forward="false" selection-start-line="44" selection-start-column="77" selection-end-line="44" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compras/templates/compras/orden-edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="471">
-          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="45" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compras/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="49" column="25" lean-forward="false" selection-start-line="49" selection-start-column="4" selection-end-line="49" selection-end-column="25" />
-          <folding>
-            <marker date="1534810270823" expanded="true" signature="2164:2461" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compras/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="704">
-          <caret line="89" column="0" lean-forward="true" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+        <state relative-caret-position="289">
+          <caret line="143" column="106" lean-forward="true" selection-start-line="143" selection-start-column="94" selection-end-line="143" selection-end-column="106" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/compras/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="15" selection-end-column="17" />
+        <state relative-caret-position="17">
+          <caret line="209" column="38" lean-forward="false" selection-start-line="209" selection-start-column="38" selection-end-line="209" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="154" column="33" lean-forward="false" selection-start-line="154" selection-start-column="33" selection-end-line="154" selection-end-column="48" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/recepcion.html">
+    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/entrega_venta-list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="114" column="109" lean-forward="false" selection-start-line="114" selection-start-column="91" selection-end-line="114" selection-end-column="109" />
+        <state relative-caret-position="348">
+          <caret line="80" column="47" lean-forward="false" selection-start-line="80" selection-start-column="47" selection-end-line="80" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/kardex.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="161" column="47" lean-forward="false" selection-start-line="161" selection-start-column="47" selection-end-line="161" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/recepcion_compra-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="80" column="47" lean-forward="false" selection-start-line="80" selection-start-column="47" selection-end-line="80" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/almacen/templates/almacen/stock.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="134" column="47" lean-forward="false" selection-start-line="134" selection-start-column="47" selection-end-line="134" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientes/templates/clientes/cliente-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="94" column="47" lean-forward="false" selection-start-line="94" selection-start-column="47" selection-end-line="94" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/almacen/views.py">
+    <entry file="file://$PROJECT_DIR$/clientes/templates/clientes/contacto-list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="143" column="38" lean-forward="true" selection-start-line="143" selection-start-column="38" selection-end-line="143" selection-end-column="38" />
+        <state relative-caret-position="371">
+          <caret line="93" column="47" lean-forward="false" selection-start-line="93" selection-start-column="47" selection-end-line="93" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/templates/compras/compra-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="193" column="47" lean-forward="false" selection-start-line="193" selection-start-column="47" selection-end-line="193" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/templates/compras/notacredito-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="125" column="47" lean-forward="false" selection-start-line="125" selection-start-column="47" selection-end-line="125" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/finanzas/templates/finanzas/cuentacliente-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="134" column="47" lean-forward="false" selection-start-line="134" selection-start-column="47" selection-end-line="134" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/finanzas/templates/finanzas/cuentaproveedor-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="134" column="47" lean-forward="false" selection-start-line="134" selection-start-column="47" selection-end-line="134" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/almacen-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="48" column="47" lean-forward="false" selection-start-line="48" selection-start-column="47" selection-end-line="48" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/caja-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="48" column="47" lean-forward="false" selection-start-line="48" selection-start-column="47" selection-end-line="48" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/catalogo-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="86" column="47" lean-forward="false" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/empresa-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="49" column="47" lean-forward="false" selection-start-line="49" selection-start-column="47" selection-end-line="49" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/presentacion-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="46" column="47" lean-forward="false" selection-start-line="46" selection-start-column="47" selection-end-line="46" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/sucursal-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="53" column="47" lean-forward="false" selection-start-line="53" selection-start-column="47" selection-end-line="53" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/usuario-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="84" column="47" lean-forward="false" selection-start-line="84" selection-start-column="47" selection-end-line="84" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ventas/templates/ventas/oferta-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="64" column="47" lean-forward="false" selection-start-line="64" selection-start-column="47" selection-end-line="64" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ventas/templates/ventas/venta-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="222" column="40" lean-forward="false" selection-start-line="222" selection-start-column="40" selection-end-line="222" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/proveedor-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="58" column="47" lean-forward="false" selection-start-line="58" selection-start-column="47" selection-end-line="58" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/categoria-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="685">
+          <caret line="52" column="47" lean-forward="false" selection-start-line="52" selection-start-column="47" selection-end-line="52" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/proveedor-detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="787">
+          <caret line="53" column="57" lean-forward="false" selection-start-line="53" selection-start-column="57" selection-end-line="53" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/catalogoproveedor-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="39" column="64" lean-forward="false" selection-start-line="39" selection-start-column="64" selection-end-line="39" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="61" column="12" lean-forward="false" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="33" column="34" lean-forward="false" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="118" lean-forward="false" selection-start-line="38" selection-start-column="118" selection-end-line="38" selection-end-column="129" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/templates/maestro/producto-detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="131" lean-forward="false" selection-start-line="10" selection-start-column="131" selection-end-line="10" selection-end-column="131" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compras/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#53#0" expanded="true" />
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compras/utils.py">
+    <entry file="file://$PROJECT_DIR$/finanzas/templates/finanzas/jornada-list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="653">
-          <caret line="204" column="28" lean-forward="true" selection-start-line="204" selection-start-column="28" selection-end-line="204" selection-end-column="28" />
+        <state relative-caret-position="2465">
+          <caret line="145" column="66" lean-forward="false" selection-start-line="145" selection-start-column="66" selection-end-line="145" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientes/templates/clientes/cliente-detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="799">
+          <caret line="47" column="32" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientes/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#58#0" expanded="true" />
+            <element signature="e#0#51#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/almacen/models.py">
+    <entry file="file://$PROJECT_DIR$/clientes/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="28" column="54" lean-forward="false" selection-start-line="28" selection-start-column="54" selection-end-line="28" selection-end-column="54" />
+        <state relative-caret-position="357">
+          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/finanzas/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ventas/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="156" column="32" lean-forward="false" selection-start-line="156" selection-start-column="32" selection-end-line="156" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientes/templates/clientes/cliente-edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="48" column="87" lean-forward="false" selection-start-line="48" selection-start-column="73" selection-end-line="48" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ventas/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="40" column="28" lean-forward="true" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientes/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="18" lean-forward="false" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ventas/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="364" column="25" lean-forward="false" selection-start-line="364" selection-start-column="25" selection-end-line="364" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maestro/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="460" column="36" lean-forward="true" selection-start-line="460" selection-start-column="36" selection-end-line="460" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/finanzas/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="486" column="47" lean-forward="false" selection-start-line="486" selection-start-column="47" selection-end-line="486" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#81#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
